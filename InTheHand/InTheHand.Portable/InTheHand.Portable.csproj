@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{16831F73-B197-4306-8209-F45BD8A9A6D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InTheHand</RootNamespace>
+    <AssemblyName>InTheHand</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\InTheHand.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
+      <Link>ApplicationModel\Capability.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
+      <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
+      <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
+      <Link>ApplicationModel\DataTransfer\Clipboard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackage.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySet.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackagePropertySet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySetView.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackagePropertySetView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackageView.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackageView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataProviderRequest.cs">
+      <Link>ApplicationModel\DataTransfer\DataProviderRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataRequestedEventArgs.cs">
+      <Link>ApplicationModel\DataTransfer\DataRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataTransferManager.cs">
+      <Link>ApplicationModel\DataTransfer\DataTransferManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
+      <Link>ApplicationModel\DataTransfer\StandardDataFormats.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\TargetApplicationChosenEventArgs.cs">
+      <Link>ApplicationModel\DataTransfer\TargetApplicationChosenEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
+      <Link>ApplicationModel\DesignMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.cs">
+      <Link>ApplicationModel\Email\EmailManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailMessage.cs">
+      <Link>ApplicationModel\Email\EmailMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailRecipient.cs">
+      <Link>ApplicationModel\Email\EmailRecipient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
+      <Link>ApplicationModel\Package.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
+      <Link>ApplicationModel\PackageId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
+      <Link>ApplicationModel\Store\CurrentApp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
+      <Link>DateTimeOffsetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
+      <Link>Storage\ApplicationData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainer.cs">
+      <Link>Storage\ApplicationDataContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
+      <Link>Storage\ApplicationDataContainerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
+      <Link>System\Launcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\LauncherOptions.cs">
+      <Link>System\LauncherOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
+      <Link>System\Power\PowerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Devices\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

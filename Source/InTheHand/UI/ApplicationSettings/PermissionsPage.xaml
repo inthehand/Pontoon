@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="InTheHand.UI.ApplicationSettings.PermissionsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InTheHand.UI.ApplicationSettings._81"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <CommonNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    
+    <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TitlePanel -->
+        <StackPanel Grid.Row="0" Margin="20,7,0,4">
+            <TextBlock x:Uid="PermissionsHeader" Text="PERMISSIONS" FontWeight="SemiBold" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Name="AppNameText"  Text="Application" Margin="0" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel x:Name="ContentPanel" Margin="10,1,10,0">
+                <TextBlock x:Name="AuthorName" Style="{StaticResource ControlHeaderTextBlockStyle}" FontSize="{StaticResource TextStyleLargeFontSize}" Margin="10,0,10,0" />
+                <TextBlock x:Name="Version" Style="{StaticResource ControlHeaderTextBlockStyle}" FontSize="{StaticResource TextStyleLargeFontSize}" Margin="10,0,10,20" />
+                <StackPanel x:Name="NotificationPanel" Visibility="Collapsed">
+                    <TextBlock x:Name="NotificationSubHeading" x:Uid="NotificationSubHeading"  Margin="10,0,10,20" Text="Notifications" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                    <Button x:Name="NotificationSettings"  Margin="10,0,10,20" HorizontalAlignment="Stretch" Content="Open Notification Settings" Click="NotificationSettings_Click"/>
+                </StackPanel><TextBlock x:Uid="PermissionsSubHeading"  Margin="10,0,10,20" Style="{StaticResource BodyTextBlockStyle}"/>
+                <ListView x:Name="CapabilitiesList" Margin="10,-10,10,0" IsEnabled="False">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Height="22" Margin="0" Text="{Binding}" Foreground="{StaticResource PhoneMidBrush}" Style="{StaticResource ListViewItemContentTextBlockStyle}"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <Grid>
+                                            <ContentPresenter/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

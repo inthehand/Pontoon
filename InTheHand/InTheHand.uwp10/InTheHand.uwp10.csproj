@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C919D564-3221-4293-92F5-071571DF48B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InTheHand</RootNamespace>
+    <AssemblyName>InTheHand</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <DocumentationFile>bin\Release\InTheHand\ApplicationModel.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
+      <Link>ApplicationModel\Capability.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
+      <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
+      <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
+      <Link>ApplicationModel\DataTransfer\Clipboard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackage.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySet.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackagePropertySet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySetView.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackagePropertySetView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackageView.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackageView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataProviderRequest.cs">
+      <Link>ApplicationModel\DataTransfer\DataProviderRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataRequestedEventArgs.cs">
+      <Link>ApplicationModel\DataTransfer\DataRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataTransferManager.cs">
+      <Link>ApplicationModel\DataTransfer\DataTransferManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
+      <Link>ApplicationModel\DataTransfer\StandardDataFormats.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\TargetApplicationChosenEventArgs.cs">
+      <Link>ApplicationModel\DataTransfer\TargetApplicationChosenEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
+      <Link>ApplicationModel\DesignMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.cs">
+      <Link>ApplicationModel\Email\EmailManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailMessage.cs">
+      <Link>ApplicationModel\Email\EmailMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailRecipient.cs">
+      <Link>ApplicationModel\Email\EmailRecipient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
+      <Link>ApplicationModel\Package.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
+      <Link>ApplicationModel\PackageId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
+      <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
+      <Link>ApplicationModel\Store\CurrentApp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
+      <Link>Storage\StorageFolderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
+      <Link>System\Launcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\LauncherOptions.cs">
+      <Link>System\LauncherOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
+      <Link>System\Power\PowerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10240.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

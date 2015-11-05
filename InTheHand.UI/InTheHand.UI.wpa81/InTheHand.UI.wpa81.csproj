@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{33192D86-2F98-4135-9CAF-9D0106BFEB61}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InTheHandUI</RootNamespace>
+    <AssemblyName>InTheHand.UI</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <MinimumVisualStudioVersion>12</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{76F1466A-8B6D-4E39-A767-685A06062A39};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_PHONE_APP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
+      <Link>UI\ApplicationSettings\SettingsPage.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <EmbeddedResource Include="..\Strings\Resources.ar-SA.resx">
+      <Link>Strings\Resources.ar-SA.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.Az-Latn-AZ.resx">
+      <Link>Strings\Resources.Az-Latn-AZ.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.be-BY.resx">
+      <Link>Strings\Resources.be-BY.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.bg-BG.resx">
+      <Link>Strings\Resources.bg-BG.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.ca-ES.resx">
+      <Link>Strings\Resources.ca-ES.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.cs-CZ.resx">
+      <Link>Strings\Resources.cs-CZ.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.da-DK.resx">
+      <Link>Strings\Resources.da-DK.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.de-DE.resx">
+      <Link>Strings\Resources.de-DE.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.el-GR.resx">
+      <Link>Strings\Resources.el-GR.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.es-ES.resx">
+      <Link>Strings\Resources.es-ES.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.et-EE.resx">
+      <Link>Strings\Resources.et-EE.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.fa-IR.resx">
+      <Link>Strings\Resources.fa-IR.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.fi-FI.resx">
+      <Link>Strings\Resources.fi-FI.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.fil-PH.resx">
+      <Link>Strings\Resources.fil-PH.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.fr-FR.resx">
+      <Link>Strings\Resources.fr-FR.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.he-IL.resx">
+      <Link>Strings\Resources.he-IL.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.hi-IN.resx">
+      <Link>Strings\Resources.hi-IN.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.hr-HR.resx">
+      <Link>Strings\Resources.hr-HR.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.hu-HU.resx">
+      <Link>Strings\Resources.hu-HU.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.id-ID.resx">
+      <Link>Strings\Resources.id-ID.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.it-IT.resx">
+      <Link>Strings\Resources.it-IT.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.ja-JP.resx">
+      <Link>Strings\Resources.ja-JP.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.kk-KZ.resx">
+      <Link>Strings\Resources.kk-KZ.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.ko-KR.resx">
+      <Link>Strings\Resources.ko-KR.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.lt-LT.resx">
+      <Link>Strings\Resources.lt-LT.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.lv-LV.resx">
+      <Link>Strings\Resources.lv-LV.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.mk-MK.resx">
+      <Link>Strings\Resources.mk-MK.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.ms-MY.resx">
+      <Link>Strings\Resources.ms-MY.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.nb-NO.resx">
+      <Link>Strings\Resources.nb-NO.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.nl-NL.resx">
+      <Link>Strings\Resources.nl-NL.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.pl-PL.resx">
+      <Link>Strings\Resources.pl-PL.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.pt-BR.resx">
+      <Link>Strings\Resources.pt-BR.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.pt-PT.resx">
+      <Link>Strings\Resources.pt-PT.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.resx">
+      <Link>Strings\Resources.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.ro-RO.resx">
+      <Link>Strings\Resources.ro-RO.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.ru-RU.resx">
+      <Link>Strings\Resources.ru-RU.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.sk-SK.resx">
+      <Link>Strings\Resources.sk-SK.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.sl-SI.resx">
+      <Link>Strings\Resources.sl-SI.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.sq-AL.resx">
+      <Link>Strings\Resources.sq-AL.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.sr-Latn-CS.resx">
+      <Link>Strings\Resources.sr-Latn-CS.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.sv-SE.resx">
+      <Link>Strings\Resources.sv-SE.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.th-TH.resx">
+      <Link>Strings\Resources.th-TH.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.tr-TR.resx">
+      <Link>Strings\Resources.tr-TR.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.uk-UA.resx">
+      <Link>Strings\Resources.uk-UA.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.uz-Latn-UZ.resx">
+      <Link>Strings\Resources.uz-Latn-UZ.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.vi-VN.resx">
+      <Link>Strings\Resources.vi-VN.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.zh-CN.resx">
+      <Link>Strings\Resources.zh-CN.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Strings\Resources.zh-TW.resx">
+      <Link>Strings\Resources.zh-TW.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\..\InTheHand\InTheHand.wpa81\InTheHand.wpa81.csproj">
+      <Project>{84860412-ac9c-4878-ac4f-d893c2b82139}</Project>
+      <Name>InTheHand.wpa81</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
+      <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
+      <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+      <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\inthehand\ui\popups\IUICommand.cs">
+      <Link>UI\Popups\IUICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\inthehand\ui\popups\MessageDialog.cs">
+      <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\inthehand\ui\popups\UICommand.cs">
+      <Link>UI\Popups\UICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
+    <VisualStudioVersion>12.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetPlatformIdentifier)' == '' ">
+    <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

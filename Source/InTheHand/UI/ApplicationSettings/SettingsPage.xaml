@@ -1,0 +1,50 @@
+﻿<Page
+    x:Class="InTheHand.UI.ApplicationSettings.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InTheHand.UI.ApplicationSettings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <CommonNavigationTransitionInfo IsStaggeringEnabled="True"/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid x:Name="LayoutRoot">
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TitlePanel -->
+        <StackPanel Grid.Row="0" Margin="20,7,0,28">
+            <TextBlock x:Uid="SettingsText" Text="SETTINGS" FontWeight="SemiBold" Style="{ThemeResource BodyTextBlockStyle}"/>
+            <TextBlock x:Name="AppNameText" Text="application" Margin="0" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+            <TextBlock x:Name="AuthorText" Margin="0,5,0,0" Style="{StaticResource ControlHeaderTextBlockStyle}"/>
+            <TextBlock x:Name="Version" Style="{StaticResource ControlHeaderTextBlockStyle}" FontSize="{StaticResource TextStyleLargeFontSize}" Margin="0,5" />
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot">
+            <ListView x:Name="SettingsList" Grid.Row="1" Margin="10,0,0,0" CommonNavigationTransitionInfo.IsStaggerElement="True" ContinuumNavigationTransitionInfo.ExitElementContainer="True" SelectionChanged="SettingsList_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid CommonNavigationTransitionInfo.IsStaggerElement="True">
+                            <TextBlock Text="{Binding Label}" Margin="10,9" Style="{StaticResource SubheaderTextBlockStyle}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>
