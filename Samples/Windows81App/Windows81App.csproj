@@ -133,6 +133,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.win81\InTheHand.UI.win81.csproj">
+      <Project>{b3f94446-c8de-40ea-a9e5-6c0eaf94c260}</Project>
+      <Name>InTheHand.UI.win81</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand\InTheHand.win81\InTheHand.win81.csproj">
       <Project>{044ec1fd-2397-4c0d-9d61-80762672aace}</Project>
       <Name>InTheHand.win81</Name>

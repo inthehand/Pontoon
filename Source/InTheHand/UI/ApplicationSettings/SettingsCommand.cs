@@ -5,12 +5,7 @@
 //-----------------------------------------------------------------------
 
 using System;
-#if WINDOWS_PHONE
 using InTheHand.UI.Popups;
-#else
-using System.Runtime.CompilerServices;
-using Windows.UI.Popups;
-#endif
 
 namespace InTheHand.UI.ApplicationSettings
 {

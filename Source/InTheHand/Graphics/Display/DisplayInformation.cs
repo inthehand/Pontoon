@@ -28,8 +28,15 @@ namespace InTheHand.Graphics.Display
             return current;
         }
 
+#if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
+        private Windows.Graphics.Display.DisplayInformation _displayInformation;
+#endif
+
         private DisplayInformation()
-        {          
+        {
+#if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
+            _displayInformation = Windows.Graphics.Display.DisplayInformation.GetForCurrentView();
+#endif
         }
 
         private float? rawDpiX;
@@ -45,6 +52,8 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     rawDpiX = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Xdpi;
+#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
+                    rawDpiX = _displayInformation.RawDpiX;
 #elif WINDOWS_PHONE
                     object temp;
                     if(Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiX", out temp))
@@ -72,16 +81,55 @@ namespace InTheHand.Graphics.Display
         {
             get
             {
-#if __ANDROID__
+
                 if(!rawDpiY.HasValue)
                 {
+#if __ANDROID__
                     rawDpiY = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Ydpi;
+               
+
+                return rawDpiY.Value;
+#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
+                    rawDpiY = _displayInformation.RawDpiY;
+#elif WINDOWS_PHONE
+                    object temp;
+                    if (Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiY", out temp))
+                    {
+                        rawDpiY = (float)((double)temp);
+                    }
+                    else
+                    {
+                        rawDpiY = 0f;
+                    }
+#else
+                    rawDpiY = 0f;
+#endif
                 }
 
                 return rawDpiY.Value;
-#else
-                return RawDpiX;
+            }
+        }
+
+        private double? _rawPixelsPerViewPixel;
+        /// <summary>
+        /// Gets a value representing the number of raw (physical) pixels for each view (layout) pixel.
+        /// </summary>
+        public double RawPixelsPerViewPixel
+        {
+            get
+            {
+                if(!_rawPixelsPerViewPixel.HasValue)
+                {
+#if __ANDROID__
+                    _rawPixelsPerViewPixel = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Density;
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
+                    _rawPixelsPerViewPixel = _displayInformation.RawPixelsPerViewPixel;
+#elif WINDOWS_APP || WINDOWS_PHONE
+                    _rawPixelsPerViewPixel = ((int)ResolutionScale) / 100.0;
 #endif
+                }
+
+                return _rawPixelsPerViewPixel.Value;
             }
         }
 
@@ -98,13 +146,15 @@ namespace InTheHand.Graphics.Display
 #if __ANDROID__
                     float scale = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Density;
                     resolutionScale = (ResolutionScale)((int)(scale * 100));
+#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
+                    resolutionScale = (ResolutionScale)((int)_displayInformation.ResolutionScale);
 #elif WINDOWS_PHONE
-                    int scaleFactor = System.Windows.Application.Current.Host.Content.ScaleFactor;
+                    int scaleFactor = global::System.Windows.Application.Current.Host.Content.ScaleFactor;
 
                     object temp;
                     if (Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("PhysicalScreenResolution", out temp))
                     {
-                        System.Windows.Size screenResolution = (System.Windows.Size)temp;
+                        global::System.Windows.Size screenResolution = (global::System.Windows.Size)temp;
                         scaleFactor = (int)((screenResolution.Width / 480d) * 100d);
                     }
 

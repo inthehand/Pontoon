@@ -7,15 +7,16 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-
-#if WINDOWS_PHONE
+#if __ANDROID__
+using InTheHand.Storage;
+#elif WINDOWS_PHONE
 #if WINDOWS_PHONE_81
 using Windows.Storage;
 #else
 using InTheHand.Storage;
 #endif
 using System.Windows;
-#else
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -67,6 +68,7 @@ namespace InTheHand.UI.ApplicationSettings
 #if WINDOWS_UWP
             if(Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract",1))
             {
+#pragma warning disable 618
                 Windows.UI.ApplicationSettings.SettingsPane.Show();
             }
             else
@@ -126,6 +128,7 @@ namespace InTheHand.UI.ApplicationSettings
 #if WINDOWS_UWP || WINDOWS_APP
                     if (_commandsRequested == null)
                     {
+#pragma warning disable 618
                         Windows.UI.ApplicationSettings.SettingsPane.GetForCurrentView().CommandsRequested += SettingsPane_CommandsRequested;
                     }
 #endif
@@ -154,11 +157,14 @@ namespace InTheHand.UI.ApplicationSettings
         }
 
 #if WINDOWS_UWP || WINDOWS_APP
+
+
         private void SettingsPane_CommandsRequested(Windows.UI.ApplicationSettings.SettingsPane sender, Windows.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {
             foreach(SettingsCommand cmd in OnCommandsRequested())
             {
-                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, cmd.Invoked));
+#pragma warning disable 618
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.Popups.UICommandInvokedHandler(async (c)=> { InTheHand.UI.ApplicationSettings.SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
             }
 
 #if WINDOWS_UWP
@@ -169,11 +175,13 @@ namespace InTheHand.UI.ApplicationSettings
             if(!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
 #endif
             {
+
+#pragma warning disable 618
                 args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("RateAndReview", "Rate and review", async (c) =>
                 {
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestReviewAsync();
                 }));
-
+#pragma warning disable 618
                 args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("PrivacyPolicy", "Privacy policy", async (c) =>
                 {
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();

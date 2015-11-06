@@ -9,8 +9,9 @@ using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 using InTheHand.ApplicationModel;
 using InTheHand.UI.Popups;
+using InTheHand.UI.ApplicationSettings;
 
-namespace InTheHand.UI.ApplicationSettings
+namespace InTheHandUI.ApplicationSettings
 {
     internal partial class SettingsPage : PhoneApplicationPage
     {
@@ -47,20 +48,20 @@ namespace InTheHand.UI.ApplicationSettings
 
         void SettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            SettingsHeader.Text = InTheHand.Strings.Resources.Settings.ToLower();
+            SettingsHeader.Text = InTheHandUI.Strings.Resources.Settings.ToLower();
 
             AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName.ToUpper();
 
             if (SettingsPane.GetForCurrentView().showPublisher)
             {
-                AuthorText.Text = string.Format(InTheHand.Strings.Resources.ByAuthor, InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+                AuthorText.Text = string.Format(InTheHandUI.Strings.Resources.ByAuthor, InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
             }
             else
             {
                 AuthorText.Visibility = Visibility.Collapsed;
             }
 
-            this.Version.Text = string.Format(InTheHand.Strings.Resources.Version, InTheHand.ApplicationModel.Package.Current.Id.Version.ToString());
+            this.Version.Text = string.Format(InTheHandUI.Strings.Resources.Version, InTheHand.ApplicationModel.Package.Current.Id.Version.ToString());
             
         }
 
@@ -82,11 +83,11 @@ namespace InTheHand.UI.ApplicationSettings
             if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
 #endif
             {
-                commands.Add(new SettingsCommand("RateAndReview", InTheHand.Strings.Resources.RateAndReview, RateAndReviewSelected));
+                commands.Add(new SettingsCommand("RateAndReview", InTheHandUI.Strings.Resources.RateAndReview, RateAndReviewSelected));
 
                 if (SettingsPane.GetForCurrentView().showPublisher)
                 {
-                    commands.Add(new SettingsCommand("PrivacyPolicy", InTheHand.Strings.Resources.PrivacyPolicy, async (c) =>
+                    commands.Add(new SettingsCommand("PrivacyPolicy", InTheHandUI.Strings.Resources.PrivacyPolicy, async (c) =>
                         {
                             await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();
                         }));

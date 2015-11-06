@@ -21,6 +21,10 @@ using Android.Widget;
 
 namespace InTheHand.Platform.Android
 {
+    [global::System.CLSCompliant(false)]
+    /// <summary>
+    /// Special class to support global access to the application Context required by many Android APIs
+    /// </summary>
     public static class ContextManager
     {
         internal static Context _context;

@@ -32,7 +32,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand\lib\uwp10.0\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -182,6 +182,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
       <Link>ApplicationModel\Store\CurrentApp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
+      <Link>Graphics\Display\DisplayInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
+      <Link>Graphics\Display\ResolutionScale.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
       <Link>Storage\StorageFolderExtensions.cs</Link>

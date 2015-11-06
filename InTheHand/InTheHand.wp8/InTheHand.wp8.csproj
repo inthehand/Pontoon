@@ -33,14 +33,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release\</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand\lib\wp8\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>..\..\NuGet\InTheHand\lib\wp8\InTheHand.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,153 +84,102 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Capability.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
       <Link>ApplicationModel\Capability.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
       <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
       <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
       <Link>ApplicationModel\DataTransfer\Clipboard.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\DataPackage.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackage.cs">
       <Link>ApplicationModel\DataTransfer\DataPackage.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySet.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySet.cs">
       <Link>ApplicationModel\DataTransfer\DataPackagePropertySet.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySetView.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySetView.cs">
       <Link>ApplicationModel\DataTransfer\DataPackagePropertySetView.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\DataPackageView.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackageView.cs">
       <Link>ApplicationModel\DataTransfer\DataPackageView.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\DataProviderRequest.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataProviderRequest.cs">
       <Link>ApplicationModel\DataTransfer\DataProviderRequest.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\DataRequestedEventArgs.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataRequestedEventArgs.cs">
       <Link>ApplicationModel\DataTransfer\DataRequestedEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\DataTransferManager.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataTransferManager.cs">
       <Link>ApplicationModel\DataTransfer\DataTransferManager.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
       <Link>ApplicationModel\DataTransfer\StandardDataFormats.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DataTransfer\TargetApplicationChosenEventArgs.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\TargetApplicationChosenEventArgs.cs">
       <Link>ApplicationModel\DataTransfer\TargetApplicationChosenEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\DesignMode.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
       <Link>ApplicationModel\DesignMode.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Email\EmailManager.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.cs">
       <Link>ApplicationModel\Email\EmailManager.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Email\EmailMessage.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailMessage.cs">
       <Link>ApplicationModel\Email\EmailMessage.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Email\EmailRecipient.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailRecipient.cs">
       <Link>ApplicationModel\Email\EmailRecipient.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Package.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
       <Link>ApplicationModel\Package.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\PackageId.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\Store\CurrentApp.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
       <Link>ApplicationModel\Store\CurrentApp.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\Graphics\Display\DisplayInformation.cs">
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\Graphics\Display\ResolutionScale.cs">
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
       <Link>Graphics\Display\ResolutionScale.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\Storage\ApplicationData.cs">
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\Storage\ApplicationDataContainer.cs">
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainer.cs">
       <Link>Storage\ApplicationDataContainer.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\Storage\ApplicationDataContainerSettings.cs">
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
       <Link>Storage\ApplicationDataContainerSettings.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\Storage\StorageFolderExtensions.cs">
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
       <Link>Storage\StorageFolderExtensions.cs</Link>
     </Compile>
-    <None Include="..\InTheHand\UI\ApplicationSettings\PermissionsPage.SL.xaml.cs">
-      <Link>UI\ApplicationSettings\PermissionsPage.SL.xaml.cs</Link>
-    </None>
-    <Compile Include="..\InTheHand\Strings\Resources.Designer.cs">
-      <Link>Strings\Resources.Designer.cs</Link>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
-      <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\ApplicationSettings\SettingsPage.SL.xaml.cs">
-      <Link>UI\ApplicationSettings\SettingsPage.SL.xaml.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
-      <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
-      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
-      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\Popups\IUICommand.cs">
-      <Link>UI\Popups\IUICommand.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\Popups\MessageDialog.cs">
-      <Link>UI\Popups\MessageDialog.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\Popups\MessageDialogAsyncOperation.cs">
-      <Link>UI\Popups\MessageDialogAsyncOperation.cs</Link>
-    </Compile>
-    <Compile Include="..\InTheHand\UI\Popups\UICommand.cs">
-      <Link>UI\Popups\UICommand.cs</Link>
-    </Compile>
-    <Compile Include="..\SharedAssemblyInfo.cs">
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\Properties\AssemblyInfo.cs">
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
+      <Link>System\Launcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\LauncherOptions.cs">
+      <Link>System\LauncherOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\InTheHand\ApplicationModel\WMAppManifest.cs">
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\WMAppManifest.cs">
       <Link>ApplicationModel\WMAppManifest.cs</Link>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\InTheHand\UI\ApplicationSettings\PermissionsPage.SL.xaml">
-      <Link>UI\ApplicationSettings\PermissionsPage.SL.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </None>
-    <Page Include="..\InTheHand\UI\ApplicationSettings\SettingsPage.SL.xaml">
-      <Link>UI\ApplicationSettings\SettingsPage.SL.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=8.0.1.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
-      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

@@ -59,27 +59,6 @@ namespace InTheHand.ApplicationModel.DataTransfer
             return AvailableFormats.Contains<string>(formatId);
         }
 
-        private async Task<object> GetDataClr(string formatId)
-        {
-            if (package.data.ContainsKey(formatId))
-            {
-                DataProviderHandler handler = package.data[formatId] as DataProviderHandler;
-
-                if (handler != null)
-                {
-                    DataProviderRequest request = new DataProviderRequest(package, formatId);
-                    handler.Invoke(request);
-
-                }
-                else
-                {
-                    return package.data[formatId];
-                }
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Gets the data contained in the <see cref="DataPackageView"/>.
         /// </summary>
@@ -87,26 +66,26 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <returns>The data.</returns>
         public Task<object> GetDataAsync(string formatId)
         {
-            return GetDataClr(formatId);
-        }
-
-        private async Task<string> GetTextClr()
-        {
-            if (package.data.ContainsKey(StandardDataFormats.Text))
+            return Task.Run<object>(() => 
             {
-                DataProviderHandler handler = package.data[StandardDataFormats.Text] as DataProviderHandler;
-
-                if(handler != null)
+                if (package.data.ContainsKey(formatId))
                 {
-                    DataProviderRequest request = new DataProviderRequest(package, StandardDataFormats.Text);
-                    handler.Invoke(request);
-                    
-                }
-                
-                return package.data[StandardDataFormats.Text].ToString();
-            }
+                    DataProviderHandler handler = package.data[formatId] as DataProviderHandler;
 
-            return null;
+                    if (handler != null)
+                    {
+                        DataProviderRequest request = new DataProviderRequest(package, formatId);
+                        handler.Invoke(request);
+
+                    }
+                    else
+                    {
+                        return package.data[formatId];
+                    }
+                }
+
+                return null;
+            });
         }
 
         /// <summary>
@@ -115,10 +94,27 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <returns></returns>
         public Task<string> GetTextAsync()
         {
-            return GetTextClr();
+            return Task.Run<string>(() =>
+            {
+                if (package.data.ContainsKey(StandardDataFormats.Text))
+                {
+                    DataProviderHandler handler = package.data[StandardDataFormats.Text] as DataProviderHandler;
+
+                    if (handler != null)
+                    {
+                        DataProviderRequest request = new DataProviderRequest(package, StandardDataFormats.Text);
+                        handler.Invoke(request);
+
+                    }
+
+                    return package.data[StandardDataFormats.Text].ToString();
+                }
+
+                return null;
+            });
         }
 
-        private async Task<Uri> GetUriClr(string format)
+        private Uri GetUriClr(string format)
         {
             if (package.data.ContainsKey(format))
             {
@@ -142,8 +138,10 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <returns></returns>
         public Task<Uri> GetApplicationLinkAsync()
         {
-            return GetUriClr(StandardDataFormats.ApplicationLink);
-
+            return Task.Run<Uri>(() =>
+            {
+                return GetUriClr(StandardDataFormats.ApplicationLink);
+            });
         }
 
         /// <summary>
@@ -152,8 +150,10 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <returns></returns>
         public Task<Uri> GetWebLinkAsync()
         {
-            return GetUriClr(StandardDataFormats.WebLink);
-
+            return Task.Run<Uri>(() =>
+            {
+                return GetUriClr(StandardDataFormats.WebLink);
+            });
         }
     }
 }

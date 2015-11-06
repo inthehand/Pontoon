@@ -90,6 +90,9 @@ namespace InTheHand.ApplicationModel
 #endif
         }
 
+        /// <summary>
+        /// Application capabilities requested by the package.
+        /// </summary>
         [CLSCompliant(false)]
         public Capability Capabilities
         {
@@ -97,6 +100,9 @@ namespace InTheHand.ApplicationModel
             private set;
         }
 
+        /// <summary>
+        /// Device capabilities requested by the package.
+        /// </summary>
         [CLSCompliant(false)]
         public DeviceCapability DeviceCapabilities
         {
@@ -219,7 +225,7 @@ namespace InTheHand.ApplicationModel
                     _isDevelopmentMode = t.Result;
 #else
                     // Side-loaded apps do not contain WMAppPRHeader license
-                    System.Windows.Resources.StreamResourceInfo sri = System.Windows.Application.GetResourceStream(new Uri("WMAppPRHeader.xml", UriKind.Relative));
+                    global::System.Windows.Resources.StreamResourceInfo sri = global::System.Windows.Application.GetResourceStream(new Uri("WMAppPRHeader.xml", UriKind.Relative));
                     _isDevelopmentMode = (sri == null);
 #endif
                 }

@@ -104,6 +104,12 @@
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
+      <Link>Graphics\Display\DisplayInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
+      <Link>Graphics\Display\ResolutionScale.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>
     </Compile>

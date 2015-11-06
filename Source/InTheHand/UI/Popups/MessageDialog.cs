@@ -168,7 +168,7 @@ namespace InTheHand.UI.Popups
 
             if (buttons.Count == 0)
             {
-                buttons.Add(Strings.Resources.Close);
+                buttons.Add(InTheHandUI.Strings.Resources.Close);
             }
 
             MessageDialogAsyncOperation asyncOperation = new MessageDialogAsyncOperation(this);

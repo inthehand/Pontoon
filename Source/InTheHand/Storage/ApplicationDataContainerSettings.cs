@@ -32,8 +32,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__
             _preferences = PreferenceManager.GetDefaultSharedPreferences(Platform.Android.ContextManager.Context);
+#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _settings = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
 #elif WINDOWS_PHONE
-            applicationSettings = System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
+            applicationSettings = global::System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Deactivated += Current_Deactivated;
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Closing += Current_Closing;
 #elif __IOS__
@@ -45,10 +47,12 @@ namespace InTheHand.Storage
         private ISharedPreferences _preferences;
 #elif __IOS__
         private NSUserDefaults _defaults;
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+        private IPropertySet _settings;
 #elif WINDOWS_PHONE
         private IsolatedStorageSettings applicationSettings;
 
-        void rootFrame_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
+        void rootFrame_Navigating(object sender, global::System.Windows.Navigation.NavigatingCancelEventArgs e)
         {
             applicationSettings.Save();
         }
@@ -81,6 +85,8 @@ namespace InTheHand.Storage
             pkg.Add(value.ToString());
             editor.PutStringSet(key, pkg);
             editor.Commit();
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            _settings.Add(key, value);
 #elif WINDOWS_PHONE
             if (value is DateTimeOffset)
             {
@@ -142,6 +148,8 @@ namespace InTheHand.Storage
             object o = null;
             bool success = TryGetValue(key, out o);
             return success;
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            return _settings.ContainsKey(key);
 #elif WINDOWS_PHONE
             return applicationSettings.Contains(key);
 #elif __IOS__
@@ -165,7 +173,8 @@ namespace InTheHand.Storage
                 {
                     genericKeys.Add(entry.Key);
                 }
-
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+                return _settings.Keys;
 #elif WINDOWS_PHONE
                 foreach (string key in applicationSettings.Keys)
                 {
@@ -187,6 +196,8 @@ namespace InTheHand.Storage
             ISharedPreferencesEditor editor = _preferences.Edit();
             editor.Remove(key);
             bool removed = editor.Commit();
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            bool removed = _settings.Remove(key);
 #elif WINDOWS_PHONE
             bool removed = applicationSettings.Remove(key);
 #elif __IOS__
@@ -256,6 +267,8 @@ namespace InTheHand.Storage
                     value = val;
                     return true;
             }
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            return _settings.TryGetValue(key, out value);
 #elif WINDOWS_PHONE
             return applicationSettings.TryGetValue<object>(key, out value);
 #elif __IOS__
@@ -275,7 +288,54 @@ namespace InTheHand.Storage
             get
             {
                 Collection<object> genericValues = new Collection<object>();
-#if WINDOWS_PHONE
+#if __ANDROID__
+                foreach(KeyValuePair<string,object> kvp in _preferences.All)
+                {
+                    ICollection<string> rawVal = kvp.Value as ICollection<string>;
+                    if(rawVal != null)
+                    {
+                        string type = string.Empty;
+                        string val = string.Empty;
+                        foreach (string v in rawVal)
+                        {
+                            if (string.IsNullOrEmpty(type))
+                            {
+                                type = v;
+                            }
+                            else
+                            {
+                                val = v;
+                                break;
+                            }
+                        }
+
+                        //todo deserialise type
+                        switch (type)
+                        {
+                            case "System.Boolean":
+                                genericValues.Add( bool.Parse(val));
+                                break;
+                            case "System.Int32":
+                                genericValues.Add(int.Parse(val));
+                                break;
+                            case "System.Int64":
+                                genericValues.Add(long.Parse(val));
+                                break;
+                            case "System.Single":
+                                genericValues.Add(float.Parse(val));
+                                break;
+                            case "System.DateTimeOffset":
+                                genericValues.Add(DateTimeOffset.Parse(val));
+                                break;
+                            default:
+                                genericValues.Add(val);
+                                break;
+                        }
+                    }
+                }
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+                return _settings.Values;
+#elif WINDOWS_PHONE
                 foreach (object value in applicationSettings.Values)
                 {
                     genericValues.Add(value);
@@ -322,6 +382,8 @@ namespace InTheHand.Storage
                     default:
                         return val;
                 }
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+                return _settings[key];
 #elif WINDOWS_PHONE
                 object value = applicationSettings[key];
                 if (value is DateTime)
@@ -344,6 +406,8 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__
                 Add(key, value);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+                _settings[key] = value;
 #elif WINDOWS_PHONE
                 // temporary workaround while investigating datetimeoffset behaviour in isostore
                 if (value is DateTimeOffset)
@@ -425,6 +489,8 @@ namespace InTheHand.Storage
             ISharedPreferencesEditor editor = _preferences.Edit();
             editor.Clear();
             editor.Commit();
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            _settings.Clear();
 #elif WINDOWS_PHONE
             applicationSettings.Clear();
 #elif __IOS__
@@ -446,6 +512,8 @@ namespace InTheHand.Storage
             object o = null;
             bool success = TryGetValue(item.Key, out o);
             return item.Value == o;
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            return _settings.Contains(item);
 #elif WINDOWS_PHONE
             if (applicationSettings.Contains(item.Key))
             {
@@ -487,6 +555,8 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__
                 return _preferences.All.Count;
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+                return _settings.Count;
 #elif WINDOWS_PHONE
                 return applicationSettings.Count;
 #elif __IOS__
@@ -523,25 +593,33 @@ namespace InTheHand.Storage
 
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string,object>>.GetEnumerator()
         {
+#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            return _settings.GetEnumerator();
+#else
             return new ApplicationDataContainerEnumerator();
+#endif
         }
 
-        #endregion
+#endregion
 
-        #region IEnumerable Members
+#region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
+#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
+            return _settings.GetEnumerator();
+#else
             return new ApplicationDataContainerEnumerator();
+#endif
         }
 
-        #endregion
+#endregion
     }
 
     internal sealed class ApplicationDataContainerEnumerator : IEnumerator<KeyValuePair<string, object>>
     {
 #if WINDOWS_PHONE
-        private System.IO.IsolatedStorage.IsolatedStorageSettings settings;
+        private global::System.IO.IsolatedStorage.IsolatedStorageSettings settings;
 #elif __IOS__
         private NSUserDefaults _defaults;
 #endif
@@ -550,7 +628,7 @@ namespace InTheHand.Storage
         internal ApplicationDataContainerEnumerator()
         {
 #if WINDOWS_PHONE
-            settings = System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
+            settings = global::System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             keyEnumerator = settings.Keys.GetEnumerator();
 #elif __IOS__
             _defaults = NSUserDefaults.StandardUserDefaults;
@@ -609,7 +687,7 @@ namespace InTheHand.Storage
             this.change = change;
         }
 
-        #region IMapChangedEventArgs<string> Members
+#region IMapChangedEventArgs<string> Members
 
         CollectionChange IMapChangedEventArgs<string>.CollectionChange
         {
@@ -621,7 +699,7 @@ namespace InTheHand.Storage
             get { return key; }
         }
 
-        #endregion
+#endregion
     }*/
 
 #if __IOS__

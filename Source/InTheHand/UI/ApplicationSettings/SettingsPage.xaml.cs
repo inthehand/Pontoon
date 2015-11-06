@@ -111,7 +111,10 @@ namespace InTheHand.UI.ApplicationSettings
             if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
             {
 #endif
-                commands.Add(new SettingsCommand("RateAndReview", "Rate and review", RateAndReviewSelected));
+                commands.Add(new SettingsCommand("RateAndReview", "Rate and review", async (c) =>
+                {
+                    await InTheHand.ApplicationModel.Store.CurrentApp.RequestReviewAsync();
+                }));
 
                 commands.Add(new SettingsCommand("PrivacyPolicy", "Privacy policy", async (c) =>
                     {
@@ -124,16 +127,6 @@ namespace InTheHand.UI.ApplicationSettings
             SettingsList.ItemsSource = commands;
 
             base.OnNavigatedTo(e);
-        }
-
-        /*void PermissionsSelected(IUICommand command)
-        {
-            Frame.Navigate(typeof(PermissionsPage));
-        }*/
-
-        async void RateAndReviewSelected(IUICommand command)
-        {
-            await InTheHand.ApplicationModel.Store.CurrentApp.RequestReviewAsync();
         }
 
         private void SettingsList_SelectionChanged(object sender, SelectionChangedEventArgs e)

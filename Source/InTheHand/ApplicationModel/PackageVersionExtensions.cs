@@ -10,7 +10,7 @@ namespace InTheHand.ApplicationModel
     using Windows.ApplicationModel;
 
     /// <summary>
-    /// Provides interoperability between Windows Runtime <see cref="PackageVersion"/> and .NET <see cref="Version"/> types.
+    /// Provides interoperability between Windows Runtime <see cref="PackageVersion"/> and .NET <see cref="global::System.Version"/> types.
     /// </summary>
     public static class PackageVersionExtensions
     {

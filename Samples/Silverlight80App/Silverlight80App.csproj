@@ -148,6 +148,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.wp8\InTheHand.UI.wp8.csproj">
+      <Project>{75f64fab-ac8c-4565-bcab-da0407ed5ed1}</Project>
+      <Name>InTheHand.UI.wp8</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand\InTheHand.wp8\InTheHand.wp8.csproj">
       <Project>{b296eca8-ce24-4e0d-9011-ec9525a0db3b}</Project>
       <Name>InTheHand.wp8</Name>

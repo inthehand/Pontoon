@@ -72,6 +72,7 @@ namespace InTheHand
 #if __IOS__
         private static readonly DateTimeOffset NSDateReferenceDate = new DateTimeOffset(2001, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
+        [global::System.CLSCompliant(false)]
         public static DateTimeOffset FromNSDate(NSDate date)
         {
             if (date == NSDate.DistantPast)
@@ -86,6 +87,7 @@ namespace InTheHand
             return NSDateReferenceDate.AddSeconds(date.SecondsSinceReferenceDate);
         }
 
+        [global::System.CLSCompliant(false)]
         public static NSDate ToNSDate(this DateTimeOffset value)
         {
             if (value == DateTimeOffset.MinValue)

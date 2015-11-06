@@ -60,7 +60,7 @@ namespace WindowsPhone81App
             InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
         }
 
-        private async void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
         {
             //Windows.Storage.StorageFile sf = await CaptureFileAsync();
 
