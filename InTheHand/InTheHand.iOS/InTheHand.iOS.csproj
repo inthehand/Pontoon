@@ -119,18 +119,6 @@
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
       <Link>System\Power\PowerManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
-      <Link>UI\Popups\IUICommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
-      <Link>UI\Popups\MessageDialog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Popups\UIAlertDelegate.cs">
-      <Link>UI\Popups\UIAlertDelegate.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
-      <Link>UI\Popups\UICommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>

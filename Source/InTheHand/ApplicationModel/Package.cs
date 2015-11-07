@@ -252,6 +252,9 @@ namespace InTheHand.ApplicationModel
 #endif
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string PublisherDisplayName
         {
             get

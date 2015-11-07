@@ -33,12 +33,13 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>Bin\Release</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand.UI\lib\wp81\</OutputPath>
     <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE;WINDOWS_PHONE_81</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\NuGet\InTheHand.UI\lib\wp81\InTheHand.UI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -259,13 +260,19 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
+      <Link>UI\ViewManagement\StatusBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
+      <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
+    </Compile>
     <Compile Include="..\Strings\Resources.Designer.cs">
       <Link>Strings\Resources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-     <Compile Include="..\AssemblyInfo.cs">
+    <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>

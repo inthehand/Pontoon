@@ -22,6 +22,9 @@ using Foundation;
 #endif
 namespace InTheHand.ApplicationModel
 {
+    /// <summary>
+    /// Provides package identification info, such as name, version, and publisher.
+    /// </summary>
     public sealed class PackageId
     {
 #if __ANDROID__

@@ -8,9 +8,9 @@
     <ProjectGuid>{DAF85BFD-BCB4-4655-963D-1FB3963F2083}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>InTheHand.UI.iOS</RootNamespace>
+    <RootNamespace>InTheHandUI</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>InTheHand.UI.iOS</AssemblyName>
+    <AssemblyName>InTheHand.UI</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,17 +27,41 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\iPhone\Release</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand.UI\lib\Xamarin.iOS10\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <DocumentationFile>..\..\NuGet\InTheHand.UI\lib\Xamarin.iOS10\InTheHand.UI.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
+      <Link>UI\Popups\IUICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
+      <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\UIAlertDelegate.cs">
+      <Link>UI\Popups\UIAlertDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
+      <Link>UI\Popups\UICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
+      <Link>UI\ViewManagement\StatusBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
+      <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\InTheHand\InTheHand.iOS\InTheHand.iOS.csproj">
+      <Project>{f7248464-786e-44a5-a7c7-6f9dcab9f947}</Project>
+      <Name>InTheHand.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
