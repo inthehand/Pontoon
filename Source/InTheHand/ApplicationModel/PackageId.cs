@@ -100,6 +100,10 @@ namespace InTheHand.ApplicationModel
 #if __ANDROID__
                 return Version.Parse(_packageInfo.VersionName);
 #elif __IOS__
+                if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("CFBundleShortVersionString")))
+                {
+                    return Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString());
+                }
                 return Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString());
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
                 return _packageId.Version.ToVersion();
