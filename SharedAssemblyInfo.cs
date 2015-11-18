@@ -41,4 +41,6 @@ using System.Resources;
 [assembly: AssemblyVersion("9.0.0.0")]
 [assembly: AssemblyFileVersion("9.2015.11.17")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
+#if SIGNED
 [assembly: AssemblyKeyFile("C:\\InTheHand.snk")]
+#endif
