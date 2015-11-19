@@ -96,6 +96,18 @@
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
       <Link>Graphics\Display\ResolutionScale.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
+      <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkConnectivityLevel.cs">
+      <Link>Networking\Connectivity\NetworkConnectivityLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkInformation.cs">
+      <Link>Networking\Connectivity\NetworkInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
+      <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>
     </Compile>
@@ -193,6 +205,7 @@
       <Link>ApplicationModel\AppxManifest.cs</Link>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />

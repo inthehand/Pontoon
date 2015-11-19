@@ -20,7 +20,6 @@ namespace Silverlight80App
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
-
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
