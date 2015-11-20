@@ -5,7 +5,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-#if __IOS__
+#if __ANDROID__
+using Android.Net;
+#elif __IOS__
 using SystemConfiguration;
 #endif
 
@@ -14,15 +16,17 @@ namespace InTheHand.Networking.Connectivity
     public sealed class ConnectionProfile
     {
 #if __ANDROID__
-        internal ConnectionProfile()
+        private NetworkInfo _info;
+        internal ConnectionProfile(NetworkInfo info)
         {
+            _info = info;
         }
 #elif __IOS__
         private NetworkReachabilityFlags _flags;
 
         internal ConnectionProfile(NetworkReachabilityFlags flags)
         {
-            this._flags = flags;
+            _flags = flags;
         }
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Networking.Connectivity.ConnectionProfile _profile;
@@ -34,7 +38,14 @@ namespace InTheHand.Networking.Connectivity
 
         public NetworkConnectivityLevel GetNetworkConnectivityLevel()
         {
-#if __IOS__
+#if __ANDROID__
+            if(_info.IsConnected)
+            {
+                return NetworkConnectivityLevel.InternetAccess;
+            }
+
+            return NetworkConnectivityLevel.None;
+#elif __IOS__
             switch(_flags)
             {
                 case NetworkReachabilityFlags.Reachable:
