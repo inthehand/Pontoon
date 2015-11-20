@@ -34,6 +34,16 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
+    <OutputPath>..\..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\</OutputPath>
+    <DefineConstants>TRACE;SIGNED</DefineConstants>
+    <DocumentationFile>..\..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>

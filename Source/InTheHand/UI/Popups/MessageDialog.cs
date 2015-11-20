@@ -45,7 +45,7 @@ namespace InTheHand.UI.Popups
         EventWaitHandle handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         IUICommand _selectedCommand;
 #endif
-         
+
 #if __IOS__
         UIAlertController uac = null;
        
@@ -296,8 +296,12 @@ namespace InTheHand.UI.Popups
             {
                 dialog.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, null, command.Id));
             }
-            return Task.Run<IUICommand>(async () => {
-                Windows.UI.Popups.IUICommand command = await dialog.ShowAsync();
+            Task<Windows.UI.Popups.IUICommand> t = dialog.ShowAsync().AsTask<Windows.UI.Popups.IUICommand>();
+            
+            return Task.Run<IUICommand>(() => {
+                t.Wait();
+                Windows.UI.Popups.IUICommand command = t.Result;
+               
                 if (command != null)
                 {
                     if (command.Invoked != null)
@@ -343,7 +347,7 @@ namespace InTheHand.UI.Popups
         }
 #endif
 
-        #region Commands
+#region Commands
 
         private List<IUICommand> commands = new List<IUICommand>();
 
@@ -360,7 +364,7 @@ namespace InTheHand.UI.Popups
                 return this.commands;
             }
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Gets or sets the message to be displayed to the user.

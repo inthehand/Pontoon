@@ -39,7 +39,9 @@ namespace DroidApp
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
 
-                InTheHand.UI.Popups.MessageDialog md = new MessageDialog(InTheHand.Graphics.Display.DisplayInformation.GetForCurrentView().ResolutionScale.ToString(), InTheHand.Graphics.Display.DisplayInformation.GetForCurrentView().RawDpiX.ToString());
+                InTheHand.UI.Popups.MessageDialog md = new MessageDialog("message","title");
+                md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
+                md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
                 await md.ShowAsync();
                 // InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
                 //Task.Run(async () =>

@@ -39,8 +39,6 @@ namespace WindowsPhone81App
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             // TODO: Prepare page for display here.
-            MessageDialog md = new MessageDialog(Windows.Graphics.Display.DisplayInformation.GetForCurrentView().ResolutionScale.ToString(), Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawDpiX.ToString());
-            await md.ShowAsync();
 
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
@@ -55,8 +53,12 @@ namespace WindowsPhone81App
             // this event is handled for you.
         }
 
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("message", "title");
+            md.Commands.Add(new InTheHand.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
+            md.Commands.Add(new InTheHand.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
+            
+                await md.ShowAsync();
             InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
         }
 

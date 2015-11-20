@@ -4,6 +4,7 @@ using System.Drawing;
 using CoreFoundation;
 using UIKit;
 using Foundation;
+using InTheHand.UI.Popups;
 
 namespace ApplicationModel.iOS
 {
@@ -22,7 +23,7 @@ namespace ApplicationModel.iOS
 
         void Initialize()
         {
-            BackgroundColor = UIColor.Red;
+            BackgroundColor = UIColor.FromRGB(0x0, 0x66, 0x66);
         }
     }
 
@@ -57,7 +58,10 @@ namespace ApplicationModel.iOS
                 System.Diagnostics.Debug.WriteLine(NSBundle.MainBundle.InfoDictionary[o].ToString());
             }
 
-            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("content", "title");
+            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Content", "Title");
+            md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
+            md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
+            //md.Commands.Add(new UICommand("Three", (c) => { System.Diagnostics.Debug.WriteLine("Three"); }));
             await md.ShowAsync();
 
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);

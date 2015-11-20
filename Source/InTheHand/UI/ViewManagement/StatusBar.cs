@@ -30,7 +30,13 @@ namespace InTheHand.UI.ViewManagement
         
         public static StatusBar GetForCurrentView()
         {
-#if WINDOWS_PHONE_APP || WINDOWS_UWP
+#if WINDOWS_UWP
+            if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
+            }
+            return null;
+#elif WINDOWS_PHONE_APP
             return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
 #else
             if (_statusBar == null)

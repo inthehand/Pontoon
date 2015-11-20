@@ -34,6 +34,16 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DocumentationFile>..\..\NuGet\InTheHand.UI\lib\Xamarin.iOS10\InTheHand.UI.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
+    <OutputPath>..\..\NuGet\InTheHand.UI\lib\Xamarin.iOS10\</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;SIGNED</DefineConstants>
+    <DocumentationFile>..\..\NuGet\InTheHand.UI\lib\Xamarin.iOS10\InTheHand.UI.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
       <Link>UI\Popups\IUICommand.cs</Link>

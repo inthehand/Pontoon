@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>InTheHand</id>
-        <version>9.2015.11.12-Preview</version>
+        <version>9.2015.11.20-Preview</version>
         <authors>Peter Foot</authors>
         <owners>peterfoot</owners>
         <licenseUrl>https://github.com/inthehand/Charming/blob/master/License.txt</licenseUrl>
@@ -11,6 +11,35 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Cross Platform application metadata and common tasks</description>
         <copyright>Copyright 2015 In The Hand Ltd</copyright>
-        <tags>windows;ios;android;xamarin</tags>
+        <tags>windows;ios;android;xamarin;uwp;wp8;wp81;wpa81;pcl</tags>
     </metadata>
+    <files>
+        <file src="lib\MonoAndroid10\InTheHand.dll" target="lib\MonoAndroid10\InTheHand.dll" />
+        <file src="lib\MonoAndroid10\InTheHand.dll.mdb" target="lib\MonoAndroid10\InTheHand.dll.mdb" />
+        <file src="lib\MonoAndroid10\InTheHand.pdb" target="lib\MonoAndroid10\InTheHand.pdb" />
+        <file src="lib\MonoAndroid10\InTheHand.XML" target="lib\MonoAndroid10\InTheHand.XML" />
+        <file src="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.dll" target="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.dll" />
+        <file src="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.pdb" target="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.pdb" />
+        <file src="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML" target="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML" />
+        <file src="lib\uap10.0\InTheHand.dll" target="lib\uap10.0\InTheHand.dll" />
+        <file src="lib\uap10.0\InTheHand.pdb" target="lib\uap10.0\InTheHand.pdb" />
+        <file src="lib\uap10.0\InTheHand.pri" target="lib\uap10.0\InTheHand.pri" />
+        <file src="lib\uap10.0\InTheHand.XML" target="lib\uap10.0\InTheHand.XML" />
+        <file src="lib\win81\InTheHand.dll" target="lib\win81\InTheHand.dll" />
+        <file src="lib\win81\InTheHand.pdb" target="lib\win81\InTheHand.pdb" />
+        <file src="lib\win81\InTheHand.pri" target="lib\win81\InTheHand.pri" />
+        <file src="lib\win81\InTheHand.XML" target="lib\win81\InTheHand.XML" />
+        <file src="lib\wp8\InTheHand.dll" target="lib\wp8\InTheHand.dll" />
+        <file src="lib\wp8\InTheHand.pdb" target="lib\wp8\InTheHand.pdb" />
+        <file src="lib\wp8\InTheHand.XML" target="lib\wp8\InTheHand.XML" />
+        <file src="lib\wp81\InTheHand.dll" target="lib\wp81\InTheHand.dll" />
+        <file src="lib\wp81\InTheHand.pdb" target="lib\wp81\InTheHand.pdb" />
+        <file src="lib\wp81\InTheHand.XML" target="lib\wp81\InTheHand.XML" />
+        <file src="lib\wpa81\InTheHand.dll" target="lib\wpa81\InTheHand.dll" />
+        <file src="lib\wpa81\InTheHand.pdb" target="lib\wpa81\InTheHand.pdb" />
+        <file src="lib\wpa81\InTheHand.pri" target="lib\wpa81\InTheHand.pri" />
+        <file src="lib\wpa81\InTheHand.XML" target="lib\wpa81\InTheHand.XML" />
+        <file src="lib\Xamarin.iOS10\InTheHand.dll" target="lib\Xamarin.iOS10\InTheHand.dll" />
+        <file src="lib\Xamarin.iOS10\InTheHand.XML" target="lib\Xamarin.iOS10\InTheHand.XML" />
+    </files>
 </package>

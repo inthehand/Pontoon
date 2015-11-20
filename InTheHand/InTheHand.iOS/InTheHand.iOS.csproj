@@ -34,6 +34,16 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DocumentationFile>..\..\NuGet\InTheHand\lib\Xamarin.iOS10\InTheHand.XML</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
+    <OutputPath>..\..\NuGet\InTheHand\lib\Xamarin.iOS10\</OutputPath>
+    <DefineConstants>__UNIFIED__;__MOBILE__;__IOS__;SIGNED</DefineConstants>
+    <DocumentationFile>..\..\NuGet\InTheHand\lib\Xamarin.iOS10\InTheHand.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
