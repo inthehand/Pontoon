@@ -48,9 +48,9 @@ namespace UWPApp
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("message", "title");
-            md.Commands.Add(new InTheHand.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
-            md.Commands.Add(new InTheHand.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
+            Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog("Message", "Title");
+            md.Commands.Add(new Windows.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
+            md.Commands.Add(new Windows.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
 
             await md.ShowAsync();
             InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();

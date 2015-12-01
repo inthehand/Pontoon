@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    RequestedTheme="Dark"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Transitions>
@@ -22,25 +23,31 @@
 
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.5"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="0.5"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        <Rectangle Grid.Row="0" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="0.5" Margin="0" HorizontalAlignment="Stretch" Height="0.5"/>
+        <TextBlock Grid.Row="1"  x:Uid="SettingsText" Text="Settings" Margin="12,4,12,8" Style="{ThemeResource SubheaderTextBlockStyle}"/>
+        <Rectangle Grid.Row="2" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="0.5" Margin="0" HorizontalAlignment="Stretch" Height="0.5"/>
         <!-- TitlePanel -->
-        <StackPanel Grid.Row="0" Margin="20,7,0,28">
-            <TextBlock x:Uid="SettingsText" Text="SETTINGS" FontWeight="SemiBold" Style="{ThemeResource BodyTextBlockStyle}"/>
-            <TextBlock x:Name="AppNameText" Text="application" Margin="0" Style="{ThemeResource SubheaderTextBlockStyle}"/>
-            <TextBlock x:Name="AuthorText" Margin="0,5,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
-            <TextBlock x:Name="Version" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,5" />
+        <StackPanel Grid.Row="3" Margin="12">
+
+
+            <TextBlock x:Name="AppNameText" Text="application" Margin="0" Style="{ThemeResource TitleTextBlockStyle}"/>
+            <TextBlock x:Name="AuthorText" Margin="0,4,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
+            <TextBlock x:Name="Version" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,4" />
         </StackPanel>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot">
+        <Grid Grid.Row="4" x:Name="ContentRoot">
             <ListView x:Name="SettingsList" Grid.Row="1" Margin="0" CommonNavigationTransitionInfo.IsStaggerElement="True" ContinuumNavigationTransitionInfo.ExitElementContainer="True" SelectionChanged="SettingsList_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid CommonNavigationTransitionInfo.IsStaggerElement="True">
-                            <TextBlock Text="{Binding Label}" Margin="12,8" Style="{StaticResource SubtitleTextBlockStyle}"/>
+                            <TextBlock Text="{Binding Label}" Margin="0,4" Style="{StaticResource BodyTextBlockStyle}"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
+using Windows.UI;
 
 namespace InTheHand.ApplicationModel
 {
@@ -25,11 +27,21 @@ namespace InTheHand.ApplicationModel
 
                 //parse xml
                 IXmlNode nameNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Properties/appx:DisplayName", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\"");
-                DisplayName = nameNode.InnerText;
+                if (nameNode != null)
+                {
+                    DisplayName = nameNode.InnerText;
+                }
                 IXmlNode publisherNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Properties/appx:PublisherDisplayName", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\"");
-                PublisherDisplayName = publisherNode.InnerText;
-
-                IXmlNode visualElementsNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Applications/appx:Application/m3:VisualElements", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\" xmlns:m3=\"http://schemas.microsoft.com/appx/2014/manifest\"");
+                if (publisherNode != null)
+                {
+                    PublisherDisplayName = publisherNode.InnerText;
+                }
+               
+                IXmlNode visualElementsNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Applications/appx:Application/uap:VisualElements", "xmlns:appx=\"http://schemas.microsoft.com/appx/manifest/foundation/windows10\" xmlns:uap=\"http://schemas.microsoft.com/appx/manifest/uap/windows10\"");
+                if (visualElementsNode == null)
+                {
+                    visualElementsNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Applications/appx:Application/m3:VisualElements", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\" xmlns:m3=\"http://schemas.microsoft.com/appx/2014/manifest\"");
+                }
                 if (visualElementsNode == null)
                 {
                     visualElementsNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Applications/appx:Application/m2:VisualElements", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\" xmlns:m2=\"http://schemas.microsoft.com/appx/2013/manifest\"");
@@ -47,7 +59,7 @@ namespace InTheHand.ApplicationModel
                         }
                     }*/
 
-                    /*IXmlNode bgColorNode = visualElementsNode.Attributes.GetNamedItem("BackgroundColor");
+                    IXmlNode bgColorNode = visualElementsNode.Attributes.GetNamedItem("BackgroundColor");
                     if (bgColorNode != null)
                     {
                         string color = bgColorNode.InnerText;
@@ -56,17 +68,17 @@ namespace InTheHand.ApplicationModel
                             // hex color
                             if (color.Length == 7)
                             {
-                                var r = byte.Parse(color.Substring(1, 2), System.Globalization.NumberStyles.HexNumber);
-                                var g = byte.Parse(color.Substring(3, 2), System.Globalization.NumberStyles.HexNumber);
-                                var b = byte.Parse(color.Substring(5, 2), System.Globalization.NumberStyles.HexNumber);
+                                var r = byte.Parse(color.Substring(1, 2), global::System.Globalization.NumberStyles.HexNumber);
+                                var g = byte.Parse(color.Substring(3, 2), global::System.Globalization.NumberStyles.HexNumber);
+                                var b = byte.Parse(color.Substring(5, 2), global::System.Globalization.NumberStyles.HexNumber);
                                 BackgroundColor = Color.FromArgb(0xff, r, g, b);
                             }
                             else if (color.Length == 9)
                             {
-                                var a = byte.Parse(color.Substring(1, 2), System.Globalization.NumberStyles.HexNumber);
-                                var r = byte.Parse(color.Substring(3, 2), System.Globalization.NumberStyles.HexNumber);
-                                var g = byte.Parse(color.Substring(5, 2), System.Globalization.NumberStyles.HexNumber);
-                                var b = byte.Parse(color.Substring(7, 2), System.Globalization.NumberStyles.HexNumber);
+                                var a = byte.Parse(color.Substring(1, 2), global::System.Globalization.NumberStyles.HexNumber);
+                                var r = byte.Parse(color.Substring(3, 2), global::System.Globalization.NumberStyles.HexNumber);
+                                var g = byte.Parse(color.Substring(5, 2), global::System.Globalization.NumberStyles.HexNumber);
+                                var b = byte.Parse(color.Substring(7, 2), global::System.Globalization.NumberStyles.HexNumber);
                                 BackgroundColor = Color.FromArgb(a, r, g, b);
                             }
                         }
@@ -83,12 +95,19 @@ namespace InTheHand.ApplicationModel
                             }
                         }
                     }
-
-                    Description = visualElementsNode.Attributes.GetNamedItem("Description").InnerText;*/
+                    IXmlNode descriptionNode = visualElementsNode.Attributes.GetNamedItem("Description");
+                    if(descriptionNode != null)
+                    {
+                        Description = descriptionNode.InnerText;
+                    }
+                    
                 }
 
                 IXmlNode logoNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Properties/appx:Logo", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\"");
-                Logo = new Uri("ms-appx:///" + logoNode.InnerText.Replace("\\", "/"));
+                if (logoNode != null)
+                {
+                    Logo = new Uri("ms-appx:///" + logoNode.InnerText.Replace("\\", "/"));
+                }
 
                 IXmlNode capabilitiesNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Capabilities", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\"");
                 if (capabilitiesNode != null)
@@ -168,7 +187,19 @@ namespace InTheHand.ApplicationModel
             t.Wait();
         }
 
+        public Windows.UI.Color BackgroundColor
+        {
+            get;
+            private set;
+        }
+
         public Capability Capabilities
+        {
+            get;
+            private set;
+        }
+
+        public string Description
         {
             get;
             private set;

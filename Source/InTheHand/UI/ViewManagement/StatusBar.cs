@@ -63,6 +63,31 @@ namespace InTheHand.UI.ViewManagement
         {
         }
 #endif
+
+#if WINDOWS_PHONE_APP || WINDOWS_UWP
+        public Windows.UI.Color? BackgroundColor {
+            get
+            {
+                return _statusBar.BackgroundColor;
+            }
+            set
+            {
+                _statusBar.BackgroundColor = value;
+            }
+        }
+
+        public double BackgroundOpacity
+        {
+            get
+            {
+                return _statusBar.BackgroundOpacity;
+            }
+            set
+            {
+                _statusBar.BackgroundOpacity = value;
+            }
+        }
+#endif
         /// <summary>
         /// Gets the progress indicator for the status bar.
         /// </summary>

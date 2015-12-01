@@ -18,6 +18,10 @@ namespace InTheHand.UI.ApplicationSettings
     {
         private IList<SettingsCommand> commands;
         private bool backRegistered = true;
+#if WINDOWS_UWP
+        private Windows.UI.Color? previousBackground;
+        private double previousBackgroundOpacity;
+#endif
 
         public SettingsPage()
         {
@@ -31,6 +35,15 @@ namespace InTheHand.UI.ApplicationSettings
             }*/
 #if WINDOWS_UWP
             SystemNavigationManager.GetForCurrentView().BackRequested += SettingsPage_BackRequested;
+            InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
+            if(sb != null)
+            {
+                previousBackground = sb.BackgroundColor;
+                previousBackgroundOpacity = sb.BackgroundOpacity;
+                sb.BackgroundColor = InTheHand.ApplicationModel.Package.Current.BackgroundColor;
+                sb.BackgroundOpacity = 1.0;
+            }
+
 #elif WINDOWS_PHONE_APP
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 #endif
@@ -41,6 +54,15 @@ namespace InTheHand.UI.ApplicationSettings
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             UnregisterBack();
+#if WINDOWS_UWP
+            InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
+            if (sb != null)
+            {
+                sb.BackgroundColor = previousBackground;
+                sb.BackgroundOpacity = previousBackgroundOpacity;
+            }
+#endif
+
             base.OnNavigatingFrom(e);
         }
 

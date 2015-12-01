@@ -59,7 +59,7 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
         private Windows.ApplicationModel.Package _package;
 #endif
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
         private AppxManifest _appxManifest;
 #endif
 #if WINDOWS_PHONE
@@ -83,12 +83,24 @@ namespace InTheHand.ApplicationModel
             DeviceCapabilities |= _appManifest.DeviceCapabilities;
             Logo = _appManifest.Logo;
 #endif
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
             _appxManifest = new AppxManifest();
+            BackgroundColor = _appxManifest.BackgroundColor;
             Capabilities |= _appxManifest.Capabilities;
             DeviceCapabilities |= _appxManifest.DeviceCapabilities;
 #endif
         }
+
+#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
+        /// <summary>
+        /// Returns the background color of the application's primary tile.
+        /// </summary>
+        public Windows.UI.Color BackgroundColor
+        {
+            get;
+            private set;
+        }
+#endif
 
         /// <summary>
         /// Application capabilities requested by the package.
@@ -253,7 +265,7 @@ namespace InTheHand.ApplicationModel
         }
 
         /// <summary>
-        /// 
+        /// Gets the publisher display name of the package.
         /// </summary>
         public string PublisherDisplayName
         {
