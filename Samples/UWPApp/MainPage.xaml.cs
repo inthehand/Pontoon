@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -36,6 +37,14 @@ namespace UWPApp
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
 
             InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
+
+            Task.Run(async () => {
+                await Task.Delay(1000);
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
+                });
+            });
         }
 
         private void MainPage_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)

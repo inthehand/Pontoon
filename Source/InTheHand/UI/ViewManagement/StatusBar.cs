@@ -87,6 +87,18 @@ namespace InTheHand.UI.ViewManagement
                 _statusBar.BackgroundOpacity = value;
             }
         }
+
+        public Windows.UI.Color? ForegroundColor
+        {
+            get
+            {
+                return _statusBar.ForegroundColor;
+            }
+            set
+            {
+                _statusBar.ForegroundColor = value;
+            }
+        }
 #endif
         /// <summary>
         /// Gets the progress indicator for the status bar.

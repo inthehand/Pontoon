@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using InTheHand.UI.ApplicationSettings;
 using Windows.UI.Core;
+using Windows.UI;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -20,6 +21,7 @@ namespace InTheHand.UI.ApplicationSettings
         private bool backRegistered = true;
 #if WINDOWS_UWP
         private Windows.UI.Color? previousBackground;
+        private Windows.UI.Color? previousForeground;
         private double previousBackgroundOpacity;
 #endif
 
@@ -39,9 +41,11 @@ namespace InTheHand.UI.ApplicationSettings
             if(sb != null)
             {
                 previousBackground = sb.BackgroundColor;
+                previousForeground = sb.ForegroundColor;
                 previousBackgroundOpacity = sb.BackgroundOpacity;
                 sb.BackgroundColor = InTheHand.ApplicationModel.Package.Current.BackgroundColor;
                 sb.BackgroundOpacity = 1.0;
+                sb.ForegroundColor = Colors.White;
             }
 
 #elif WINDOWS_PHONE_APP
@@ -60,6 +64,7 @@ namespace InTheHand.UI.ApplicationSettings
             {
                 sb.BackgroundColor = previousBackground;
                 sb.BackgroundOpacity = previousBackgroundOpacity;
+                sb.ForegroundColor = previousForeground;
             }
 #endif
 
