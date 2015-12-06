@@ -88,7 +88,9 @@ namespace InTheHand.ApplicationModel
             BackgroundColor = _appxManifest.BackgroundColor;
             Capabilities |= _appxManifest.Capabilities;
             Description = _appxManifest.Description;
-            DeviceCapabilities |= _appxManifest.DeviceCapabilities;
+            DeviceCapabilities |= _appxManifest.DeviceCapabilities;           
+#endif
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             Logo = _appxManifest.Logo;
 #endif
         }
