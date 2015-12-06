@@ -23,31 +23,19 @@
 
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="0.5"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="0.5" Margin="0" HorizontalAlignment="Stretch" Height="0.5"/>
-        <TextBlock Grid.Row="1"  x:Uid="SettingsText" Text="Settings" Margin="12,4,12,8" Style="{ThemeResource SubheaderTextBlockStyle}"/>
-        <Rectangle Grid.Row="2" Stroke="{ThemeResource SystemControlForegroundBaseHighBrush}" StrokeThickness="0.5" Margin="0" HorizontalAlignment="Stretch" Height="0.5"/>
-        <!-- TitlePanel -->
-        <StackPanel Grid.Row="3" Margin="12">
-
-
-            <TextBlock x:Name="AppNameText" Text="application" Margin="0" Style="{ThemeResource TitleTextBlockStyle}"/>
-            <TextBlock x:Name="AuthorText" Margin="0,4,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
-            <TextBlock x:Name="Version" Style="{StaticResource CaptionTextBlockStyle}" Margin="0,4" />
-        </StackPanel>
+        <Rectangle Grid.Row="0" Stroke="#808080" StrokeThickness="0.5" Margin="-4,0" Fill="#f1f1f1" HorizontalAlignment="Stretch"/>
+        <TextBlock Grid.Row="0"  x:Uid="SettingsText" Foreground="#484848" FontSize="28" Text="Settings" Margin="12,4,12,8" Style="{ThemeResource SubheaderTextBlockStyle}"/>
 
         <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="4" x:Name="ContentRoot">
+        <Grid Grid.Row="1" x:Name="ContentRoot">
             <ListView x:Name="SettingsList" Grid.Row="1" Margin="0" CommonNavigationTransitionInfo.IsStaggerElement="True" ContinuumNavigationTransitionInfo.ExitElementContainer="True" SelectionChanged="SettingsList_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid CommonNavigationTransitionInfo.IsStaggerElement="True">
-                            <TextBlock Text="{Binding Label}" Margin="0,4" Style="{StaticResource BodyTextBlockStyle}"/>
+                            <TextBlock Text="{Binding Label}" Margin="0,4" Foreground="#484848" Style="{StaticResource BodyTextBlockStyle}"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

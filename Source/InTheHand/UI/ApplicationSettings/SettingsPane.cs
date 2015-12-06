@@ -18,8 +18,11 @@ using InTheHand.Storage;
 using System.Windows;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 #endif
 
 namespace InTheHand.UI.ApplicationSettings
@@ -187,7 +190,17 @@ namespace InTheHand.UI.ApplicationSettings
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();
                 }));
             }
+
+
 #endif
+            args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("About", "About", (c) =>
+            {
+                SettingsFlyout flyout = new SettingsFlyout();
+                flyout.Title = "About";
+                //flyout.IconSource = new BitmapImage(InTheHand.ApplicationModel.Package.Current.Logo);
+                flyout.Content = new InTheHandUI.AboutView();
+                flyout.Show();
+            }));
         }
 #endif
     }

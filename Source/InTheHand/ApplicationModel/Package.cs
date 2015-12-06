@@ -87,6 +87,7 @@ namespace InTheHand.ApplicationModel
             _appxManifest = new AppxManifest();
             BackgroundColor = _appxManifest.BackgroundColor;
             Capabilities |= _appxManifest.Capabilities;
+            Description = _appxManifest.Description;
             DeviceCapabilities |= _appxManifest.DeviceCapabilities;
 #endif
         }
@@ -107,6 +108,12 @@ namespace InTheHand.ApplicationModel
         /// </summary>
         [CLSCompliant(false)]
         public Capability Capabilities
+        {
+            get;
+            private set;
+        }
+
+        public string Description
         {
             get;
             private set;

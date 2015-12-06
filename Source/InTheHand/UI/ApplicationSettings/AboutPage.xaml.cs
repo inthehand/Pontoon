@@ -7,15 +7,14 @@ using Windows.UI.Xaml.Navigation;
 using InTheHand.UI.ApplicationSettings;
 using Windows.UI.Core;
 using Windows.UI;
-
-// The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace InTheHand.UI.ApplicationSettings
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    internal sealed partial class SettingsPage : Page
+    internal sealed partial class AboutPage : Page
     {
         private IList<SettingsCommand> commands;
         private bool backRegistered = true;
@@ -25,7 +24,7 @@ namespace InTheHand.UI.ApplicationSettings
         private double previousBackgroundOpacity;
 #endif
 
-        public SettingsPage()
+        public AboutPage()
         {
             this.InitializeComponent();
 
@@ -36,7 +35,7 @@ namespace InTheHand.UI.ApplicationSettings
                 this.Background = new SolidColorBrush(modColor);
             }*/
 #if WINDOWS_UWP
-            SystemNavigationManager.GetForCurrentView().BackRequested += SettingsPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += AboutPage_BackRequested;
             InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
             if(sb != null)
             {
@@ -51,7 +50,8 @@ namespace InTheHand.UI.ApplicationSettings
 #elif WINDOWS_PHONE_APP
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 #endif
-            this.Unloaded += SettingsPage_Unloaded;
+            this.Loaded += AboutPage_Loaded;
+            this.Unloaded += AboutPage_Unloaded;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -70,7 +70,7 @@ namespace InTheHand.UI.ApplicationSettings
             base.OnNavigatingFrom(e);
         }
 
-        void SettingsPage_Unloaded(object sender, RoutedEventArgs e)
+        void AboutPage_Unloaded(object sender, RoutedEventArgs e)
         {
             UnregisterBack();
         }
@@ -80,7 +80,7 @@ namespace InTheHand.UI.ApplicationSettings
             if (backRegistered)
             {
 #if WINDOWS_UWP
-                SystemNavigationManager.GetForCurrentView().BackRequested -= SettingsPage_BackRequested;
+                SystemNavigationManager.GetForCurrentView().BackRequested -= AboutPage_BackRequested;
 #elif WINDOWS_PHONE_APP
                 Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
 #endif
@@ -89,7 +89,7 @@ namespace InTheHand.UI.ApplicationSettings
         }
 
 #if WINDOWS_UWP
-        private void SettingsPage_BackRequested(object sender, BackRequestedEventArgs e)
+        private void AboutPage_BackRequested(object sender, BackRequestedEventArgs e)
 #elif WINDOWS_PHONE_APP
         void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
 #endif
@@ -104,50 +104,24 @@ namespace InTheHand.UI.ApplicationSettings
             }
         }
 
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        void AboutPage_Loaded(object sender, RoutedEventArgs e)
         {
-            commands = InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().OnCommandsRequested();
-
-            if (commands == null)
+            AppIcon.Source = new BitmapImage(InTheHand.ApplicationModel.Package.Current.Logo);
+            AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName;
+            Version.Text = "Version " + InTheHand.ApplicationModel.Package.Current.Id.Version.ToString();
+            if (SettingsPane.GetForCurrentView().showPublisher)
             {
-                commands = new List<SettingsCommand>();
+                AuthorText.Text = string.Format("By {0}", InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+            }
+            else
+            {
+                AuthorText.Visibility = Visibility.Collapsed;
             }
 
-            // for store distribution include rate and review
-#if !DEBUG
-            if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
-            {
-#endif
-                commands.Add(new SettingsCommand("RateAndReview", "Rate and review", async (c) =>
-                {
-                    await InTheHand.ApplicationModel.Store.CurrentApp.RequestReviewAsync();
-                }));
-
-                commands.Add(new SettingsCommand("PrivacyPolicy", "Privacy policy", async (c) =>
-                    {
-                        await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();
-                    }));
-#if !DEBUG
-            }
-#endif
-            commands.Add(new SettingsCommand("About", "About", (c) =>
-            {
-                Frame.Navigate(typeof(AboutPage));
-            }));
-
-            SettingsList.ItemsSource = commands;
-
-            base.OnNavigatedTo(e);
+            Description.Text = InTheHand.ApplicationModel.Package.Current.Description;
         }
 
-        private void SettingsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SettingsList.SelectedItem != null)
-            {
-                ((SettingsCommand)SettingsList.SelectedItem).Invoked((SettingsCommand)SettingsList.SelectedItem);
-                SettingsList.SelectedIndex = -1;
-            }
-        }
+
+        
     }
 }

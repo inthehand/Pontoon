@@ -110,10 +110,19 @@
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutPage.UWP.xaml">
+      <Link>UI\ApplicationSettings\AboutPage.UWP.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.UWP.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\ApplicationSettings\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +273,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutPage.xaml.cs">
+      <Link>UI\ApplicationSettings\AboutPage.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
@@ -299,6 +311,9 @@
     </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="UI\ApplicationSettings\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

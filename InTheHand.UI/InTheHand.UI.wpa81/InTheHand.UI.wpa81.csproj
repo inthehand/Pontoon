@@ -243,6 +243,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutPage.xaml.cs">
+      <Link>UI\ApplicationSettings\AboutPage.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
