@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace InTheHandUI
@@ -15,6 +16,7 @@ namespace InTheHandUI
         {
             InitializeComponent();
 
+            BackgroundIcon.Fill = new SolidColorBrush(InTheHand.ApplicationModel.Package.Current.BackgroundColor);
             AppIcon.Source = new BitmapImage(InTheHand.ApplicationModel.Package.Current.Logo);
             AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName;
             Version.Text = "Version " + InTheHand.ApplicationModel.Package.Current.Id.Version.ToString();

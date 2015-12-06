@@ -67,6 +67,18 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
+      <Link>UI\Notifications\BadgeNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
+      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
+      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
+      <Link>UI\Notifications\BadgeUpdater.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\inthehand\ui\popups\IUICommand.cs">
       <Link>UI\Popups\IUICommand.cs</Link>
     </Compile>

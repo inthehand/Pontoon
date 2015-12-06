@@ -115,14 +115,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutView.xaml">
+      <Link>UI\ApplicationSettings\AboutView.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.UWP.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\ApplicationSettings\AboutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +277,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutPage.xaml.cs">
       <Link>UI\ApplicationSettings\AboutPage.xaml.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutView.xaml.cs">
+      <Link>UI\ApplicationSettings\AboutView.xaml.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
@@ -290,6 +294,18 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
+      <Link>UI\Notifications\BadgeNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
+      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
+      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
+      <Link>UI\Notifications\BadgeUpdater.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\inthehand\ui\popups\IUICommand.cs">
       <Link>UI\Popups\IUICommand.cs</Link>
@@ -311,9 +327,6 @@
     </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="UI\ApplicationSettings\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

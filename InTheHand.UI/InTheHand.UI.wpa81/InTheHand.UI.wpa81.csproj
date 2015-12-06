@@ -82,6 +82,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutPage.xaml">
+      <Link>UI\ApplicationSettings\AboutPage.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -260,6 +265,18 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
+      <Link>UI\Notifications\BadgeNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
+      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
+      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
+      <Link>UI\Notifications\BadgeUpdater.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\inthehand\ui\popups\IUICommand.cs">
       <Link>UI\Popups\IUICommand.cs</Link>

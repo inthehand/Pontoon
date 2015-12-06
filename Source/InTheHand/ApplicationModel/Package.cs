@@ -59,7 +59,7 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
         private Windows.ApplicationModel.Package _package;
 #endif
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
         private AppxManifest _appxManifest;
 #endif
 #if WINDOWS_PHONE
@@ -83,16 +83,17 @@ namespace InTheHand.ApplicationModel
             DeviceCapabilities |= _appManifest.DeviceCapabilities;
             Logo = _appManifest.Logo;
 #endif
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
             _appxManifest = new AppxManifest();
             BackgroundColor = _appxManifest.BackgroundColor;
             Capabilities |= _appxManifest.Capabilities;
             Description = _appxManifest.Description;
             DeviceCapabilities |= _appxManifest.DeviceCapabilities;
+            Logo = _appxManifest.Logo;
 #endif
         }
 
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
+#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
         /// <summary>
         /// Returns the background color of the application's primary tile.
         /// </summary>

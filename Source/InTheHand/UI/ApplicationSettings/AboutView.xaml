@@ -17,9 +17,10 @@
             <RowDefinition Height="28"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image x:Name="AppIcon" Grid.RowSpan="3"/>
-        <TextBlock x:Name="AppNameText" Grid.Column="1" Foreground="#484848" Text="application" Margin="4" Style="{ThemeResource BodyTextBlockStyle}"/>
-        <TextBlock x:Name="AuthorText" Grid.Column="1" Grid.Row="1" Foreground="#484848" Margin="4" Style="{StaticResource BodyTextBlockStyle}"/>
-        <TextBlock x:Name="Version" Grid.Column="1" Grid.Row="2" Foreground="#484848" Style="{StaticResource BodyTextBlockStyle}" Margin="4" />
+    <Rectangle x:Name="BackgroundIcon" Grid.RowSpan="3"/>
+    <Image x:Name="AppIcon" Grid.RowSpan="3"/>
+        <TextBlock x:Name="AppNameText" Grid.Column="1" Foreground="#484848" Text="application" Margin="8,4" Style="{ThemeResource BodyTextBlockStyle}"/>
+        <TextBlock x:Name="AuthorText" Grid.Column="1" Grid.Row="1" Foreground="#484848" Margin="8,4" Style="{StaticResource BodyTextBlockStyle}"/>
+        <TextBlock x:Name="Version" Grid.Column="1" Grid.Row="2" Foreground="#484848" Style="{StaticResource BodyTextBlockStyle}" Margin="8,4" />
         <TextBlock x:Name="Description" Grid.ColumnSpan="2" Grid.Row="3" Foreground="#484848" Style="{StaticResource BodyTextBlockStyle}" Margin="0,8" />
     </Grid>
