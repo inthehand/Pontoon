@@ -110,7 +110,7 @@ namespace InTheHand.UI.Popups
             }
 
 #if __ANDROID__
-            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(InTheHand.Platform.Android.ContextManager.Context);
+            Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             Android.App.AlertDialog dialog = builder.Create();
             dialog.SetTitle(this.Title);
             dialog.SetMessage(this.Content);

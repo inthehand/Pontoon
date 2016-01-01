@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DisplayInformation.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -51,7 +51,8 @@ namespace InTheHand.Graphics.Display
                 if(!rawDpiX.HasValue)
                 {
 #if __ANDROID__
-                    rawDpiX = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Xdpi;
+                    rawDpiX = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Xdpi;
+                    //rawDpiX = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Xdpi;
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
                     rawDpiX = _displayInformation.RawDpiX;
 #elif WINDOWS_PHONE
@@ -85,10 +86,9 @@ namespace InTheHand.Graphics.Display
                 if(!rawDpiY.HasValue)
                 {
 #if __ANDROID__
-                    rawDpiY = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Ydpi;
-               
+                    rawDpiY = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Ydpi;
+                    //rawDpiY = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Ydpi;
 
-                return rawDpiY.Value;
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
                     rawDpiY = _displayInformation.RawDpiY;
 #elif WINDOWS_PHONE
@@ -121,7 +121,8 @@ namespace InTheHand.Graphics.Display
                 if(!_rawPixelsPerViewPixel.HasValue)
                 {
 #if __ANDROID__
-                    _rawPixelsPerViewPixel = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Density;
+                    _rawPixelsPerViewPixel = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Density;
+                    //_rawPixelsPerViewPixel = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Density;
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
                     _rawPixelsPerViewPixel = _displayInformation.RawPixelsPerViewPixel;
 #elif WINDOWS_APP || WINDOWS_PHONE
@@ -144,8 +145,7 @@ namespace InTheHand.Graphics.Display
                 if (!resolutionScale.HasValue)
                 {
 #if __ANDROID__
-                    float scale = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Density;
-                    resolutionScale = (ResolutionScale)((int)(scale * 100));
+                    resolutionScale = (ResolutionScale)((int)(RawPixelsPerViewPixel * 100));
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
                     resolutionScale = (ResolutionScale)((int)_displayInformation.ResolutionScale);
 #elif WINDOWS_PHONE

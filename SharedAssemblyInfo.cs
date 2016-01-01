@@ -25,7 +25,7 @@ using System.Resources;
 #endif
 [assembly: AssemblyProduct("Charming Apps")]
 [assembly: AssemblyCompany("In The Hand Ltd")]
-[assembly: AssemblyCopyright("Copyright © In The Hand Ltd 2013-15. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © In The Hand Ltd 2013-16. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: System.CLSCompliant(true)]
@@ -39,7 +39,7 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("9.0.0.0")]
-[assembly: AssemblyFileVersion("9.2015.12.16")]
+[assembly: AssemblyFileVersion("9.2016.01.01")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 #if SIGNED
 [assembly: AssemblyKeyFile("C:\\InTheHand.snk")]

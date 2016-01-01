@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ApplicationDataContainerSettings.cs" company="In The Hand Ltd">
-//     Copyright (c) 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright (c) 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ namespace InTheHand.Storage
         internal ApplicationDataContainerSettings()
         {
 #if __ANDROID__
-            _preferences = PreferenceManager.GetDefaultSharedPreferences(Platform.Android.ContextManager.Context);
+            _preferences = PreferenceManager.GetDefaultSharedPreferences(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _settings = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
 #elif WINDOWS_PHONE
@@ -675,32 +675,6 @@ namespace InTheHand.Storage
             keyEnumerator.Reset();
         }
     }
-
-    /*internal sealed class MapChangedEventArgs : IMapChangedEventArgs<string>
-    {
-        private string key;
-        private CollectionChange change;
-
-        internal MapChangedEventArgs(string key, CollectionChange change)
-        {
-            this.key = key;
-            this.change = change;
-        }
-
-#region IMapChangedEventArgs<string> Members
-
-        CollectionChange IMapChangedEventArgs<string>.CollectionChange
-        {
-            get { return change; }
-        }
-
-        string IMapChangedEventArgs<string>.Key
-        {
-            get { return key; }
-        }
-
-#endregion
-    }*/
 
 #if __IOS__
     internal static class IOSTypeConverter

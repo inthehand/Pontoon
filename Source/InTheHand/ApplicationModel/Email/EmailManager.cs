@@ -60,7 +60,8 @@ namespace InTheHand.ApplicationModel.Email
                 emailIntent.PutExtra(Intent.ExtraSubject, message.Subject);
                 emailIntent.PutExtra(Intent.ExtraText, message.Body);
                 emailIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
-                Platform.Android.ContextManager.Context.StartActivity(emailIntent);
+                Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(emailIntent);
+                //Platform.Android.ContextManager.Context.StartActivity(emailIntent);
             });
 #elif __IOS__
             return Task.Run(() =>

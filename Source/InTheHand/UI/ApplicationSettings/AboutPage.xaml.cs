@@ -16,7 +16,6 @@ namespace InTheHand.UI.ApplicationSettings
     /// </summary>
     internal sealed partial class AboutPage : Page
     {
-        private IList<SettingsCommand> commands;
         private bool backRegistered = true;
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.UI.Color? previousBackground;
@@ -34,7 +33,7 @@ namespace InTheHand.UI.ApplicationSettings
                 Color modColor = Color.FromArgb((byte)0xff, (byte)(bgColor.R / 3), (byte)(bgColor.G / 3), (byte)(bgColor.B / 3));
                 this.Background = new SolidColorBrush(modColor);
             }*/
-#if WINDOWs_UWP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
             InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
             if (sb != null)
             {

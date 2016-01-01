@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionProfile.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,6 +13,9 @@ using SystemConfiguration;
 
 namespace InTheHand.Networking.Connectivity
 {
+    /// <summary>
+    /// Represents a network connection, which includes either the currently connected network or prior network connections.
+    /// </summary>
     public sealed class ConnectionProfile
     {
 #if __ANDROID__
@@ -35,7 +38,11 @@ namespace InTheHand.Networking.Connectivity
             _profile = profile;
         }
 #endif
-
+        /// <summary>
+        /// Gets the network connectivity level for this connection.
+        /// This value indicates what network resources, if any, are currently available.
+        /// </summary>
+        /// <returns></returns>
         public NetworkConnectivityLevel GetNetworkConnectivityLevel()
         {
 #if __ANDROID__

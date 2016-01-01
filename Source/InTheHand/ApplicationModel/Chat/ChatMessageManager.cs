@@ -48,7 +48,8 @@ namespace InTheHand.ApplicationModel.Chat
                 Intent smsIntent = new Intent(Intent.ActionSendto, global::Android.Net.Uri.Parse("smsto:" + addresses.ToString()));
                 smsIntent.PutExtra("sms_body", message.Body);
                 smsIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
-                Platform.Android.ContextManager.Context.StartActivity(smsIntent);
+                Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(smsIntent);
+                //Platform.Android.ContextManager.Context.StartActivity(smsIntent);
             });
 #elif __IOS__
             return Task.Run(() =>

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NetworkInformation.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -16,6 +16,9 @@ using SystemConfiguration;
 #endif
 namespace InTheHand.Networking.Connectivity
 {
+    /// <summary>
+    /// Provides access to network connection information for the local machine.
+    /// </summary>
     public static class NetworkInformation
     {
 #if __ANDROID__
@@ -41,7 +44,8 @@ namespace InTheHand.Networking.Connectivity
         static NetworkInformation()
         {
 #if __ANDROID__
-            _manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);;
+            _manager = ConnectivityManager.FromContext(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
+            //_manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);
 #elif __IOS__
             _reachability = new NetworkReachability("0.0.0.0");
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -50,7 +54,10 @@ namespace InTheHand.Networking.Connectivity
         }
 
 
-
+        /// <summary>
+        /// Gets the connection profile associated with the internet connection currently used by the local machine.
+        /// </summary>
+        /// <returns></returns>
         public static ConnectionProfile GetInternetConnectionProfile()
         {
 #if __ANDROID__
@@ -77,6 +84,9 @@ namespace InTheHand.Networking.Connectivity
         }
 
         private static event NetworkStatusChangedEventHandler networkStatusChanged;
+        /// <summary>
+        /// Occurs when the network status changes for a connection.
+        /// </summary>
         public static event NetworkStatusChangedEventHandler NetworkStatusChanged
         {
             add

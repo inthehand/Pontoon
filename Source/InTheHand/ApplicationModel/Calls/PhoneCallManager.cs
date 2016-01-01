@@ -52,7 +52,8 @@ namespace InTheHand.ApplicationModel.Calls
             string action = promptUser ? Intent.ActionDial : Intent.ActionCall;
             Intent callIntent = new Intent(action, Android.Net.Uri.FromParts("tel", CleanPhoneNumber(phoneNumber), null));
             callIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
-            Platform.Android.ContextManager.Context.StartActivity(callIntent);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(callIntent);
+            //Platform.Android.ContextManager.Context.StartActivity(callIntent);
 #elif __IOS__
             if (UIKit.UIDevice.CurrentDevice.Model != "iPhone")
             {

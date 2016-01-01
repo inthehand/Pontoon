@@ -5,6 +5,7 @@ using CoreFoundation;
 using UIKit;
 using Foundation;
 using InTheHand.UI.Popups;
+using System.Threading.Tasks;
 
 namespace ApplicationModel.iOS
 {
@@ -24,6 +25,22 @@ namespace ApplicationModel.iOS
         void Initialize()
         {
             BackgroundColor = UIColor.FromRGB(0x0, 0x66, 0x66);
+
+            Task.Run(async () =>
+            {
+                await Task.Delay(3000);
+                BeginInvokeOnMainThread(async () =>
+                {
+                    MessageDialog md = new MessageDialog("test", "Title");
+                    UICommand oneC = new UICommand("One", null);
+                    UICommand twoC = new UICommand("Two", null);
+                    md.Commands.Add(oneC);
+                    md.Commands.Add(twoC);
+                    IUICommand chosen = await md.ShowAsync();
+
+                    bool success = chosen == oneC;
+                });
+            });
         }
     }
 

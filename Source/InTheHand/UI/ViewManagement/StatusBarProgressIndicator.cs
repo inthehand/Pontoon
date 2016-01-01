@@ -59,7 +59,7 @@ namespace InTheHand.UI.ViewManagement
 #else
             return Task.Run(()=>{
 #if __ANDROID__
-                Activity a = Platform.Android.ContextManager.Context as Activity;
+                Activity a = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity;
                 if (a != null)
                 {
                     a.SetProgressBarIndeterminateVisibility(false);
@@ -85,7 +85,7 @@ namespace InTheHand.UI.ViewManagement
             return Task.Run(() =>
             {
 #if __ANDROID__
-                Activity a = Platform.Android.ContextManager.Context as Activity;
+                Activity a = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity;
                 if (a != null)
                 {
                     a.SetProgressBarIndeterminateVisibility(true);

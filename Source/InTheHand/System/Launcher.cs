@@ -32,7 +32,7 @@ namespace InTheHand.System
                 try {
                     Intent uriIntent = new Intent(Intent.ActionView);
                     uriIntent.SetData(Android.Net.Uri.Parse(uri.ToString()));
-                    InTheHand.Platform.Android.ContextManager.Context.StartActivity(uriIntent);
+                    Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(uriIntent);
                     return true;
                 }
                 catch { return false; }

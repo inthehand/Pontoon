@@ -18,7 +18,7 @@ namespace DroidApp
 
         protected override void OnCreate(Bundle bundle)
         {
-            InTheHand.Platform.Android.ContextManager.SetCurrentContext(this);
+            //InTheHand.Platform.Android.ContextManager.SetCurrentContext(this);
 
             base.OnCreate(bundle);
 

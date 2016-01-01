@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PowerManager.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 using System;
@@ -122,6 +122,7 @@ namespace InTheHand.System.Power
         /// <summary>
         /// Occurs when <see cref="RemainingChargePercent"/>changes.
         /// </summary>
+        /// <remarks>Not supported on Windows 8.1</remarks>
         public static event EventHandler<object> RemainingChargePercentChanged
 #if WINDOWS_APP
             ;

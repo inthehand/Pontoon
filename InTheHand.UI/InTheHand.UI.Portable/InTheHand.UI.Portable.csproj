@@ -28,10 +28,11 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand.UI\lib\portable-net45+netcore45+wpa81+wp8\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\NuGet\InTheHand.UI\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.UI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
     <OutputPath>..\..\NuGet\InTheHand.UI\lib\portable-net45+netcore45+wpa81+wp8\</OutputPath>

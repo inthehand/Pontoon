@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>InTheHand</id>
-        <version>9.2015.11.20-Preview</version>
+        <version>9.2016.01.01</version>
         <authors>Peter Foot</authors>
         <owners>peterfoot</owners>
         <licenseUrl>https://github.com/inthehand/Charming/blob/master/License.txt</licenseUrl>
@@ -10,8 +10,13 @@
         <iconUrl>https://avatars3.githubusercontent.com/u/11249648</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Cross Platform application metadata and common tasks</description>
-        <copyright>Copyright 2015 In The Hand Ltd</copyright>
+        <copyright>Copyright 2016 In The Hand Ltd</copyright>
         <tags>windows;ios;android;xamarin;uwp;wp8;wp81;wpa81;pcl</tags>
+		<dependencies>
+            <group targetFramework="MonoAndroid10">
+                <dependency id="Plugin.CurrentActivity" version="1.0.1" />
+            </group>
+        </dependencies>
     </metadata>
     <files>
         <file src="lib\MonoAndroid10\InTheHand.dll" target="lib\MonoAndroid10\InTheHand.dll" />

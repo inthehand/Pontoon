@@ -11,7 +11,7 @@ namespace InTheHand.UI.Notifications
     /// </summary>
     public static class BadgeUpdateManager
     {
-        private static BadgeUpdater _updater;
+        private static BadgeUpdater _updater = null;
 
         /// <summary>
         /// Creates and initializes a new instance of the BadgeUpdater, which lets you change the appearance or content of the badge on the calling app's tile.

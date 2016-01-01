@@ -93,7 +93,8 @@ namespace InTheHand.ApplicationModel.DataTransfer
                     shareIntent.SetType("text/plain");
                     Intent shareChooserIntent = Intent.CreateChooser(shareIntent, "Share");
                     shareChooserIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
-                    Platform.Android.ContextManager.Context.ApplicationContext.StartActivity(shareChooserIntent);
+                Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(shareChooserIntent);
+                //Platform.Android.ContextManager.Context.ApplicationContext.StartActivity(shareChooserIntent);
 #elif __IOS__
                     List<NSObject> values = new List<NSObject>();
                     if (view.Contains(StandardDataFormats.WebLink))
@@ -177,9 +178,9 @@ namespace InTheHand.ApplicationModel.DataTransfer
                 }
                     //}
 #endif
-                }
+            }
 
-            
+
             else
             {
                 // nothing to share
