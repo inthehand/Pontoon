@@ -50,6 +50,7 @@ namespace InTheHand.UI.ApplicationSettings
         }
 
         internal bool showPublisher = true;
+        internal bool showAbout = true;
 
         private SettingsPane()
         {
@@ -67,6 +68,11 @@ namespace InTheHand.UI.ApplicationSettings
                 {
                     GetForCurrentView().showPublisher = false;
                 }
+            }
+            object objAbout = null;
+            if(ApplicationData.Current.LocalSettings.Values.TryGetValue("InTheHand.UI.ApplicationSettings.ShowAbout", out objAbout))
+            {
+                GetForCurrentView().showAbout = (bool)objAbout;
             }
 #if WINDOWS_UWP
             if(Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract",1))

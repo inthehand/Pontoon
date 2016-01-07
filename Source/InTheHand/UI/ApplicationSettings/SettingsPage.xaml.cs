@@ -29,6 +29,7 @@ namespace InTheHand.UI.ApplicationSettings
         {
             this.InitializeComponent();
 
+            
             /*Color bgColor = InTheHand.ApplicationModel.Package.Current.BackgroundColor;
             if (bgColor != Colors.Transparent)
             {
@@ -50,6 +51,8 @@ namespace InTheHand.UI.ApplicationSettings
 
 #elif WINDOWS_PHONE_APP
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName;
+            Version.Text = string.Format("Version {0}", InTheHand.ApplicationModel.Package.Current.Id.Version);
 #endif
             this.Unloaded += SettingsPage_Unloaded;
         }
@@ -131,10 +134,13 @@ namespace InTheHand.UI.ApplicationSettings
 #if !DEBUG
             }
 #endif
-            commands.Add(new SettingsCommand("About", "About", (c) =>
+            if (SettingsPane.GetForCurrentView().showAbout)
             {
-                Frame.Navigate(typeof(AboutPage));
-            }));
+                commands.Add(new SettingsCommand("About", "About", (c) =>
+                {
+                    Frame.Navigate(typeof(AboutPage));
+                }));
+            }
 
             SettingsList.ItemsSource = commands;
 
