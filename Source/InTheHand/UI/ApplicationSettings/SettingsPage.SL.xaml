@@ -16,7 +16,7 @@
     shell:SystemTray.IsVisible="True"
     x:ClassModifier="Internal">
 
-    <toolkit:TransitionService.NavigationInTransition>
+    <!--<toolkit:TransitionService.NavigationInTransition>
         <toolkit:NavigationInTransition>
             <toolkit:NavigationInTransition.Backward>
                 <toolkit:TurnstileFeatherTransition Mode="BackwardIn"/>
@@ -35,10 +35,10 @@
                 <toolkit:TurnstileFeatherTransition Mode="ForwardOut"/>
             </toolkit:NavigationOutTransition.Forward>
         </toolkit:NavigationOutTransition>
-    </toolkit:TransitionService.NavigationOutTransition>
+    </toolkit:TransitionService.NavigationOutTransition>-->
     
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent" >
+    <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -46,15 +46,14 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="AppNameText" toolkit:TurnstileFeatherEffect.FeatheringIndex="0" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="SettingsHeader" toolkit:TurnstileFeatherEffect.FeatheringIndex="1" Text="settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-            <TextBlock x:Name="AuthorText" toolkit:TurnstileFeatherEffect.FeatheringIndex="1" Margin="12" Style="{StaticResource PhoneTextSubtleStyle}"/>
-            <TextBlock x:Name="Version" toolkit:TurnstileFeatherEffect.FeatheringIndex="2"  Margin="12,0,12,20" Style="{StaticResource PhoneTextSubtleStyle}"/>
-
+            <TextBlock x:Name="AppNameText" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Style="{StaticResource PhoneTextNormalStyle}"/>
+            <TextBlock x:Name="SettingsHeader" Text="settings" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock x:Name="AuthorText" Margin="12" Style="{StaticResource PhoneTextSubtleStyle}"/>
+            <TextBlock x:Name="Version" Margin="12,0,12,20" Style="{StaticResource PhoneTextSubtleStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
-        <ListBox x:Name="SettingsList" toolkit:TurnstileFeatherEffect.FeatheringIndex="3" Grid.Row="1" Margin="12,0,12,0" SelectionChanged="SettingsList_SelectionChanged">
+        <ListBox x:Name="SettingsList" Grid.Row="1" Margin="12,0,12,0" SelectionChanged="SettingsList_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="90">
@@ -64,5 +63,4 @@
             </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
-
 </phone:PhoneApplicationPage>

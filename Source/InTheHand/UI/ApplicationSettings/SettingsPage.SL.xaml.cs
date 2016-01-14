@@ -21,10 +21,11 @@ namespace InTheHandUI.ApplicationSettings
         {
             InitializeComponent();
 
-            StreamResourceInfo sri = Application.GetResourceStream(Package.Current.Logo);
+            BitmapImage img = new BitmapImage(Package.Current.Logo);
+            //StreamResourceInfo sri = Application.GetResourceStream(Package.Current.Logo);
 
-            BitmapImage img = new BitmapImage();
-            img.SetSource(sri.Stream);
+            //BitmapImage img = new BitmapImage();
+            //img.SetSource(sri.Stream);
 
             WriteableBitmap wb = new WriteableBitmap(img);
             int rgb = wb.Pixels[0];
