@@ -94,7 +94,7 @@
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand\lib\win81\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_APP</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
@@ -103,6 +103,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <GenerateLibraryLayout>true</GenerateLibraryLayout>
+    <DocumentationFile>..\..\NuGet\InTheHand\lib\win81\InTheHand.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\AppxManifest.cs">
