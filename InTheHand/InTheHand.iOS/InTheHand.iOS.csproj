@@ -111,6 +111,9 @@
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
+      <Link>Foundation\Collections\IObservableMap.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
     </Compile>

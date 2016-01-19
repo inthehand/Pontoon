@@ -169,7 +169,7 @@ namespace InTheHand.System.Power
             }
         }
 #elif __IOS__
-        private static void BatteryLevelDidChangeHandler(object sender, Foundation.NSNotificationEventArgs e)
+        private static void BatteryLevelDidChangeHandler(object sender, global::Foundation.NSNotificationEventArgs e)
         {
             if(_remainingChargePercentChanged != null)
             {

@@ -10,6 +10,8 @@ using Microsoft.Phone.Controls;
 using InTheHand.ApplicationModel;
 using InTheHand.UI.Popups;
 using InTheHand.UI.ApplicationSettings;
+using Windows.Storage;
+using System.IO;
 
 namespace InTheHandUI.ApplicationSettings
 {
@@ -21,35 +23,39 @@ namespace InTheHandUI.ApplicationSettings
         {
             InitializeComponent();
 
-            BitmapImage img = new BitmapImage(Package.Current.Logo);
-            //StreamResourceInfo sri = Application.GetResourceStream(Package.Current.Logo);
-
-            //BitmapImage img = new BitmapImage();
-            //img.SetSource(sri.Stream);
-
-            WriteableBitmap wb = new WriteableBitmap(img);
-            int rgb = wb.Pixels[0];
-
-            byte r, g, b;
-            r = (byte)((rgb & 0xFF0000) >> 16);
-            g = (byte)((rgb & 0xFF00) >> 8);
-            b = (byte)(rgb & 0xFF);
-
-            Color chrome = (Color)Application.Current.Resources["PhoneBackgroundColor"];
-            r = (byte)((int)(r + (3 * chrome.R)) / 4);
-            g = (byte)((int)(g + (3 * chrome.G)) / 4);
-            b = (byte)((int)(b + (3 * chrome.B)) / 4);
-            Color c = Color.FromArgb(0xff, r, g, b);
-            SolidColorBrush brush = new SolidColorBrush(c);
-            LayoutRoot.Background = brush;
-            Microsoft.Phone.Shell.SystemTray.BackgroundColor = c;
+            
 
             this.Loaded += SettingsPage_Loaded;
         }
 
-        void SettingsPage_Loaded(object sender, RoutedEventArgs e)
+        async void SettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            SettingsHeader.Text = InTheHandUI.Strings.Resources.Settings.ToLower();
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(Package.Current.Logo);
+            using (var stream = await file.OpenStreamForReadAsync())
+            {
+                BitmapImage bmp = new BitmapImage();
+                bmp.CreateOptions = BitmapCreateOptions.None;
+                bmp.SetSource(stream);
+
+                WriteableBitmap wb = new WriteableBitmap(bmp);
+                int rgb = wb.Pixels[0];
+
+                byte r, g, b;
+                r = (byte)((rgb & 0xFF0000) >> 16);
+                g = (byte)((rgb & 0xFF00) >> 8);
+                b = (byte)(rgb & 0xFF);
+
+                Color chrome = (Color)Application.Current.Resources["PhoneBackgroundColor"];
+                r = (byte)((int)(r + (3 * chrome.R)) / 4);
+                g = (byte)((int)(g + (3 * chrome.G)) / 4);
+                b = (byte)((int)(b + (3 * chrome.B)) / 4);
+                Color c = Color.FromArgb(0xff, r, g, b);
+                SolidColorBrush brush = new SolidColorBrush(c);
+                LayoutRoot.Background = brush;
+                Microsoft.Phone.Shell.SystemTray.BackgroundColor = c;
+
+            }
+                SettingsHeader.Text = InTheHandUI.Strings.Resources.Settings.ToLower();
 
             AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName.ToUpper();
 

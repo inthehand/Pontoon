@@ -9,6 +9,7 @@ using global::System.Collections;
 using global::System.Collections.Generic;
 using global::System.Collections.Specialized;
 using global::System.Collections.ObjectModel;
+using InTheHand.Foundation.Collections;
 #if __ANDROID__
 using Android.Content;
 using Android.Preferences;
@@ -26,7 +27,10 @@ namespace InTheHand.Storage
     /// <summary>
     /// Provides access to the settings in a settings container.
     /// </summary>
-    public sealed class ApplicationDataContainerSettings : IDictionary<string,object>, IEnumerable<KeyValuePair<string,object>>
+    public sealed class ApplicationDataContainerSettings : IDictionary<string, object>, IEnumerable<KeyValuePair<string, object>>, InTheHand.Foundation.Collections.IObservableMap<string, object>
+#if __ANDROID__
+        , ISharedPreferencesOnSharedPreferenceChangeListener
+#endif
     {
         internal ApplicationDataContainerSettings()
         {
@@ -43,10 +47,56 @@ namespace InTheHand.Storage
 #endif
         }
 
+
+        private event InTheHand.Foundation.Collections.MapChangedEventHandler<string, object> _mapChanged;
+        public event InTheHand.Foundation.Collections.MapChangedEventHandler<string, object> MapChanged
+        {
+            add
+            {
+                if (_mapChanged == null)
+                {
+#if __ANDROID__
+                    _preferences.RegisterOnSharedPreferenceChangeListener(this);
+#elif __IOS__
+                    NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
+                    {
+                        if (_mapChanged != null)
+                        {
+                            _mapChanged(this, new ApplicationDataMapChangedEventArgs(n.Name));
+                        }
+                    });
+#endif
+                }
+                _mapChanged += value;
+            }
+            remove
+            {
+                _mapChanged -= value;
+
+                if(_mapChanged == null)
+                {
+#if __ANDROID__
+                    _preferences.UnregisterOnSharedPreferenceChangeListener(this);
+#endif
+                }
+            }
+        }
+
 #if __ANDROID__
         private ISharedPreferences _preferences;
+
+        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        {
+            if(_mapChanged != null)
+            {
+                _mapChanged(this, new ApplicationDataMapChangedEventArgs(key));
+            }
+        }
 #elif __IOS__
         private NSUserDefaults _defaults;
+
+
+
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
         private IPropertySet _settings;
 #elif WINDOWS_PHONE
@@ -69,7 +119,7 @@ namespace InTheHand.Storage
 
 #endif
 
-        #region IDictionary<string,object> Members
+#region IDictionary<string,object> Members
 
         /// <summary>
         /// Adds an item to the <see cref="ApplicationDataContainerSettings"/>. 
@@ -467,9 +517,9 @@ namespace InTheHand.Storage
             }
         }
 
-        #endregion
+#endregion
 
-        #region ICollection<KeyValuePair<string,object>> Members
+#region ICollection<KeyValuePair<string,object>> Members
 
         /// <summary>
         /// Adds a new key-value pair to the ApplicationDataContainerSettings. 
@@ -577,6 +627,14 @@ namespace InTheHand.Storage
             get { return false; }
         }
 
+        public IntPtr Handle
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         /// <summary>
         /// Removes a specific key-value pair from the <see cref="ApplicationDataContainerSettings"/>. 
         /// </summary>
@@ -587,9 +645,9 @@ namespace InTheHand.Storage
             return Remove(item.Key);
         }
 
-        #endregion
+#endregion
 
-        #region IEnumerable<KeyValuePair<string,object>> Members
+#region IEnumerable<KeyValuePair<string,object>> Members
 
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string,object>>.GetEnumerator()
         {
@@ -613,7 +671,42 @@ namespace InTheHand.Storage
 #endif
         }
 
-#endregion
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~ApplicationDataContainerSettings() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
+        #endregion
     }
 
     internal sealed class ApplicationDataContainerEnumerator : IEnumerator<KeyValuePair<string, object>>
@@ -818,4 +911,26 @@ namespace InTheHand.Storage
         }
     }
 #endif
+
+    internal sealed class ApplicationDataMapChangedEventArgs : InTheHand.Foundation.Collections.IMapChangedEventArgs<string>
+    {
+        public ApplicationDataMapChangedEventArgs(string key)
+        {
+            this.Key = key;
+        }
+
+        public InTheHand.Foundation.Collections.CollectionChange CollectionChange
+        {
+            get
+            {
+                return InTheHand.Foundation.Collections.CollectionChange.Reset;
+            }
+        }
+
+        public string Key
+        {
+            get;
+            private set;
+        }
+    }
 }
