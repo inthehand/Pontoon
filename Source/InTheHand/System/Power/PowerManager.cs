@@ -103,9 +103,10 @@ namespace InTheHand.System.Power
                 }
                 else
                 {
-                    NativeMethods.SYSTEM_POWER_STATUS status;
+                    return 0;
+                    /*NativeMethods.SYSTEM_POWER_STATUS status;
                     bool success = NativeMethods.GetSystemPowerStatus(out status);
-                    return status.BatteryLifePercent;
+                    return status.BatteryLifePercent;*/
                 }
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _battery.RemainingChargePercent;
@@ -194,7 +195,8 @@ namespace InTheHand.System.Power
                 }
                 else
                 {
-                    NativeMethods.SYSTEM_POWER_STATUS status;
+                    return TimeSpan.MinValue;
+                    /*NativeMethods.SYSTEM_POWER_STATUS status;
                     bool success = NativeMethods.GetSystemPowerStatus(out status);
                     int seconds = status.BatteryLifeTime;
                     if (seconds == -1)
@@ -202,12 +204,12 @@ namespace InTheHand.System.Power
                         return TimeSpan.Zero;
                     }
 
-                    return TimeSpan.FromSeconds(seconds);
+                    return TimeSpan.FromSeconds(seconds);*/
                 }
             }
         }
 
-        private static class NativeMethods
+        /*private static class NativeMethods
         {
             [global::System.Runtime.InteropServices.DllImport("kernel32.dll")]
             internal static extern bool GetSystemPowerStatus(out SYSTEM_POWER_STATUS lpSystemPowerStatus);
@@ -221,7 +223,7 @@ namespace InTheHand.System.Power
                 public int BatteryLifeTime;
                 public int BatteryFullLifeTime;
             }
-        }
+        }*/
 #endif
     }
 

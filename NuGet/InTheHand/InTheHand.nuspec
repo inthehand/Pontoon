@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
     <metadata>
         <id>InTheHand</id>
-        <version>9.2016.01.14</version>
+        <version>9.2016.01.19</version>
         <authors>Peter Foot</authors>
         <owners>peterfoot</owners>
         <licenseUrl>https://github.com/inthehand/Charming/blob/master/License.txt</licenseUrl>
