@@ -58,7 +58,7 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP || WINDOWS_UWP
                 return _packageId.FullName;
 #elif WINDOWS_PHONE
-                return Package.Current._appManifest.FullName;
+                return Package.Current._appManifest.ProductID;
 #else
                 throw new PlatformNotSupportedException();
 #endif

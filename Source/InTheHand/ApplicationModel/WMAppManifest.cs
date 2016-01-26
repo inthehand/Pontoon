@@ -40,10 +40,7 @@ namespace InTheHand.ApplicationModel
 
                 if (xr.ReadToDescendant("App"))
                 {
-                    if (!IsSilverlight81)
-                    {
-                        FullName = xr["ProductID"];
-                    }
+                    ProductID = xr["ProductID"];
                     DisplayName = xr["Title"];
                     Description = xr["Description"];
 
@@ -225,7 +222,7 @@ namespace InTheHand.ApplicationModel
             private set;
         }
 
-        public string FullName
+        public string ProductID
         {
             get;
             private set;

@@ -29,6 +29,9 @@ namespace InTheHand.ApplicationModel.Store
             {
 #if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
                 return Windows.ApplicationModel.Store.CurrentApp.AppId;
+#elif WINDOWS_PHONE
+                // for Silverlight the FullName is a guid
+                return new Guid(Package.Current._appManifest.ProductID);
 #else
                 return Guid.Empty;
 #endif
