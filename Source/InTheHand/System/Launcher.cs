@@ -40,7 +40,7 @@ namespace InTheHand.System
 #elif __IOS__
             return Task.Run<bool>(() =>
             {
-                return UIKit.UIApplication.SharedApplication.OpenUrl(new Foundation.NSUrl(uri.ToString()));
+                return UIKit.UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             return Windows.System.Launcher.LaunchUriAsync(uri).AsTask<bool>();

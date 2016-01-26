@@ -62,14 +62,14 @@ namespace InTheHand.ApplicationModel.Calls
             }
             else
             {
-                Foundation.NSUrl url = null;
+                global::Foundation.NSUrl url = null;
                 if (promptUser)
                 {
-                    url = new Foundation.NSUrl("telprompt:" + CleanPhoneNumber(phoneNumber));
+                    url = new global::Foundation.NSUrl("telprompt:" + CleanPhoneNumber(phoneNumber));
                 }
                 else
                 {
-                    url = new Foundation.NSUrl("tel:" + CleanPhoneNumber(phoneNumber));
+                    url = new global::Foundation.NSUrl("tel:" + CleanPhoneNumber(phoneNumber));
                 }
                 
                 UIKit.UIApplication.SharedApplication.OpenUrl(url);
