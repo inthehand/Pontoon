@@ -4,6 +4,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+
 namespace InTheHand.Foundation.Collections
 {
     /// <summary>
@@ -43,6 +45,14 @@ namespace InTheHand.Foundation.Collections
         /// Gets the key of the item that changed.
         /// </summary>
         K Key { get; }
+    }
+
+    /// <summary>
+    /// Represents a collection of key-value pairs, correlating several other collection interfaces.
+    /// </summary>
+    public interface IPropertySet : IObservableMap<string, object>, IDictionary<string, object>, IEnumerable<KeyValuePair<string,object>>
+    {
+
     }
 
     /// <summary>

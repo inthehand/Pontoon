@@ -11,11 +11,11 @@ using global::System.Collections.Specialized;
 using global::System.Collections.ObjectModel;
 using InTheHand.Foundation.Collections;
 #if __ANDROID__
+using Android.App;
 using Android.Content;
 using Android.Preferences;
 #elif WINDOWS_PHONE
 using System.IO.IsolatedStorage;
-using Windows.Foundation.Collections;
 #elif __IOS__
 using Foundation;
 using global::System.Globalization;
@@ -27,15 +27,16 @@ namespace InTheHand.Storage
     /// <summary>
     /// Provides access to the settings in a settings container.
     /// </summary>
-    public sealed class ApplicationDataContainerSettings : IDictionary<string, object>, IEnumerable<KeyValuePair<string, object>>, InTheHand.Foundation.Collections.IObservableMap<string, object>
+    public sealed class ApplicationDataContainerSettings :
 #if __ANDROID__
-        , ISharedPreferencesOnSharedPreferenceChangeListener
+        Java.Lang.Object, ISharedPreferencesOnSharedPreferenceChangeListener, 
 #endif
+        IPropertySet, IDictionary<string, object>, IEnumerable<KeyValuePair<string, object>>, IObservableMap<string, object>
     {
         internal ApplicationDataContainerSettings()
         {
 #if __ANDROID__
-            _preferences = PreferenceManager.GetDefaultSharedPreferences(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
+            _preferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _settings = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
 #elif WINDOWS_PHONE
@@ -47,9 +48,11 @@ namespace InTheHand.Storage
 #endif
         }
 
-
-        private event InTheHand.Foundation.Collections.MapChangedEventHandler<string, object> _mapChanged;
-        public event InTheHand.Foundation.Collections.MapChangedEventHandler<string, object> MapChanged
+        private event MapChangedEventHandler<string, object> _mapChanged;
+        /// <summary>
+        /// Occurs when the map changes.
+        /// </summary>
+        public event MapChangedEventHandler<string, object> MapChanged
         {
             add
             {
@@ -58,11 +61,12 @@ namespace InTheHand.Storage
 #if __ANDROID__
                     _preferences.RegisterOnSharedPreferenceChangeListener(this);
 #elif __IOS__
-                    NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
+                    _observer = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
                     {
                         if (_mapChanged != null)
                         {
-                            _mapChanged(this, new ApplicationDataMapChangedEventArgs(n.Name));
+                            // indicate a reset change (because we can't determine the specific key)
+                            _mapChanged(this, new ApplicationDataMapChangedEventArgs());
                         }
                     });
 #endif
@@ -95,10 +99,11 @@ namespace InTheHand.Storage
 #elif __IOS__
         private NSUserDefaults _defaults;
 
+        private NSObject _observer;
 
 
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
-        private IPropertySet _settings;
+        private Windows.Foundation.Collections.IPropertySet _settings;
 #elif WINDOWS_PHONE
         private IsolatedStorageSettings applicationSettings;
 
@@ -627,14 +632,6 @@ namespace InTheHand.Storage
             get { return false; }
         }
 
-        public IntPtr Handle
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         /// <summary>
         /// Removes a specific key-value pair from the <see cref="ApplicationDataContainerSettings"/>. 
         /// </summary>
@@ -671,42 +668,7 @@ namespace InTheHand.Storage
 #endif
         }
 
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~ApplicationDataContainerSettings() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
-        }
-        #endregion
-
-        #endregion
+#endregion
     }
 
     internal sealed class ApplicationDataContainerEnumerator : IEnumerator<KeyValuePair<string, object>>
@@ -912,18 +874,22 @@ namespace InTheHand.Storage
     }
 #endif
 
-    internal sealed class ApplicationDataMapChangedEventArgs : InTheHand.Foundation.Collections.IMapChangedEventArgs<string>
+    internal sealed class ApplicationDataMapChangedEventArgs : IMapChangedEventArgs<string>
     {
+        public ApplicationDataMapChangedEventArgs()
+        {
+        }
+
         public ApplicationDataMapChangedEventArgs(string key)
         {
             this.Key = key;
         }
 
-        public InTheHand.Foundation.Collections.CollectionChange CollectionChange
+        public CollectionChange CollectionChange
         {
             get
             {
-                return InTheHand.Foundation.Collections.CollectionChange.Reset;
+                return CollectionChange.Reset;
             }
         }
 

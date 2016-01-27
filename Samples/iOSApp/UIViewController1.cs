@@ -31,6 +31,11 @@ namespace ApplicationModel.iOS
                 await Task.Delay(3000);
                 BeginInvokeOnMainThread(async () =>
                 {
+                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
+                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
+                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
+                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
+
                     MessageDialog md = new MessageDialog("test", "Title");
                     UICommand oneC = new UICommand("One", null);
                     UICommand twoC = new UICommand("Two", null);
@@ -41,6 +46,11 @@ namespace ApplicationModel.iOS
                     bool success = chosen == oneC;
                 });
             });
+        }
+
+        private void Values_MapChanged(InTheHand.Foundation.Collections.IObservableMap<string, object> sender, InTheHand.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)
+        {
+            System.Diagnostics.Debug.WriteLine(eventArgs.CollectionChange.ToString() + " " + eventArgs.Key);
         }
     }
 

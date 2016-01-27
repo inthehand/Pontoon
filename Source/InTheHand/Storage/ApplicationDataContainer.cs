@@ -1,14 +1,10 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ApplicationDataContainer.cs" company="In The Hand Ltd">
-//     Copyright (c) 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright (c) 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-#if WINDOWS_PHONE
-using Windows.Foundation.Collections;
-#endif
+using InTheHand.Foundation.Collections;
 
 namespace InTheHand.Storage
 {
@@ -28,7 +24,7 @@ namespace InTheHand.Storage
         /// Gets an object that represents the settings in this settings container.
         /// </summary>
         /// <value>The settings map object.</value>
-        public IDictionary<string, object> Values
+        public IPropertySet Values
         {
             get
             {

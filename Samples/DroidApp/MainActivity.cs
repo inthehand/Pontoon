@@ -29,7 +29,12 @@ namespace DroidApp
             // Get our button from the layout resource,
             // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.MyButton);
-            
+
+            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
+            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
+            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
+            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
+
             button.Click += new EventHandler(async (s,e)=> { button.Text = string.Format("{0} clicks!", count++);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.FullName);
@@ -60,6 +65,11 @@ namespace DroidApp
                     //System.Diagnostics.Debug.WriteLine("Hello Android Dismissed");
                 //});
             });
+        }
+
+        private void Values_MapChanged(InTheHand.Foundation.Collections.IObservableMap<string, object> sender, InTheHand.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)
+        {
+            System.Diagnostics.Debug.WriteLine(eventArgs.CollectionChange.ToString() + " " + eventArgs.Key);
         }
 
         private void MainActivity_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
