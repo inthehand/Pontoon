@@ -13,12 +13,12 @@
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
-                <AppBarButton Label="Share" Click="AppBarButton_Click">
+                <AppBarButton Label="{CustomResource ShareLabel}" Click="AppBarButton_Click">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Label="Settings" Click="AppBarButton_Click_1" Icon="Setting" />
+                <AppBarButton Label="{CustomResource SettingLabel}" Click="AppBarButton_Click_1" Icon="Setting" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

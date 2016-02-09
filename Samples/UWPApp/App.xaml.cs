@@ -32,6 +32,7 @@ namespace UWPApp
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
+            Windows.UI.Xaml.Resources.CustomXamlResourceLoader.Current = new InTheHand.UI.Xaml.Resources.WindowsXamlResourceLoader();
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
