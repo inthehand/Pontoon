@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
-    <metadata minClientVersion="2.8.1">
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
         <id>InTheHand</id>
-        <version>9.2016.01.27</version>
-		<title>Cross Platform application metadata and common tasks</title>
+        <version>9.2016.02.11</version>
         <authors>Peter Foot</authors>
         <owners>peterfoot</owners>
         <licenseUrl>https://github.com/inthehand/Charming/blob/master/License.txt</licenseUrl>
@@ -11,11 +10,10 @@
         <iconUrl>https://avatars3.githubusercontent.com/u/11249648</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>Cross Platform application metadata and common tasks</description>
-		<summary>Cross Platform application metadata and common tasks</summary>
         <copyright>Copyright 2016 In The Hand Ltd</copyright>
         <tags>windows, ios, android, xamarin, uwp, wp8, wp81, wpa81, pcl</tags>
-		<dependencies>
-            <group targetFramework="MonoAndroid10">
+	<dependencies>
+            <group targetFramework="MonoAndroid1.0">
                 <dependency id="Plugin.CurrentActivity" version="1.0.1" />
             </group>
         </dependencies>
