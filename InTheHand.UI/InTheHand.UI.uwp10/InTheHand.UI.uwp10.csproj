@@ -36,7 +36,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
-    <DocumentationFile>..\..\NuGet\InTheHand.UI\lib\uwp10.0\InTheHand.UI.XML</DocumentationFile>
+    <DocumentationFile>..\..\NuGet\InTheHand.UI\lib\uap10.0\InTheHand.UI.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
