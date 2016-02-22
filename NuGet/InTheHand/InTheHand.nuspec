@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
-    <metadata>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+    <metadata minClientVersion="2.8.1">
         <id>InTheHand</id>
-        <version>9.2016.02.11</version>
+        <version>9.2016.2.23-pre</version>
+	<title>InTheHand (Charming Apps)</title>
         <authors>Peter Foot</authors>
         <owners>peterfoot</owners>
         <licenseUrl>https://github.com/inthehand/Charming/blob/master/License.txt</licenseUrl>
