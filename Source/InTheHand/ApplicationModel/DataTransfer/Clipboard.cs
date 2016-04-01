@@ -13,6 +13,7 @@ using Foundation;
 using UIKit;
 #elif WINDOWS_PHONE_APP || WINDOWS_APP || WINDOWS_UWP
 using Windows.ApplicationModel.DataTransfer;
+using System.Reflection;
 #endif
 
 namespace InTheHand.ApplicationModel.DataTransfer
@@ -24,6 +25,18 @@ namespace InTheHand.ApplicationModel.DataTransfer
     {
 #if __ANDROID__
         static ClipboardManager _clipboardManager = Android.App.Application.Context.GetSystemService(Context.ClipboardService) as ClipboardManager;
+#elif WINDOWS_PHONE_APP
+        private static bool _on10;
+        private static Type _type10;
+        static Clipboard()
+        {
+            //check for 10
+            _type10 = Type.GetType("Windows.ApplicationModel.DataTransfer.Clipboard, Windows, ContentType=WindowsRuntime");
+            if (_type10 != null)
+            {
+                _on10 = true;
+            }
+        }
 #endif
         /// <summary>
         /// Removes all data from the Clipboard.
@@ -36,7 +49,16 @@ namespace InTheHand.ApplicationModel.DataTransfer
             UIPasteboard.General.SetData(null, "kUTTypePlainText");
 #elif WINDOWS_UWP || WINDOWS_APP
             Windows.ApplicationModel.DataTransfer.Clipboard.Clear();
-#elif WINDOWS_PHONE_APP || WINDOWS_PHONE
+#elif WINDOWS_PHONE_APP
+            if (_on10)
+            {
+                _type10.GetRuntimeMethod("Clear", new Type[0]).Invoke(null,new object[0]);
+            }
+            else
+            {
+                global::System.Windows.Clipboard.SetText("");
+            }
+#elif WINDOWS_PHONE
             global::System.Windows.Clipboard.SetText("");
 #else
             throw new PlatformNotSupportedException();

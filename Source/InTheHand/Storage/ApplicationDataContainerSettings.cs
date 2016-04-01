@@ -89,7 +89,7 @@ namespace InTheHand.Storage
 #if __ANDROID__
         private ISharedPreferences _preferences;
 
-        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        void ISharedPreferencesOnSharedPreferenceChangeListener.OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
         {
             if(_mapChanged != null)
             {

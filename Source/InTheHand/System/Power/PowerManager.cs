@@ -3,6 +3,13 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+
+#if __ANDROID__
+using Android.Content;
+using Android.OS;
+#elif __IOS__
+using Foundation;
+#endif
 using System;
 using System.Reflection;
 
@@ -10,7 +17,7 @@ namespace InTheHand.System.Power
 {
     /// <summary>
     /// Provides information about the status of the device's battery.
-    /// <para>Not supported for apps deployed via the public Windows Store to Windows 8.1.</para>
+    /// <para>Only supported for Windows 8.1 apps when deployed to Windows 10 machines.</para>
     /// </summary>
     public static class PowerManager
     {
@@ -18,6 +25,8 @@ namespace InTheHand.System.Power
 #if __IOS__
         private static UIKit.UIDevice _device;
         private static bool _isSimulator;
+#elif __ANDROID__
+        private static BatteryManager _batteryManager;
 #elif WINDOWS_APP
         private static bool _on10 = false;
         private static Type _type10 = null;
@@ -25,7 +34,6 @@ namespace InTheHand.System.Power
         private static Windows.Phone.Devices.Power.Battery _battery = Windows.Phone.Devices.Power.Battery.GetDefault();
 #endif
 
-#if WINDOWS_APP || __IOS__
         static PowerManager()
         {
 #if __IOS__
@@ -34,6 +42,8 @@ namespace InTheHand.System.Power
             {
                 _isSimulator = true;
             }
+#elif __ANDROID__
+            _batteryManager = (BatteryManager)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Context.BatteryService);
 #elif WINDOWS_APP
             //check for 10
            _type10 = Type.GetType("Windows.System.Power.PowerManager, Windows, ContentType=WindowsRuntime");
@@ -43,20 +53,23 @@ namespace InTheHand.System.Power
             }
 #endif
         }
-#endif
 
         /// <summary>
         /// Gets the device's battery status.
         /// </summary>
+        /// <remarks>The device's battery status.</remarks>
         public static BatteryStatus BatteryStatus
         {
             get
             {
+#if WINDOWS_UWP
+                return (BatteryStatus) ((int)Windows.System.Power.PowerManager.BatteryStatus);
+#else
                 return BatteryStatus.Idle;
+#endif
             }
         }
-
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        
         /// <summary>
         /// Gets battery saver status, indicating when to save energy.
         /// </summary>
@@ -64,19 +77,22 @@ namespace InTheHand.System.Power
         {
             get
             {
+#if __IOS__
+                return NSProcessInfo.ProcessInfo.LowPowerModeEnabled ? EnergySaverStatus.On : EnergySaverStatus.Off;
+#elif WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 bool saverEnabled = Windows.Phone.System.Power.PowerManager.PowerSavingModeEnabled;
                 if (saverEnabled)
                 {
                     bool saverOn = Windows.Phone.System.Power.PowerManager.PowerSavingMode == Windows.Phone.System.Power.PowerSavingMode.On;
                     return saverOn ? EnergySaverStatus.On : EnergySaverStatus.Off;
                 }
-                else
-                {
-                    return EnergySaverStatus.Disabled;
-                }
+#elif WINDOWS_UWP
+                return (EnergySaverStatus) ((int)Windows.System.Power.PowerManager.EnergySaverStatus);
+#endif
+
+                return EnergySaverStatus.Disabled;
             }
         }
-#endif
 
         /// <summary>
         /// Gets the total percentage of charge remaining from all batteries connected to the device.
@@ -95,8 +111,9 @@ namespace InTheHand.System.Power
 
                 double percent = _device.BatteryLevel;
                 return Convert.ToInt32(percent * 100f);
+#elif __ANDROID__
+                return _manager.GetIntProperty((int)BatteryProperty.Capacity);
 #elif WINDOWS_APP
-                //TODO: add reflection support for Windows 10
                 if (_on10)
                 {
                     return (int)_type10.GetRuntimeProperty("RemainingChargePercent").GetValue(null);
@@ -141,6 +158,8 @@ namespace InTheHand.System.Power
                     }
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged += _battery_RemainingChargePercentChanged;
+#elif WINDOWS_UWP
+                    Windows.System.Power.PowerManager.RemainingChargePercentChanged += _battery_RemainingChargePercentChanged;
 #endif
                 }
                 _remainingChargePercentChanged += value;
@@ -155,26 +174,28 @@ namespace InTheHand.System.Power
                     _device.BatteryMonitoringEnabled = false;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged -= _battery_RemainingChargePercentChanged;
+#elif WINDOWS_UWP
+                    Windows.System.Power.PowerManager.RemainingChargePercentChanged -= _battery_RemainingChargePercentChanged;
 #endif
                 }
             }
         }
 #endif
 
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if __IOS__
+        private static void BatteryLevelDidChangeHandler(object sender, global::Foundation.NSNotificationEventArgs e)
+        {
+            if (_remainingChargePercentChanged != null)
+            {
+                _remainingChargePercentChanged(null, null);
+            }
+        }
+#elif WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
         private static void _battery_RemainingChargePercentChanged(object sender, object e)
         {
             if(_remainingChargePercentChanged != null)
             {
                 _remainingChargePercentChanged(null, e);
-            }
-        }
-#elif __IOS__
-        private static void BatteryLevelDidChangeHandler(object sender, global::Foundation.NSNotificationEventArgs e)
-        {
-            if(_remainingChargePercentChanged != null)
-            {
-                _remainingChargePercentChanged(null, null);
             }
         }
 #endif
@@ -236,19 +257,23 @@ namespace InTheHand.System.Power
         /// The battery or battery controller is not present.
         /// </summary>
         NotPresent = 0,
+
         /// <summary>
         /// The battery is discharging. 
         /// </summary>
         Discharging = 1,
+
         /// <summary>
         /// The battery is idle.
         /// </summary>
         Idle = 2,
+
         /// <summary>
         /// The battery is charging.
         /// </summary>
         Charging = 3,
     }
+
     /// <summary>
     /// Specifies the status of battery saver.
     /// </summary>
@@ -258,10 +283,12 @@ namespace InTheHand.System.Power
         /// Battery saver is off permanently or the device is plugged in.
         /// </summary>
         Disabled = 0,
+
         /// <summary>
         /// Battery saver is off now, but ready to turn on automatically. 
         /// </summary>
         Off = 1,
+
         /// <summary>
         /// Battery saver is on. Save energy where possible. 
         /// </summary>
