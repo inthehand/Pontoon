@@ -66,9 +66,11 @@ namespace InTheHand.Storage
                         if (_mapChanged != null)
                         {
                             // indicate a reset change (because we can't determine the specific key)
-                            _mapChanged(this, new ApplicationDataMapChangedEventArgs());
+                            _mapChanged(this, new ApplicationDataMapChangedEventArgs(null, CollectionChange.Reset));
                         }
                     });
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    _settings.MapChanged += _settings_MapChanged;
 #endif
                 }
                 _mapChanged += value;
@@ -81,11 +83,18 @@ namespace InTheHand.Storage
                 {
 #if __ANDROID__
                     _preferences.UnregisterOnSharedPreferenceChangeListener(this);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    _settings.MapChanged -= _settings_MapChanged;
 #endif
                 }
             }
         }
-
+#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private void _settings_MapChanged(Windows.Foundation.Collections.IObservableMap<string, object> sender, Windows.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)
+        {
+            _mapChanged(this, new ApplicationDataMapChangedEventArgs(eventArgs.Key, (CollectionChange)((int)eventArgs.CollectionChange)));
+        }
+#endif
 #if __ANDROID__
         private ISharedPreferences _preferences;
 
@@ -93,7 +102,7 @@ namespace InTheHand.Storage
         {
             if(_mapChanged != null)
             {
-                _mapChanged(this, new ApplicationDataMapChangedEventArgs(key));
+                _mapChanged(this, new ApplicationDataMapChangedEventArgs(key, CollectionChange.Reset));
             }
         }
 #elif __IOS__
@@ -876,21 +885,16 @@ namespace InTheHand.Storage
 
     internal sealed class ApplicationDataMapChangedEventArgs : IMapChangedEventArgs<string>
     {
-        public ApplicationDataMapChangedEventArgs()
-        {
-        }
-
-        public ApplicationDataMapChangedEventArgs(string key)
+        internal ApplicationDataMapChangedEventArgs(string key, CollectionChange change)
         {
             this.Key = key;
+            this.CollectionChange = change;
         }
 
         public CollectionChange CollectionChange
         {
-            get
-            {
-                return CollectionChange.Reset;
-            }
+            get;
+            private set;
         }
 
         public string Key

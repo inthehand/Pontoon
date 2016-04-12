@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
     <metadata>
         <id>InTheHand</id>
-        <version>9.2016.3.17</version>
+        <version>9.2016.4.7</version>
 	      <title>InTheHand (Charming Apps)</title>
         <authors>Peter Foot</authors>
         <owners>peterfoot</owners>

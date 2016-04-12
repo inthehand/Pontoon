@@ -158,6 +158,9 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
+      <Link>Foundation\Metadata\ApiInformation.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>
@@ -175,6 +178,15 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
       <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
+      <Link>Storage\ApplicationData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainer.cs">
+      <Link>Storage\ApplicationDataContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
+      <Link>Storage\ApplicationDataContainerSettings.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
       <Link>Storage\StorageFolderExtensions.cs</Link>

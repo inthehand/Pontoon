@@ -112,7 +112,7 @@ namespace InTheHand.System.Power
                 double percent = _device.BatteryLevel;
                 return Convert.ToInt32(percent * 100f);
 #elif __ANDROID__
-                return _manager.GetIntProperty((int)BatteryProperty.Capacity);
+                return _batteryManager.GetIntProperty((int)BatteryProperty.Capacity);
 #elif WINDOWS_APP
                 if (_on10)
                 {
