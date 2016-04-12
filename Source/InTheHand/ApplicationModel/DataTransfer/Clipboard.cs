@@ -6,6 +6,8 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Windows.Foundation;
 #if __ANDROID__
 using Android.Content;
 #elif __IOS__
@@ -127,21 +129,50 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
                 return package.GetView();
             }
+#elif WINDOWS_PHONE_APP
+            if(_on10)
+            {
+                var dpv = _type10.GetRuntimeMethod("GetContent", new Type[0]).Invoke(null, new object[0]) as Windows.ApplicationModel.DataTransfer.DataPackageView;
+                if(dpv != null)
+                {
+                    DataPackage package = new DataPackage();
+                    
+                    if (!string.IsNullOrEmpty(dpv.Properties.Title))
+                    {
+                        package.Properties.Title = dpv.Properties.Title;
+                    }
+                    if (!string.IsNullOrEmpty(dpv.Properties.Description))
+                    {
+                        package.Properties.Description = dpv.Properties.Description;
+                    }
+                    
+                    foreach (string format in dpv.AvailableFormats)
+                    {
+                        if (format == StandardDataFormats.ApplicationLink || format == StandardDataFormats.WebLink || format == StandardDataFormats.Text)
+                        {
+                            Task<object> t = Task.Run<object>(async () =>
+                            {
+                                return await dpv.GetDataAsync(format);
+                            });
+                            t.Wait();
+
+                            package.SetData(format, t.Result);
+                        }
+
+                    }
+
+                    return package.GetView();
+                }
+            }
 #else
             throw new PlatformNotSupportedException();
 #endif
             return null;
         }
 
-        /// <summary>
-        /// Sets the current content that is stored in the clipboard object.
-        /// </summary>
-        /// <param name="content">Contains the content of the clipboard.
-        /// If NULL, the clipboard is emptied.</param>
-
-        public async static void SetContent(DataPackage content)
+#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
+        private static async Task<Windows.ApplicationModel.DataTransfer.DataPackage> PopulateNativeDataPackageAsync(DataPackage content)
         {
-#if WINDOWS_APP || WINDOWS_UWP
             Windows.ApplicationModel.DataTransfer.DataPackage pkg = null;
 
             if (content != null)
@@ -163,7 +194,29 @@ namespace InTheHand.ApplicationModel.DataTransfer
                 }
             }
 
+            return pkg;
+        }
+#endif
+
+
+        /// <summary>
+        /// Sets the current content that is stored in the clipboard object.
+        /// </summary>
+        /// <param name="content">Contains the content of the clipboard.
+        /// If NULL, the clipboard is emptied.</param>
+
+        public async static void SetContent(DataPackage content)
+        {
+#if WINDOWS_APP || WINDOWS_UWP
+            Windows.ApplicationModel.DataTransfer.DataPackage pkg = await PopulateNativeDataPackageAsync(content);
+
             Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(pkg);
+#elif WINDOWS_PHONE_APP
+            if (_on10)
+            {
+                Windows.ApplicationModel.DataTransfer.DataPackage pkg = await PopulateNativeDataPackageAsync(content);
+                _type10.GetRuntimeMethod("SetContent", new Type[] { typeof(Windows.ApplicationModel.DataTransfer.DataPackage) }).Invoke(null, new object[] { pkg });
+            }
 #else
             string text = "";
             Uri uri = null;
@@ -214,7 +267,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
             throw new PlatformNotSupportedException();
 #endif
 #endif
-        }
+                }
 
         /// <summary>
         /// Occurs when the data stored in the Clipboard changes.
