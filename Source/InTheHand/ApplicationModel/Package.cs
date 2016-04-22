@@ -59,13 +59,15 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
         private Windows.ApplicationModel.Package _package;
 #endif
+
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
-        private AppxManifest _appxManifest;
+        internal AppxManifest _appxManifest;
 #endif
+
 #if WINDOWS_PHONE
         internal WMAppManifest _appManifest;
 #endif
-
+        
         private Package()
         {
 #if __ANDROID__
@@ -84,6 +86,7 @@ namespace InTheHand.ApplicationModel
             Logo = _appManifest.Logo;
 #endif
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
+
             _appxManifest = new AppxManifest();
             BackgroundColor = _appxManifest.BackgroundColor;
             Capabilities |= _appxManifest.Capabilities;

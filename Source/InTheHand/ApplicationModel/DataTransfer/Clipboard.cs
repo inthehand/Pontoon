@@ -7,7 +7,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Windows.Foundation;
+
 #if __ANDROID__
 using Android.Content;
 #elif __IOS__
@@ -15,6 +15,7 @@ using Foundation;
 using UIKit;
 #elif WINDOWS_PHONE_APP || WINDOWS_APP || WINDOWS_UWP
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using System.Reflection;
 #endif
 

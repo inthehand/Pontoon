@@ -43,6 +43,24 @@ namespace InTheHand.ApplicationModel
 #endif
         }
 
+
+        /// <summary>
+        /// Gets the family name of the package.
+        /// </summary>
+        /// <value>The package family name.</value>
+        public string FamilyName
+        {
+            get
+            {
+#if WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP || WINDOWS_UWP
+                return _packageId.FamilyName;
+#else
+                throw new PlatformNotSupportedException();
+#endif
+            }
+        }
+
+
         /// <summary>
         /// Gets the name of the package.
         /// </summary>
@@ -82,6 +100,18 @@ namespace InTheHand.ApplicationModel
                 return _packageId.Name;
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.DisplayName;
+#else
+                throw new PlatformNotSupportedException();
+#endif
+            }
+        }
+
+        public string ProductId
+        {
+            get
+            {
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return InTheHand.ApplicationModel.Package.Current._appxManifest.PhoneProductId.ToString();
 #else
                 throw new PlatformNotSupportedException();
 #endif

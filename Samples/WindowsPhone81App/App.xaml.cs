@@ -36,6 +36,7 @@ namespace WindowsPhone81App
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            string s = Windows.ApplicationModel.Package.Current.Id.FamilyName;
         }
 
         /// <summary>

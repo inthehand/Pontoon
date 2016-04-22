@@ -25,6 +25,16 @@ namespace InTheHand.ApplicationModel
                 XmlDocument xdoc = new XmlDocument();
                 xdoc.LoadXml(xml);
 
+                IXmlNode phoneNode = xdoc.SelectSingleNodeNS("/appx:Package/mp:PhoneIdentity", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\" xmlns:mp=\"http://schemas.microsoft.com/appx/2014/phone/manifest\"");
+                if (phoneNode != null)
+                {
+                    IXmlNode phoneIdNode = phoneNode.Attributes.GetNamedItem("PhoneProductId");
+                    if (phoneIdNode != null)
+                    {
+                        PhoneProductId = new Guid(phoneIdNode.InnerText);
+                    }
+                }
+
                 //parse xml
                 IXmlNode nameNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Properties/appx:DisplayName", "xmlns:appx=\"http://schemas.microsoft.com/appx/2010/manifest\"");
                 if (nameNode != null)
@@ -36,7 +46,9 @@ namespace InTheHand.ApplicationModel
                 {
                     PublisherDisplayName = publisherNode.InnerText;
                 }
-               
+
+                
+
                 IXmlNode visualElementsNode = xdoc.SelectSingleNodeNS("/appx:Package/appx:Applications/appx:Application/uap:VisualElements", "xmlns:appx=\"http://schemas.microsoft.com/appx/manifest/foundation/windows10\" xmlns:uap=\"http://schemas.microsoft.com/appx/manifest/uap/windows10\"");
                 if (visualElementsNode == null)
                 {
@@ -218,6 +230,12 @@ namespace InTheHand.ApplicationModel
         }
 
         public Uri Logo
+        {
+            get;
+            private set;
+        }
+
+        public Guid PhoneProductId
         {
             get;
             private set;
