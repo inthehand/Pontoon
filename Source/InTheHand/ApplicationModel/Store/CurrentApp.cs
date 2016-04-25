@@ -63,11 +63,11 @@ namespace InTheHand.ApplicationModel.Store
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store:PDP?PFN=" + Windows.ApplicationModel.Package.Current.Id.FamilyName)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store:navigate?appid=" + InTheHand.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
             }
             else
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store:navigate?appid=" + Package.Current._appxManifest.PhoneProductId.ToString())).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store:navigate?appid=" + AppId)).AsTask<bool>();
             }
 #elif WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(new Uri("zune:navigate?appid=" + AppId)).AsTask<bool>();
