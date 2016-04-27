@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="MessageDialog.cs" company="In The Hand Ltd">
-//     Copyright © 2012-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2012-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -39,6 +39,10 @@ namespace InTheHand.UI.Popups
         private const int MaxCommands = 2;
 #else
         private const int MaxCommands = 3;
+#endif
+
+#if WINDOWS_PHONE
+        private static Mutex guideMutex = new Mutex(false);
 #endif
 
 #if __ANDROID__ || __IOS__
@@ -181,6 +185,8 @@ namespace InTheHand.UI.Popups
                 contentText = contentText.Substring(0, 255);
             }
 
+            bool owns = guideMutex.WaitOne();
+
             Microsoft.Xna.Framework.GamerServices.Guide.BeginShowMessageBox(
                         string.IsNullOrEmpty(this.Title) ? " " : this.Title,
                         contentText,
@@ -190,6 +196,7 @@ namespace InTheHand.UI.Popups
                         result =>
                         {
                             int? returned = Microsoft.Xna.Framework.GamerServices.Guide.EndShowMessageBox(result);
+                            guideMutex.ReleaseMutex();
                             // process and fire the required handler
                             if (returned.HasValue)
                             {

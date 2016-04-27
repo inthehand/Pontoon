@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="SettingsPane.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -34,7 +34,9 @@ namespace InTheHand.UI.ApplicationSettings
     public sealed class SettingsPane
     {
         private static SettingsPane instance;
-
+#if WINDOWS_UWP
+        private static bool hasSettingsPane;
+#endif
         /// <summary>
         /// Gets a <see cref="SettingsPane"/> object that is associated with the current app.
         /// </summary>
@@ -43,6 +45,9 @@ namespace InTheHand.UI.ApplicationSettings
         {
             if (instance == null)
             {
+#if WINDOWS_UWP
+                hasSettingsPane = Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract", 1);
+#endif
                 instance = new SettingsPane();
             }
 
@@ -50,7 +55,7 @@ namespace InTheHand.UI.ApplicationSettings
         }
 
         internal bool showPublisher = true;
-        internal bool showAbout = true;
+        internal bool showAbout = false;
 
         private SettingsPane()
         {
@@ -75,7 +80,7 @@ namespace InTheHand.UI.ApplicationSettings
                 GetForCurrentView().showAbout = (bool)objAbout;
             }
 #if WINDOWS_UWP
-            if(Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract",1))
+            if(hasSettingsPane)
             {
 #pragma warning disable 618
                 Windows.UI.ApplicationSettings.SettingsPane.Show();
@@ -131,7 +136,7 @@ namespace InTheHand.UI.ApplicationSettings
             add
             {
 #if WINDOWS_UWP
-                if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract", 1))
+                if (hasSettingsPane)
                 {
 #endif
 #if WINDOWS_UWP || WINDOWS_APP
@@ -150,7 +155,7 @@ namespace InTheHand.UI.ApplicationSettings
             {
                 _commandsRequested -= value;
 #if WINDOWS_UWP
-                if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract", 1))
+                if (hasSettingsPane)
                 {
 #endif
 #if WINDOWS_UWP || WINDOWS_APP
@@ -173,7 +178,7 @@ namespace InTheHand.UI.ApplicationSettings
             foreach(SettingsCommand cmd in OnCommandsRequested())
             {
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.Popups.UICommandInvokedHandler(async (c)=> { InTheHand.UI.ApplicationSettings.SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.Popups.UICommandInvokedHandler((c)=> { InTheHand.UI.ApplicationSettings.SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
             }
 
 #if WINDOWS_UWP

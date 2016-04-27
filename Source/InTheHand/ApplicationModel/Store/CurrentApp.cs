@@ -63,7 +63,7 @@ namespace InTheHand.ApplicationModel.Store
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store:navigate?appid=" + InTheHand.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://pdp/?PhoneAppId=" + InTheHand.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
             }
             else
             {
@@ -89,11 +89,11 @@ namespace InTheHand.ApplicationModel.Store
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + InTheHand.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://reviewapp/?AppId=" + InTheHand.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
             }
             else
             {
-                return Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + AppId)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + AppId)).AsTask<bool>();
             }
 #elif WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(new Uri("zune:reviewapp?appid=app" + AppId)).AsTask<bool>();
