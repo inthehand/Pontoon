@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="StatusBarProgressIndicator.cs" company="In The Hand Ltd">
-//     Copyright © 2015 In The Hand Ltd. All rights reserved.
+//     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 

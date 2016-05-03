@@ -4,6 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+#if __IOS__
+using UIKit;
+#endif
+
 namespace InTheHand.Graphics.Display
 {
     /// <summary>
@@ -30,12 +34,16 @@ namespace InTheHand.Graphics.Display
 
 #if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.Graphics.Display.DisplayInformation _displayInformation;
+#elif __IOS__
+        private UIScreen _screen;
 #endif
 
         private DisplayInformation()
         {
 #if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
             _displayInformation = Windows.Graphics.Display.DisplayInformation.GetForCurrentView();
+#elif __IOS__
+            _screen = UIApplication.SharedApplication.KeyWindow.Screen;
 #endif
         }
 
@@ -52,7 +60,8 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     rawDpiX = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Xdpi;
-                    //rawDpiX = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Xdpi;
+#elif __IOS__
+                    rawDpiX = (float?)_screen.NativeScale;
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
                     rawDpiX = _displayInformation.RawDpiX;
 #elif WINDOWS_PHONE
@@ -87,8 +96,8 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     rawDpiY = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Ydpi;
-                    //rawDpiY = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Ydpi;
-
+#elif __IOS__
+                    rawDpiY = (float?)_screen.NativeScale;
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
                     rawDpiY = _displayInformation.RawDpiY;
 #elif WINDOWS_PHONE
@@ -122,7 +131,8 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     _rawPixelsPerViewPixel = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Density;
-                    //_rawPixelsPerViewPixel = Platform.Android.ContextManager.Context.Resources.DisplayMetrics.Density;
+#elif __IOS__
+                    _rawPixelsPerViewPixel = (float?)_screen.Scale;
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
                     _rawPixelsPerViewPixel = _displayInformation.RawPixelsPerViewPixel;
 #elif WINDOWS_APP || WINDOWS_PHONE
@@ -144,7 +154,7 @@ namespace InTheHand.Graphics.Display
             {
                 if (!resolutionScale.HasValue)
                 {
-#if __ANDROID__
+#if __ANDROID__ || __IOS__
                     resolutionScale = (ResolutionScale)((int)(RawPixelsPerViewPixel * 100));
 #elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
                     resolutionScale = (ResolutionScale)((int)_displayInformation.ResolutionScale);

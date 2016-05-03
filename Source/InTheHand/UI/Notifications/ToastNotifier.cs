@@ -10,6 +10,8 @@ using UIKit;
 using Windows.UI.Notifications;
 #endif
 
+using System;
+
 namespace InTheHand.UI.Notifications
 {
     /// <summary>
@@ -36,11 +38,15 @@ namespace InTheHand.UI.Notifications
         /// <param name="notification">The object that supplies the new XML definition for the toast.</param>
         public void Show(ToastNotification notification)
         {
-#if __IOS__
+#if __ANDROID__
+            notification._toast.Show();
+#elif __IOS__
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 UIApplication.SharedApplication.PresentLocalNotificationNow(notification._localNotification);
             });
+#elif WINDOWS_PHONE
+            notification._shellToast.Show();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Show(notification._notification);
 #endif
@@ -52,37 +58,49 @@ namespace InTheHand.UI.Notifications
         /// <param name="notification">The object that supplies the new XML definition for the toast.</param>
         public void Hide(ToastNotification notification)
         {
-#if __IOS__
+#if __ANDROID__
+            throw new PlatformNotSupportedException();
+#elif __IOS__
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 UIApplication.SharedApplication.CancelLocalNotification(notification._localNotification);
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Hide(notification._notification);
+#elif WINDOWS_PHONE
+            throw new PlatformNotSupportedException();
 #endif
         }
 
         public void AddToSchedule(ScheduledToastNotification scheduledToast)
         {
-#if __IOS__
+#if __ANDROID__
+            throw new PlatformNotSupportedException();
+#elif __IOS__
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 UIApplication.SharedApplication.ScheduleLocalNotification(scheduledToast._localNotification);
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.AddToSchedule(scheduledToast._notification);
+#elif WINDOWS_PHONE
+            throw new PlatformNotSupportedException();
 #endif
         }
 
         public void RemoveFromSchedule(ScheduledToastNotification scheduledToast)
         {
-#if __IOS__
+#if __ANDROID__
+            throw new PlatformNotSupportedException();
+#elif __IOS__
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 UIApplication.SharedApplication.CancelLocalNotification(scheduledToast._localNotification);
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.RemoveFromSchedule(scheduledToast._notification);
+#elif WINDOWS_PHONE
+            throw new PlatformNotSupportedException();
 #endif
         }
     }

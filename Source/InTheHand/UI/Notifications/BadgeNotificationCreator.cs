@@ -1,12 +1,14 @@
 //-----------------------------------------------------------------------
 // <copyright file="BadgeNotificationCreator.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Data.Xml.Dom;
 #endif
+
+using System;
 
 namespace InTheHand.UI.Notifications
 {
@@ -27,6 +29,8 @@ namespace InTheHand.UI.Notifications
             var badgeElements = doc.GetElementsByTagName("badge");
             badgeElements[0].Attributes[0].InnerText = value.ToString();
             return new BadgeNotification(new Windows.UI.Notifications.BadgeNotification(doc));
+#elif WINDOWS_PHONE
+            throw new PlatformNotSupportedException();
 #else
             return new BadgeNotification(value);
 #endif

@@ -82,6 +82,8 @@ namespace InTheHand.UI.Notifications
                 return _notification.Group;
 #elif __IOS__
                 return _localNotification.Category;
+#else
+                return string.Empty;
 #endif
             }
             set
@@ -107,6 +109,8 @@ namespace InTheHand.UI.Notifications
                     return ((NSNumber)_localNotification.UserInfo["SuppressPopup"]).BoolValue;
                 }
                 return false;
+#else
+                return false;
 #endif
             }
             set
@@ -131,6 +135,8 @@ namespace InTheHand.UI.Notifications
                 {
                     return ((NSString)_localNotification.UserInfo["Tag"]).ToString();
                 }
+                return string.Empty;
+#else
                 return string.Empty;
 #endif
             }

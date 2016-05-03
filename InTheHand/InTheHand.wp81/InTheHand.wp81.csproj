@@ -116,6 +116,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Resources\ResourceLoader.cs">
+      <Link>ApplicationModel\Resources\ResourceLoader.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeopositionExtensions.cs">
       <Link>Devices\Geolocation\BasicGeopositionExtensions.cs</Link>
     </Compile>

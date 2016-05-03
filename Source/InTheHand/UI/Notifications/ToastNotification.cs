@@ -4,9 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-#if __IOS__
+#if __ANDROID__
+using Android.Widget;
+#elif __IOS__
 using Foundation;
 using UIKit;
+#elif WINDOWS_PHONE
+using Microsoft.Phone.Shell;
 #endif
 
 namespace InTheHand.UI.Notifications
@@ -22,6 +26,21 @@ namespace InTheHand.UI.Notifications
         {
             _notification = notification;
         }
+#elif WINDOWS_PHONE
+        internal ShellToast _shellToast;
+
+        internal ToastNotification(ShellToast shellToast)
+        {
+            _shellToast = shellToast;
+        }
+#elif __ANDROID__
+        internal Toast _toast;
+
+        internal ToastNotification(Toast toast)
+        {
+            _toast = toast;
+        }
+        
 #elif __IOS__
         internal UILocalNotification _localNotification;
 
@@ -58,6 +77,8 @@ namespace InTheHand.UI.Notifications
                 return _notification.Group;
 #elif __IOS__
                 return _localNotification.Category;
+#else
+                return string.Empty;
 #endif
             }
             set
@@ -83,6 +104,8 @@ namespace InTheHand.UI.Notifications
                     return ((NSNumber)_localNotification.UserInfo["SuppressPopup"]).BoolValue;
                 }
                 return false;
+#else
+                return false;
 #endif
             }
             set
@@ -107,6 +130,8 @@ namespace InTheHand.UI.Notifications
                 {
                     return ((NSString)_localNotification.UserInfo["Tag"]).ToString();
                 }
+                return string.Empty;
+#else
                 return string.Empty;
 #endif
             }

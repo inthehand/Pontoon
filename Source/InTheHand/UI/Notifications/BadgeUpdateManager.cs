@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="BadgeUpdateManager.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 

@@ -214,6 +214,21 @@
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
       <Link>UI\Notifications\BadgeUpdater.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ScheduledToastNotification.cs">
+      <Link>UI\Notifications\ScheduledToastNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotification.cs">
+      <Link>UI\Notifications\ToastNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationCreator.cs">
+      <Link>UI\Notifications\ToastNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationManager.cs">
+      <Link>UI\Notifications\ToastNotificationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.cs">
+      <Link>UI\Notifications\ToastNotifier.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
       <Link>UI\Popups\IUICommand.cs</Link>
     </Compile>

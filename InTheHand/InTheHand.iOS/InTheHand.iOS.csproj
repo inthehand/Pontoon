@@ -117,6 +117,12 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
+      <Link>Graphics\Display\DisplayInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
+      <Link>Graphics\Display\ResolutionScale.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
     </Compile>

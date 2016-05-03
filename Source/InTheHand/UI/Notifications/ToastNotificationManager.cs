@@ -20,11 +20,11 @@ namespace InTheHand.UI.Notifications
         public static ToastNotifier CreateToastNotifierForApplication()
         {
             if(_notifier == null)
-            {
-#if __IOS__
-                _notifier = new ToastNotifier();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            {     
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notifier = new ToastNotifier(Windows.UI.Notifications.ToastNotificationManager.CreateToastNotifier());
+#else
+                _notifier = new ToastNotifier();
 #endif
             }
 
