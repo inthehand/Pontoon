@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InTheHand.UI.Popups;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -57,11 +58,13 @@ namespace UWPApp
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog("Message", "Title");
-            md.Commands.Add(new Windows.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
-            md.Commands.Add(new Windows.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
+           InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Message", "Title");
+            md.Commands.Add(new InTheHand.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
+            md.Commands.Add(new InTheHand.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
 
-            await md.ShowAsync();
+            IUICommand uc = await md.ShowAsync();
+            uc.Invoked.Invoke(uc);
+
             InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
         }
 

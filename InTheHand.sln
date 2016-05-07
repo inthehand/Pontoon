@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3B5D8457-1D74-475B-A704-57824705A08B}"
 	ProjectSection(SolutionItems) = preProject
@@ -610,6 +610,8 @@ Global
 		{472B168E-E363-4315-82F2-578D096D6A8B}.AppStore|x86.Build.0 = Release|x86
 		{472B168E-E363-4315-82F2-578D096D6A8B}.AppStore|x86.Deploy.0 = Release|x86
 		{472B168E-E363-4315-82F2-578D096D6A8B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{472B168E-E363-4315-82F2-578D096D6A8B}.Debug|Any CPU.Build.0 = Debug|x86
+		{472B168E-E363-4315-82F2-578D096D6A8B}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{472B168E-E363-4315-82F2-578D096D6A8B}.Debug|ARM.ActiveCfg = Debug|ARM
 		{472B168E-E363-4315-82F2-578D096D6A8B}.Debug|ARM.Build.0 = Debug|ARM
 		{472B168E-E363-4315-82F2-578D096D6A8B}.Debug|ARM.Deploy.0 = Debug|ARM

@@ -29,7 +29,22 @@ namespace Silverlight81App
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.UI.ApplicationSettings.SettingsPane.Show();
+            InTheHand.UI.Popups.MessageDialog md1 = new InTheHand.UI.Popups.MessageDialog("hello1");
+            md1.Commands.Add(new InTheHand.UI.Popups.UICommand("one", async (c) =>
+            {
+                InTheHand.UI.Popups.MessageDialog md3 = new InTheHand.UI.Popups.MessageDialog("hello3");
+                await md3.ShowAsync();
+            }));
+            md1.ShowAsync();
+
+            InTheHand.UI.Popups.MessageDialog md2 = new InTheHand.UI.Popups.MessageDialog("hello2");
+            md2.Commands.Add(new InTheHand.UI.Popups.UICommand("two", async (c) =>
+            {
+                InTheHand.UI.Popups.MessageDialog md4 = new InTheHand.UI.Popups.MessageDialog("hello4");
+                await md4.ShowAsync();
+            }));
+            md2.ShowAsync();
+
         }
 
         // Sample code for building a localized ApplicationBar

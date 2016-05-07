@@ -41,10 +41,6 @@ namespace InTheHand.UI.Popups
         private const int MaxCommands = 3;
 #endif
 
-#if WINDOWS_PHONE
-        private static Mutex guideMutex = new Mutex(false);
-#endif
-
 #if __ANDROID__ || __IOS__
         EventWaitHandle handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         IUICommand _selectedCommand;
@@ -184,9 +180,11 @@ namespace InTheHand.UI.Popups
             {
                 contentText = contentText.Substring(0, 255);
             }
-
-            bool owns = guideMutex.WaitOne();
-
+            
+            while(Microsoft.Xna.Framework.GamerServices.Guide.IsVisible)
+            {
+                Thread.Sleep(250);
+            }
             Microsoft.Xna.Framework.GamerServices.Guide.BeginShowMessageBox(
                         string.IsNullOrEmpty(this.Title) ? " " : this.Title,
                         contentText,
@@ -196,7 +194,7 @@ namespace InTheHand.UI.Popups
                         result =>
                         {
                             int? returned = Microsoft.Xna.Framework.GamerServices.Guide.EndShowMessageBox(result);
-                            guideMutex.ReleaseMutex();
+                            
                             // process and fire the required handler
                             if (returned.HasValue)
                             {
@@ -286,13 +284,24 @@ namespace InTheHand.UI.Popups
                 Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog(this.Content, this.Title);
                 foreach (IUICommand command in this.Commands)
                 {
-                    dialog.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, null, command.Id));
+                    dialog.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, (c)=> { command.Invoked(command); }, command.Id));
                 }
                 return Task.Run<IUICommand>(async () => {
                     Windows.UI.Popups.IUICommand command = await dialog.ShowAsync();
                     if (command != null)
                     {
-                        return new UICommand(command.Label, null, command.Id);
+                        int i = 0;
+                        foreach(Windows.UI.Popups.IUICommand c in dialog.Commands)
+                        {
+                            if(command == c)
+                            {
+                                break;
+                            }
+
+                            i++;
+                        }
+
+                        return this.Commands[i];
                     }
                     return null;
                 });
