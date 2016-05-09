@@ -38,7 +38,7 @@ namespace InTheHand.UI.Notifications
 #elif WINDOWS_PHONE
             return new ToastNotification(new Microsoft.Phone.Shell.ShellToast() { Title = title, Content = content });
 #elif __ANDROID__
-            Toast toast = Toast.MakeText(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity, title + "\r\n" + content, ToastLength.Short);
+            Toast toast = Toast.MakeText(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity, title + "\r\n" + content, ToastLength.Long);
             return new ToastNotification(toast);
 #elif __IOS__
             UILocalNotification localNotification = new UILocalNotification();

@@ -17,9 +17,7 @@ namespace DroidApp
         int count = 1;
 
         protected override void OnCreate(Bundle bundle)
-        {
-            //InTheHand.Platform.Android.ContextManager.SetCurrentContext(this);
-
+        {            
             base.OnCreate(bundle);
 
             // Set our view from the "main" layout resource
@@ -48,6 +46,10 @@ namespace DroidApp
                 md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
                 md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
                 await md.ShowAsync();
+                
+
+               
+
                 // InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
                 //Task.Run(async () =>
                 //{
@@ -65,6 +67,10 @@ namespace DroidApp
                     //System.Diagnostics.Debug.WriteLine("Hello Android Dismissed");
                 //});
             });
+
+            InTheHand.UI.Notifications.ToastNotifier n = InTheHand.UI.Notifications.ToastNotificationManager.CreateToastNotifierForApplication();
+            var notification = InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title");
+            n.Show(notification);
         }
 
         private void Values_MapChanged(InTheHand.Foundation.Collections.IObservableMap<string, object> sender, InTheHand.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)

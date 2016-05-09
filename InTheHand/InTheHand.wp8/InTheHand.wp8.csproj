@@ -218,11 +218,17 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
+      <Link>System\Display\DisplayRequest.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
       <Link>System\Launcher.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\LauncherOptions.cs">
       <Link>System\LauncherOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
+      <Link>System\Power\PowerManager.cs</Link>
     </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
