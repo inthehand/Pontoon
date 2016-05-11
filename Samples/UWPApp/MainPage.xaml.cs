@@ -39,6 +39,7 @@ namespace UWPApp
 
             InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
 
+            Windows.Devices.Enumeration.DeviceInformationPairing dip;
             Task.Run(async () => {
                 await Task.Delay(1000);
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
