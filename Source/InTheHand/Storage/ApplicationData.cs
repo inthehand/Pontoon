@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ApplicationData.cs" company="In The Hand Ltd">
-//     Copyright © 2013-14 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -25,7 +25,8 @@ namespace InTheHand.Storage
             }
         }
 
-        private ApplicationDataContainer localSettings = new ApplicationDataContainer();
+        private ApplicationDataContainer localSettings;
+        private ApplicationDataContainer roamingSettings;
 
         private ApplicationData()
         {
@@ -39,7 +40,36 @@ namespace InTheHand.Storage
         {
             get
             {
+                if(localSettings == null)
+                {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    localSettings = new ApplicationDataContainer(Windows.Storage.ApplicationData.Current.LocalSettings);
+#else
+                    localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local);
+#endif
+                }
+
                 return localSettings;
+            }
+        }
+
+        /// <summary>
+        /// Gets the application settings container in the local app data store.
+        /// </summary>
+        /// <value>The application settings container.</value>
+        public ApplicationDataContainer RoamingSettings
+        {
+            get
+            {
+                if (roamingSettings == null)
+                {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    roamingSettings = new ApplicationDataContainer(Windows.Storage.ApplicationData.Current.RoamingSettings);
+#else
+                    roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming);
+#endif
+                }
+                return roamingSettings;
             }
         }
     }

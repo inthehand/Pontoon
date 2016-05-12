@@ -33,20 +33,46 @@ namespace InTheHand.Storage
 #endif
         IPropertySet, IDictionary<string, object>, IEnumerable<KeyValuePair<string, object>>, IObservableMap<string, object>
     {
-        internal ApplicationDataContainerSettings()
+#if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+
+        internal ApplicationDataContainerSettings(Windows.Foundation.Collections.IPropertySet containerSettings)
         {
+            _settings = containerSettings;
+        }
+#else
+        private ApplicationDataLocality _locality;
+
+        internal ApplicationDataContainerSettings(ApplicationDataLocality locality)
+        {
+            _locality = locality;
 #if __ANDROID__
             _preferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
-#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            _settings = Windows.Storage.ApplicationData.Current.LocalSettings.Values;
 #elif WINDOWS_PHONE
             applicationSettings = global::System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Deactivated += Current_Deactivated;
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Closing += Current_Closing;
 #elif __IOS__
-            _defaults = NSUserDefaults.StandardUserDefaults;
+            if (locality == ApplicationDataLocality.Roaming)
+            {
+                _store = NSUbiquitousKeyValueStore.DefaultStore;
+            }
+            else
+            {
+                _defaults = NSUserDefaults.StandardUserDefaults;
+            }
 #endif
         }
+
+        private bool IsRoaming
+        {
+            get
+            {
+                return _locality == ApplicationDataLocality.Roaming;
+            }
+        }
+#endif
+
+
 
         private event MapChangedEventHandler<string, object> _mapChanged;
         /// <summary>
@@ -61,15 +87,18 @@ namespace InTheHand.Storage
 #if __ANDROID__
                     _preferences.RegisterOnSharedPreferenceChangeListener(this);
 #elif __IOS__
-                    _observer = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
+                    if (!IsRoaming)
                     {
-                        if (_mapChanged != null)
+                        _observer = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
                         {
+                            if (_mapChanged != null)
+                            {
                             // indicate a reset change (because we can't determine the specific key)
                             _mapChanged(this, new ApplicationDataMapChangedEventArgs(null, CollectionChange.Reset));
-                        }
-                    });
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                            }
+                        });
+                    }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     _settings.MapChanged += _settings_MapChanged;
 #endif
                 }
@@ -83,13 +112,13 @@ namespace InTheHand.Storage
                 {
 #if __ANDROID__
                     _preferences.UnregisterOnSharedPreferenceChangeListener(this);
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     _settings.MapChanged -= _settings_MapChanged;
 #endif
                 }
             }
         }
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private void _settings_MapChanged(Windows.Foundation.Collections.IObservableMap<string, object> sender, Windows.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)
         {
             _mapChanged(this, new ApplicationDataMapChangedEventArgs(eventArgs.Key, (CollectionChange)((int)eventArgs.CollectionChange)));
@@ -107,6 +136,7 @@ namespace InTheHand.Storage
         }
 #elif __IOS__
         private NSUserDefaults _defaults;
+        private NSUbiquitousKeyValueStore _store;
 
         private NSObject _observer;
 
@@ -217,8 +247,15 @@ namespace InTheHand.Storage
 #elif WINDOWS_PHONE
             return applicationSettings.Contains(key);
 #elif __IOS__
-            // TODO: see if there is a more efficient way of checking the key exists
-            return _defaults.ValueForKey(new NSString(key)) != null;
+            if (IsRoaming)
+            {
+                return _store.ValueForKey(new NSString(key)) != null;
+            }
+            else
+            {
+                // TODO: see if there is a more efficient way of checking the key exists
+                return _defaults.ValueForKey(new NSString(key)) != null;
+            }
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -266,7 +303,14 @@ namespace InTheHand.Storage
             bool removed = applicationSettings.Remove(key);
 #elif __IOS__
             bool removed = true;
-            _defaults.RemoveObject(key);
+            if (IsRoaming)
+            {
+                _store.Remove(key);
+            }
+            else
+            {
+                _defaults.RemoveObject(key);
+            }
 #else
             bool removed = false;
             throw new PlatformNotSupportedException();
@@ -336,7 +380,15 @@ namespace InTheHand.Storage
 #elif WINDOWS_PHONE
             return applicationSettings.TryGetValue<object>(key, out value);
 #elif __IOS__
-            NSObject obj = _defaults.ValueForKey(new NSString(key));
+            NSObject obj = null;
+            if (IsRoaming)
+            {
+                obj = _store.ValueForKey(new NSString(key));
+            }
+            else
+            {
+                obj = _defaults.ValueForKey(new NSString(key));
+            }
             value = IOSTypeConverter.ConvertToObject(obj);
             return obj != null;
 #else
@@ -405,7 +457,7 @@ namespace InTheHand.Storage
                     genericValues.Add(value);
                 }
 #else
-                throw new PlatformNotSupportedException();
+                //throw new PlatformNotSupportedException();
 #endif
                 return genericValues;
             }
@@ -458,7 +510,15 @@ namespace InTheHand.Storage
                 
                 return value;
 #elif __IOS__
-                NSObject obj = _defaults.ValueForKey(new NSString(key));
+                NSObject obj = null;
+                if (IsRoaming)
+                {
+                    obj = _store.ValueForKey(new NSString(key));
+                }
+                else
+                {
+                    obj = _defaults.ValueForKey(new NSString(key));
+                }
                 return IOSTypeConverter.ConvertToObject(obj);
 #else
                 throw new PlatformNotSupportedException();
@@ -496,8 +556,14 @@ namespace InTheHand.Storage
 #elif __IOS__
                 if (value == null)
                 {
-                    _defaults.RemoveObject(key);
-                    //_defaults.SetNilValueForKey(new NSString(key));
+                    if (IsRoaming)
+                    {
+                        _store.Remove(key);
+                    }
+                    else
+                    {
+                        _defaults.RemoveObject(key);
+                    }
                 }
                 else
                 {
@@ -505,23 +571,65 @@ namespace InTheHand.Storage
                     switch (code)
                     {
                         case TypeCode.String:
-                            _defaults.SetString(value.ToString(), key);
+                            if (IsRoaming)
+                            {
+                                _store.SetString(key, value.ToString());
+                            }
+                            else
+                            {
+                                _defaults.SetString(value.ToString(), key);
+                            }
                             break;
                         case TypeCode.Int32:
-                            _defaults.SetInt((int)value, key);
+                            if (IsRoaming)
+                            {
+                                _store.SetLong(key, (long)value);
+                            }
+                            else
+                            {
+                                _defaults.SetInt((int)value, key);
+                            }
                             break;
                         case TypeCode.Double:
-                            _defaults.SetDouble((double)value, key);
+                            if (IsRoaming)
+                            {
+                                _store.SetDouble(key, (double)value);
+                            }
+                            else
+                            {
+                                _defaults.SetDouble((double)value, key);
+                            }
                             break;
                         case TypeCode.Single:
-                            _defaults.SetFloat((float)value, key);
+                            if (IsRoaming)
+                            {
+                                _store.SetDouble(key, (double)value);
+                            }
+                            else
+                            {
+                                _defaults.SetFloat((float)value, key);
+                            }
                             break;
                         case TypeCode.Boolean:
-                            _defaults.SetBool((bool)value, key);
+                            if (IsRoaming)
+                            {
+                                _store.SetBool(key, (bool)value);
+                            }
+                            else
+                            {
+                                _defaults.SetBool((bool)value, key);
+                            }
                             break;
 
                         default:
-                            _defaults.SetValueForKey(IOSTypeConverter.ConvertToNSObject(value), new NSString(key));
+                            if (IsRoaming)
+                            {
+                                _store.SetValueForKey(IOSTypeConverter.ConvertToNSObject(value), new NSString(key));
+                            }
+                            else
+                            {
+                                _defaults.SetValueForKey(IOSTypeConverter.ConvertToNSObject(value), new NSString(key));
+                            }
                             break;
                     }
                 }
@@ -558,7 +666,14 @@ namespace InTheHand.Storage
 #elif WINDOWS_PHONE
             applicationSettings.Clear();
 #elif __IOS__
-            _defaults.Init();
+            if (IsRoaming)
+            {
+                _store.Init();
+            }
+            else
+            {
+                _defaults.Init();
+            }
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -624,8 +739,7 @@ namespace InTheHand.Storage
 #elif WINDOWS_PHONE
                 return applicationSettings.Count;
 #elif __IOS__
-                // TODO: fix to compile with 8.4
-                return 0;// Convert.ToInt32(_defaults.k);
+                return -1;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -659,62 +773,48 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
             return _settings.GetEnumerator();
-#else
+#elif WINDOWS_PHONE
             return new ApplicationDataContainerEnumerator();
+#else
+            throw new NotSupportedException();
 #endif
         }
 
-#endregion
+        #endregion
 
-#region IEnumerable Members
+        #region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
 #if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
             return _settings.GetEnumerator();
-#else
+#elif WINDOWS_PHONE
             return new ApplicationDataContainerEnumerator();
+#else
+            throw new NotSupportedException();
 #endif
         }
 
 #endregion
     }
 
+#if WINDOWS_PHONE
     internal sealed class ApplicationDataContainerEnumerator : IEnumerator<KeyValuePair<string, object>>
     {
-#if WINDOWS_PHONE
+
         private global::System.IO.IsolatedStorage.IsolatedStorageSettings settings;
-#elif __IOS__
-        private NSUserDefaults _defaults;
-#endif
         private IEnumerator keyEnumerator;
 
         internal ApplicationDataContainerEnumerator()
         {
-#if WINDOWS_PHONE
             settings = global::System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             keyEnumerator = settings.Keys.GetEnumerator();
-#elif __IOS__
-            _defaults = NSUserDefaults.StandardUserDefaults;
-            // TODO: temp fix for old xamarin version
-            keyEnumerator = null;// _defaults.ToDictionary().Keys.GetEnumerator();
-#else
-            throw new PlatformNotSupportedException();
-#endif
         }
 
         public KeyValuePair<string, object> Current
         {
             get {
-#if WINDOWS_PHONE
                 object val = settings[keyEnumerator.Current.ToString()];
-#elif __IOS__
-                object val = null;
-                NSObject obj = _defaults.ValueForKey(new NSString(keyEnumerator.Current.ToString()));
-                val = IOSTypeConverter.ConvertToObject(obj);
-#else
-                object val = null;
-#endif
                 return new KeyValuePair<string, object>(keyEnumerator.Current.ToString(), val);
             }
         }
@@ -739,6 +839,7 @@ namespace InTheHand.Storage
             keyEnumerator.Reset();
         }
     }
+#endif
 
 #if __IOS__
     internal static class IOSTypeConverter

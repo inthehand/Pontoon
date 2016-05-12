@@ -227,6 +227,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
       <Link>Storage\ApplicationDataContainerSettings.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
+      <Link>Storage\ApplicationDataLocality.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
       <Link>Storage\StorageFolderExtensions.cs</Link>
     </Compile>

@@ -7,8 +7,11 @@
 #if __ANDROID__
 using Android.App;
 using Android.Views;
+#elif __IOS__
+using UIKit;
 #endif
 using System;
+
 
 namespace InTheHand.System.Display
 {
