@@ -81,7 +81,7 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Page Include="..\Source\InTheHand\Devices\Enumeration\DevicePickerDialog.xaml">
-      <Link>DevicePickerDialog.xaml</Link>
+      <Link>Enumeration\DevicePickerDialog.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -93,23 +93,38 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
+      <Link>Bluetooth\BluetoothLEDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
+      <Link>Enumeration\DeviceInformation.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
-      <Link>DevicePicker.cs</Link>
+      <Link>Enumeration\DevicePicker.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
-      <Link>DevicePickerAppearance.cs</Link>
+      <Link>Enumeration\DevicePickerAppearance.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePickerDialog.xaml.cs">
-      <Link>DevicePickerDialog.xaml.cs</Link>
+      <Link>Enumeration\DevicePickerDialog.xaml.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
-      <Link>DevicePickerFilter.cs</Link>
+      <Link>Enumeration\DevicePickerFilter.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
-      <Link>DeviceSelectedEventArgs.cs</Link>
+      <Link>Enumeration\DeviceSelectedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceViewModel.cs">
-      <Link>DeviceViewModel.cs</Link>
+      <Link>Enumeration\DeviceViewModel.cs</Link>
     </Compile>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">

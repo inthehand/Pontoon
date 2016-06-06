@@ -13,9 +13,9 @@ namespace InTheHand.Devices.Enumeration
 {
     internal sealed class DeviceViewModel : INotifyPropertyChanged
     {
-        private DeviceInformation _information;
+        private Windows.Devices.Enumeration.DeviceInformation _information;
 
-        public DeviceViewModel(DeviceInformation information)
+        public DeviceViewModel(Windows.Devices.Enumeration.DeviceInformation information)
         {
             _information = information;
         }
@@ -55,7 +55,7 @@ namespace InTheHand.Devices.Enumeration
             OnPropertyChanged("Thumbnail");
         }
 
-        public DeviceInformation Information
+        public Windows.Devices.Enumeration.DeviceInformation Information
         {
             get
             {

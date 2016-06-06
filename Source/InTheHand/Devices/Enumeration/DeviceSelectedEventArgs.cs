@@ -18,7 +18,7 @@ namespace InTheHand.Devices.Enumeration
         /// The device selected by the user in the picker.
         /// </summary>
         /// <value>The selected device.</value>
-        public DeviceInformation SelectedDevice
+        public Windows.Devices.Enumeration.DeviceInformation SelectedDevice
         {
             get;
             internal set;

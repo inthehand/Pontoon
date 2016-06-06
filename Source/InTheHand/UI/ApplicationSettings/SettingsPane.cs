@@ -191,12 +191,12 @@ namespace InTheHand.UI.ApplicationSettings
             {
 
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("RateAndReview", "Rate and review", async (c) =>
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("rateAndReview", "Rate and review", async (c) =>
                 {
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestReviewAsync();
                 }));
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("PrivacyPolicy", "Privacy policy", async (c) =>
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("privacyPolicy", "Privacy policy", async (c) =>
                 {
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();
                 }));
@@ -204,14 +204,17 @@ namespace InTheHand.UI.ApplicationSettings
 
 
 #endif
-            args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("About", "About", (c) =>
+            if (showAbout)
             {
-                SettingsFlyout flyout = new SettingsFlyout();
-                flyout.Title = "About";
-                //flyout.IconSource = new BitmapImage(InTheHand.ApplicationModel.Package.Current.Logo);
-                flyout.Content = new InTheHandUI.AboutView();
-                flyout.Show();
-            }));
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("about", "About", (c) =>
+                {
+                    SettingsFlyout flyout = new SettingsFlyout();
+                    flyout.Title = "About";
+                    //flyout.IconSource = new BitmapImage(InTheHand.ApplicationModel.Package.Current.Logo);
+                    flyout.Content = new InTheHandUI.AboutView();
+                    flyout.Show();
+                }));
+            }
         }
 #endif
     }

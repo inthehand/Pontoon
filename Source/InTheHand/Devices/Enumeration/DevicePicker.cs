@@ -57,7 +57,7 @@ namespace InTheHand.Devices.Enumeration
         public event TypedEventHandler<DevicePicker, DeviceSelectedEventArgs> DeviceSelected;
 
         // Raises the DeviceSelected event
-        internal void OnDeviceSelected(DeviceInformation device)
+        internal void OnDeviceSelected(Windows.Devices.Enumeration.DeviceInformation device)
         {
             if(DeviceSelected != null)
             {
@@ -111,7 +111,7 @@ namespace InTheHand.Devices.Enumeration
         /// <param name="selection">The rectangle from which you want the picker to fly out.
         /// Ignored on Windows Phone.</param>
         /// <returns></returns>
-        public Task<DeviceInformation> PickSingleDeviceAsync(Rect selection)
+        public Task<Windows.Devices.Enumeration.DeviceInformation> PickSingleDeviceAsync(Rect selection)
         {
             return PickSingleDeviceAsync(selection, Placement.Default);
         }
@@ -124,7 +124,7 @@ namespace InTheHand.Devices.Enumeration
         /// <param name="placement">The edge of the rectangle from which you want the picker to fly out.
         /// Ignored on Windows Phone.</param>
         /// <returns></returns>
-        public async Task<DeviceInformation> PickSingleDeviceAsync(Rect selection, Placement placement)
+        public async Task<Windows.Devices.Enumeration.DeviceInformation> PickSingleDeviceAsync(Rect selection, Placement placement)
         {
 #if WINDOWS_PHONE_APP
             _dialog = new DevicePickerDialog(this);

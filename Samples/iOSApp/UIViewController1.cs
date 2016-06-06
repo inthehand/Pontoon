@@ -36,6 +36,9 @@ namespace ApplicationModel.iOS
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
+                    
+                    string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromShortId(0x1);
+                    var devs = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(q);
                     MessageDialog md = new MessageDialog("test", "Title");
                     UICommand oneC = new UICommand("One", null);
                     UICommand twoC = new UICommand("Two", null);

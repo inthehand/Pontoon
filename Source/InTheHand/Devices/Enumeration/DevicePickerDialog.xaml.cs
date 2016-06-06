@@ -51,8 +51,8 @@ namespace InTheHand.Devices.Enumeration
             {
                 foreach (string selector in _owner.Filter.SupportedDeviceSelectors)
                 {
-                    DeviceInformationCollection filteredDevices = await DeviceInformation.FindAllAsync(selector);
-                    foreach(DeviceInformation info in filteredDevices)
+                    IReadOnlyCollection<Windows.Devices.Enumeration.DeviceInformation> filteredDevices = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(selector);
+                    foreach(Windows.Devices.Enumeration.DeviceInformation info in filteredDevices)
                     {
                         devices.Add(new DeviceViewModel(info));
                     }
@@ -60,7 +60,7 @@ namespace InTheHand.Devices.Enumeration
             }
             else
             {
-                foreach(DeviceInformation info in await DeviceInformation.FindAllAsync())
+                foreach(Windows.Devices.Enumeration.DeviceInformation info in await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync())
                 {
                     devices.Add(new DeviceViewModel(info));
                 }
@@ -74,8 +74,8 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 
-        private DeviceInformation _selectedDevice;
-        public DeviceInformation SelectedDevice
+        private Windows.Devices.Enumeration.DeviceInformation _selectedDevice;
+        public Windows.Devices.Enumeration.DeviceInformation SelectedDevice
         {
             get
             {

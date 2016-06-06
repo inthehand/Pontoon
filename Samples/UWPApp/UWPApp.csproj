@@ -132,6 +132,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.uwp10\InTheHand.UI.uwp10.csproj">
       <Project>{e3854dd2-2743-40aa-bc38-6cb5d777e553}</Project>
       <Name>InTheHand.UI.uwp10</Name>
@@ -140,11 +145,6 @@
       <Project>{c919d564-3221-4293-92f5-071571df48b9}</Project>
       <Name>InTheHand.uwp10</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
