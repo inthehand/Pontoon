@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PhoneCallManager.cs" company="In The Hand Ltd">
-//   Copyright (c) 2014-2015 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2014-2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides methods for launching the built-in phone call UI.
@@ -8,6 +8,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Reflection;
+using System.Threading.Tasks;
 
 #if __ANDROID__
 using Android.App;
@@ -27,15 +29,43 @@ namespace InTheHand.ApplicationModel.Calls
     /// </summary>
     public static class PhoneCallManager
     {
-        /// <summary>
-        /// Launches the built-in phone call UI with the specified phone number and display name.
-        /// </summary>
-        /// <param name="phoneNumber">A phone number.
-        /// This should be in international format e.g. +12345678901</param>
-        /// <param name="displayName">A display name.</param>
-        public static void ShowPhoneCallUI(string phoneNumber, string displayName)
+#if WINDOWS_APP || WINDOWS_PHONE_APP
+        private static Type _type10;
+
+        static PhoneCallManager()
         {
-            ShowPhoneCallUI(phoneNumber, displayName, true);
+            _type10 = Type.GetType("Windows.ApplicationModel.Calls.PhoneCallManager, Windows, ContentType=WindowsRuntime");
+        }
+#endif
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static async Task<PhoneCallStore> RequestStoreAsync()
+        {
+#if __ANDROID__ || __IOS__
+            return new PhoneCallStore();
+#elif WINDOWS_UWP
+            if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Calls.PhoneCallManager", "RequestStoreAsync"))
+            {
+                return new PhoneCallStore(await Windows.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync());
+            }
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
+            if (_type10 != null)
+            {
+                Type storeType = Type.GetType("Windows.ApplicationModel.Calls.PhoneCallStore, Windows, ContentType=WindowsRuntime");
+                Type template = typeof(Windows.Foundation.IAsyncOperation<>);
+                Type genericType = template.MakeGenericType(storeType);
+                object nativeStoreTask = _type10.GetRuntimeMethod("RequestStoreAsync", new Type[0]).Invoke(null, new object[0]);
+                Windows.Foundation.IAsyncOperation<object> op = nativeStoreTask as Windows.Foundation.IAsyncOperation<object>;
+                
+                var nativeStore = genericType.GetRuntimeMethod("GetResults", new Type[0]).Invoke(nativeStoreTask, new object[0]);
+                //object nativeStore = nativeStoreTask.GetType().GetRuntimeMethod("GetResults",new Type[0]).Invoke(nativeStoreTask, new object[0]);
+                return new PhoneCallStore(await (Windows.Foundation.IAsyncOperation<object>)nativeStoreTask);
+            }
+#endif
+            return null;
         }
         
         /// <summary>
@@ -44,12 +74,10 @@ namespace InTheHand.ApplicationModel.Calls
         /// <param name="phoneNumber">A phone number.
         /// This should be in international format e.g. +12345678901</param>
         /// <param name="displayName">A display name.</param>
-        /// <param name="promptUser">A value indicating whether to prompt the user first.
-        /// Not supported on Windows platforms.</param>
-        public static void ShowPhoneCallUI(string phoneNumber, string displayName, bool promptUser)
+        public static void ShowPhoneCallUI(string phoneNumber, string displayName)
         {
 #if __ANDROID__
-            string action = promptUser ? Intent.ActionDial : Intent.ActionCall;
+            string action = Intent.ActionDial; //promptUser ? Intent.ActionDial : Intent.ActionCall;
             Intent callIntent = new Intent(action, Android.Net.Uri.FromParts("tel", CleanPhoneNumber(phoneNumber), null));
             callIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(callIntent);
@@ -62,35 +90,18 @@ namespace InTheHand.ApplicationModel.Calls
             }
             else
             {
-                global::Foundation.NSUrl url = null;
-                if (promptUser)
-                {
-                    url = new global::Foundation.NSUrl("telprompt:" + CleanPhoneNumber(phoneNumber));
-                }
-                else
-                {
-                    url = new global::Foundation.NSUrl("tel:" + CleanPhoneNumber(phoneNumber));
-                }
-                
+                global::Foundation.NSUrl url = new global::Foundation.NSUrl("telprompt:" + CleanPhoneNumber(phoneNumber));        
                 UIKit.UIApplication.SharedApplication.OpenUrl(url);
             } 
 #elif WINDOWS_APP
-            if (promptUser)
-            {
-                MessageDialog prompt = new MessageDialog(string.Format("Dial {0} at {1}?", displayName, phoneNumber), "Phone");
-                prompt.Commands.Add(new UICommand("Call", async (c) =>
-                    {
+            MessageDialog prompt = new MessageDialog(string.Format("Dial {0} at {1}?", displayName, phoneNumber), "Phone");
+            prompt.Commands.Add(new UICommand("Call", async (c) =>
+                {
                         // Windows may prompt the user for an app e.g. Skype, Lync etc
                         await Windows.System.Launcher.LaunchUriAsync(new Uri("tel:" + CleanPhoneNumber(phoneNumber)));
-                    }));
-                prompt.Commands.Add(new UICommand("Cancel", null));
-                prompt.ShowAsync();
-            }
-            else
-            {
-                // Windows may prompt the user for an app e.g. Skype, Lync etc
-                Windows.System.Launcher.LaunchUriAsync(new Uri("tel:" + CleanPhoneNumber(phoneNumber)));
-            }
+                }));
+            prompt.Commands.Add(new UICommand("Cancel", null));
+            prompt.ShowAsync();
 
 #elif WINDOWS_PHONE_APP || WINDOWS_UWP
             PhoneCallManager.ShowPhoneCallUI(phoneNumber, displayName);
@@ -105,7 +116,7 @@ namespace InTheHand.ApplicationModel.Calls
 #endif
         }
 
-        private static string CleanPhoneNumber(string phoneNumber)
+        internal static string CleanPhoneNumber(string phoneNumber)
         {
             return phoneNumber.Replace(" ", "");
         }

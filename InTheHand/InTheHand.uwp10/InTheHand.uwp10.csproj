@@ -125,6 +125,12 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallStore.cs">
+      <Link>ApplicationModel\Calls\PhoneCallStore.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
+      <Link>ApplicationModel\Calls\PhoneLine.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
       <Link>ApplicationModel\Capability.cs</Link>
     </Compile>
@@ -194,6 +200,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\GeocoordinateExtensions.cs">
       <Link>Devices\Geolocation\GeocoordinateExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Environment.cs">
+      <Link>Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
@@ -255,6 +264,9 @@
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.10240.0">
       <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

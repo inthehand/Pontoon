@@ -36,8 +36,15 @@ namespace UWPApp
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+            System.Diagnostics.Debug.WriteLine(Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristicUuids.AlertCategoryId);
+            System.Diagnostics.Debug.WriteLine(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristicUuids.AlertCategoryId);
 
+           
             InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
+
+            System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.DeviceForm);
+            System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily);
+            System.Diagnostics.Debug.WriteLine(InTheHand.Environment.OSVersion.VersionString);
 
             Windows.Devices.Enumeration.DeviceInformationPairing dip;
             Task.Run(async () => {

@@ -40,6 +40,12 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\InTheHand.Devices\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Bluetooth\BluetoothLEDevice.cs</Link>
     </Compile>
@@ -49,13 +55,18 @@
     <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
       <Link>Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
       <Link>Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattServiceUuids.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Enumeration\DeviceInformation.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -11,7 +11,7 @@
     <AssemblyName>UWPApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
@@ -132,11 +132,18 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\InTheHand.Devices.uwp10\InTheHand.Devices.uwp10.csproj">
+      <Project>{6654efdc-2013-46bd-bdfe-0cddb9a7f879}</Project>
+      <Name>InTheHand.Devices.uwp10</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.uwp10\InTheHand.UI.uwp10.csproj">
       <Project>{e3854dd2-2743-40aa-bc38-6cb5d777e553}</Project>
       <Name>InTheHand.UI.uwp10</Name>

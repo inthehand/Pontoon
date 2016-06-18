@@ -34,7 +34,8 @@ namespace InTheHand.UI.ViewManagement
         public static StatusBar GetForCurrentView()
         {
 #if WINDOWS_UWP
-            if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
             }
@@ -49,13 +50,12 @@ namespace InTheHand.UI.ViewManagement
 
             return _statusBar;
 #endif
-
         }
 
 #if WINDOWS_PHONE_APP || WINDOWS_UWP
-        private Windows.UI.ViewManagement.StatusBar _statusBar;
+        private object _statusBar;
 
-        internal StatusBar(Windows.UI.ViewManagement.StatusBar statusBar)
+        internal StatusBar(object statusBar)
         {
             _statusBar = statusBar;
         }
@@ -71,11 +71,11 @@ namespace InTheHand.UI.ViewManagement
         public Windows.UI.Color? BackgroundColor {
             get
             {
-                return _statusBar.BackgroundColor;
+                return ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundColor;
             }
             set
             {
-                _statusBar.BackgroundColor = value;
+                ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundColor = value;
             }
         }
 
@@ -83,11 +83,11 @@ namespace InTheHand.UI.ViewManagement
         {
             get
             {
-                return _statusBar.BackgroundOpacity;
+                return ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundOpacity;
             }
             set
             {
-                _statusBar.BackgroundOpacity = value;
+                ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundOpacity = value;
             }
         }
 
@@ -95,11 +95,11 @@ namespace InTheHand.UI.ViewManagement
         {
             get
             {
-                return _statusBar.ForegroundColor;
+                return ((Windows.UI.ViewManagement.StatusBar)_statusBar).ForegroundColor;
             }
             set
             {
-                _statusBar.ForegroundColor = value;
+                ((Windows.UI.ViewManagement.StatusBar)_statusBar).ForegroundColor = value;
             }
         }
 #endif
@@ -114,7 +114,7 @@ namespace InTheHand.UI.ViewManagement
 #if WINDOWS_PHONE   
                 return new StatusBarProgressIndicator(Microsoft.Phone.Shell.SystemTray.ProgressIndicator);     
 #elif WINDOWS_PHONE_APP || WINDOWS_UWP
-                return new StatusBarProgressIndicator(_statusBar.ProgressIndicator);
+                return new StatusBarProgressIndicator(((Windows.UI.ViewManagement.StatusBar)_statusBar).ProgressIndicator);
 #else
                 return new StatusBarProgressIndicator();
 #endif
