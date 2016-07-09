@@ -37,7 +37,8 @@ namespace ApplicationModel.iOS
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
                     
-                    string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromShortId(0x1);
+                    /*
+                    string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery);
                     var devs = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(q);
                     MessageDialog md = new MessageDialog("test", "Title");
                     UICommand oneC = new UICommand("One", null);
@@ -46,7 +47,7 @@ namespace ApplicationModel.iOS
                     md.Commands.Add(twoC);
                     IUICommand chosen = await md.ShowAsync();
 
-                    bool success = chosen == oneC;
+                    bool success = chosen == oneC;*/
                 });
             });
         }
@@ -88,11 +89,12 @@ namespace ApplicationModel.iOS
                 System.Diagnostics.Debug.WriteLine(NSBundle.MainBundle.InfoDictionary[o].ToString());
             }
 
-            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Content", "Title");
+          
+            /*InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Content", "Title");
             md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
             md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
             //md.Commands.Add(new UICommand("Three", (c) => { System.Diagnostics.Debug.WriteLine("Three"); }));
-            await md.ShowAsync();
+            await md.ShowAsync();*/
 
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
@@ -100,6 +102,8 @@ namespace ApplicationModel.iOS
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
+            ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
 
         }
 

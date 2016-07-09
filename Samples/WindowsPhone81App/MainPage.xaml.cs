@@ -46,6 +46,8 @@ namespace WindowsPhone81App
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+
+            System.Diagnostics.Debug.WriteLine(InTheHand.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
             // TODO: If your application contains multiple pages, ensure that you are
             // handling the hardware Back button by registering for the
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
@@ -57,7 +59,13 @@ namespace WindowsPhone81App
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("message", "title");
+        {
+            var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
+            Guid g = await store.GetDefaultLineAsync();
+            var line = await InTheHand.ApplicationModel.Calls.PhoneLine.FromIdAsync(g);
+            line.Dial("1234", "Testing");
+
+            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("message", "title");
             md.Commands.Add(new InTheHand.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
             md.Commands.Add(new InTheHand.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
             

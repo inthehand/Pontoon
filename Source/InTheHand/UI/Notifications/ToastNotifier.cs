@@ -45,10 +45,10 @@ namespace InTheHand.UI.Notifications
             {
                 UIApplication.SharedApplication.PresentLocalNotificationNow(notification._localNotification);
             });
-#elif WINDOWS_PHONE
-            notification._shellToast.Show();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Show(notification._notification);
+#elif WINDOWS_PHONE
+            notification._shellToast.Show();
 #endif
         }
 
