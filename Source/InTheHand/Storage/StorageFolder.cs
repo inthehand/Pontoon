@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 namespace InTheHand.Storage
 {
     /// <summary>
-    /// Represents a file.
-    /// Provides information about the file and its content, and ways to manipulate them.
+    /// Manages folders and their contents and provides information about them.
     /// </summary>
     public sealed class StorageFolder
     {
@@ -35,9 +34,53 @@ namespace InTheHand.Storage
 
         private string _path;
 
-        private StorageFolder(string path)
+        internal StorageFolder(string path)
         {
             _path = path;
+        }
+
+        /// <summary>
+        /// Creates a new file with the specified name in the current folder.
+        /// </summary>
+        /// <param name="desiredName">The name of the new file to create in the current folder.</param>
+        /// <returns>When this method completes, it returns a StorageFile that represents the new file.</returns>
+        public Task<StorageFile> CreateFileAsync(string desiredName)
+        {
+            return Task.Run<StorageFile>(() =>
+            {
+                string filepath = global::System.IO.Path.Combine(Path, desiredName);
+
+                if(global::System.IO.File.Exists(filepath))
+                {
+                    throw new IOException();
+                }
+
+                File.Create(filepath).Close();
+
+                return new Storage.StorageFile(filepath);
+            });
+        }
+
+        /// <summary>
+        /// Creates a new subfolder with the specified name in the current folder.
+        /// </summary>
+        /// <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
+        /// <returns>When this method completes, it returns a StorageFolder that represents the new subfolder.</returns>
+        public Task<StorageFile> CreateFolderAsync(string desiredName)
+        {
+            return Task.Run<StorageFile>(() =>
+            {
+                string newpath = global::System.IO.Path.Combine(Path, desiredName);
+
+                if (global::System.IO.Directory.Exists(newpath))
+                {
+                    throw new IOException();
+                }
+
+                Directory.CreateDirectory(newpath);
+
+                return new Storage.StorageFile(newpath);
+            });
         }
 
         public Task DeleteAsync()
@@ -45,7 +88,12 @@ namespace InTheHand.Storage
 #if __ANDROID__ || __IOS__
             return Task.Run(() =>
             {
-                global::System.IO.Directory.Delete(_path);
+                if(!Directory.Exists(Path))
+                {
+                    throw new FileNotFoundException();
+                }
+
+                global::System.IO.Directory.Delete(Path);
             });
 #endif
         }
@@ -54,7 +102,14 @@ namespace InTheHand.Storage
         {
             return Task.Run<StorageFile>(() =>
             {
-                return new StorageFile(global::System.IO.Path.Combine(_path, filename));
+                string filepath = global::System.IO.Path.Combine(Path, filename);
+
+                if(!global::System.IO.File.Exists(filepath))
+                {
+                    throw new FileNotFoundException();
+                }
+
+                return new StorageFile(filepath);
             });
         }
 

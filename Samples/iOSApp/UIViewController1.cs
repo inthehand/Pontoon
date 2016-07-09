@@ -37,7 +37,8 @@ namespace ApplicationModel.iOS
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
-                    
+                    InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
+                    StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
                     /*
                     string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery);
                     var devs = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(q);
@@ -103,8 +104,7 @@ namespace ApplicationModel.iOS
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
-            InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
-            StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
+            
 
         }
 

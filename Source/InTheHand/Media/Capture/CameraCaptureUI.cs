@@ -77,19 +77,22 @@ namespace InTheHand.Media.Capture
             return Task.Run<StorageFile>(async () =>
             {
 #if __IOS__
-                _pc.SourceType = UIImagePickerControllerSourceType.Camera;
-                switch (mode)
+               UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
                 {
-                    case CameraCaptureUIMode.Photo:
-                        _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
-                        break;
+                    _pc.SourceType = UIImagePickerControllerSourceType.Camera;
+                    switch (mode)
+                    {
+                        case CameraCaptureUIMode.Photo:
+                            _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
+                            break;
 
-                    case CameraCaptureUIMode.Video:
-                       _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Video;
-                        break;
-                }
-
-                UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pc, true, null);
+                        case CameraCaptureUIMode.Video:
+                            _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Video;
+                            break;
+                    }
+                    
+                    UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pc, true, null);
+                });
 #endif
                 _handle.WaitOne();
 
