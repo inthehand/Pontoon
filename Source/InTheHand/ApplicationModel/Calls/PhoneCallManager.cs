@@ -44,26 +44,33 @@ namespace InTheHand.ApplicationModel.Calls
         /// <returns></returns>
         public static async Task<PhoneCallStore> RequestStoreAsync()
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__
             return new PhoneCallStore();
+
+#elif __IOS__
+            if (UIKit.UIDevice.CurrentDevice.Model != "iPhone")
+            {
+                return new PhoneCallStore();
+            }
+
 #elif WINDOWS_UWP
             if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Calls.PhoneCallManager", "RequestStoreAsync"))
             {
                 return new PhoneCallStore(await Windows.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync());
             }
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
+
+/*#elif WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 Type storeType = Type.GetType("Windows.ApplicationModel.Calls.PhoneCallStore, Windows, ContentType=WindowsRuntime");
                 Type template = typeof(Windows.Foundation.IAsyncOperation<>);
                 Type genericType = template.MakeGenericType(storeType);
                 object nativeStoreTask = _type10.GetRuntimeMethod("RequestStoreAsync", new Type[0]).Invoke(null, new object[0]);
-                Windows.Foundation.IAsyncOperation<object> op = nativeStoreTask as Windows.Foundation.IAsyncOperation<object>;
                 
                 var nativeStore = genericType.GetRuntimeMethod("GetResults", new Type[0]).Invoke(nativeStoreTask, new object[0]);
                 //object nativeStore = nativeStoreTask.GetType().GetRuntimeMethod("GetResults",new Type[0]).Invoke(nativeStoreTask, new object[0]);
                 return new PhoneCallStore(await (Windows.Foundation.IAsyncOperation<object>)nativeStoreTask);
-            }
+            }*/
 #endif
             return null;
         }
