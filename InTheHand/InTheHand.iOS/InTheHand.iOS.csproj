@@ -153,6 +153,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
       <Link>Storage\ApplicationDataLocality.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
+      <Link>Storage\StorageFile.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
     </Compile>

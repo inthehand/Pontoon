@@ -6,6 +6,7 @@ using UIKit;
 using Foundation;
 using InTheHand.UI.Popups;
 using System.Threading.Tasks;
+using InTheHand.Storage;
 
 namespace ApplicationModel.iOS
 {
@@ -103,7 +104,7 @@ namespace ApplicationModel.iOS
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
             InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
-            ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
+            StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
 
         }
 

@@ -12,6 +12,7 @@ namespace InTheHand.Foundation.Metadata
     /// <summary>
     /// Enables you to detect whether a specified member, type, or API contract is present so that you can safely make API calls across a variety of devices.
     /// </summary>
+    [CLSCompliant(false)]
     public static class ApiInformation
     {
 #if WINDOWS_PHONE_APP || WINDOWS_APP
