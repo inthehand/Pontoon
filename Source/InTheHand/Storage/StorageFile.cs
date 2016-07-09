@@ -34,7 +34,7 @@ namespace InTheHand.Storage
 
         private string _path;
 
-        private StorageFile(string path)
+        internal StorageFile(string path)
         {
             _path = path;
         }
