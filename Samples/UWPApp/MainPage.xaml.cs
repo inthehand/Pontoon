@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -39,11 +41,27 @@ namespace UWPApp
 
             InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
 
+           
             Windows.Devices.Enumeration.DeviceInformationPairing dip;
             Task.Run(async () => {
                 await Task.Delay(1000);
+
+                var sel = Windows.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
+                 var devs =   await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(sel);
+                foreach(DeviceInformation di in devs)
+                {
+                    var d = await Windows.Devices.Bluetooth.BluetoothLEDevice.FromIdAsync(di.Id);
+                    foreach(GattDeviceService serv in d.GattServices)
+                    {
+                        System.Diagnostics.Debug.WriteLine(serv);
+                    }
+                    System.Diagnostics.Debug.WriteLine(di.Name);
+                }
+
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
+                    
+
                     InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
                 });
             });
