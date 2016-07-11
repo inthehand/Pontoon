@@ -165,6 +165,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\CreateCollisionOption.cs">
       <Link>Storage\CreateCollisionOption.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
+      <Link>Storage\FileAttributes.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
       <Link>Storage\StorageFile.cs</Link>
     </Compile>

@@ -25,6 +25,11 @@ namespace InTheHand.System.Display
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
         private Windows.System.Display.DisplayRequest _request = new Windows.System.Display.DisplayRequest();
 
+        [CLSCompliant(false)]
+        public static implicit operator Windows.System.Display.DisplayRequest(DisplayRequest dr)
+        {
+            return dr._request;
+        }
 #endif
 
         public void RequestActive()

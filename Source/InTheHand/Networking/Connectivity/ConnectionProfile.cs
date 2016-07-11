@@ -37,6 +37,12 @@ namespace InTheHand.Networking.Connectivity
         {
             _profile = profile;
         }
+
+        [CLSCompliant(false)]
+        public static implicit operator Windows.Networking.Connectivity.ConnectionProfile(ConnectionProfile cp)
+        {
+            return cp._profile;
+        }
 #endif
         /// <summary>
         /// Gets the network connectivity level for this connection.

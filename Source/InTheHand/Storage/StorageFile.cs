@@ -24,39 +24,71 @@ namespace InTheHand.Storage
         /// If your path uses slashes, make sure you use backslashes(\).
         /// Forward slashes(/) are not accepted by this method.</param>
         /// <returns>When this method completes, it returns the file as a StorageFile.</returns>
-        public static Task<StorageFile> GetFileFromPathAsync(string path)
+        public static async Task<StorageFile> GetFileFromPathAsync(string path)
         {
-            return Task.Run<StorageFile>(() =>
-            {
-                return new StorageFile(path);
-            });
+#if __ANDROID__ || __IOS__
+            return new StorageFile(path);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return new Storage.StorageFile(await Windows.Storage.StorageFile.GetFileFromPathAsync(path));
+#endif
         }
 
+#if __ANDROID__ || __IOS__
         private string _path;
-
+    
         internal StorageFile(string path)
         {
             _path = path;
         }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private Windows.Storage.StorageFile _file;
 
-        public Task DeleteAsync()
+        internal StorageFile(Windows.Storage.StorageFile file)
+        {
+            _file = file;
+        }
+
+        [CLSCompliant(false)]
+        public static implicit operator Windows.Storage.StorageFile(StorageFile file)
+        {
+            return file._file;
+        }
+#endif
+
+
+        public async Task DeleteAsync()
         {
 #if __ANDROID__ || __IOS__
-            return Task.Run(() =>
-            {
-                global::System.IO.File.Delete(_path);
-            });
+                global::System.IO.File.Delete(Path);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            await _file.DeleteAsync();
 #endif
+        }
+
+        public FileAttributes Attributes
+        {
+            get
+            {
+#if __ANDROID__ || __IOS__
+                return FileAttributesHelper.FromIOFileAttributes(global::System.IO.File.GetAttributes(Path));
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return (FileAttributes)((uint)_file.Attributes);
+#endif
+            }
         }
 
         public DateTimeOffset DateCreated
         {
             get
             {
-                var utc = global::System.IO.File.GetCreationTimeUtc(_path);
-                var local = global::System.IO.File.GetCreationTime(_path);
+#if __ANDROID__ || __IOS__
+                var utc = global::System.IO.File.GetCreationTimeUtc(Path);
+                var local = global::System.IO.File.GetCreationTime(Path);
                 var offset = local - utc;
                 return new DateTimeOffset(local, offset);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return _file.DateCreated;
+#endif
             }
         }
 
@@ -64,7 +96,11 @@ namespace InTheHand.Storage
         {
             get
             {
-                return global::System.IO.Path.GetExtension(_path);
+#if __ANDROID__ || __IOS__
+                return global::System.IO.Path.GetExtension(Path);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return _file.FileType;
+#endif
             }
         }
 
@@ -72,7 +108,11 @@ namespace InTheHand.Storage
         {
             get
             {
-                return global::System.IO.Path.GetFileName(_path);
+#if __ANDROID__ || __IOS__
+                return global::System.IO.Path.GetFileName(Path);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return _file.Name;
+#endif
             }
         }
 
@@ -80,24 +120,30 @@ namespace InTheHand.Storage
         {
             get
             {
+#if __ANDROID__ || __IOS__
                 return _path;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return _file.Path;
+#endif
             }
         }
 
-        public Task<Stream> OpenStreamForReadAsync()
+        public async Task<Stream> OpenStreamForReadAsync()
         {
-            return Task.Run<Stream>(() =>
-            {
-                return global::System.IO.File.OpenRead(_path);
-            });
+#if __ANDROID__ || __IOS__
+                return global::System.IO.File.OpenRead(Path);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            return await _file.OpenStreamForReadAsync();
+#endif
         }
 
-        public Task<Stream> OpenStreamForWriteAsync()
+        public async Task<Stream> OpenStreamForWriteAsync()
         {
-            return Task.Run<Stream>(() =>
-            {
-                return global::System.IO.File.OpenWrite(_path);
-            });
+#if __ANDROID__ || __IOS__
+                return global::System.IO.File.OpenWrite(Path);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            return await _file.OpenStreamForWriteAsync();
+#endif
         }
     }
 }

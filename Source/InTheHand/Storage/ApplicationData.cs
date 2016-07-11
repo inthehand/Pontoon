@@ -32,15 +32,19 @@ namespace InTheHand.Storage
         {
         }
 
-#if __ANDROID__ || __IOS__
+
         public StorageFolder LocalFolder
         {
             get
             {
+#if __ANDROID__ || __IOS__
                 return new StorageFolder(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal));
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return new StorageFolder(Windows.Storage.ApplicationData.Current.LocalFolder);
+#endif
             }
         }
-#endif
+
 
         /// <summary>
         /// Gets the application settings container in the local app data store.

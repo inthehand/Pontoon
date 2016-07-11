@@ -8,6 +8,8 @@
 using UIKit;
 #endif
 
+using System;
+
 namespace InTheHand.Graphics.Display
 {
     /// <summary>
@@ -34,8 +36,19 @@ namespace InTheHand.Graphics.Display
 
 #if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.Graphics.Display.DisplayInformation _displayInformation;
+
+        [CLSCompliant(false)]
+        public static implicit operator Windows.Graphics.Display.DisplayInformation(DisplayInformation d)
+        {
+            return d._displayInformation;
+        }
 #elif __IOS__
         private UIScreen _screen;
+        
+        public static implicit operator UIScreen(DisplayInformation d)
+        {
+            return d._screen;
+        }
 #endif
 
         private DisplayInformation()

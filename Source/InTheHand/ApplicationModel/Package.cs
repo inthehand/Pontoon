@@ -58,6 +58,12 @@ namespace InTheHand.ApplicationModel
         NSBundle _mainBundle;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
         private Windows.ApplicationModel.Package _package;
+
+        [CLSCompliant(false)]
+        public static implicit operator Windows.ApplicationModel.Package(Package p)
+        {
+            return p._package;
+        }
 #endif
 
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
@@ -213,6 +219,19 @@ namespace InTheHand.ApplicationModel
 #endif
             }
         }
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        /// <summary>
+        /// Gets the location of the installed package.
+        /// </summary>
+        public InTheHand.Storage.StorageFolder InstalledLocation
+        {
+            get
+            {
+                return new Storage.StorageFolder(_package.InstalledLocation);
+            }
+        }
+#endif
 
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE
         private bool? _isDevelopmentMode;

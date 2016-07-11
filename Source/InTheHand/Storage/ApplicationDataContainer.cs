@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 
 using InTheHand.Foundation.Collections;
+using System;
 
 namespace InTheHand.Storage
 {
@@ -16,6 +17,12 @@ namespace InTheHand.Storage
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.Storage.ApplicationDataContainer _container;
+
+        [CLSCompliant(false)]
+        public static implicit operator Windows.Storage.ApplicationDataContainer(ApplicationDataContainer c)
+        {
+            return c._container;
+        }
 
         internal ApplicationDataContainer(Windows.Storage.ApplicationDataContainer container)
         {

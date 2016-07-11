@@ -32,6 +32,12 @@ namespace InTheHand.ApplicationModel
 #elif __IOS__
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
         private Windows.ApplicationModel.PackageId _packageId;
+
+        [CLSCompliant(false)]
+        public static implicit operator Windows.ApplicationModel.PackageId(PackageId p)
+        {
+            return p._packageId;
+        }
 #endif
         internal PackageId()
         {
