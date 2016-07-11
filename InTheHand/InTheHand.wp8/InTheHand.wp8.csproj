@@ -221,6 +221,15 @@
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
       <Link>Storage\ApplicationDataLocality.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
+      <Link>Storage\FileAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
+      <Link>Storage\StorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFolder.cs">
+      <Link>Storage\StorageFolder.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
       <Link>Storage\StorageFolderExtensions.cs</Link>
     </Compile>

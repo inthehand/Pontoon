@@ -27,7 +27,7 @@ namespace InTheHand.Storage
         // </summary>
         // <param name="folder">The folder.</param>
         // <returns>An IsolatedStorage path.</returns>
-        private static string GetIsoStorePath(this StorageFolder folder)
+        private static string GetIsoStorePath(this Windows.Storage.StorageFolder folder)
         {
             string fullPath = folder.Path;
 #if WINDOWS_PHONE_81
@@ -93,7 +93,7 @@ namespace InTheHand.Storage
                 // file
                 if (IsolatedStorageFile.GetUserStoreForApplication().FileExists(Path.Combine(isoPath, tgiState.Name)))
                 {
-                    Task<StorageFile> t = tgiState.Folder.GetFileAsync(tgiState.Name).AsTask<StorageFile>();
+                    Task<Windows.Storage.StorageFile> t = tgiState.Folder.GetFileAsync(tgiState.Name).AsTask<Windows.Storage.StorageFile>();
                     t.Wait();
                     return t.Result;
                 }
@@ -103,14 +103,14 @@ namespace InTheHand.Storage
                 // folder
                 if (IsolatedStorageFile.GetUserStoreForApplication().DirectoryExists(Path.Combine(isoPath, tgiState.Name)))
                 {
-                    Task<StorageFolder> t = tgiState.Folder.GetFolderAsync(tgiState.Name).AsTask<StorageFolder>();
+                    Task<Windows.Storage.StorageFolder> t = tgiState.Folder.GetFolderAsync(tgiState.Name).AsTask<Windows.Storage.StorageFolder>();
                     t.Wait();
                     return t.Result;
                 }
                 else if (IsolatedStorageFile.GetUserStoreForApplication().FileExists(Path.Combine(isoPath, tgiState.Name)))
                 {
                     // file without extension
-                    Task<StorageFile> t = tgiState.Folder.GetFileAsync(tgiState.Name).AsTask<StorageFile>();
+                    Task<Windows.Storage.StorageFile> t = tgiState.Folder.GetFileAsync(tgiState.Name).AsTask<Windows.Storage.StorageFile>();
                     t.Wait();
                     return t.Result;
                 }
@@ -122,7 +122,7 @@ namespace InTheHand.Storage
         /// <exclude/>
         private struct TryGetItemState
         {
-            public StorageFolder Folder;
+            public Windows.Storage.StorageFolder Folder;
             public string Name;
         }
 #endif
@@ -138,14 +138,14 @@ namespace InTheHand.Storage
         /// If the file or folder can't be found, <see cref="TryGetItemAsync"/> returns null and doesn't raise an exception.
         /// Because the method returns null, you can use it to check if the specified fie or folder exists.</remarks>
         [CLSCompliant(false)]
-        public static IAsyncOperation<IStorageItem> TryGetItemAsync(this StorageFolder folder, string name)
+        public static IAsyncOperation<IStorageItem> TryGetItemAsync(this Windows.Storage.StorageFolder folder, string name)
         {
             Task<IStorageItem> t = Task.Run<IStorageItem>(async () =>
             {
                 if (name.Contains("."))
                 {
                     // names containing a . are files so do this faster files-only approach
-                    foreach (StorageFile file in await folder.GetFilesAsync())
+                    foreach (Windows.Storage.StorageFile file in await folder.GetFilesAsync())
                     {
                         if (file.Name == name)
                         {
@@ -187,7 +187,7 @@ namespace InTheHand.Storage
                 size += await GetFolderSizeAsync(thisFolder);
             }
 
-            foreach (StorageFile thisFile in await folder.GetFilesAsync())
+            foreach (Windows.Storage.StorageFile thisFile in await folder.GetFilesAsync())
             {
                 Windows.Storage.FileProperties.BasicProperties props = await thisFile.GetBasicPropertiesAsync();
                 size += props.Size;

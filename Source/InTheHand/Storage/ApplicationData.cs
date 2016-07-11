@@ -4,6 +4,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+
 namespace InTheHand.Storage
 {
     /// <summary>
@@ -39,8 +41,10 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __IOS__
                 return new StorageFolder(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return new StorageFolder(Windows.Storage.ApplicationData.Current.LocalFolder);
+#else
+                throw new PlatformNotSupportedException();
 #endif
             }
         }
