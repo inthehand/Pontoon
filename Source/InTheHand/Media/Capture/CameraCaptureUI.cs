@@ -22,16 +22,24 @@ namespace InTheHand.Media.Capture
     {
 #if __IOS__
         private UIImagePickerController _pc = new UIImagePickerController();
-#endif
         private EventWaitHandle _handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         private string _filename;
+#elif WINDOWS_UWP || WINDOWS_APP
+        private Windows.Media.Capture.CameraCaptureUI _capture;
 
+        public static implicit operator Windows.Media.Capture.CameraCaptureUI(CameraCaptureUI c)
+        {
+            return c._capture;
+        }
+#endif
         public CameraCaptureUI()
         {
 #if __IOS__
             _pc.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
             _pc.FinishedPickingMedia += Pc_FinishedPickingMedia;
             _pc.Canceled += Pc_Canceled;
+#elif WINDOWS_UWP || WINDOWS_APP
+            _capture = new Windows.Media.Capture.CameraCaptureUI();
 #endif
         }
 
@@ -43,19 +51,19 @@ namespace InTheHand.Media.Capture
             {
                 gfxStream = e.EditedImage.AsJPEG().AsStream();
             }
-            else if(e.OriginalImage != null)
+            else if (e.OriginalImage != null)
             {
                 gfxStream = e.OriginalImage.AsJPEG().AsStream();
             }
 
-            if(gfxStream != null)
+            if (gfxStream != null)
             {
                 _filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DateTime.UtcNow.ToString("yyyy-mm-dd HH:mm:ss") + ".jpg");
                 Stream file = File.Create(_filename);
                 gfxStream.CopyTo(file);
                 file.Close();
             }
-           
+
             _pc.DismissViewController(true, null);
             _handle.Set();
         }
@@ -72,12 +80,10 @@ namespace InTheHand.Media.Capture
         /// </summary>
         /// <param name="mode">Specifies whether the user interface that will be shown allows the user to capture a photo, capture a video, or capture both photos and videos.</param>
         /// <returns>When this operation completes, a StorageFile object is returned.</returns>
-        public Task<StorageFile> CaptureFileAsync(CameraCaptureUIMode mode)
+        public async Task<StorageFile> CaptureFileAsync(CameraCaptureUIMode mode)
         {
-            return Task.Run<StorageFile>(async () =>
-            {
 #if __IOS__
-               UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+            UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
                 {
                     _pc.SourceType = UIImagePickerControllerSourceType.Camera;
                     switch (mode)
@@ -90,18 +96,23 @@ namespace InTheHand.Media.Capture
                             _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Video;
                             break;
                     }
-                    
+
                     UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pc, true, null);
                 });
-#endif
-                _handle.WaitOne();
 
-                if(!string.IsNullOrEmpty(_filename))
-                {
-                    return await StorageFile.GetFileFromPathAsync(_filename);
-                }
-                return null;
-            });
+            _handle.WaitOne();
+
+            if (!string.IsNullOrEmpty(_filename))
+            {
+                return await StorageFile.GetFileFromPathAsync(_filename);
+            }
+
+            return null;
+
+#elif WINDOWS_UWP || WINDOWS_APP
+            
+            return StorageFile.FromWindowsStorageFile(await _capture.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((uint)mode)));
+#endif
         }
     }
 

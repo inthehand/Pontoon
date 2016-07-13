@@ -276,6 +276,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
+      <Link>Media\Capture\CameraCaptureUI.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutPage.xaml.cs">
       <Link>UI\ApplicationSettings\AboutPage.xaml.cs</Link>
     </Compile>

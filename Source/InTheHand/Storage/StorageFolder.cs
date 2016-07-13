@@ -27,9 +27,14 @@ namespace InTheHand.Storage
         public static async Task<StorageFolder> GetFolderFromPathAsync(string path)
         {
 #if __ANDROID__ || __IOS__
+            if(string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+
             return new StorageFolder(path);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return new Storage.StorageFolder(await Windows.Storage.StorageFolder.GetFolderFromPathAsync(path));
+            return Storage.StorageFolder.FromWindowsStorageFolder(await Windows.Storage.StorageFolder.GetFolderFromPathAsync(path));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -48,6 +53,11 @@ namespace InTheHand.Storage
         internal StorageFolder(Windows.Storage.StorageFolder folder)
         {
             _folder = folder;
+        }
+
+        public static StorageFolder FromWindowsStorageFolder(Windows.Storage.StorageFolder folder)
+        {
+            return folder == null ? null : new Storage.StorageFolder(folder);
         }
 
         [CLSCompliant(false)]

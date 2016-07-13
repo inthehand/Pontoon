@@ -27,9 +27,14 @@ namespace InTheHand.Storage
         public static async Task<StorageFile> GetFileFromPathAsync(string path)
         {
 #if __ANDROID__ || __IOS__
+            if(string.IsNullOrEmpty(path))
+            {
+                return null;
+            }
+
             return new StorageFile(path);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return new Storage.StorageFile(await Windows.Storage.StorageFile.GetFileFromPathAsync(path));
+            return StorageFile.FromWindowsStorageFile(await Windows.Storage.StorageFile.GetFileFromPathAsync(path));
 #else
             return null;
 #endif
@@ -50,6 +55,11 @@ namespace InTheHand.Storage
             _file = file;
         }
 
+        public static StorageFile FromWindowsStorageFile(Windows.Storage.StorageFile file)
+        {
+            return file == null ? null : new Storage.StorageFile(file);
+        }
+       
         [CLSCompliant(false)]
         public static implicit operator Windows.Storage.StorageFile(StorageFile file)
         {

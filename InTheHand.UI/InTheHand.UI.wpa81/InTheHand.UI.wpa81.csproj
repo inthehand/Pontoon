@@ -250,6 +250,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
+      <Link>Media\Capture\CameraCaptureUI.cs</Link>
+    </None>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutPage.xaml.cs">
       <Link>UI\ApplicationSettings\AboutPage.xaml.cs</Link>
     </Compile>
