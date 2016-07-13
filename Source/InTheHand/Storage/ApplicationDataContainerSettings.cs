@@ -39,6 +39,7 @@ namespace InTheHand.Storage
         {
             _settings = containerSettings;
         }
+        
 #else
         private ApplicationDataLocality _locality;
 

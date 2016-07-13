@@ -55,6 +55,7 @@ namespace InTheHand.Storage
             _file = file;
         }
 
+        [CLSCompliant(false)]
         public static StorageFile FromWindowsStorageFile(Windows.Storage.StorageFile file)
         {
             return file == null ? null : new Storage.StorageFile(file);
@@ -181,6 +182,7 @@ namespace InTheHand.Storage
         /// <summary>
         /// Gets the attributes of a file.
         /// </summary>
+        [CLSCompliant(false)]
         public FileAttributes Attributes
         {
             get

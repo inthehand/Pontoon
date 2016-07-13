@@ -33,6 +33,8 @@ namespace InTheHand.System.Profile
                 return "Windows.Desktop";
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return "Windows.Mobile";
+#else
+                return string.Empty;
 #endif
             }
         }
@@ -41,11 +43,16 @@ namespace InTheHand.System.Profile
         {
             get
             {
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+                return global::System.Environment.OSVersion.Version.ToString();
+#else
                 if (_native != null)
                 {
                     return _native.GetType().GetRuntimeProperty("DeviceFamilyVersion").GetValue(_native).ToString();
                 }
+
                 return string.Empty;
+#endif
             }
         }
     }

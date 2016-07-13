@@ -35,8 +35,12 @@ namespace InTheHand
         {
             get
             {
+
                 if (_version == null)
                 {
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+                    _version = global::System.Environment.OSVersion.Version;
+#else
                     string rawString = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
                     if (string.IsNullOrEmpty(rawString))
                     {
@@ -52,6 +56,7 @@ namespace InTheHand
                         int revision = (int)(raw & 0x000000000000FFFFL);
                         _version = new Version(10 + major, minor, build, revision);
                     }
+#endif
                 }
 
                 return _version;

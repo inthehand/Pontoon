@@ -199,7 +199,7 @@ namespace InTheHand.ApplicationModel
 #if __ANDROID__
                 return DateTimeOffsetHelper.FromUnixTimeMilliseconds(_packageInfo.FirstInstallTime);
 #elif __IOS__
-                DateTime d = Directory.GetCreationTime(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+                DateTime d = Directory.GetCreationTime(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.MyDocuments));
                 return new DateTimeOffset(d);
 #elif WINDOWS_APP
                 PropertyInfo pi = _package.GetType().GetRuntimeProperty("InstalledDate");

@@ -27,6 +27,7 @@ namespace InTheHand.Media.Capture
 #elif WINDOWS_UWP || WINDOWS_APP
         private Windows.Media.Capture.CameraCaptureUI _capture;
 
+        [CLSCompliant(false)]
         public static implicit operator Windows.Media.Capture.CameraCaptureUI(CameraCaptureUI c)
         {
             return c._capture;
@@ -58,7 +59,7 @@ namespace InTheHand.Media.Capture
 
             if (gfxStream != null)
             {
-                _filename = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), DateTime.UtcNow.ToString("yyyy-mm-dd HH:mm:ss") + ".jpg");
+                _filename = Path.Combine(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal), DateTime.UtcNow.ToString("yyyy-mm-dd HH:mm:ss") + ".jpg");
                 Stream file = File.Create(_filename);
                 gfxStream.CopyTo(file);
                 file.Close();

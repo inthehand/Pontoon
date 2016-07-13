@@ -11,6 +11,7 @@ namespace InTheHand.Storage
     /// <summary>
     /// Describes the attributes of a file or folder.
     /// </summary>
+    [CLSCompliant(false)]
     [Flags]
     public enum FileAttributes : uint
     {

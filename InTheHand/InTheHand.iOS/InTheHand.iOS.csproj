@@ -117,6 +117,9 @@
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Environment.cs">
+      <Link>Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
@@ -176,6 +179,12 @@
     </Compile>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsInfo.cs">
+      <Link>System\Profile\AnalyticsInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
+      <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
     </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

@@ -37,7 +37,7 @@ namespace InTheHand.Devices.Enumeration
         private static BluetoothLeScanner _scanner;
         static DeviceInformation()
         {
-            BluetoothManager bluetoothManager = (BluetoothManager)activity.getSystemService(activity.BLUETOOTH_SERVICE);
+            BluetoothManager bluetoothManager = (BluetoothManager)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Android.MainApplication.BluetoothService);
             _scanner = bluetoothManager.Adapter.BluetoothLeScanner;
 
         }
