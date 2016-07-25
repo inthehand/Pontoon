@@ -48,7 +48,7 @@ namespace InTheHand.ApplicationModel.Calls
             return new PhoneCallStore();
 
 #elif __IOS__
-            if (UIKit.UIDevice.CurrentDevice.Model != "iPhone")
+            if (UIKit.UIDevice.CurrentDevice.Model == "iPhone")
             {
                 return new PhoneCallStore();
             }

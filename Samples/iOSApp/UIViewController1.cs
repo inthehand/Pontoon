@@ -105,10 +105,13 @@ namespace ApplicationModel.iOS
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
 
-            InTheHand.ApplicationModel.Chat.ChatMessage msg = new InTheHand.ApplicationModel.Chat.ChatMessage();
-            msg.Body = "INIT 123456";
-            msg.Recipients.Add("1234");
-            await InTheHand.ApplicationModel.Chat.ChatMessageManager.ShowComposeSmsMessageAsync(msg);
+            var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
+            if(store != null)
+            {
+                var g = await store.GetDefaultLineAsync();
+                var l = await InTheHand.ApplicationModel.Calls.PhoneLine.FromIdAsync(g);
+                l.Dial("07968449031", "Pete");
+            }
         }
 
         public override void ViewDidLoad()
