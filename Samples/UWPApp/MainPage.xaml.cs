@@ -46,10 +46,14 @@ namespace UWPApp
             Task.Run(async () => {
                 await Task.Delay(1000);
 
+                //var sel = Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(Windows.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.DeviceInformation);
+
                 var sel = Windows.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
                  var devs =   await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(sel);
                 foreach(DeviceInformation di in devs)
                 {
+                    //var s = await Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.FromIdAsync(di.Id);
+
                     var d = await Windows.Devices.Bluetooth.BluetoothLEDevice.FromIdAsync(di.Id);
                     foreach(GattDeviceService serv in d.GattServices)
                     {

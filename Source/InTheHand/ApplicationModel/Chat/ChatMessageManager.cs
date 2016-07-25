@@ -56,23 +56,28 @@ namespace InTheHand.ApplicationModel.Chat
             {
                 try
                 {
-                    MFMessageComposeViewController mcontroller = new MFMessageComposeViewController();
-                    mcontroller.Finished += mcontroller_Finished;
-
                     string[] recipients = new string[message.Recipients.Count];
                     message.Recipients.CopyTo(recipients, 0);
-                    mcontroller.Recipients = recipients;
-                    mcontroller.Body = message.Body;
 
-                    UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
-                    while (currentController.PresentedViewController != null)
-                        currentController = currentController.PresentedViewController;
+                    UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+                    {
+                        MFMessageComposeViewController mcontroller = new MFMessageComposeViewController();
+                        mcontroller.Finished += mcontroller_Finished;
+                        
+                        mcontroller.Recipients = recipients;
+                        mcontroller.Body = message.Body;
 
-                    currentController.PresentViewController(mcontroller, true, null);
+                        UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+                        while (currentController.PresentedViewController != null)
+                            currentController = currentController.PresentedViewController;
+
+                        currentController.PresentViewController(mcontroller, true, null);
+                    });
 
                 }
-                catch
+                catch(Exception ex)
                 {
+                    global::System.Diagnostics.Debug.WriteLine(ex);
                     // probably an iPod/iPad
                     throw new PlatformNotSupportedException();
                 }

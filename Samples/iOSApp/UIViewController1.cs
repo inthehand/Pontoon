@@ -104,8 +104,11 @@ namespace ApplicationModel.iOS
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
-            
 
+            InTheHand.ApplicationModel.Chat.ChatMessage msg = new InTheHand.ApplicationModel.Chat.ChatMessage();
+            msg.Body = "INIT 123456";
+            msg.Recipients.Add("1234");
+            await InTheHand.ApplicationModel.Chat.ChatMessageManager.ShowComposeSmsMessageAsync(msg);
         }
 
         public override void ViewDidLoad()
