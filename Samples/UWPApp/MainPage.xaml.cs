@@ -81,6 +81,7 @@ namespace UWPApp
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Message", "Title");
             md.Commands.Add(new InTheHand.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
             md.Commands.Add(new InTheHand.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
