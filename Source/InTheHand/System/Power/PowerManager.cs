@@ -106,6 +106,9 @@ namespace InTheHand.System.Power
                     bool saverOn = Windows.Phone.System.Power.PowerManager.PowerSavingMode == Windows.Phone.System.Power.PowerSavingMode.On;
                     return saverOn ? EnergySaverStatus.On : EnergySaverStatus.Off;
                 }
+
+                return EnergySaverStatus.Disabled;
+
 #elif WINDOWS_UWP
                 return (EnergySaverStatus) ((int)Windows.System.Power.PowerManager.EnergySaverStatus);
 #else
