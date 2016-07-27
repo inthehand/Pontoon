@@ -42,6 +42,10 @@ namespace InTheHand.System.Power
             {
                 _isSimulator = true;
             }
+            else
+            {
+                _device.BatteryMonitoringEnabled = true;
+            }
 #elif __ANDROID__
             _batteryManager = (BatteryManager)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Context.BatteryService);
 #elif WINDOWS_APP
@@ -62,7 +66,23 @@ namespace InTheHand.System.Power
         {
             get
             {
-#if WINDOWS_UWP
+#if __IOS__
+                switch(_device.BatteryState)
+                {
+                    case UIKit.UIDeviceBatteryState.Charging:
+                        return BatteryStatus.Charging;
+
+                    case UIKit.UIDeviceBatteryState.Unplugged:
+                        return BatteryStatus.Discharging;
+
+                    case UIKit.UIDeviceBatteryState.Full:
+                        return BatteryStatus.Idle;
+
+                    default:
+                        return BatteryStatus.NotPresent;
+                        
+                }
+#elif WINDOWS_UWP
                 return (BatteryStatus) ((int)Windows.System.Power.PowerManager.BatteryStatus);
 #else
                 return BatteryStatus.Idle;
@@ -88,9 +108,9 @@ namespace InTheHand.System.Power
                 }
 #elif WINDOWS_UWP
                 return (EnergySaverStatus) ((int)Windows.System.Power.PowerManager.EnergySaverStatus);
-#endif
-
+#else
                 return EnergySaverStatus.Disabled;
+#endif
             }
         }
 
@@ -151,9 +171,8 @@ namespace InTheHand.System.Power
                 if (_remainingChargePercentChanged == null)
                 {
 #if __IOS__
-                    if(!_isSimulator && !_device.BatteryMonitoringEnabled)
+                    if(!_isSimulator)
                     {
-                        _device.BatteryMonitoringEnabled = true;
                         UIKit.UIDevice.Notifications.ObserveBatteryLevelDidChange(BatteryLevelDidChangeHandler);
                     }
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -171,7 +190,7 @@ namespace InTheHand.System.Power
                 if(_remainingChargePercentChanged == null)
                 {
 #if __IOS__
-                    _device.BatteryMonitoringEnabled = false;
+                    //_device.BatteryMonitoringEnabled = false;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged -= _battery_RemainingChargePercentChanged;
 #elif WINDOWS_UWP
@@ -183,13 +202,11 @@ namespace InTheHand.System.Power
 #endif
 
 #if __IOS__
-        private static void BatteryLevelDidChangeHandler(object sender, global::Foundation.NSNotificationEventArgs e)
+        private static void BatteryLevelDidChangeHandler(object sender, NSNotificationEventArgs e)
         {
-            if (_remainingChargePercentChanged != null)
-            {
-                _remainingChargePercentChanged(null, null);
-            }
+            _remainingChargePercentChanged?.Invoke(null, null);
         }
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
         private static void _battery_RemainingChargePercentChanged(object sender, object e)
         {
