@@ -140,6 +140,9 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
+      <Link>Foundation\TypedEventHandler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>
