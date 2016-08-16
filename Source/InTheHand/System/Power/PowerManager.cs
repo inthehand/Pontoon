@@ -132,6 +132,11 @@ namespace InTheHand.System.Power
                     return 100;
                 }
 
+                if(_device.BatteryLevel < 0)
+                {
+                    return 0;
+                }
+
                 double percent = _device.BatteryLevel;
                 return Convert.ToInt32(percent * 100f);
 #elif __ANDROID__
