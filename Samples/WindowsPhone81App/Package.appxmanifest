@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:w10="http://schemas.microsoft.com/appx/manifest/foundation/windows10" IgnorableNamespaces="uap w10">
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
 
   <Identity Name="d1fba6be-9eae-4290-b8fe-42446ed3b5a2"
             Publisher="CN=Peter"
@@ -40,6 +40,5 @@
   </Applications>
   <Capabilities>
     <Capability Name="internetClientServer" />
-    <uap:Capability Name="phoneCall"/>
   </Capabilities>
 </Package>

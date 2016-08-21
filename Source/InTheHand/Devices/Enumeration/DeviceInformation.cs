@@ -43,13 +43,27 @@ namespace InTheHand.Devices.Enumeration
         }
 #elif __IOS__
         internal CBPeripheral _peripheral;
-        private static CBCentralManager _manager = new CBCentralManager();
+        private static CBCentralManager _manager;
+        private static System.Threading.EventWaitHandle handle;
         //private static EventHandler<CBPeripheralsEventArgs> _retrieved = new EventHandler<CBPeripheralsEventArgs>(_manager_RetrievedConnectedPeripherals);
         internal static List<DeviceInformation> _devices = new List<DeviceInformation>();
         static DeviceInformation()
         {
+            handle = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.ManualReset);
+            _manager = new CBCentralManager();
             //_manager.RetrievedConnectedPeripherals += _retrieved;
+            _manager.UpdatedState += _manager_UpdatedState;
             _manager.DiscoveredPeripheral += _manager_DiscoveredPeripheral;
+            
+        }
+
+        private static void _manager_UpdatedState(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(_manager.State);
+            if(_manager.State == CBCentralManagerState.PoweredOn)
+            {
+                handle.Set();
+            }
         }
 
         private static bool retrieving = false;
@@ -78,15 +92,23 @@ namespace InTheHand.Devices.Enumeration
         public static async Task<IReadOnlyCollection<DeviceInformation>> FindAllAsync(string aqsFilter)
         {
 #if __IOS__
-            retrieving = true;
-            //_manager.RetrieveConnectedPeripherals();
-            _manager.ScanForPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery.ToByteArray()));
-            while (_manager.IsScanning)
+            return await Task.Run<IReadOnlyCollection<DeviceInformation>>(async () =>
             {
-                await Task.Delay(100);
-            }
+                retrieving = true;
+                if (_manager.State != CBCentralManagerState.PoweredOn)
+                {
+                    handle.WaitOne();
+                }
+                //_manager.RetrieveConnectedPeripherals();
+                _manager.ScanForPeripherals(CBUUID.FromBytes(Guid.Empty.ToByteArray()));// CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()));
+                while (_manager.IsScanning)
+                {
+                    await Task.Delay(100);
+                }
 
-            return _devices.AsReadOnly();
+                return _devices.AsReadOnly();
+            });
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             var devs = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(aqsFilter);
             List<DeviceInformation> all = new List<DeviceInformation>();

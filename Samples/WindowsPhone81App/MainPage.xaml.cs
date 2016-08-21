@@ -56,6 +56,8 @@ namespace WindowsPhone81App
 
             InTheHand.ApplicationModel.DataTransfer.Clipboard.Clear();
 
+            InTheHand.UI.Notifications.ToastNotificationManager.CreateToastNotifierForApplication().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
+
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)

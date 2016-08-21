@@ -32,8 +32,8 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             XmlDocument doc = Windows.UI.Notifications.ToastNotificationManager.GetTemplateContent(Windows.UI.Notifications.ToastTemplateType.ToastText02);
             var textElements = doc.GetElementsByTagName("text");
-            textElements[0].Attributes[0].InnerText = title;
-            textElements[1].Attributes[0].InnerText = content;
+            textElements[0].InnerText = title;
+            textElements[1].InnerText = content;
             return new ToastNotification(new Windows.UI.Notifications.ToastNotification(doc));
 #elif WINDOWS_PHONE
             return new ToastNotification(new Microsoft.Phone.Shell.ShellToast() { Title = title, Content = content });

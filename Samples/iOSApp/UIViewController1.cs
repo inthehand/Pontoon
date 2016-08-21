@@ -7,6 +7,7 @@ using Foundation;
 using InTheHand.UI.Popups;
 using System.Threading.Tasks;
 using InTheHand.Storage;
+using InTheHand.Devices.Enumeration;
 
 namespace ApplicationModel.iOS
 {
@@ -85,11 +86,12 @@ namespace ApplicationModel.iOS
         {
             base.ViewDidAppear(animated);
 
-            foreach(NSObject o in NSBundle.MainBundle.InfoDictionary.Keys)
+            await Task.Delay(2000);
+            foreach(DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))
             {
-                System.Diagnostics.Debug.WriteLine(o.ToString());
-                System.Diagnostics.Debug.WriteLine(NSBundle.MainBundle.InfoDictionary[o].ToString());
+                System.Diagnostics.Debug.WriteLine(di.Name);
             }
+
 
           
             /*InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Content", "Title");
@@ -105,13 +107,13 @@ namespace ApplicationModel.iOS
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
 
-            var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
+            /*var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
             if(store != null)
             {
                 var g = await store.GetDefaultLineAsync();
                 var l = await InTheHand.ApplicationModel.Calls.PhoneLine.FromIdAsync(g);
                 l.Dial("07968449031", "Pete");
-            }
+            }*/
         }
 
         public override void ViewDidLoad()
