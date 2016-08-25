@@ -34,7 +34,9 @@ namespace InTheHand.Storage
         {
         }
 
-
+        /// <summary>
+        /// Gets the root folder in the local app data store.
+        /// </summary>
         public StorageFolder LocalFolder
         {
             get
@@ -88,6 +90,25 @@ namespace InTheHand.Storage
 #endif
                 }
                 return roamingSettings;
+            }
+        }
+
+        /// <summary>
+        /// Gets the root folder in the temporary app data store.
+        /// </summary>
+        public StorageFolder TemporaryFolder
+        {
+            get
+            {
+#if __ANDROID__
+                return new StorageFolder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.CacheDir.AbsolutePath);
+#elif __IOS__
+                return new StorageFolder("tmp/");
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(Windows.Storage.ApplicationData.Current.TemporaryFolder);
+#else
+                throw new PlatformNotSupportedException();
+#endif
             }
         }
     }

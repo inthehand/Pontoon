@@ -53,7 +53,7 @@ namespace InTheHand.Storage
         /// If the file or folder can't be found, <see cref="TryGetItemAsync"/> returns null and doesn't raise an exception.
         /// Because the method returns null, you can use it to check if the specified fie or folder exists.</remarks>
         [CLSCompliant(false)]
-        public static IAsyncOperation<IStorageItem> TryGetItemAsync(this StorageFolder folder, string name)
+        public static IAsyncOperation<Windows.Storage.IStorageItem> TryGetItemAsync(this Windows.Storage.StorageFolder folder, string name)
         {
             // trim leading \ if present
             if(name.StartsWith("\\"))
@@ -62,13 +62,13 @@ namespace InTheHand.Storage
             }
 
             TryGetItemState state = new TryGetItemState() { Folder = folder, Name = name };
-            Task<IStorageItem> t = new Task<IStorageItem>(TryGetItem, state);
+            Task<Windows.Storage.IStorageItem> t = new Task<Windows.Storage.IStorageItem>(TryGetItem, state);
             t.Start();
-            return t.AsAsyncOperation<IStorageItem>();
+            return t.AsAsyncOperation<Windows.Storage.IStorageItem>();
         }
 
         /// <exclude/>
-        private static IStorageItem TryGetItem(object state)
+        private static Windows.Storage.IStorageItem TryGetItem(object state)
         {
             TryGetItemState tgiState = (TryGetItemState)state;
 
@@ -78,7 +78,7 @@ namespace InTheHand.Storage
                 // On 8.1 defer to try/catch if outside of localstate/isostore
                 try
                 {
-                    Task<IStorageItem> t = tgiState.Folder.GetItemAsync(tgiState.Name).AsTask<IStorageItem>();
+                    Task<Windows.Storage.IStorageItem> t = tgiState.Folder.GetItemAsync(tgiState.Name).AsTask<Windows.Storage.IStorageItem>();
                     t.Wait();
                     return t.Result;
                 }
@@ -138,9 +138,9 @@ namespace InTheHand.Storage
         /// If the file or folder can't be found, <see cref="TryGetItemAsync"/> returns null and doesn't raise an exception.
         /// Because the method returns null, you can use it to check if the specified fie or folder exists.</remarks>
         [CLSCompliant(false)]
-        public static IAsyncOperation<IStorageItem> TryGetItemAsync(this Windows.Storage.StorageFolder folder, string name)
+        public static IAsyncOperation<Windows.Storage.IStorageItem> TryGetItemAsync(this Windows.Storage.StorageFolder folder, string name)
         {
-            Task<IStorageItem> t = Task.Run<IStorageItem>(async () =>
+            Task<Windows.Storage.IStorageItem> t = Task.Run<Windows.Storage.IStorageItem>(async () =>
             {
                 if (name.Contains("."))
                 {
@@ -156,7 +156,7 @@ namespace InTheHand.Storage
                 else
                 {
                     // items with no extension could be either file or folder so check all items
-                    foreach (IStorageItem item in await folder.GetItemsAsync())
+                    foreach (Windows.Storage.IStorageItem item in await folder.GetItemsAsync())
                     {
                         if (item.Name == name)
                         {
@@ -168,7 +168,7 @@ namespace InTheHand.Storage
                 return null;
             });
 
-            return t.AsAsyncOperation<IStorageItem>();
+            return t.AsAsyncOperation<Windows.Storage.IStorageItem>();
         }
 #endif
 
@@ -178,7 +178,7 @@ namespace InTheHand.Storage
         /// <param name="folder">The folder to measure</param>
         /// <returns>The size, in bytes, of the folder and all of its contents.</returns>
         [CLSCompliant(false)]
-        public static async Task<ulong> GetFolderSizeAsync(this IStorageFolder folder)
+        public static async Task<ulong> GetFolderSizeAsync(this Windows.Storage.IStorageFolder folder)
         {
             ulong size = 0;
 

@@ -171,8 +171,8 @@
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
       <Link>Storage\ApplicationDataLocality.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Storage\CreateCollisionOption.cs">
-      <Link>Storage\CreateCollisionOption.cs</Link>
+    <Compile Include="..\..\Source\InTheHand\Storage\CreationCollisionOption.cs">
+      <Link>Storage\CreationCollisionOption.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>

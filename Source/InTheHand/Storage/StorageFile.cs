@@ -11,11 +11,85 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Storage
 {
+    public interface IStorageItem
+    {
+        /// <summary>
+        /// Deletes the current item. 
+        /// </summary>
+        /// <returns></returns>
+        Task DeleteAsync();
+
+        /// <summary>
+        /// Determines whether the current IStorageItem matches the specified StorageItemTypes value.
+        /// </summary>
+        /// <param name="type">The value to match against.</param>
+        /// <returns></returns>
+        bool IsOfType(StorageItemTypes type);
+
+        /// <summary>
+        /// Gets the attributes of a storage item.
+        /// </summary>
+        FileAttributes Attributes { get; }
+
+        /// <summary>
+        /// Gets the date and time when the current item was created. 
+        /// </summary>
+        DateTimeOffset DateCreated { get; }
+
+        /// <summary>
+        /// Gets the name of the item including the file name extension if there is one.
+        /// </summary>
+        string Name { get; }
+        
+        /// <summary>
+        /// Gets the full file-system path of the item, if the item has a path.
+        /// </summary>
+        string Path { get; }
+    }
+
+    /// <summary>
+    /// Describes whether an item that implements the <see cref="IStorageItem"/> interface is a file or a folder.
+    /// </summary>
+    public enum StorageItemTypes
+    {
+        /// <summary>
+        /// A storage item that is neither a file nor a folder.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// A file that is represented as a <see cref="StorageFile"/> instance.
+        /// </summary>
+        File = 1,
+        /// <summary>
+        /// A folder that is represented as a <see cref="StorageFolder"/> instance.
+        /// </summary>
+        Folder = 2,
+    }
+
+    public interface IStorageFile : IStorageItem
+    {
+        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder);
+        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
+        Task MoveAsync(IStorageFolder destinationFolder);
+        Task MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
+
+        /// <summary>
+        /// Gets the MIME type of the contents of the file.
+        /// </summary>
+        /// <value>The MIME type of the file contents.
+        /// For example, a music file might have the "audio/mpeg" MIME type.</value>
+        string ContentType { get; }
+
+        /// <summary>
+        /// Gets the type (file name extension) of the file.
+        /// </summary>
+        string FileType { get; }
+    }
     /// <summary>
     /// Represents a file.
     /// Provides information about the file and its content, and ways to manipulate them.
     /// </summary>
-    public sealed class StorageFile
+    public sealed class StorageFile : IStorageFile, IStorageItem
     {
         /// <summary>
         /// Gets a StorageFile object to represent the file at the specified path.
@@ -73,12 +147,12 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="destinationFolder">The destination folder where the copy of the file is created.</param>
         /// <returns></returns>
-        public async Task<StorageFile> CopyAsync(StorageFolder destinationFolder)
+        public async Task<StorageFile> CopyAsync(IStorageFolder destinationFolder)
         {
 #if __ANDROID__ || __IOS__
             return await CopyAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)destinationFolder);
+            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
             return file == null ? null : new StorageFile(file);
 #else
             throw new PlatformNotSupportedException();
@@ -91,14 +165,14 @@ namespace InTheHand.Storage
         /// <param name="destinationFolder">The destination folder where the copy of the file is created.</param>
         /// <param name="desiredNewName">The new name for the copy of the file created in the destinationFolder.</param>
         /// <returns></returns>
-        public async Task<StorageFile> CopyAsync(StorageFolder destinationFolder, string desiredNewName)
+        public async Task<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
         {
 #if __ANDROID__ || __IOS__
             string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
             global::System.IO.File.Copy(Path, newPath);
             return new Storage.StorageFile(newPath);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)destinationFolder, desiredNewName);
+            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
             return file == null ? null : new StorageFile(file);
 #else
             throw new PlatformNotSupportedException();
@@ -150,12 +224,12 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="destinationFolder">The destination folder where the file is moved.</param>
         /// <returns></returns>
-        public async Task MoveAsync(StorageFolder destinationFolder)
+        public async Task MoveAsync(IStorageFolder destinationFolder)
         {
 #if __ANDROID__ || __IOS__
             await MoveAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAsync((Windows.Storage.StorageFolder)destinationFolder);
+            await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -167,13 +241,13 @@ namespace InTheHand.Storage
         /// <param name="destinationFolder">The destination folder where the file is moved.</param>
         /// <param name="desiredNewName">The desired name of the file after it is moved.</param>
         /// <returns></returns>
-        public async Task MoveAsync(StorageFolder destinationFolder, string desiredNewName)
+        public async Task MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
         {
 #if __ANDROID__ || __IOS__
             string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
             global::System.IO.File.Move(Path, newPath);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAsync((Windows.Storage.StorageFolder)destinationFolder, desiredNewName);
+            await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -213,6 +287,28 @@ namespace InTheHand.Storage
                 return _file.DateCreated;
 #else
                 return DateTimeOffset.MinValue;
+#endif
+            }
+        }
+
+        public string ContentType
+        {
+            get
+            {
+#if __IOS__
+                string mime = string.Empty;
+
+                string utref = MobileCoreServices.UTType.CreatePreferredIdentifier(MobileCoreServices.UTType.TagClassFilenameExtension, FileType.Substring(1).ToLower(), "");
+                if (!string.IsNullOrEmpty(utref))
+                {
+                    mime = MobileCoreServices.UTType.GetPreferredTag(utref, MobileCoreServices.UTType.TagClassMIMEType);
+                }
+                return mime;
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _file.ContentType;
+#else
+                return string.Empty;
 #endif
             }
         }
@@ -288,6 +384,11 @@ namespace InTheHand.Storage
 #else
                 throw new PlatformNotSupportedException();
 #endif
+        }
+
+        public bool IsOfType(StorageItemTypes type)
+        {
+            return type == StorageItemTypes.File;
         }
     }
 }

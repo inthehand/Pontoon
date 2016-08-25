@@ -37,7 +37,7 @@ namespace ApplicationModel.iOS
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
                     InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
-
+                    
                     InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
                     StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
                     /*
@@ -85,6 +85,9 @@ namespace ApplicationModel.iOS
         public async override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+
+            var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
+            System.Diagnostics.Debug.WriteLine(file.ContentType);
 
             await Task.Delay(2000);
             foreach(DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))

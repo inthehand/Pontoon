@@ -13,9 +13,24 @@ using System.Threading.Tasks;
 namespace InTheHand.Storage
 {
     /// <summary>
+    /// Manipulates folders and their contents, and provides information about them.
+    /// </summary>
+    public interface IStorageFolder : IStorageItem
+    {
+        Task<StorageFile> CreateFileAsync(string desiredName);
+        Task<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options);
+        Task<StorageFolder> CreateFolderAsync(string desiredName);
+        Task<StorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options);
+        Task<StorageFile> GetFileAsync(string filename);
+        Task<IReadOnlyList<StorageFile>> GetFilesAsync();
+        Task<StorageFolder> GetFolderAsync(string name);
+        Task<IReadOnlyList<StorageFolder>> GetFoldersAsync();
+    }
+
+    /// <summary>
     /// Manages folders and their contents and provides information about them.
     /// </summary>
-    public sealed class StorageFolder
+    public sealed class StorageFolder : IStorageFolder
     {
         /// <summary>
         /// Gets a StorageFile object to represent the file at the specified path.
@@ -72,21 +87,55 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="desiredName">The name of the new file to create in the current folder.</param>
         /// <returns>When this method completes, it returns a StorageFile that represents the new file.</returns>
-        public async Task<StorageFile> CreateFileAsync(string desiredName)
+        public Task<StorageFile> CreateFileAsync(string desiredName)
+        {
+            return CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
+        }
+
+        /// <summary>
+        /// Creates a new file with the specified name in the current folder.
+        /// </summary>
+        /// <param name="desiredName">The name of the new file to create in the current folder.</param>
+        /// <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
+        /// <returns>When this method completes, it returns a StorageFile that represents the new file.</returns>
+        public async Task<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options)
         {
 #if __ANDROID__ || __IOS__
             string filepath = global::System.IO.Path.Combine(Path, desiredName);
 
             if (global::System.IO.File.Exists(filepath))
             {
-                throw new IOException();
+                switch (options)
+                {
+                    case CreationCollisionOption.OpenIfExists:
+                        return new Storage.StorageFile(filepath);
+
+                    case CreationCollisionOption.ReplaceExisting:
+                        File.Delete(filepath);
+                        break;
+
+                    case CreationCollisionOption.GenerateUniqueName:
+                        for(int i = 1; i < 100; i++)
+                        {
+                            string newPath = string.Format(filepath.Substring(0, filepath.LastIndexOf('.')) + " ({0})" + filepath.Substring(filepath.LastIndexOf('.')), i);
+                            if (!File.Exists(newPath))
+                            {
+                                filepath = newPath;
+                                break;
+                            }
+                        }
+                        break;
+
+                    default:
+                        throw new IOException();
+                }
             }
 
             File.Create(filepath).Close();
 
             return new Storage.StorageFile(filepath);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _folder.CreateFileAsync(desiredName);
+            var file = await _folder.CreateFileAsync(desiredName, (Windows.Storage.CreationCollisionOption)((int)options));
             return file == null ? null : new StorageFile(file);
 #else
             throw new PlatformNotSupportedException();
@@ -98,14 +147,49 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
         /// <returns>When this method completes, it returns a StorageFolder that represents the new subfolder.</returns>
-        public async Task<StorageFolder> CreateFolderAsync(string desiredName)
+        public Task<StorageFolder> CreateFolderAsync(string desiredName)
+        {
+            return CreateFolderAsync(desiredName);
+        }
+
+        /// <summary>
+        /// Creates a new subfolder with the specified name in the current folder.
+        /// This method also specifies what to do if a subfolder with the same name already exists in the current folder. 
+        /// </summary>
+        /// <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
+        /// <param name="options">One of the enumeration values that determines how to handle the collision if a subfolder with the specified desiredName already exists in the current folder.</param>
+        /// <returns>When this method completes, it returns a StorageFolder that represents the new subfolder.</returns>
+        public async Task<StorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options)
         {
 #if __ANDROID__ || __IOS__
             string newpath = global::System.IO.Path.Combine(Path, desiredName);
 
             if (global::System.IO.Directory.Exists(newpath))
             {
-                throw new IOException();
+                switch (options)
+                {
+                    case CreationCollisionOption.OpenIfExists:
+                        return new Storage.StorageFolder(newpath);
+
+                    case CreationCollisionOption.ReplaceExisting:
+                        Directory.Delete(newpath);
+                        break;
+
+                    case CreationCollisionOption.GenerateUniqueName:
+                        for (int i = 1; i < 100; i++)
+                        {
+                            string uniquePath = string.Format(newpath.Substring(0, newpath.LastIndexOf('.')) + " ({0})" + newpath.Substring(newpath.LastIndexOf('.')), i);
+                            if (!File.Exists(uniquePath))
+                            {
+                                newpath = uniquePath;
+                                break;
+                            }
+                        }
+                        break;
+
+                    default:
+                        throw new IOException();
+                }
             }
 
             Directory.CreateDirectory(newpath);
@@ -186,7 +270,52 @@ namespace InTheHand.Storage
         }
 
         /// <summary>
-        /// Gets the parent folder of the current file.
+        /// Gets the specified folder from the current folder. 
+        /// </summary>
+        /// <param name="name">The name of the child folder to retrieve.</param>
+        /// <returns>When this method completes successfully, it returns a StorageFolder that represents the child folder.</returns>
+        public async Task<StorageFolder> GetFolderAsync(string name)
+        {
+#if __ANDROID__ || __IOS__
+            string folderpath = global::System.IO.Path.Combine(Path, name);
+
+            if (!global::System.IO.Directory.Exists(folderpath))
+            {
+                throw new FileNotFoundException();
+            }
+
+            return new StorageFolder(folderpath);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            var folder = await _folder.GetFolderAsync(name);
+            return folder == null ? null : new Storage.StorageFolder(folder);
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
+        /// <summary>
+        /// Gets the folders in the current folder.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<IReadOnlyList<StorageFolder>> GetFoldersAsync()
+        {
+            List<StorageFolder> folders = new List<StorageFolder>();
+#if __ANDROID__ || __IOS__
+            foreach (string foldername in global::System.IO.Directory.GetDirectories(Path))
+            {
+                folders.Add(new StorageFolder(global::System.IO.Path.Combine(Path, foldername)));
+            }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            foreach (Windows.Storage.StorageFolder folder in await _folder.GetFoldersAsync())
+            {
+                folders.Add(new StorageFolder(folder));
+            }
+#endif
+            return folders;
+        }
+
+        /// <summary>
+        /// Gets the parent folder of the current folder.
         /// </summary>
         /// <returns>When this method completes, it returns the parent folder as a StorageFolder.</returns>
         public async Task<StorageFolder> GetParentAsync()
@@ -205,6 +334,37 @@ namespace InTheHand.Storage
                 parent = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(parentPath);
             }
             return parent == null ? null : new StorageFolder(parent);
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
+        public async Task<IStorageItem> TryGetItemAsync(string name)
+        {
+#if __ANDROID__ || __IOS__
+            string itempath = global::System.IO.Path.Combine(Path, name);
+            if(File.Exists(itempath))
+            {
+                return new StorageFile(itempath);
+            }
+            else if(Directory.Exists(itempath))
+            {
+                return new StorageFolder(itempath);
+            }
+
+            return null;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            Windows.Storage.IStorageItem item = await _folder.TryGetItemAsync(name);
+            if(item.IsOfType(Windows.Storage.StorageItemTypes.File))
+            {
+                return new StorageFile(item as Windows.Storage.StorageFile);
+            }
+            else if(item.IsOfType(Windows.Storage.StorageItemTypes.Folder))
+            {
+                return new StorageFolder(item as Windows.Storage.StorageFolder);
+            }
+
+            return null;
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -279,6 +439,11 @@ namespace InTheHand.Storage
                 throw new PlatformNotSupportedException();
 #endif
             }
+        }
+
+        public bool IsOfType(StorageItemTypes type)
+        {
+            return type == StorageItemTypes.Folder;
         }
     }
 }
