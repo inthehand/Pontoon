@@ -8,6 +8,7 @@ using InTheHand.UI.Popups;
 using System.Threading.Tasks;
 using InTheHand.Storage;
 using InTheHand.Devices.Enumeration;
+using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
 
 namespace ApplicationModel.iOS
 {
@@ -93,6 +94,11 @@ namespace ApplicationModel.iOS
             foreach(DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))
             {
                 System.Diagnostics.Debug.WriteLine(di.Name);
+                BluetoothLEDevice dev = await BluetoothLEDevice.FromIdAsync(di.Id);
+                foreach(GattDeviceService s in dev.GattServices)
+                {
+                    System.Diagnostics.Debug.WriteLine(s.ToString());
+                }
             }
 
 

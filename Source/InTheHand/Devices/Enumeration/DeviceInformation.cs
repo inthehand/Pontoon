@@ -9,11 +9,13 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+
 #if __ANDROID__
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
 #elif __IOS__
 using CoreBluetooth;
+using Foundation;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
@@ -44,17 +46,28 @@ namespace InTheHand.Devices.Enumeration
 #elif __IOS__
         internal CBPeripheral _peripheral;
         private static CBCentralManager _manager;
-        private static System.Threading.EventWaitHandle handle;
+        private static System.Threading.EventWaitHandle stateHandle;
+        private static System.Threading.EventWaitHandle retrievedHandle = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.AutoReset);
         //private static EventHandler<CBPeripheralsEventArgs> _retrieved = new EventHandler<CBPeripheralsEventArgs>(_manager_RetrievedConnectedPeripherals);
         internal static List<DeviceInformation> _devices = new List<DeviceInformation>();
         static DeviceInformation()
         {
-            handle = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.ManualReset);
+            stateHandle = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.ManualReset);
             _manager = new CBCentralManager();
-            //_manager.RetrievedConnectedPeripherals += _retrieved;
+            //_manager.RetrievedConnectedPeripherals += _manager_RetrievedConnectedPeripherals;
+            //_manager.RetrievedPeripherals += _manager_RetrievedPeripherals;
             _manager.UpdatedState += _manager_UpdatedState;
             _manager.DiscoveredPeripheral += _manager_DiscoveredPeripheral;
-            
+        }
+
+        private static void _manager_RetrievedPeripherals(object sender, CBPeripheralsEventArgs e)
+        {
+            foreach (CBPeripheral p in e.Peripherals)
+            {
+                _devices.Add(new DeviceInformation(p,string.Empty));
+            }
+
+            retrievedHandle.Set();
         }
 
         private static void _manager_UpdatedState(object sender, EventArgs e)
@@ -62,30 +75,64 @@ namespace InTheHand.Devices.Enumeration
             System.Diagnostics.Debug.WriteLine(_manager.State);
             if(_manager.State == CBCentralManagerState.PoweredOn)
             {
-                handle.Set();
+                stateHandle.Set();
+            }
+            else
+            {
+                stateHandle.Reset();
             }
         }
-
-        private static bool retrieving = false;
-
-        private static void _manager_RetrievedConnectedPeripherals(object sender, CBPeripheralsEventArgs e)
+        
+       /* private static void _manager_RetrievedConnectedPeripherals(object sender, CBPeripheralsEventArgs e)
         {
             foreach(CBPeripheral p in e.Peripherals )
             {
                 _devices.Add(new DeviceInformation(p));
             }
 
-            retrieving = false;
-        }
+            retrievedHandle.Set();
+        }*/
 
         private static void _manager_DiscoveredPeripheral(object sender, CBDiscoveredPeripheralEventArgs e)
         {
-            _devices.Add(new DeviceInformation(e.Peripheral));
+            foreach(KeyValuePair<NSObject,NSObject> kvp in e.AdvertisementData)
+            {
+                System.Diagnostics.Debug.WriteLine(kvp.Key.ToString() + " " + kvp.Value.ToString());
+            }
+
+            //e.Peripheral.
+            System.Diagnostics.Debug.WriteLine(e.RSSI.ToString());
+            _devices.Add(new DeviceInformation(e.Peripheral, e.AdvertisementData["kCBAdvDataLocalName"].ToString()));
         }
 
-        internal DeviceInformation(CBPeripheral peripheral)
+        internal DeviceInformation(CBPeripheral peripheral, string name)
         {
             _peripheral = peripheral;
+            _name = name;
+        }
+
+        internal sealed class DeviceInformationCentralManagerDelegate : CoreBluetooth.CBCentralManagerDelegate
+        {
+            public override void UpdatedState(CBCentralManager central)
+            {
+                if(central.State == CBCentralManagerState.PoweredOn)
+                {
+                    stateHandle.Set();
+                }
+                else
+                {
+                    stateHandle.Reset();
+                }
+            }
+            public override void DiscoveredPeripheral(CBCentralManager central, CBPeripheral peripheral, NSDictionary advertisementData, NSNumber RSSI)
+            {
+                base.DiscoveredPeripheral(central, peripheral, advertisementData, RSSI);
+            }
+
+            public override void RetrievedConnectedPeripherals(CBCentralManager central, CBPeripheral[] peripherals)
+            {
+                base.RetrievedConnectedPeripherals(central, peripherals);
+            }
         }
 #endif
 
@@ -94,17 +141,26 @@ namespace InTheHand.Devices.Enumeration
 #if __IOS__
             return await Task.Run<IReadOnlyCollection<DeviceInformation>>(async () =>
             {
-                retrieving = true;
                 if (_manager.State != CBCentralManagerState.PoweredOn)
                 {
-                    handle.WaitOne();
+                    stateHandle.WaitOne();
                 }
-                //_manager.RetrieveConnectedPeripherals();
-                _manager.ScanForPeripherals(CBUUID.FromBytes(Guid.Empty.ToByteArray()));// CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()));
-                while (_manager.IsScanning)
-                {
-                    await Task.Delay(100);
-                }
+
+            //CBPeripheral[] peripherals = _manager.RetrieveConnectedPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()));
+
+                /*CBPeripheral[] peripherals = _manager.RetrievePeripheralsWithIdentifiers(null);// new CBUUID[] { CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery.ToByteArray()) });
+
+                foreach (CBPeripheral p in peripherals)
+                    {
+                        _devices.Add(new DeviceInformation(p));
+                    }*/
+                //retrievedHandle.WaitOne();
+                //_manager.ScanForPeripherals(CBUUID.FromString("180a"));
+                _manager.ScanForPeripherals(peripheralUuids: null);
+             //_manager.ScanForPeripherals( new CBUUID[] { CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery.ToByteArray()) });
+                await Task.Delay(12000);
+                    _manager.StopScan();
+           
 
                 return _devices.AsReadOnly();
             });
@@ -144,7 +200,7 @@ namespace InTheHand.Devices.Enumeration
             get
             {
 #if __IOS__
-                return _peripheral.Identifier.ToString();
+                return _peripheral.Identifier.AsString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.Id;
 #else
@@ -153,12 +209,21 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 
+#if __IOS__
+        private string _name;
+#endif
         public string Name
         {
             get
             {
 #if __IOS__
-                return _peripheral.Identifier.ToString();
+                if (string.IsNullOrEmpty(_peripheral.Name))
+                {
+                    return _name;
+                }
+
+                return _peripheral.Name;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.Name;
 #else

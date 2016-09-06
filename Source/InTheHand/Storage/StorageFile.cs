@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Storage
 {
+    /// <summary>
+    /// Manipulates storage items (files and folders) and their contents, and provides information about them.
+    /// </summary>
     public interface IStorageItem
     {
         /// <summary>
@@ -66,13 +69,49 @@ namespace InTheHand.Storage
         Folder = 2,
     }
 
+    /// <summary>
+    /// Represents a file.
+    /// Provides information about the file and its contents, and ways to manipulate them.
+    /// </summary>
     public interface IStorageFile : IStorageItem
     {
+        /// <summary>
+        /// Creates a copy of the file in the specified folder.
+        /// </summary>
+        /// <param name="destinationFolder"></param>
+        /// <returns></returns>
         Task<StorageFile> CopyAsync(IStorageFolder destinationFolder);
-        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
-        Task MoveAsync(IStorageFolder destinationFolder);
-        Task MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
 
+        /// <summary>
+        /// Creates a copy of the file in the specified folder, using the desired name.
+        /// </summary>
+        /// <param name="destinationFolder"></param>
+        /// <param name="desiredNewName"></param>
+        /// <returns></returns>
+        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
+
+        /// <summary>
+        /// Moves the current file to the location of the specified file and replaces the specified file in that location.
+        /// </summary>
+        /// <param name="fileToReplace"></param>
+        /// <returns></returns>
+        Task MoveAndReplaceAsync(IStorageFile fileToReplace);
+
+        /// <summary>
+        /// Moves the current file to the specified folder.
+        /// </summary>
+        /// <param name="destinationFolder"></param>
+        /// <returns></returns>
+        Task MoveAsync(IStorageFolder destinationFolder);
+
+        /// <summary>
+        /// Moves the current file to the specified folder and renames the file according to the desired name.
+        /// </summary>
+        /// <param name="destinationFolder"></param>
+        /// <param name="desiredNewName"></param>
+        /// <returns></returns>
+        Task MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
+        
         /// <summary>
         /// Gets the MIME type of the contents of the file.
         /// </summary>
@@ -248,6 +287,29 @@ namespace InTheHand.Storage
             global::System.IO.File.Move(Path, newPath);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileToReplace"></param>
+        /// <returns></returns>
+        public async Task MoveAndReplaceAsync(IStorageFile fileToReplace)
+        {
+            if(fileToReplace == null)
+            {
+                throw new ArgumentNullException("fileToReplace");
+            }
+#if __ANDROID__ || __IOS__
+            string fileName = fileToReplace.Name;
+            string folder = global::System.IO.Path.GetDirectoryName(fileToReplace.Path);
+            await fileToReplace.DeleteAsync();
+            await this.MoveAsync(await StorageFolder.GetFolderFromPathAsync(folder), fileName);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            await _file.MoveAndReplaceAsync((Windows.Storage.StorageFile)((StorageFile)fileToReplace));
 #else
             throw new PlatformNotSupportedException();
 #endif

@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using InTheHand.Storage;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App
@@ -62,6 +63,10 @@ namespace WindowsPhone81App
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
+            StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
+            System.Diagnostics.Debug.WriteLine(sf.Path);
+            /*
             var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
             Guid g = await store.GetDefaultLineAsync();
             var line = await InTheHand.ApplicationModel.Calls.PhoneLine.FromIdAsync(g);
@@ -72,7 +77,7 @@ namespace WindowsPhone81App
             md.Commands.Add(new InTheHand.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
             
                 await md.ShowAsync();
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();*/
         }
 
         private void AppBarButton_Click_1(object sender, RoutedEventArgs e)

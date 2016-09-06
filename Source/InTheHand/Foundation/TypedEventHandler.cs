@@ -6,7 +6,10 @@
 
 using System;
 
-namespace InTheHand.Foundation
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+[assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.TypedEventHandler<,>))]
+#else
+namespace Windows.Foundation
 {
     /// <summary>
     /// Represents a method that handles general events.
@@ -17,3 +20,4 @@ namespace InTheHand.Foundation
     /// <param name="args">The event data. If there is no event data, this parameter will be null.</param>
     public delegate void TypedEventHandler<TSender, TResult>(TSender sender, TResult args);
 }
+#endif

@@ -135,6 +135,7 @@ namespace InTheHand.Devices.Enumeration
             {
                 List<GattDeviceService> services = new List<GattDeviceService>();
 #if __IOS__
+                _peripheral.DiscoverServices();
                 foreach (CBService service in _peripheral.Services)
                 {
                     services.Add(new GattDeviceService(service));

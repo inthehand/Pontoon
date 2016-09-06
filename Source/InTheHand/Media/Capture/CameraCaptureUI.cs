@@ -6,9 +6,12 @@
 
 #if __IOS__
 using UIKit;
+#elif WINDOWS_PHONE_APP
+using Windows.Foundation;
 #endif
 using System;
 using System.Threading.Tasks;
+using System.Reflection;
 using InTheHand.Storage;
 using System.Threading;
 using System.IO;
@@ -32,6 +35,15 @@ namespace InTheHand.Media.Capture
         {
             return c._capture;
         }
+#elif WINDOWS_PHONE_APP
+        private static Type _type10;
+        private object ccu = null;
+
+        static CameraCaptureUI()
+        {
+            _type10 = Type.GetType("Windows.Media.Capture.CameraCaptureUI, Windows, ContentType=WindowsRuntime");
+        }
+
 #endif
         public CameraCaptureUI()
         {
@@ -41,6 +53,15 @@ namespace InTheHand.Media.Capture
             _pc.Canceled += Pc_Canceled;
 #elif WINDOWS_UWP || WINDOWS_APP
             _capture = new Windows.Media.Capture.CameraCaptureUI();
+#elif WINDOWS_PHONE_APP
+            if (_type10 != null)
+            {
+                ccu = Activator.CreateInstance(_type10);
+            }
+            else
+            {
+                throw new PlatformNotSupportedException();
+            }
 #endif
         }
 
@@ -113,8 +134,23 @@ namespace InTheHand.Media.Capture
 #elif WINDOWS_UWP || WINDOWS_APP
             
             return StorageFile.FromWindowsStorageFile(await _capture.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((uint)mode)));
+#elif WINDOWS_PHONE_APP
+            if (_type10 != null)
+            {
+                Type modeType = Type.GetType("Windows.Media.Capture.CameraCaptureUIMode, Windows, ContentType=WindowsRuntime");
+                object modeVal = Enum.ToObject(modeType, mode);
+                object task = _type10.GetRuntimeMethod("CaptureFileAsync", new Type[] { modeType }).Invoke(ccu, new object[] { modeVal });
+                Windows.Storage.StorageFile file = await (IAsyncOperation<Windows.Storage.StorageFile>)task;
+
+                if (file != null)
+                {
+                    return StorageFile.FromWindowsStorageFile(file);
+                }
+            }
+            return null;
 #endif
         }
+        
     }
 
     /// <summary>
