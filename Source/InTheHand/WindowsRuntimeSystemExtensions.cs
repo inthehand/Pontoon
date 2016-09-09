@@ -12,10 +12,55 @@ namespace System
 {
 #if !WINDOWS_UWP && !WINDOWS_APP && !WINDOWS_PHONE_APP && !WINDOWS_PHONE
     /// <summary>
-    /// 
+    /// Provides extension methods for converting between tasks and Windows Runtime asynchronous actions and operations.
     /// </summary>
+    [CLSCompliantAttribute(false)]
     public static class WindowsRuntimeSystemExtensions
     {
+        /// <summary>
+        /// Returns a Windows Runtime asynchronous action that represents a started task. 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IAsyncAction AsAsyncAction(this Task source)
+        {
+            return new RuntimeAction(source);
+        }
+
+        /// <summary>
+        /// Returns a Windows Runtime asynchronous operation that represents a started task that returns a result. 
+        /// </summary>
+        /// <typeparam name="TResult">The type that returns the result.</typeparam>
+        /// <param name="source">The started task. </param>
+        /// <returns></returns>
+        public static IAsyncOperation<TResult> AsAsyncOperation<TResult>(this Task<TResult> source)
+        {
+            return new RuntimeOperation<TResult>(source);
+        }
+
+        /// <summary>
+        /// Returns a task that represents a Windows Runtime asynchronous action. 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static Task AsTask(this IAsyncAction source)
+        {
+            RuntimeAction action = source as RuntimeAction;
+            return action.task;
+        }
+
+        /// <summary>
+        /// Returns a task that represents a Windows Runtime asynchronous operation returns a result.
+        /// </summary>
+        /// <typeparam name="TResult">The type of object that returns the result of the asynchronous operation.</typeparam>
+        /// <param name="source">The asynchronous operation.</param>
+        /// <returns></returns>
+        public static Task<TResult> AsTask<TResult>(this IAsyncOperation<TResult> source)
+        {
+            RuntimeOperation<TResult> operation = source as RuntimeOperation<TResult>;
+            return operation.task;
+        }
+
         public static TaskAwaiter GetAwaiter(this IAsyncAction source)
         {
             if(source is RuntimeAction)
@@ -74,16 +119,17 @@ namespace System
             task = t;
         }
 
+        private AsyncOperationCompletedHandler<TResult> _completed;
         public AsyncOperationCompletedHandler<TResult> Completed
         {
             get
             {
-                throw new NotImplementedException();
+                return _completed;
             }
 
             set
             {
-                throw new NotImplementedException();
+                _completed = value;
             }
         }
 

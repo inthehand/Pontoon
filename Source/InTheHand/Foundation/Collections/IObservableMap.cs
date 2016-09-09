@@ -6,7 +6,7 @@
 
 using System.Collections.Generic;
 
-namespace InTheHand.Foundation.Collections
+namespace Windows.Foundation.Collections
 {
     /// <summary>
     /// Notifies listeners of dynamic changes to a map, such as when items are added or removed.

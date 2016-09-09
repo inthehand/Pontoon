@@ -4,13 +4,22 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using InTheHand.Storage;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
-namespace InTheHand.Storage
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageItem))]
+[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageFile))]
+[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageFile))]
+[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageItemTypes))]
+#else
+
+namespace Windows.Storage
 {
+
     /// <summary>
     /// Manipulates storage items (files and folders) and their contents, and provides information about them.
     /// </summary>
@@ -20,7 +29,7 @@ namespace InTheHand.Storage
         /// Deletes the current item. 
         /// </summary>
         /// <returns></returns>
-        Task DeleteAsync();
+        IAsyncAction DeleteAsync();
 
         /// <summary>
         /// Determines whether the current IStorageItem matches the specified StorageItemTypes value.
@@ -59,10 +68,12 @@ namespace InTheHand.Storage
         /// A storage item that is neither a file nor a folder.
         /// </summary>
         None = 0,
+
         /// <summary>
         /// A file that is represented as a <see cref="StorageFile"/> instance.
         /// </summary>
         File = 1,
+
         /// <summary>
         /// A folder that is represented as a <see cref="StorageFolder"/> instance.
         /// </summary>
@@ -80,7 +91,7 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="destinationFolder"></param>
         /// <returns></returns>
-        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder);
+        IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder);
 
         /// <summary>
         /// Creates a copy of the file in the specified folder, using the desired name.
@@ -88,21 +99,21 @@ namespace InTheHand.Storage
         /// <param name="destinationFolder"></param>
         /// <param name="desiredNewName"></param>
         /// <returns></returns>
-        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
+        IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
 
         /// <summary>
         /// Moves the current file to the location of the specified file and replaces the specified file in that location.
         /// </summary>
         /// <param name="fileToReplace"></param>
         /// <returns></returns>
-        Task MoveAndReplaceAsync(IStorageFile fileToReplace);
+        IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace);
 
         /// <summary>
         /// Moves the current file to the specified folder.
         /// </summary>
         /// <param name="destinationFolder"></param>
         /// <returns></returns>
-        Task MoveAsync(IStorageFolder destinationFolder);
+        IAsyncAction MoveAsync(IStorageFolder destinationFolder);
 
         /// <summary>
         /// Moves the current file to the specified folder and renames the file according to the desired name.
@@ -110,7 +121,7 @@ namespace InTheHand.Storage
         /// <param name="destinationFolder"></param>
         /// <param name="desiredNewName"></param>
         /// <returns></returns>
-        Task MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
+        IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
         
         /// <summary>
         /// Gets the MIME type of the contents of the file.
@@ -137,15 +148,18 @@ namespace InTheHand.Storage
         /// If your path uses slashes, make sure you use backslashes(\).
         /// Forward slashes(/) are not accepted by this method.</param>
         /// <returns>When this method completes, it returns the file as a StorageFile.</returns>
-        public static async Task<StorageFile> GetFileFromPathAsync(string path)
+        public static IAsyncOperation<StorageFile> GetFileFromPathAsync(string path)
         {
 #if __ANDROID__ || __IOS__
-            if(string.IsNullOrEmpty(path))
+            return Task.Run<StorageFile>(()=>
             {
-                return null;
-            }
+                if(string.IsNullOrEmpty(path))
+                {
+                    return null;
+                }
 
-            return new StorageFile(path);
+                return new StorageFile(path);
+            }).AsAsyncOperation<StorageFile>();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return StorageFile.FromWindowsStorageFile(await Windows.Storage.StorageFile.GetFileFromPathAsync(path));
 #else
@@ -186,10 +200,10 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="destinationFolder">The destination folder where the copy of the file is created.</param>
         /// <returns></returns>
-        public async Task<StorageFile> CopyAsync(IStorageFolder destinationFolder)
+        public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder)
         {
 #if __ANDROID__ || __IOS__
-            return await CopyAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
+            return CopyAsync(destinationFolder, global::System.IO.Path.GetFileName(Path)).AsAsyncOperation<StorageFile>();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
             return file == null ? null : new StorageFile(file);
@@ -204,12 +218,15 @@ namespace InTheHand.Storage
         /// <param name="destinationFolder">The destination folder where the copy of the file is created.</param>
         /// <param name="desiredNewName">The new name for the copy of the file created in the destinationFolder.</param>
         /// <returns></returns>
-        public async Task<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
+        public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName)
         {
 #if __ANDROID__ || __IOS__
-            string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
-            global::System.IO.File.Copy(Path, newPath);
-            return new Storage.StorageFile(newPath);
+            return Task.Run<StorageFile>(() =>
+            {
+                string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
+                global::System.IO.File.Copy(Path, newPath);
+                return new Storage.StorageFile(newPath);
+            }).AsAsyncOperation<StorageFile>();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
             return file == null ? null : new StorageFile(file);
@@ -222,10 +239,13 @@ namespace InTheHand.Storage
         /// Deletes the current file.
         /// </summary>
         /// <returns></returns>
-        public async Task DeleteAsync()
+        public IAsyncAction DeleteAsync()
         {
 #if __ANDROID__ || __IOS__
+            return Task.Run(() =>
+            {
                 global::System.IO.File.Delete(Path);
+            }).AsAsyncAction();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             await _file.DeleteAsync();
 #else
@@ -237,11 +257,14 @@ namespace InTheHand.Storage
         /// Gets the parent folder of the current file.
         /// </summary>
         /// <returns></returns>
-        public async Task<StorageFolder> GetParentAsync()
+        public IAsyncOperation<StorageFolder> GetParentAsync()
         {
 #if __ANDROID__ || __IOS__
-            var parent = global::System.IO.Directory.GetParent(Path);
-            return parent == null ? null : new StorageFolder(parent.FullName);
+            return Task.Run<StorageFolder>(() =>
+            {
+                var parent = global::System.IO.Directory.GetParent(Path);
+                return parent == null ? null : new StorageFolder(parent.FullName);
+            }).AsAsyncOperation<StorageFolder>();
 #elif WINDOWS_UWP || WINDOWS_APP
             var parent = await _file.GetParentAsync();
             return parent == null ? null : new StorageFolder(parent);
@@ -263,10 +286,10 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="destinationFolder">The destination folder where the file is moved.</param>
         /// <returns></returns>
-        public async Task MoveAsync(IStorageFolder destinationFolder)
+        public IAsyncAction MoveAsync(IStorageFolder destinationFolder)
         {
 #if __ANDROID__ || __IOS__
-            await MoveAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
+            return MoveAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
 #else
@@ -280,11 +303,14 @@ namespace InTheHand.Storage
         /// <param name="destinationFolder">The destination folder where the file is moved.</param>
         /// <param name="desiredNewName">The desired name of the file after it is moved.</param>
         /// <returns></returns>
-        public async Task MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
+        public IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName)
         {
 #if __ANDROID__ || __IOS__
-            string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
-            global::System.IO.File.Move(Path, newPath);
+            return Task.Run(() =>
+            {
+                string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
+                global::System.IO.File.Move(Path, newPath);
+            }).AsAsyncAction();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
 #else
@@ -297,17 +323,20 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="fileToReplace"></param>
         /// <returns></returns>
-        public async Task MoveAndReplaceAsync(IStorageFile fileToReplace)
+        public IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
         {
             if(fileToReplace == null)
             {
                 throw new ArgumentNullException("fileToReplace");
             }
 #if __ANDROID__ || __IOS__
-            string fileName = fileToReplace.Name;
-            string folder = global::System.IO.Path.GetDirectoryName(fileToReplace.Path);
-            await fileToReplace.DeleteAsync();
-            await this.MoveAsync(await StorageFolder.GetFolderFromPathAsync(folder), fileName);
+            return Task.Run(async () =>
+            {
+                string fileName = fileToReplace.Name;
+                string folder = global::System.IO.Path.GetDirectoryName(fileToReplace.Path);
+                await fileToReplace.DeleteAsync();
+                await this.MoveAsync(await StorageFolder.GetFolderFromPathAsync(folder), fileName);
+            }).AsAsyncAction();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             await _file.MoveAndReplaceAsync((Windows.Storage.StorageFile)((StorageFile)fileToReplace));
 #else
@@ -426,6 +455,7 @@ namespace InTheHand.Storage
             }
         }
 
+        [CLSCompliantAttribute(false)]
         public async Task<Stream> OpenStreamForReadAsync()
         {
 #if __ANDROID__ || __IOS__
@@ -437,6 +467,7 @@ namespace InTheHand.Storage
 #endif
         }
 
+        [CLSCompliantAttribute(false)]
         public async Task<Stream> OpenStreamForWriteAsync()
         {
 #if __ANDROID__ || __IOS__
@@ -448,9 +479,15 @@ namespace InTheHand.Storage
 #endif
         }
 
+        /// <summary>
+        /// Determines whether the current StorageFile matches the specified <see cref="StorageItemTypes"/> value.
+        /// </summary>
+        /// <param name="type">The value to match against.</param>
+        /// <returns>True if the StorageFile matches the specified value; otherwise false.</returns>
         public bool IsOfType(StorageItemTypes type)
         {
             return type == StorageItemTypes.File;
         }
     }
 }
+#endif

@@ -4,12 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using InTheHand.Storage;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
 
-namespace InTheHand.Storage
+[assembly: TypeForwardedTo(typeof(Windows.Storage.CreationCollisionOption))]
+#else
+
+namespace Windows.Storage
 {
     /// <summary>
     /// Represents a file.
@@ -40,3 +41,4 @@ namespace InTheHand.Storage
         OpenIfExists = 3,
     }
 }
+#endif

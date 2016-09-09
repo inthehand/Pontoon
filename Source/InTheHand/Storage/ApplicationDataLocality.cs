@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace InTheHand.Storage
+namespace Windows.Storage
 {
     /// <summary>
     /// Provides access to the application data store.

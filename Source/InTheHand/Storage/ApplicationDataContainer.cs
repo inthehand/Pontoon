@@ -4,10 +4,10 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using InTheHand.Foundation.Collections;
+using Windows.Foundation.Collections;
 using System;
 
-namespace InTheHand.Storage
+namespace Windows.Storage
 {
     /// <summary>
     /// Represents a container for app settings.

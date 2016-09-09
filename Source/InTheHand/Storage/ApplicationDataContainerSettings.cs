@@ -4,12 +4,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using InTheHand;
 using global::System;
 using global::System.Collections;
 using global::System.Collections.Generic;
 using global::System.Collections.Specialized;
 using global::System.Collections.ObjectModel;
-using InTheHand.Foundation.Collections;
+using Windows.Foundation.Collections;
 #if __ANDROID__
 using Android.App;
 using Android.Content;
@@ -21,7 +22,7 @@ using Foundation;
 using global::System.Globalization;
 #endif
 
-namespace InTheHand.Storage
+namespace Windows.Storage
 {
 
     /// <summary>

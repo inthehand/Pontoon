@@ -5,15 +5,19 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.Runtime.CompilerServices;
 
-namespace InTheHand.Storage
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+[assembly: TypeForwardedTo(typeof(Windows.Storage.FileAttributes))]
+#else
+
+namespace Windows.Storage
 {
     /// <summary>
     /// Describes the attributes of a file or folder.
     /// </summary>
-    [CLSCompliant(false)]
     [Flags]
-    public enum FileAttributes : uint
+    public enum FileAttributes : int
     {
         /// <summary>
         /// The item is normal. That is, the item doesn't have any of the other values in the enumeration.
@@ -71,3 +75,4 @@ namespace InTheHand.Storage
     }
 #endif
 }
+#endif
