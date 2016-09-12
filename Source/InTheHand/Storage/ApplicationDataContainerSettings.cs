@@ -22,6 +22,12 @@ using Foundation;
 using global::System.Globalization;
 #endif
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataContainerSettings))]
+#elif WINDOWS_PHONE
+// not used in 8.0
+#else
 namespace Windows.Storage
 {
 
@@ -782,9 +788,9 @@ namespace Windows.Storage
 #endif
         }
 
-        #endregion
+#endregion
 
-        #region IEnumerable Members
+#region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -1007,3 +1013,4 @@ namespace Windows.Storage
         }
     }
 }
+#endif

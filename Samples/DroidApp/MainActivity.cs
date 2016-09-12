@@ -8,6 +8,8 @@ using Android.OS;
 using Android.Provider;
 using InTheHand.UI.Popups;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace DroidApp
 {
@@ -28,10 +30,10 @@ namespace DroidApp
             // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.MyButton);
 
-            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
-            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
-            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
-            InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
+            ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
+            ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
+            ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
+            ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
             button.Click += new EventHandler(async (s,e)=> { button.Text = string.Format("{0} clicks!", count++);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
@@ -73,7 +75,7 @@ namespace DroidApp
             n.Show(notification);
         }
 
-        private void Values_MapChanged(InTheHand.Foundation.Collections.IObservableMap<string, object> sender, InTheHand.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)
+        private void Values_MapChanged(IObservableMap<string, object> sender, IMapChangedEventArgs<string> eventArgs)
         {
             System.Diagnostics.Debug.WriteLine(eventArgs.CollectionChange.ToString() + " " + eventArgs.Key);
         }

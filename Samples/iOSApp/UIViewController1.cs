@@ -6,9 +6,10 @@ using UIKit;
 using Foundation;
 using InTheHand.UI.Popups;
 using System.Threading.Tasks;
-using InTheHand.Storage;
 using InTheHand.Devices.Enumeration;
 using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace ApplicationModel.iOS
 {
@@ -34,10 +35,10 @@ namespace ApplicationModel.iOS
                 await Task.Delay(3000);
                 BeginInvokeOnMainThread(async () =>
                 {
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
+                    ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
+                    ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
+                    ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
+                    ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
                     
                     InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
                     StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
@@ -56,7 +57,7 @@ namespace ApplicationModel.iOS
             });
         }
 
-        private void Values_MapChanged(InTheHand.Foundation.Collections.IObservableMap<string, object> sender, InTheHand.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)
+        private void Values_MapChanged(IObservableMap<string, object> sender, IMapChangedEventArgs<string> eventArgs)
         {
             System.Diagnostics.Debug.WriteLine(eventArgs.CollectionChange.ToString() + " " + eventArgs.Key);
         }
@@ -87,7 +88,7 @@ namespace ApplicationModel.iOS
         {
             base.ViewDidAppear(animated);
 
-            var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
+            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
             System.Diagnostics.Debug.WriteLine(file.ContentType);
 
             await Task.Delay(2000);

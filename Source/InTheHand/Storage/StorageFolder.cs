@@ -47,48 +47,24 @@ namespace Windows.Storage
         /// <returns>When this method completes, it returns the file as a StorageFile.</returns>
         public static IAsyncOperation<StorageFolder> GetFolderFromPathAsync(string path)
         {
-#if __ANDROID__ || __IOS__
-            if(string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(path))
             {
-                return null;
+                throw new ArgumentNullException("path");
             }
-            return Task.Run(() =>
-            {
-                return new StorageFolder(path);
-            }).AsAsyncOperation<StorageFolder>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return Storage.StorageFolder.FromWindowsStorageFolder(await Windows.Storage.StorageFolder.GetFolderFromPathAsync(path));
+
+#if __ANDROID__ || __IOS__
+            return Task.FromResult<StorageFolder>(new StorageFolder(path)).AsAsyncOperation<StorageFolder>();
 #else
             throw new PlatformNotSupportedException();
 #endif
         }
-
-#if __ANDROID__ || __IOS__
+        
         private string _path;
 
         internal StorageFolder(string path)
         {
             _path = path;
         }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-        private Windows.Storage.StorageFolder _folder;
-
-        internal StorageFolder(Windows.Storage.StorageFolder folder)
-        {
-            _folder = folder;
-        }
-
-        public static StorageFolder FromWindowsStorageFolder(Windows.Storage.StorageFolder folder)
-        {
-            return folder == null ? null : new Storage.StorageFolder(folder);
-        }
-
-        [CLSCompliant(false)]
-        public static implicit operator Windows.Storage.StorageFolder(StorageFolder folder)
-        {
-            return folder._folder;
-        }
-#endif
 
         /// <summary>
         /// Creates a new file with the specified name in the current folder.
@@ -145,9 +121,6 @@ namespace Windows.Storage
                 return new StorageFile(filepath);
 
             }).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _folder.CreateFileAsync(desiredName, (Windows.Storage.CreationCollisionOption)((int)options));
-            return file == null ? null : new StorageFile(file);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -209,9 +182,6 @@ namespace Windows.Storage
 
                 return new Storage.StorageFolder(newpath);
             }).AsAsyncOperation<StorageFolder>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var folder = await _folder.CreateFolderAsync(desiredName);
-            return folder == null ? null : new StorageFolder(folder);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -232,8 +202,6 @@ namespace Windows.Storage
             {
                 global::System.IO.Directory.Delete(Path);
             }).AsAsyncAction();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _folder.DeleteAsync();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -258,9 +226,6 @@ namespace Windows.Storage
 
                 return new StorageFile(filepath);
             }).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _folder.GetFileAsync(filename);
-            return file == null ? null : new Storage.StorageFile(file);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -272,10 +237,11 @@ namespace Windows.Storage
         /// <returns></returns>
         public IAsyncOperation<IReadOnlyList<StorageFile>> GetFilesAsync()
         {
-            List<StorageFile> files = new List<StorageFile>();
 #if __ANDROID__ || __IOS__
             return Task.Run<IReadOnlyList<StorageFile>>(() =>
             {
+                List<StorageFile> files = new List<StorageFile>();
+
                 foreach (string filename in global::System.IO.Directory.GetFiles(Path))
                 {
                     files.Add(new StorageFile(global::System.IO.Path.Combine(Path, filename)));
@@ -283,16 +249,9 @@ namespace Windows.Storage
 
                 return files;
             }).AsAsyncOperation<IReadOnlyList<StorageFile>>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            foreach(Windows.Storage.StorageFile file in await _folder.GetFilesAsync())
-            {
-                files.Add(new StorageFile(file));
-            }
-
-            return files;
+#else
+            throw new PlatformNotSupportedException();
 #endif
-
-
         }
 
         /// <summary>
@@ -314,9 +273,6 @@ namespace Windows.Storage
 
                 return new StorageFolder(folderpath);
             }).AsAsyncOperation<StorageFolder>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var folder = await _folder.GetFolderAsync(name);
-            return folder == null ? null : new Storage.StorageFolder(folder);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -339,13 +295,8 @@ namespace Windows.Storage
 
                 return folders;
             }).AsAsyncOperation<IReadOnlyList<StorageFolder>>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            foreach (Windows.Storage.StorageFolder folder in await _folder.GetFoldersAsync())
-            {
-                folders.Add(new StorageFolder(folder));
-            }
-
-            return folders;
+#else
+            throw new PlatformNotSupportedException();
 #endif
         }
 
@@ -361,9 +312,6 @@ namespace Windows.Storage
                 var parent = global::System.IO.Directory.GetParent(Path);
                 return parent == null ? null : new StorageFolder(parent.FullName);
             }).AsAsyncOperation<StorageFolder>();
-#elif WINDOWS_UWP || WINDOWS_APP
-            var parent = await _folder.GetParentAsync();
-            return parent == null ? null : new StorageFolder(parent);
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
             var parentPath = global::System.IO.Path.GetPathRoot(Path.TrimEnd('\\'));
             Windows.Storage.StorageFolder parent = null;
@@ -371,6 +319,7 @@ namespace Windows.Storage
             {
                 parent = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(parentPath);
             }
+
             return parent == null ? null : new StorageFolder(parent);
 #else
             throw new PlatformNotSupportedException();
@@ -394,18 +343,6 @@ namespace Windows.Storage
 
                 return null;
             }).AsAsyncOperation<IStorageItem>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            Windows.Storage.IStorageItem item = await _folder.TryGetItemAsync(name);
-            if(item.IsOfType(Windows.Storage.StorageItemTypes.File))
-            {
-                return new StorageFile(item as Windows.Storage.StorageFile);
-            }
-            else if(item.IsOfType(Windows.Storage.StorageItemTypes.Folder))
-            {
-                return new StorageFolder(item as Windows.Storage.StorageFolder);
-            }
-
-            return null;
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -420,8 +357,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return FileAttributesHelper.FromIOFileAttributes(global::System.IO.File.GetAttributes(Path));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return (FileAttributes)((uint)_folder.Attributes);
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -440,8 +375,6 @@ namespace Windows.Storage
                 var local = global::System.IO.Directory.GetCreationTime(Path);
                 var offset = local - utc;
                 return new DateTimeOffset(local, offset);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _folder.DateCreated;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -457,8 +390,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return global::System.IO.Path.GetDirectoryName(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _folder.Name;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -474,8 +405,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return _path;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _folder.Path;
 #else
                 throw new PlatformNotSupportedException();
 #endif

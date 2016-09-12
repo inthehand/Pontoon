@@ -12,9 +12,9 @@ using Windows.Foundation;
 using System;
 using System.Threading.Tasks;
 using System.Reflection;
-using InTheHand.Storage;
 using System.Threading;
 using System.IO;
+using Windows.Storage;
 
 namespace InTheHand.Media.Capture
 {
@@ -131,9 +131,8 @@ namespace InTheHand.Media.Capture
 
             return null;
 
-#elif WINDOWS_UWP || WINDOWS_APP
-            
-            return StorageFile.FromWindowsStorageFile(await _capture.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((uint)mode)));
+#elif WINDOWS_UWP || WINDOWS_APP            
+            return await _capture.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((uint)mode));
 #elif WINDOWS_PHONE_APP
             if (_type10 != null)
             {
@@ -142,10 +141,7 @@ namespace InTheHand.Media.Capture
                 object task = _type10.GetRuntimeMethod("CaptureFileAsync", new Type[] { modeType }).Invoke(ccu, new object[] { modeVal });
                 Windows.Storage.StorageFile file = await (IAsyncOperation<Windows.Storage.StorageFile>)task;
 
-                if (file != null)
-                {
-                    return StorageFile.FromWindowsStorageFile(file);
-                }
+                return file;
             }
             return null;
 #endif

@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using InTheHand.Storage;
+using Windows.Storage;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App

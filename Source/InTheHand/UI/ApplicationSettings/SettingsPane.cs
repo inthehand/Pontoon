@@ -7,17 +7,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-#if __ANDROID__
-using InTheHand.Storage;
-#elif WINDOWS_PHONE
-#if WINDOWS_PHONE_81
 using Windows.Storage;
-#else
-using InTheHand.Storage;
-#endif
+#if WINDOWS_PHONE
 using System.Windows;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

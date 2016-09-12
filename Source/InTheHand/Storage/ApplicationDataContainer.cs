@@ -6,6 +6,11 @@
 
 using Windows.Foundation.Collections;
 using System;
+using System.Runtime.CompilerServices;
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataContainer))]
+#else
 
 namespace Windows.Storage
 {
@@ -83,3 +88,4 @@ namespace Windows.Storage
         
     }
 }
+#endif

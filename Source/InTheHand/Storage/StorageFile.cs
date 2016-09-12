@@ -150,50 +150,23 @@ namespace Windows.Storage
         /// <returns>When this method completes, it returns the file as a StorageFile.</returns>
         public static IAsyncOperation<StorageFile> GetFileFromPathAsync(string path)
         {
-#if __ANDROID__ || __IOS__
-            return Task.Run<StorageFile>(()=>
+            if (string.IsNullOrEmpty(path))
             {
-                if(string.IsNullOrEmpty(path))
-                {
-                    return null;
-                }
-
-                return new StorageFile(path);
-            }).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return StorageFile.FromWindowsStorageFile(await Windows.Storage.StorageFile.GetFileFromPathAsync(path));
+                throw new ArgumentNullException("path");
+            }
+#if __ANDROID__ || __IOS__
+            return Task.FromResult<StorageFile>(new StorageFile(path)).AsAsyncOperation<StorageFile>();
 #else
             return null;
 #endif
         }
-
-#if __ANDROID__ || __IOS__
+        
         private string _path;
     
         internal StorageFile(string path)
         {
             _path = path;
         }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-        private Windows.Storage.StorageFile _file;
-
-        internal StorageFile(Windows.Storage.StorageFile file)
-        {
-            _file = file;
-        }
-
-        [CLSCompliant(false)]
-        public static StorageFile FromWindowsStorageFile(Windows.Storage.StorageFile file)
-        {
-            return file == null ? null : new Storage.StorageFile(file);
-        }
-       
-        [CLSCompliant(false)]
-        public static implicit operator Windows.Storage.StorageFile(StorageFile file)
-        {
-            return file._file;
-        }
-#endif
 
         /// <summary>
         /// Creates a copy of the file in the specified folder.
@@ -203,10 +176,7 @@ namespace Windows.Storage
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder)
         {
 #if __ANDROID__ || __IOS__
-            return CopyAsync(destinationFolder, global::System.IO.Path.GetFileName(Path)).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
-            return file == null ? null : new StorageFile(file);
+            return CopyAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -227,9 +197,6 @@ namespace Windows.Storage
                 global::System.IO.File.Copy(Path, newPath);
                 return new Storage.StorageFile(newPath);
             }).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
-            return file == null ? null : new StorageFile(file);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -246,8 +213,6 @@ namespace Windows.Storage
             {
                 global::System.IO.File.Delete(Path);
             }).AsAsyncAction();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.DeleteAsync();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -265,9 +230,6 @@ namespace Windows.Storage
                 var parent = global::System.IO.Directory.GetParent(Path);
                 return parent == null ? null : new StorageFolder(parent.FullName);
             }).AsAsyncOperation<StorageFolder>();
-#elif WINDOWS_UWP || WINDOWS_APP
-            var parent = await _file.GetParentAsync();
-            return parent == null ? null : new StorageFolder(parent);
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
             var parentPath = global::System.IO.Path.GetPathRoot(Path.TrimEnd('\\'));
             Windows.Storage.StorageFolder parent = null;
@@ -290,8 +252,6 @@ namespace Windows.Storage
         {
 #if __ANDROID__ || __IOS__
             return MoveAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -311,8 +271,6 @@ namespace Windows.Storage
                 string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
                 global::System.IO.File.Move(Path, newPath);
             }).AsAsyncAction();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -337,8 +295,6 @@ namespace Windows.Storage
                 await fileToReplace.DeleteAsync();
                 await this.MoveAsync(await StorageFolder.GetFolderFromPathAsync(folder), fileName);
             }).AsAsyncAction();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAndReplaceAsync((Windows.Storage.StorageFile)((StorageFile)fileToReplace));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -354,10 +310,8 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return FileAttributesHelper.FromIOFileAttributes(global::System.IO.File.GetAttributes(Path));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return (FileAttributes)((uint)_file.Attributes);
 #else
-                return FileAttributes.Normal;
+                throw new PlatformNotSupportedException();
 #endif
             }
         }
@@ -374,10 +328,8 @@ namespace Windows.Storage
                 var local = global::System.IO.File.GetCreationTime(Path);
                 var offset = local - utc;
                 return new DateTimeOffset(local, offset);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.DateCreated;
 #else
-                return DateTimeOffset.MinValue;
+                throw new PlatformNotSupportedException();
 #endif
             }
         }
@@ -395,9 +347,6 @@ namespace Windows.Storage
                     mime = MobileCoreServices.UTType.GetPreferredTag(utref, MobileCoreServices.UTType.TagClassMIMEType);
                 }
                 return mime;
-
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.ContentType;
 #else
                 return string.Empty;
 #endif
@@ -413,8 +362,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return global::System.IO.Path.GetExtension(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.FileType;
 #else
                 return string.Empty;
 #endif
@@ -430,8 +377,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return global::System.IO.Path.GetFileName(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.Name;
 #else
                 return string.Empty;
 #endif
@@ -447,36 +392,10 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return _path;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.Path;
 #else
                 return string.Empty;
 #endif
             }
-        }
-
-        [CLSCompliantAttribute(false)]
-        public async Task<Stream> OpenStreamForReadAsync()
-        {
-#if __ANDROID__ || __IOS__
-                return global::System.IO.File.OpenRead(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return await _file.OpenStreamForReadAsync();
-#else
-                throw new PlatformNotSupportedException();
-#endif
-        }
-
-        [CLSCompliantAttribute(false)]
-        public async Task<Stream> OpenStreamForWriteAsync()
-        {
-#if __ANDROID__ || __IOS__
-                return global::System.IO.File.OpenWrite(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return await _file.OpenStreamForWriteAsync();
-#else
-                throw new PlatformNotSupportedException();
-#endif
         }
 
         /// <summary>
