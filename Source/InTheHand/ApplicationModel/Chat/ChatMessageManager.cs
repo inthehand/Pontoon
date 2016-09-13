@@ -1,9 +1,12 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ChatMessageManager.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Chat.ChatMessageManager))]
+#else
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +21,7 @@ using Windows.Foundation;
 #else
 #endif
 
-namespace InTheHand.ApplicationModel.Chat
+namespace Windows.ApplicationModel.Chat
 {
     /// <summary>
     /// Provides methods for managing chat messages.
@@ -114,14 +117,6 @@ namespace InTheHand.ApplicationModel.Chat
             }
 
             return Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString())).AsTask<bool>();
-#elif WINDOWS_PHONE_APP || WINDOWS_UWP
-            Windows.ApplicationModel.Chat.ChatMessage nativeMessage = new Windows.ApplicationModel.Chat.ChatMessage() { Body = message.Body };
-            foreach(string recipient in message.Recipients)
-            {
-                nativeMessage.Recipients.Add(recipient);
-            }
-
-            return Windows.ApplicationModel.Chat.ChatMessageManager.ShowComposeSmsMessageAsync(nativeMessage).AsTask();
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {
@@ -157,3 +152,4 @@ namespace InTheHand.ApplicationModel.Chat
 #endif
     }
 }
+#endif

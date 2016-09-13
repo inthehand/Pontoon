@@ -182,6 +182,15 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
+      <Link>Storage\FileIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
+      <Link>Storage\KnownFolders.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
+      <Link>Storage\PathIO.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
       <Link>Storage\StorageFile.cs</Link>
     </Compile>

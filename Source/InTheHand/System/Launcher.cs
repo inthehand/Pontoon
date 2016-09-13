@@ -3,6 +3,10 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.System.Launcher))]
+#else
 
 #if __ANDROID__
 using Android.App;
@@ -10,8 +14,9 @@ using Android.Content;
 #endif
 using System;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
-namespace InTheHand.System
+namespace Windows.System
 {
     /// <summary>
     /// Starts the default app associated with the specified file or URI.
@@ -24,7 +29,7 @@ namespace InTheHand.System
         /// <param name="uri">The URI.</param>
         /// <param name="options">Ignored on Android and iOS.</param>
         /// <returns>The launch operation.</returns>
-        public static Task<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
+        public static IAsyncOperation<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
         {
 #if __ANDROID__
             return Task.Run<bool>(() =>
@@ -36,14 +41,12 @@ namespace InTheHand.System
                     return true;
                 }
                 catch { return false; }
-            });
+            }).AsAsyncOperation<bool>();
 #elif __IOS__
             return Task.Run<bool>(() =>
             {
                 return UIKit.UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
-            });
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP ||WINDOWS_PHONE
-            return Windows.System.Launcher.LaunchUriAsync(uri).AsTask<bool>();
+            }).AsAsyncOperation<bool>();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -54,9 +57,10 @@ namespace InTheHand.System
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>The launch operation.</returns>
-        public static Task<bool> LaunchUriAsync(Uri uri)
+        public static IAsyncOperation<bool> LaunchUriAsync(Uri uri)
         {
             return LaunchUriAsync(uri, new LauncherOptions());
         }
     }
 }
+#endif

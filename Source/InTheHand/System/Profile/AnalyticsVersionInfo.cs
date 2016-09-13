@@ -7,7 +7,7 @@
 using System;
 using System.Reflection;
 
-namespace InTheHand.System.Profile
+namespace Windows.System.Profile
 {
     /// <summary>
     /// Provides version information about the device family.

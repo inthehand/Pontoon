@@ -3,6 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.System.Display.DisplayRequest))]
+#else
 
 #if __ANDROID__
 using Android.App;
@@ -13,7 +17,7 @@ using UIKit;
 using System;
 
 
-namespace InTheHand.System.Display
+namespace Windows.System.Display
 {
     /// <summary>
     /// Starts the default app associated with the specified file or URI.
@@ -22,14 +26,6 @@ namespace InTheHand.System.Display
     {
 #if __ANDROID__
         private bool requested = false;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-        private Windows.System.Display.DisplayRequest _request = new Windows.System.Display.DisplayRequest();
-
-        [CLSCompliant(false)]
-        public static implicit operator Windows.System.Display.DisplayRequest(DisplayRequest dr)
-        {
-            return dr._request;
-        }
 #endif
 
         public void RequestActive()
@@ -46,8 +42,6 @@ namespace InTheHand.System.Display
             }
 #elif __IOS__
             UIApplication.SharedApplication.IdleTimerDisabled = true;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-            _request.RequestActive();
 #elif WINDOWS_PHONE
             Microsoft.Phone.Shell.PhoneApplicationService.Current.ApplicationIdleDetectionMode = Microsoft.Phone.Shell.IdleDetectionMode.Disabled;
 #endif
@@ -68,11 +62,10 @@ namespace InTheHand.System.Display
             }
 #elif __IOS__
             UIApplication.SharedApplication.IdleTimerDisabled = false;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-            _request.RequestRelease();
 #elif WINDOWS_PHONE
             Microsoft.Phone.Shell.PhoneApplicationService.Current.ApplicationIdleDetectionMode = Microsoft.Phone.Shell.IdleDetectionMode.Enabled;
 #endif
         }
     }
 }
+#endif

@@ -6,7 +6,10 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallManager))]
+#else
 using System;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -24,7 +27,7 @@ using Windows.Foundation;
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace InTheHand.ApplicationModel.Calls
+namespace Windows.ApplicationModel.Calls
 {
     /// <summary>
     /// Provides methods for launching the built-in phone call UI.
@@ -53,12 +56,6 @@ namespace InTheHand.ApplicationModel.Calls
             if (UIKit.UIDevice.CurrentDevice.Model == "iPhone")
             {
                 return new PhoneCallStore();
-            }
-
-#elif WINDOWS_UWP
-            if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Calls.PhoneCallManager", "RequestStoreAsync"))
-            {
-                return new PhoneCallStore(await Windows.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync());
             }
 
 /*#elif WINDOWS_PHONE_APP
@@ -154,9 +151,6 @@ namespace InTheHand.ApplicationModel.Calls
             prompt.Commands.Add(new UICommand("Cancel", null));
             prompt.ShowAsync();
 
-#elif WINDOWS_PHONE_APP || WINDOWS_UWP
-            PhoneCallManager.ShowPhoneCallUI(phoneNumber, displayName);
-
 #elif WINDOWS_PHONE
             PhoneCallTask pct = new PhoneCallTask();
             pct.PhoneNumber = phoneNumber;
@@ -173,3 +167,4 @@ namespace InTheHand.ApplicationModel.Calls
         }
     }
 }
+#endif

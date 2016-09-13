@@ -6,7 +6,10 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
+#if WINDOWS_UWP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallStore))]
+#else
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -24,7 +27,7 @@ using Windows.ApplicationModel.Calls;
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace InTheHand.ApplicationModel.Calls
+namespace Windows.ApplicationModel.Calls
 {
     /// <summary>
     /// Represents a collection of information about the phone lines available on a device.
@@ -61,7 +64,8 @@ namespace InTheHand.ApplicationModel.Calls
             return await (_type.GetRuntimeMethod("GetDefaultLineAsync", new Type[0]).Invoke(_store, new object[0]) as IAsyncOperation<Guid>);
 #else
             return Guid.Empty;
-#endif   
+#endif
         }
     }
 }
+#endif

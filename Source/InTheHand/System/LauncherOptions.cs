@@ -1,14 +1,16 @@
+//-----------------------------------------------------------------------
+// <copyright file="LauncherOptions.cs" company="In The Hand Ltd">
+//     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
+// </copyright>
+//-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.System.LauncherOptions))]
+#else
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-#if __IOS__
-using Foundation;
-using UIKit;
-#endif
-
-namespace InTheHand.System
+namespace Windows.System
 {
     /// <summary>
     /// Placeholder to supply attributes for starting a task.
@@ -17,3 +19,4 @@ namespace InTheHand.System
     {
     }
 }
+#endif

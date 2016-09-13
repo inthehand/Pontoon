@@ -12,7 +12,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace InTheHand.System.Profile
+namespace Windows.System.Profile
 {
     /// <summary>
     /// Starts the default app associated with the specified file or URI.
