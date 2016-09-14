@@ -3,12 +3,10 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
-using System;
-
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 [assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.TypedEventHandler<,>))]
 #else
+
 namespace Windows.Foundation
 {
     /// <summary>

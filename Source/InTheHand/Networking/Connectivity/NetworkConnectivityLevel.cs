@@ -1,12 +1,14 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="NetworkConnectivityLevel.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkConnectivityLevel))]
+#else
 
-using System;
-
-namespace InTheHand.Networking.Connectivity
+namespace Windows.Networking.Connectivity
 {
     /// <summary>
     /// Defines the level of connectivity currently available.
@@ -38,3 +40,4 @@ namespace InTheHand.Networking.Connectivity
         InternetAccess = 3,
     }
 }
+#endif

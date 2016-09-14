@@ -3,6 +3,11 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Foundation.IAsyncOperation<>))]
+[assembly: TypeForwardedTo(typeof(Windows.Foundation.AsyncOperationCompletedHandler<>))]
+#else
 
 namespace Windows.Foundation
 {
@@ -31,3 +36,4 @@ namespace Windows.Foundation
     /// <param name="asyncStatus">One of the enumeration values.</param>
     public delegate void AsyncOperationCompletedHandler<TResult>(IAsyncOperation<TResult> asyncInfo, AsyncStatus asyncStatus);
 }
+#endif

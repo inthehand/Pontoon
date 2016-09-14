@@ -1,12 +1,15 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NetworkInformation.cs" company="In The Hand Ltd">
-//     Copyright © 2015 In The Hand Ltd. All rights reserved.
+//     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkStatusChangedEventHandler))]
+#else
 using System;
 
-namespace InTheHand.Networking.Connectivity
+namespace Windows.Networking.Connectivity
 {
     /// <summary>
     /// Represents the method that handles network status change notifications.
@@ -15,3 +18,4 @@ namespace InTheHand.Networking.Connectivity
     /// <param name="sender"></param>
     public delegate void NetworkStatusChangedEventHandler(object sender);
 }
+#endif

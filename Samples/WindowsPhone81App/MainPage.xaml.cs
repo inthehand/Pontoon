@@ -49,7 +49,7 @@ namespace WindowsPhone81App
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
 
-            System.Diagnostics.Debug.WriteLine(InTheHand.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+            System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
             // TODO: If your application contains multiple pages, ensure that you are
             // handling the hardware Back button by registering for the
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.

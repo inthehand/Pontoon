@@ -19,13 +19,14 @@ namespace Windows.Foundation.Metadata
     [CLSCompliant(false)]
     public static class ApiInformation
     {
+        private const string assemblyQualification = ", InTheHand";
 #if WINDOWS_PHONE_APP || WINDOWS_APP
         private static bool _on10;
         private static Type _type10;
         static ApiInformation()
         {
             //check for 10
-            _type10 = Type.GetType("Windows.Foundation.Metadata.ApiInformation, Windows, ContentType=WindowsRuntime");
+            _type10 = Type.GetType("Windows.Foundation.Metadata.ApiInformation, Windows, ContentType=WindowsRuntime", false);
             if (_type10 != null)
             {
                 _on10 = true;
@@ -45,11 +46,8 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsApiContractPresent", new Type[] { typeof(string), typeof(ushort) }).Invoke(null, new object[] { contractName, majorVersion });
             }
-
-            return false;
-#else
-            return false;
 #endif
+            return false;
         }
 
         /// <summary>
@@ -66,11 +64,8 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsApiContractPresent", new Type[] { typeof(string), typeof(ushort), typeof(ushort) }).Invoke(null, new object[] { contractName, majorVersion, minorVersion });
             }
-
-            return false;
-#else
-            return false;
 #endif
+            return false;
         }
 
         /// <summary>
@@ -88,12 +83,12 @@ namespace Windows.Foundation.Metadata
             }
             else
             {
-                var enumType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", enumTypeName));
-                if (enumType != null)
+                var wenumType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", enumTypeName));
+                if (wenumType != null)
                 {
                     try
                     {
-                        object val = global::System.Enum.Parse(enumType, valueName, false);
+                        object val = global::System.Enum.Parse(wenumType, valueName, false);
                         if (val != null)
                         {
                             return true;
@@ -104,11 +99,21 @@ namespace Windows.Foundation.Metadata
                     }
                 }
             }
+#endif
+            var enumType = Type.GetType(enumTypeName + assemblyQualification, false);
+            if (enumType != null)
+            {
+                try
+                {
+                    object val = global::System.Enum.Parse(enumType, valueName, false);
+                    return val != null;
+                }
+                catch
+                {
+                }
+            }
 
             return false;
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -124,11 +129,14 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsEventPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, eventName });
             }
+#endif
+            Type t = Type.GetType(typeName + assemblyQualification, false);
+            if(t != null)
+            {
+                return t.GetRuntimeEvent(eventName) != null;
+            }
 
             return false;
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -144,11 +152,18 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string)}).Invoke(null, new object[] { typeName, methodName});
             }
+#endif
+            Type t = Type.GetType(typeName + assemblyQualification, false);
+            if (t != null)
+            {
+                foreach(MethodInfo mi in t.GetRuntimeMethods())
+                {
+                    if (mi.Name == methodName)
+                        return true;
+                }
+            }
 
             return false;
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -165,11 +180,18 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string), typeof(uint) }).Invoke(null, new object[] { typeName, methodName, inputParameterCount });
             }
+#endif
+            Type t = Type.GetType(typeName + assemblyQualification, false);
+            if (t != null)
+            {
+                foreach (MethodInfo mi in t.GetRuntimeMethods())
+                {
+                    if (mi.Name == methodName && mi.GetParameters().Length == inputParameterCount)
+                        return true;
+                }
+            }
 
             return false;
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -185,11 +207,14 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
             }
+#endif
+            Type t = Type.GetType(typeName + assemblyQualification, false);
+            if (t != null)
+            {
+                return t.GetRuntimeProperty(propertyName) != null;
+            }
 
             return false;
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -205,11 +230,16 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsReadOnlyPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
             }
+#endif
+            Type t = Type.GetType(typeName + assemblyQualification, false);
+            if (t != null)
+            {
+                PropertyInfo pi = t.GetRuntimeProperty(propertyName);
+                if (pi != null && pi.SetMethod == null)
+                    return true;
+            }
 
             return false;
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -225,11 +255,16 @@ namespace Windows.Foundation.Metadata
             {
                 return (bool)_type10.GetRuntimeMethod("IsWriteablePropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
             }
+#endif
+            Type t = Type.GetType(typeName + assemblyQualification, false);
+            if (t != null)
+            {
+                PropertyInfo pi = t.GetRuntimeProperty(propertyName);
+                if (pi != null && pi.SetMethod != null)
+                    return true;
+            }
 
             return false;
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -248,9 +283,9 @@ namespace Windows.Foundation.Metadata
             {
                 return Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName)) != null;
             }
-#else
-            return false;
 #endif
+            Type t = Type.GetType(typeName + assemblyQualification, false);
+            return t != null;
         }
     }
 }
