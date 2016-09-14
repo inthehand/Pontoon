@@ -4,25 +4,29 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace InTheHand.UI.ViewManagement
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBar))]
+#else
+
+namespace Windows.UI.ViewManagement
 {
 
     using global::System;
     using global::System.Collections.Generic;
     using global::System.Threading;
     using global::System.Threading.Tasks;
+    using Windows.Foundation;
 
 #if __ANDROID__
     using Android.App;
     using Android.Content;
 #elif __IOS__
     using UIKit;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_APP
     using Windows.UI.Core;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
-#elif WINDOWS_PHONE
-    using Windows.Foundation;
 #endif
     
     public sealed class StatusBar
@@ -33,39 +37,19 @@ namespace InTheHand.UI.ViewManagement
         /// <returns></returns>
         public static StatusBar GetForCurrentView()
         {
-#if WINDOWS_UWP
-
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
-            {
-                return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
-            }
-            return null;
-#elif WINDOWS_PHONE_APP
-            return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
-#else
             if (_statusBar == null)
             {
                 _statusBar = new StatusBar();
             }
 
             return _statusBar;
-#endif
         }
 
-#if WINDOWS_PHONE_APP || WINDOWS_UWP
-        private object _statusBar;
-
-        internal StatusBar(object statusBar)
-        {
-            _statusBar = statusBar;
-        }
-#else
         private static StatusBar _statusBar;
 
-        internal StatusBar()
+        private StatusBar()
         {
         }
-#endif
 
 #if WINDOWS_PHONE_APP || WINDOWS_UWP
         public Windows.UI.Color? BackgroundColor {
@@ -111,10 +95,8 @@ namespace InTheHand.UI.ViewManagement
         {
             get
             {
-#if WINDOWS_PHONE   
-                return new StatusBarProgressIndicator(Microsoft.Phone.Shell.SystemTray.ProgressIndicator);     
-#elif WINDOWS_PHONE_APP || WINDOWS_UWP
-                return new StatusBarProgressIndicator(((Windows.UI.ViewManagement.StatusBar)_statusBar).ProgressIndicator);
+#if WINDOWS_PHONE
+                return new StatusBarProgressIndicator(Microsoft.Phone.Shell.SystemTray.ProgressIndicator);
 #else
                 return new StatusBarProgressIndicator();
 #endif
@@ -122,3 +104,4 @@ namespace InTheHand.UI.ViewManagement
         }
     }
 }
+#endif

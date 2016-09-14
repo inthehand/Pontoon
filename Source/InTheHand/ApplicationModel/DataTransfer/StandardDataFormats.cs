@@ -3,8 +3,11 @@
 //     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-namespace InTheHand.ApplicationModel.DataTransfer
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.StandardDataFormats))]
+#else
+namespace Windows.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Contains static properties that return string values.
@@ -65,11 +68,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             get
             {
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-                return Windows.ApplicationModel.DataTransfer.StandardDataFormats.Text;
-#else
                 return "Text";
-#endif
             }
         }
 
@@ -80,11 +79,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             get
             {
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-                return Windows.ApplicationModel.DataTransfer.StandardDataFormats.WebLink;
-#else
                 return "UniformResourceLocatorW";
-#endif
             }
         }
 
@@ -95,12 +90,9 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             get
             {
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-                return Windows.ApplicationModel.DataTransfer.StandardDataFormats.ApplicationLink;
-#else
                 return "ApplicationLink";
-#endif
             }
         }
     }
 }
+#endif

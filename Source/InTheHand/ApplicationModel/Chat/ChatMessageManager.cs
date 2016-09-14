@@ -7,18 +7,17 @@
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Chat.ChatMessageManager))]
 #else
+
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 #if __ANDROID__
 using Android.Content;
 using Android.App;
 #elif __IOS__
 using MessageUI;
 using UIKit;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
-using Windows.Foundation;
-#else
 #endif
 
 namespace Windows.ApplicationModel.Chat
@@ -33,7 +32,7 @@ namespace Windows.ApplicationModel.Chat
         /// </summary>
         /// <param name="message">The chat message.</param>
         /// <returns>An asynchronous action.</returns>
-        public static Task ShowComposeSmsMessageAsync(ChatMessage message)
+        public static IAsyncAction ShowComposeSmsMessageAsync(ChatMessage message)
         {
 #if __ANDROID__
             return Task.Run(() =>
@@ -53,7 +52,7 @@ namespace Windows.ApplicationModel.Chat
                 smsIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(smsIntent);
                 //Platform.Android.ContextManager.Context.StartActivity(smsIntent);
-            });
+            }).AsAsyncAction();
 #elif __IOS__
             return Task.Run(() =>
             {
@@ -84,39 +83,42 @@ namespace Windows.ApplicationModel.Chat
                     // probably an iPod/iPad
                     throw new PlatformNotSupportedException();
                 }
-            });
+            }).AsAsyncAction();
 #elif WINDOWS_APP
-            // build uri
-            StringBuilder sb = new StringBuilder();
-
-            if (message.Recipients.Count == 0)
+            return Task.Run(async () =>
             {
-                throw new InvalidOperationException();
-            }
-            else
-            {
-                sb.Append("sms:");
+                // build uri
+                StringBuilder sb = new StringBuilder();
 
-                foreach (string recipient in message.Recipients)
+                if (message.Recipients.Count == 0)
                 {
-                    sb.Append(recipient + ";");
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    sb.Append("sms:");
+
+                    foreach (string recipient in message.Recipients)
+                    {
+                        sb.Append(recipient + ";");
+                    }
+
+                    // Remove last semi-colon
+                    if (sb.Length > 4)
+                    {
+                        sb.Length -= 1;
+                    }
                 }
 
-                // Remove last semi-colon
-                if (sb.Length > 4)
+                // add body if present
+                if (!string.IsNullOrEmpty(message.Body))
                 {
-                    sb.Length -= 1;
+                    sb.Append("?");
+                    sb.Append("body=" + Uri.EscapeDataString(message.Body));
                 }
-            }
 
-            // add body if present
-            if (!string.IsNullOrEmpty(message.Body))
-            {
-                sb.Append("?");
-                sb.Append("body=" + Uri.EscapeDataString(message.Body));
-            }
-
-            return Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString())).AsTask<bool>();
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
+            }).AsAsyncAction();
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {
@@ -138,7 +140,7 @@ namespace Windows.ApplicationModel.Chat
 
                 composeTask.To = recipients.ToString();
                 composeTask.Show();
-            });
+            }).AsAsyncAction();
 #else
             throw new PlatformNotSupportedException();
 #endif

@@ -1,19 +1,24 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DataPackageView.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackageView))]
+#else
 
 using global::System;
 using global::System.Collections.Generic;
 using global::System.Linq;
 using global::System.Threading.Tasks;
 using global::System.Collections.ObjectModel;
+using Windows.Foundation;
 #if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
 using Windows.Foundation;
 #endif
 
-namespace InTheHand.ApplicationModel.DataTransfer
+namespace Windows.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// A read-only version of a <see cref="DataPackage"/>.
@@ -64,7 +69,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// </summary>
         /// <param name="formatId">The format of the data.</param>
         /// <returns>The data.</returns>
-        public Task<object> GetDataAsync(string formatId)
+        public IAsyncOperation<object> GetDataAsync(string formatId)
         {
             return Task.Run<object>(() => 
             {
@@ -76,7 +81,6 @@ namespace InTheHand.ApplicationModel.DataTransfer
                     {
                         DataProviderRequest request = new DataProviderRequest(package, formatId);
                         handler.Invoke(request);
-
                     }
                     else
                     {
@@ -85,14 +89,14 @@ namespace InTheHand.ApplicationModel.DataTransfer
                 }
 
                 return null;
-            });
+            }).AsAsyncOperation<object>();
         }
 
         /// <summary>
         /// Gets the text in the <see cref="DataPackageView"/> object.
         /// </summary>
         /// <returns></returns>
-        public Task<string> GetTextAsync()
+        public IAsyncOperation<string> GetTextAsync()
         {
             return Task.Run<string>(() =>
             {
@@ -104,14 +108,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
                     {
                         DataProviderRequest request = new DataProviderRequest(package, StandardDataFormats.Text);
                         handler.Invoke(request);
-
                     }
 
                     return package.data[StandardDataFormats.Text].ToString();
                 }
 
                 return null;
-            });
+            }).AsAsyncOperation<string>();
         }
 
         private Uri GetUriClr(string format)
@@ -136,24 +139,25 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// Gets the application link in the <see cref="DataPackageView"/> object.
         /// </summary>
         /// <returns></returns>
-        public Task<Uri> GetApplicationLinkAsync()
+        public IAsyncOperation<Uri> GetApplicationLinkAsync()
         {
             return Task.Run<Uri>(() =>
             {
                 return GetUriClr(StandardDataFormats.ApplicationLink);
-            });
+            }).AsAsyncOperation<Uri>();
         }
 
         /// <summary>
         /// Gets the web link in the <see cref="DataPackageView"/> object.
         /// </summary>
         /// <returns></returns>
-        public Task<Uri> GetWebLinkAsync()
+        public IAsyncOperation<Uri> GetWebLinkAsync()
         {
             return Task.Run<Uri>(() =>
             {
                 return GetUriClr(StandardDataFormats.WebLink);
-            });
+            }).AsAsyncOperation<Uri>();
         }
     }
 }
+#endif

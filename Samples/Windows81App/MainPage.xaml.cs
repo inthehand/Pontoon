@@ -38,12 +38,12 @@ namespace Windows81App
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
         }
 
         private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
         {
-            InTheHand.UI.ApplicationSettings.SettingsPane.Show();
+            Windows.UI.ApplicationSettings.SettingsPane.Show();
         }
     }
 }

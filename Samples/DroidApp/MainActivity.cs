@@ -25,7 +25,7 @@ namespace DroidApp
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainActivity_DataRequested;
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainActivity_DataRequested;
             // Get our button from the layout resource,
             // and attach an event to it
             Button button = FindViewById<Button>(Resource.Id.MyButton);
@@ -80,7 +80,7 @@ namespace DroidApp
             System.Diagnostics.Debug.WriteLine(eventArgs.CollectionChange.ToString() + " " + eventArgs.Key);
         }
 
-        private void MainActivity_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
+        private void MainActivity_DataRequested(object sender, Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
         {
             e.Request.Data.SetWebLink(new Uri("http://peterfoot.net"));
             e.Request.Data.Properties.Title = "Pete's Website";

@@ -1,12 +1,15 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DataPackagePropertySetView.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackagePropertySetView))]
+#else
 using System;
 
-namespace InTheHand.ApplicationModel.DataTransfer
+namespace Windows.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Gets the set of properties of a <see cref="DataPackageView"/> object.
@@ -66,3 +69,4 @@ namespace InTheHand.ApplicationModel.DataTransfer
         }
     }
 }
+#endif

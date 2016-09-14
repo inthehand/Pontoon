@@ -1,10 +1,15 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DataProviderRequest.cs" company="In The Hand Ltd">
-//     Copyright © 2013-14 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataProviderRequest))]
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataProviderHandler))]
+#else
 
-namespace InTheHand.ApplicationModel.DataTransfer
+namespace Windows.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// An object of this type is passed to the <see cref="DataProviderHandler"/> delegate. 
@@ -41,3 +46,4 @@ namespace InTheHand.ApplicationModel.DataTransfer
     /// <param name="request">Contains the data that the user wants to share.</param>
     public delegate void DataProviderHandler(DataProviderRequest request);
 }
+#endif

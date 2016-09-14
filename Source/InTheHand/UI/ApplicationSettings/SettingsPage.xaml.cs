@@ -38,7 +38,7 @@ namespace InTheHand.UI.ApplicationSettings
             }*/
 #if WINDOWS_UWP
             SystemNavigationManager.GetForCurrentView().BackRequested += SettingsPage_BackRequested;
-            InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
+            Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if(sb != null)
             {
                 previousBackground = sb.BackgroundColor;
@@ -61,7 +61,7 @@ namespace InTheHand.UI.ApplicationSettings
         {
             UnregisterBack();
 #if WINDOWS_UWP
-            InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
+            Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if (sb != null)
             {
                 sb.BackgroundColor = previousBackground;

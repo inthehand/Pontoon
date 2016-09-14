@@ -3,27 +3,31 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBarProgressIndicator))]
+#else
 
-namespace InTheHand.UI.ViewManagement
+namespace Windows.UI.ViewManagement
 {
 
     using global::System;
     using global::System.Collections.Generic;
     using global::System.Threading;
     using global::System.Threading.Tasks;
+    using Windows.Foundation;
 
 #if __ANDROID__
     using Android.App;
     using Android.Content;
 #elif __IOS__
     using UIKit;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_APP
     using Windows.UI.Core;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
-#elif WINDOWS_PHONE
-    using Windows.Foundation;
 #endif
+
     /// <summary>
     /// Provides methods and properties for interacting with the progress indicator on the status bar on a window (app view).
     /// </summary>
@@ -36,13 +40,6 @@ namespace InTheHand.UI.ViewManagement
         {
             _progressIndicator = progressIndicator;
         }
-#elif WINDOWS_PHONE_APP || WINDOWS_UWP
-        private Windows.UI.ViewManagement.StatusBarProgressIndicator _progressIndicator;
-
-        internal StatusBarProgressIndicator(Windows.UI.ViewManagement.StatusBarProgressIndicator progressIndicator)
-        {
-            _progressIndicator = progressIndicator;
-        }
 #else
         internal StatusBarProgressIndicator()
         {
@@ -52,11 +49,8 @@ namespace InTheHand.UI.ViewManagement
         /// Hides the progress indicator.
         /// </summary>
         /// <returns></returns>
-        public Task HideAsync()
+        public IAsyncAction HideAsync()
         {
-#if WINDOWS_PHONE_APP || WINDOWS_UWP
-            return _progressIndicator.HideAsync().AsTask();
-#else
             return Task.Run(()=>{
 #if __ANDROID__
                 Activity a = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity;
@@ -69,19 +63,15 @@ namespace InTheHand.UI.ViewManagement
 #elif WINDOWS_PHONE
                 _progressIndicator.IsVisible = false;
 #endif
-            });
-#endif
+            }).AsAsyncAction();
         }
 
         /// <summary>
         /// Shows the progress indicator.
         /// </summary>
         /// <returns></returns>
-        public Task ShowAsync()
+        public IAsyncAction ShowAsync()
         {
-#if WINDOWS_PHONE_APP || WINDOWS_UWP
-            return _progressIndicator.ShowAsync().AsTask();
-#else
             return Task.Run(() =>
             {
 #if __ANDROID__
@@ -95,9 +85,9 @@ namespace InTheHand.UI.ViewManagement
 #elif WINDOWS_PHONE
                 _progressIndicator.IsVisible = true;
 #endif
-            });
-#endif
+            }).AsAsyncAction();
         }
             
     }
 }
+#endif

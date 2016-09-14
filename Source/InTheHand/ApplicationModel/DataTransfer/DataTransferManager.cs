@@ -1,9 +1,12 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DataTransferManager.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataTransferManager))]
+#else
 
 using global::System;
 using global::System.Collections.Generic;
@@ -15,14 +18,11 @@ using Android.App;
 #elif __IOS__
 using Foundation;
 using UIKit;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-using Windows.Foundation;
-using Windows.ApplicationModel.DataTransfer;
-#endif
-#if WINDOWS_PHONE
+#elif WINDOWS_PHONE
 using System.Windows;
 #endif
-namespace InTheHand.ApplicationModel.DataTransfer
+
+namespace Windows.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Programmatically initiates an exchange of content with other apps.
@@ -189,8 +189,6 @@ namespace InTheHand.ApplicationModel.DataTransfer
 #endif
 
             }
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-            Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -228,54 +226,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             add
             {
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-                if (_dataRequested == null)
-                {
-                    Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += DataTransferManager_DataRequested;
-                }
-#endif
                 _dataRequested += value;
             }
             remove
             {
                 _dataRequested -= value;
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-                if (_dataRequested == null)
-                {
-                    Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested -= DataTransferManager_DataRequested;
-                }
-#endif
             }
         }
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-        private async void DataTransferManager_DataRequested(Windows.ApplicationModel.DataTransfer.DataTransferManager sender, Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs args)
-        {
-            var deferral = args.Request.GetDeferral();
-            if (_dataRequested != null)
-            {
-                DataRequestedEventArgs e = new DataRequestedEventArgs();
-                _dataRequested(this, e);
-                if (e.Request.Data != null)
-                {
-                    DataPackageView view = e.Request.Data.GetView();
-                    if (!string.IsNullOrEmpty(view.Properties.Title))
-                    {
-                        args.Request.Data.Properties.Title = view.Properties.Title;
-                    }
-                    if (!string.IsNullOrEmpty(view.Properties.Description))
-                    {
-                        args.Request.Data.Properties.Description = view.Properties.Description;
-                    }
-
-                    foreach (string format in view.AvailableFormats)
-                    {
-                        args.Request.Data.SetData(format, await view.GetDataAsync(format));
-                    }
-                }
-            }
-            deferral.Complete();
-        }
-#endif
 
         private event EventHandler<TargetApplicationChosenEventArgs> _targetApplicationChosen;
         /// <summary>
@@ -288,33 +245,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             add
             {
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-                if(_targetApplicationChosen == null)
-                {
-                    Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().TargetApplicationChosen += DataTransferManager_TargetApplicationChosen;
-                }
-#endif
                 _targetApplicationChosen += value;
-
             }
             remove
             {
                 _targetApplicationChosen -= value;
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-                if (_targetApplicationChosen == null)
-                {
-                    Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().TargetApplicationChosen -= DataTransferManager_TargetApplicationChosen;
-                }
-#endif
             }
         }
-
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-        private void DataTransferManager_TargetApplicationChosen(Windows.ApplicationModel.DataTransfer.DataTransferManager sender, Windows.ApplicationModel.DataTransfer.TargetApplicationChosenEventArgs args)
-        {
-            OnTargetApplicationChosen(args.ApplicationName);
-        }
-#endif
 
         internal void OnTargetApplicationChosen(string applicationName)
         {
@@ -325,3 +262,4 @@ namespace InTheHand.ApplicationModel.DataTransfer
         }
     }
 }
+#endif

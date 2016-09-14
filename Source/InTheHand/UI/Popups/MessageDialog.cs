@@ -3,26 +3,27 @@
 //     Copyright © 2012-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-namespace InTheHand.UI.Popups
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.MessageDialog))]
+#else
+namespace Windows.UI.Popups
 {
-
     using global::System;
     using global::System.Collections.Generic;
     using global::System.Threading;
     using global::System.Threading.Tasks;
-
+    using Windows.Foundation;
 #if __ANDROID__
     using Android.App;
     using Android.Content;
+    using Android.Content.Res;
 #elif __IOS__
     using UIKit;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
     using Windows.UI.Core;
     using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-#elif WINDOWS_PHONE
-    using Windows.Foundation;
+    using Windows.UI.Xaml.Controls; 
 #endif
     /// <summary>
     /// Represents a dialog.
@@ -102,7 +103,7 @@ namespace InTheHand.UI.Popups
         /// <remarks>In some cases, such as when the dialog is closed by the system out of your control, your result can be an empty command.
         /// <see cref="IAsyncOperation{TResult}.GetResults()"/> returns either the command selected which destroyed the dialog, or an empty command.
         /// For example, a dialog hosted in a charms window will return an empty command if the charms window has been dismissed.</remarks>
-        public Task<IUICommand> ShowAsync()
+        public IAsyncOperation<IUICommand> ShowAsync()
         {
             if (this.Commands.Count > MaxCommands)
             {
@@ -116,7 +117,7 @@ namespace InTheHand.UI.Popups
             dialog.SetMessage(this.Content);
             if (Commands.Count == 0)
             {
-                dialog.SetButton(-1, Android.App.Application.Context.Resources.GetString(InTheHandUI.Resource.String.Close), new EventHandler<Android.Content.DialogClickEventArgs>(Clicked));
+                dialog.SetButton(-1, Resources.System.GetString(Android.Resource.String.Cancel), new EventHandler<Android.Content.DialogClickEventArgs>(Clicked));
             }
             else
             {
@@ -131,7 +132,7 @@ namespace InTheHand.UI.Popups
             {
                 handle.WaitOne();
                 return _selectedCommand;
-            });
+            }).AsAsyncOperation<IUICommand>();
 
 #elif __IOS__
             uac = UIAlertController.Create(this.Title, this.Content, UIAlertControllerStyle.Alert);
@@ -157,7 +158,7 @@ namespace InTheHand.UI.Popups
             {
                 handle.WaitOne();
                 return _selectedCommand;
-            });
+            }).AsAsyncOperation<IUICommand>();
 
 #elif WINDOWS_PHONE
             List<string> buttons = new List<string>();
@@ -168,7 +169,7 @@ namespace InTheHand.UI.Popups
 
             if (buttons.Count == 0)
             {
-                buttons.Add(InTheHandUI.Strings.Resources.Close);
+                buttons.Add("Close");
             }
 
             MessageDialogAsyncOperation asyncOperation = new MessageDialogAsyncOperation(this);
@@ -218,7 +219,7 @@ namespace InTheHand.UI.Popups
                             }
                         }, null);
 
-            return asyncOperation.AsTask<IUICommand>();
+            return asyncOperation.AsTask<IUICommand>().AsAsyncOperation<IUICommand>(); ;
 #elif WINDOWS_EMBEDDED
             MessageDialogForm mdf = new MessageDialogForm(this);
             mdf.Show();
@@ -327,7 +328,7 @@ namespace InTheHand.UI.Popups
                     return new UICommand(command.Label, null, command.Id);
                 }
                 return null;
-            });
+            }).AsAsyncOperation<IUICommand>();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -363,7 +364,7 @@ namespace InTheHand.UI.Popups
         }
 #endif
 
-#region Commands
+        #region Commands
 
         private List<IUICommand> commands = new List<IUICommand>();
 
@@ -431,3 +432,4 @@ namespace InTheHand.UI.Popups
         public string Title { get; set; }
     }
 }
+#endif

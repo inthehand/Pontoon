@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
@@ -56,14 +57,17 @@ namespace Windows.ApplicationModel.Calls
         {
         }
 #endif
-        public static async Task<PhoneLine> FromIdAsync(Guid lineId)
+        public static IAsyncOperation<PhoneLine> FromIdAsync(Guid lineId)
         {
 #if __ANDROID__ || __IOS__
-            return new PhoneLine();
+            return Task.FromResult<PhoneLine>(new PhoneLine()).AsAsyncOperation<PhoneLine>();
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
             if(_type10 != null)
             {
-                return new PhoneLine(await ((IAsyncOperation<object>)_type10.GetRuntimeMethod("FromIdAsync", new Type[] { typeof(Guid) }).Invoke(null, new object[] { lineId })));
+                return Task.Run<PhoneLine>(async () =>
+                {
+                    return new PhoneLine(await ((IAsyncOperation<object>)_type10.GetRuntimeMethod("FromIdAsync", new Type[] { typeof(Guid) }).Invoke(null, new object[] { lineId })));
+                }).AsAsyncOperation<PhoneLine>();
             }
 
             return null;

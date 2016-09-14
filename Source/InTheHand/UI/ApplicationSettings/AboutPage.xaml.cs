@@ -34,7 +34,7 @@ namespace InTheHand.UI.ApplicationSettings
                 this.Background = new SolidColorBrush(modColor);
             }*/
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
-            InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
+            Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if (sb != null)
             {
                 previousBackground = sb.BackgroundColor;
@@ -59,7 +59,7 @@ namespace InTheHand.UI.ApplicationSettings
         {
             UnregisterBack();
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
-            InTheHand.UI.ViewManagement.StatusBar sb = InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView();
+            Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if (sb != null)
             {
                 sb.BackgroundColor = previousBackground;

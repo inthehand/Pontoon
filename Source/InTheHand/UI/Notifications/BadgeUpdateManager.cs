@@ -3,8 +3,12 @@
 //     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.BadgeUpdateManager))]
+#else
 
-namespace InTheHand.UI.Notifications
+namespace Windows.UI.Notifications
 {
     /// <summary>
     /// Creates BadgeUpdater objects that you use to manipulate a tile's badge overlay.
@@ -32,3 +36,4 @@ namespace InTheHand.UI.Notifications
         }
     }
 }
+#endif

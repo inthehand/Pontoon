@@ -1,13 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="UICommand.cs" company="In The Hand Ltd">
-//   Copyright (c) 2012-15 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2012-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Represents a command in a context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.UICommand))]
+#else
 
-namespace InTheHand.UI.Popups
+namespace Windows.UI.Popups
 {
     /// <summary>
     /// Represents a command in a context menu.
@@ -71,3 +75,4 @@ namespace InTheHand.UI.Popups
         }
     }
 }
+#endif

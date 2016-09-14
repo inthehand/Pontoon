@@ -1,25 +1,26 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="Clipboard.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.Clipboard))]
+#else
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using Windows.Foundation;
 #if __ANDROID__
 using Android.Content;
 #elif __IOS__
 using Foundation;
 using UIKit;
-#elif WINDOWS_PHONE_APP || WINDOWS_APP || WINDOWS_UWP
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
+#elif WINDOWS_PHONE_APP
 using System.Reflection;
 #endif
 
-namespace InTheHand.ApplicationModel.DataTransfer
+namespace Windows.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Gets and sets information from the clipboard object.
@@ -50,8 +51,6 @@ namespace InTheHand.ApplicationModel.DataTransfer
             _clipboardManager.PrimaryClip = null;
 #elif __IOS__
             UIPasteboard.General.SetData(null, "kUTTypePlainText");
-#elif WINDOWS_UWP || WINDOWS_APP
-            Windows.ApplicationModel.DataTransfer.Clipboard.Clear();
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
@@ -102,34 +101,6 @@ namespace InTheHand.ApplicationModel.DataTransfer
             }
 #elif __IOS__
             
-#elif WINDOWS_APP || WINDOWS_UWP
-            Windows.ApplicationModel.DataTransfer.DataPackageView view = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
-            if (view != null)
-            {
-                DataPackage package = new DataPackage();
-                if (!string.IsNullOrEmpty(view.Properties.Title))
-                {
-                    package.Properties.Title = view.Properties.Title;
-                }
-                if (!string.IsNullOrEmpty(view.Properties.Description))
-                {
-                    package.Properties.Description = view.Properties.Description;
-                }
-
-                foreach (string format in view.AvailableFormats)
-                {
-                    if (format == StandardDataFormats.ApplicationLink || format == StandardDataFormats.WebLink || format == StandardDataFormats.Text)
-                    {
-                        Task<object> t = Task.Run<object>(async () => { return await view.GetDataAsync(format); });
-                        t.Wait();
-
-                        package.SetData(format, t.Result);
-                    }
-
-                }
-
-                return package.GetView();
-            }
 #elif WINDOWS_PHONE_APP
             if(_on10)
             {
@@ -171,35 +142,6 @@ namespace InTheHand.ApplicationModel.DataTransfer
             return null;
         }
 
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-        private static async Task<Windows.ApplicationModel.DataTransfer.DataPackage> PopulateNativeDataPackageAsync(DataPackage content)
-        {
-            Windows.ApplicationModel.DataTransfer.DataPackage pkg = null;
-
-            if (content != null)
-            {
-                pkg.RequestedOperation = DataPackageOperation.Copy;
-                if (!string.IsNullOrEmpty(content.Properties.Title))
-                {
-                    pkg.Properties.Title = content.Properties.Title;
-                }
-                if (!string.IsNullOrEmpty(content.Properties.Description))
-                {
-                    pkg.Properties.Description = content.Properties.Description;
-                }
-
-                InTheHand.ApplicationModel.DataTransfer.DataPackageView view = content.GetView();
-                foreach (string format in view.AvailableFormats)
-                {
-                    pkg.SetData(format, await view.GetDataAsync(format));
-                }
-            }
-
-            return pkg;
-        }
-#endif
-
-
         /// <summary>
         /// Sets the current content that is stored in the clipboard object.
         /// </summary>
@@ -208,15 +150,10 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
         public async static void SetContent(DataPackage content)
         {
-#if WINDOWS_APP || WINDOWS_UWP
-            Windows.ApplicationModel.DataTransfer.DataPackage pkg = await PopulateNativeDataPackageAsync(content);
-
-            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(pkg);
-#elif WINDOWS_PHONE_APP
+#if WINDOWS_PHONE_APP
             if (_on10)
             {
-                Windows.ApplicationModel.DataTransfer.DataPackage pkg = await PopulateNativeDataPackageAsync(content);
-                _type10.GetRuntimeMethod("SetContent", new Type[] { typeof(Windows.ApplicationModel.DataTransfer.DataPackage) }).Invoke(null, new object[] { pkg });
+                _type10.GetRuntimeMethod("SetContent", new Type[] { typeof(Windows.ApplicationModel.DataTransfer.DataPackage) }).Invoke(null, new object[] { content });
             }
 #else
             string text = "";
@@ -300,4 +237,5 @@ namespace System.Windows
         }
     }
 }
+#endif
 #endif

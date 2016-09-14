@@ -68,10 +68,10 @@ namespace ApplicationModel.iOS
     {
         public UIViewController1()
         {
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
         }
 
-        private void UIViewController1_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
+        private void UIViewController1_DataRequested(object sender, Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
         {
             e.Request.Data.SetText("Hello World!");
             e.Request.Data.Properties.Title = "New Share";

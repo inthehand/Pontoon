@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Navigation;
 using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using InTheHand.Storage;
 using Windows.Storage;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -56,7 +55,7 @@ namespace WindowsPhone81App
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
             
-            InTheHand.ApplicationModel.DataTransfer.Clipboard.Clear();
+            Windows.ApplicationModel.DataTransfer.Clipboard.Clear();
 
             InTheHand.UI.Notifications.ToastNotificationManager.CreateToastNotifierForApplication().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
 

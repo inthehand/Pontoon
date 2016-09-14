@@ -8,10 +8,10 @@ using System.Windows.Navigation;
 using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 using InTheHand.ApplicationModel;
-using InTheHand.UI.Popups;
 using InTheHand.UI.ApplicationSettings;
 using Windows.Storage;
 using System.IO;
+using Windows.UI.Popups;
 
 namespace InTheHandUI.ApplicationSettings
 {

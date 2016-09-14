@@ -1,13 +1,18 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IUICommand.cs" company="In The Hand Ltd">
-//   Copyright (c) 2012-15 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2012-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Represents a command in a context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.IUICommand))]
+[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.UICommandInvokedHandler))]
+#else
 
-namespace InTheHand.UI.Popups
+namespace Windows.UI.Popups
 {
     /// <summary>
     /// ts a command in a context menu or message dialog box.
@@ -36,3 +41,4 @@ namespace InTheHand.UI.Popups
     /// <param name="command">Represents the invoked command.</param>
     public delegate void UICommandInvokedHandler(IUICommand command);
 }
+#endif
