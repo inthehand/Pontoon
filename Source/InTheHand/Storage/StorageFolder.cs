@@ -193,6 +193,16 @@ namespace Windows.Storage
         /// <returns></returns>
         public IAsyncAction DeleteAsync()
         {
+            return DeleteAsync(StorageDeleteOption.Default);
+        }
+
+        /// <summary>
+        /// Deletes the current folder.
+        /// This method also specifies whether to delete the folder permanently.
+        /// </summary>
+        /// <returns></returns>
+        public IAsyncAction DeleteAsync(StorageDeleteOption option)
+        {
 #if __ANDROID__ || __IOS__
             if (!Directory.Exists(Path))
             {
@@ -200,7 +210,7 @@ namespace Windows.Storage
             }
             return Task.Run(() =>
             {
-                global::System.IO.Directory.Delete(Path);
+                global::System.IO.Directory.Delete(Path,true);
             }).AsAsyncAction();
 #else
             throw new PlatformNotSupportedException();

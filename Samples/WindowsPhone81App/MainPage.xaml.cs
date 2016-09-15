@@ -16,6 +16,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.Storage;
+using Windows.Media.Capture;
+using Windows.UI.Notifications;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App
@@ -57,14 +59,14 @@ namespace WindowsPhone81App
             
             Windows.ApplicationModel.DataTransfer.Clipboard.Clear();
 
-            InTheHand.UI.Notifications.ToastNotificationManager.CreateToastNotifierForApplication().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
+           ToastNotificationManager.CreateToastNotifier().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
 
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
-            StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
+            CameraCaptureUI ccu = new CameraCaptureUI();
+            StorageFile sf = await ccu.CaptureFileAsync(CameraCaptureUIMode.Photo);
             System.Diagnostics.Debug.WriteLine(sf.Path);
             /*
             var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();

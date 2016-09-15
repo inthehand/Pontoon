@@ -31,7 +31,7 @@ namespace Silverlight80App
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("content", "title");
+            Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog("content", "title");
             await md.ShowAsync();
             System.Diagnostics.Debug.WriteLine("Shown");
         }

@@ -3,16 +3,15 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Storage;
 
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 [assembly: TypeForwardedTo(typeof(global::System.WindowsRuntimeSystemExtensions))]
 [assembly: TypeForwardedTo(typeof(global::System.IO.WindowsRuntimeStorageExtensions))]
 #else
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Storage;
 
 namespace System
 {

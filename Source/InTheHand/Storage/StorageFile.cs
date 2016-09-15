@@ -32,6 +32,12 @@ namespace Windows.Storage
         IAsyncAction DeleteAsync();
 
         /// <summary>
+        /// Deletes the current item, optionally deleting it permanently. 
+        /// </summary>
+        /// <returns></returns>
+        IAsyncAction DeleteAsync(StorageDeleteOption option);
+
+        /// <summary>
         /// Determines whether the current IStorageItem matches the specified StorageItemTypes value.
         /// </summary>
         /// <param name="type">The value to match against.</param>
@@ -207,6 +213,15 @@ namespace Windows.Storage
         /// </summary>
         /// <returns></returns>
         public IAsyncAction DeleteAsync()
+        {
+            return DeleteAsync(StorageDeleteOption.Default);
+        }
+
+        /// <summary>
+        /// Deletes the current file, optionally deleting the item permanently.
+        /// </summary>
+        /// <returns></returns>
+        public IAsyncAction DeleteAsync(StorageDeleteOption option)
         {
 #if __ANDROID__ || __IOS__
             return Task.Run(() =>

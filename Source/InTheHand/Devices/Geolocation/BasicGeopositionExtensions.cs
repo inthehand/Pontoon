@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="BasicGeopositionExtensions.cs" company="In The Hand Ltd">
-//     Copyright © 2010-2015 In The Hand Ltd. All rights reserved.
+//     Copyright © 2010-2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -23,11 +23,16 @@ namespace InTheHand.Devices.Geolocation
         [CLSCompliant(false)]
         public static double GetDistanceTo(this BasicGeoposition b, BasicGeoposition other)
         {
+            return GetDistance(b.Latitude, b.Longitude, other.Latitude, other.Longitude);
+        }
+
+        internal static double GetDistance(double thisLatitude, double thisLongitude, double otherLatitude, double otherLongitude)
+        {
             double R = 6371000; // earth radius in metres
-            double dLat = ToRadians(other.Latitude - b.Latitude);
-            double dLon = ToRadians(other.Longitude - b.Longitude);
+            double dLat = ToRadians(otherLatitude - thisLatitude);
+            double dLon = ToRadians(otherLongitude - thisLongitude);
             double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                Math.Cos(ToRadians(b.Latitude)) * Math.Cos(ToRadians(other.Latitude)) *
+                Math.Cos(ToRadians(thisLatitude)) * Math.Cos(ToRadians(otherLatitude)) *
                 Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
             double c = 2 * Math.Asin(Math.Min(1, Math.Sqrt(a)));
             double d = R * c;

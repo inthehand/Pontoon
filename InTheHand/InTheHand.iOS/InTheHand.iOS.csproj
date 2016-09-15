@@ -117,6 +117,57 @@
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
+      <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeopositionExtensions.cs">
+      <Link>Devices\Geolocation\BasicGeopositionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocircle.cs">
+      <Link>Devices\Geolocation\Geocircle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocoordinate.cs">
+      <Link>Devices\Geolocation\Geocoordinate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\GeocoordinateExtensions.cs">
+      <Link>Devices\Geolocation\GeocoordinateExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\Geofence.cs">
+      <Link>Devices\Geolocation\Geofencing\Geofence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitor.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
+      <Link>Devices\Geolocation\Geolocator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geopoint.cs">
+      <Link>Devices\Geolocation\Geopoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geoposition.cs">
+      <Link>Devices\Geolocation\Geoposition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionAccuracy.cs">
+      <Link>Devices\Geolocation\PositionAccuracy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionChangedEventArgs.cs">
+      <Link>Devices\Geolocation\PositionChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionSource.cs">
+      <Link>Devices\Geolocation\PositionSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionStatus.cs">
+      <Link>Devices\Geolocation\PositionStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
+      <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>
@@ -185,6 +236,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
       <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
+      <Link>Storage\StorageDeleteOption.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
       <Link>Storage\StorageFile.cs</Link>
@@ -268,9 +322,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Devices\Geolocation\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
