@@ -6,10 +6,11 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Android.Provider;
-using InTheHand.UI.Popups;
+using Windows.UI.Popups;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Notifications;
 
 namespace DroidApp
 {
@@ -36,21 +37,22 @@ namespace DroidApp
             ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
             button.Click += new EventHandler(async (s,e)=> { button.Text = string.Format("{0} clicks!", count++);
-                System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
+                /*System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.FullName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
-                System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+                System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);*/
 
-                InTheHand.UI.Popups.MessageDialog md = new MessageDialog("message","title");
+                /*Windows.UI.Popups.MessageDialog md = new MessageDialog("message","title");
                 md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
                 md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
-                await md.ShowAsync();
-                
+                await md.ShowAsync();*/
 
-               
+                Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
+                StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
+                System.Diagnostics.Debug.WriteLine(sf);
 
                 // InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
                 //Task.Run(async () =>
@@ -70,7 +72,7 @@ namespace DroidApp
                 //});
             });
 
-            InTheHand.UI.Notifications.ToastNotifier n = InTheHand.UI.Notifications.ToastNotificationManager.CreateToastNotifierForApplication();
+            ToastNotifier n = ToastNotificationManager.CreateToastNotifierForApplication();
             var notification = InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title");
             n.Show(notification);
         }

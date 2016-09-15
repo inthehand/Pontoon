@@ -300,50 +300,8 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
-      <Link>UI\Notifications\BadgeNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
-      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
-      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
-      <Link>UI\Notifications\BadgeUpdater.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ScheduledToastNotification.cs">
-      <Link>UI\Notifications\ScheduledToastNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotification.cs">
-      <Link>UI\Notifications\ToastNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationCreator.cs">
-      <Link>UI\Notifications\ToastNotificationCreator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationManager.cs">
-      <Link>UI\Notifications\ToastNotificationManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.cs">
-      <Link>UI\Notifications\ToastNotifier.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\inthehand\ui\popups\IUICommand.cs">
-      <Link>UI\Popups\IUICommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\inthehand\ui\popups\MessageDialog.cs">
-      <Link>UI\Popups\MessageDialog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\inthehand\ui\popups\UICommand.cs">
-      <Link>UI\Popups\UICommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
-      <Link>UI\ViewManagement\StatusBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
-      <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\Resources\WindowsXamlResourceLoader.cs">
       <Link>UI\Xaml\Resources\WindowsXamlResourceLoader.cs</Link>
@@ -365,6 +323,11 @@
     <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Notifications\" />
+    <Folder Include="UI\Popups\" />
+    <Folder Include="UI\ViewManagement\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

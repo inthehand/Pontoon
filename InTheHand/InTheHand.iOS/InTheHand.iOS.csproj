@@ -141,6 +141,9 @@
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
       <Link>Graphics\Display\ResolutionScale.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
+      <Link>Media\Capture\CameraCaptureUI.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
     </Compile>
@@ -266,7 +269,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Devices\" />
+    <Folder Include="Devices\Geolocation\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
