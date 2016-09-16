@@ -40,8 +40,8 @@ namespace ApplicationModel.iOS
                     ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
                     ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
                     
-                    InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
-                    StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
+                    Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
+                    StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
                     /*
                     string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery);
                     var devs = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(q);

@@ -18,6 +18,7 @@ using Windows.UI.Popups;
 using Windows.Storage;
 using Windows.Media.Capture;
 using Windows.UI.Notifications;
+using Windows.ApplicationModel.Chat;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App
@@ -57,7 +58,7 @@ namespace WindowsPhone81App
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
             
-            Windows.ApplicationModel.DataTransfer.Clipboard.Clear();
+            //Windows.ApplicationModel.DataTransfer.Clipboard.Clear();
 
            ToastNotificationManager.CreateToastNotifier().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
 
@@ -65,6 +66,9 @@ namespace WindowsPhone81App
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            ChatMessageManager.ShowSmsSettings();
+            return;
+
             CameraCaptureUI ccu = new CameraCaptureUI();
             StorageFile sf = await ccu.CaptureFileAsync(CameraCaptureUIMode.Photo);
             System.Diagnostics.Debug.WriteLine(sf.Path);

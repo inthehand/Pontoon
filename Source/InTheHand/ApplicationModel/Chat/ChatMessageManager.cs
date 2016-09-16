@@ -12,6 +12,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.System;
 #if __ANDROID__
 using Android.Content;
 using Android.App;
@@ -152,6 +153,18 @@ namespace Windows.ApplicationModel.Chat
             e.Controller.DismissViewController(true, null);
         }
 #endif
+        /// <summary>
+        /// Launches the device's SMS settings app.
+        /// </summary>
+        public static void ShowSmsSettings()
+        {
+#if __ANDROID__
+            Intent settingsIntent = new Intent(Android.Provider.Settings.ActionDataRoamingSettings);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(settingsIntent);
+#elif WINDOWS_PHONE
+            Launcher.LaunchUriAsync(new Uri("ms-settings-cellular:"));
+#endif
+        }
     }
 }
 #endif

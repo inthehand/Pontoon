@@ -45,9 +45,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
-      <Link>Media\Capture\CameraCaptureUI.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +62,7 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Media\Capture\" />
     <Folder Include="UI\Notifications\" />
     <Folder Include="UI\Popups\" />
     <Folder Include="UI\ViewManagement\" />
