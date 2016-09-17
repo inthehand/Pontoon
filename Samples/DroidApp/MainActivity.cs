@@ -36,7 +36,8 @@ namespace DroidApp
             ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
             ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
-            button.Click += new EventHandler(async (s,e)=> { button.Text = string.Format("{0} clicks!", count++);
+            button.Click += new EventHandler((s,e)=> { button.Text = string.Format("{0} clicks!", count++);
+                InTheHand.UI.ApplicationSettings.SettingsPane.Show();
                 /*System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.FullName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
@@ -50,9 +51,9 @@ namespace DroidApp
                 md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
                 await md.ShowAsync();*/
 
-                Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
+                /*Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
                 StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
-                System.Diagnostics.Debug.WriteLine(sf);
+                System.Diagnostics.Debug.WriteLine(sf);*/
 
                 // InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
                 //Task.Run(async () =>

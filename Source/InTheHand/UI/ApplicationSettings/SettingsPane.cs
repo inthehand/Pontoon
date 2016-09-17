@@ -8,7 +8,11 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Windows.Storage;
-#if WINDOWS_PHONE
+
+#if __IOS__
+using Foundation;
+using UIKit;
+#elif WINDOWS_PHONE
 using System.Windows;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
 using Windows.UI;
@@ -72,7 +76,11 @@ namespace InTheHand.UI.ApplicationSettings
             {
                 GetForCurrentView().showAbout = (bool)objAbout;
             }
-#if WINDOWS_UWP
+#if __ANDROID__
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(typeof(SettingsActivity));
+#elif __IOS__
+            UIApplication.SharedApplication.OpenUrl(new NSUrl(UIApplication.OpenSettingsUrlString));
+#elif WINDOWS_UWP
             if(hasSettingsPane)
             {
 #pragma warning disable 618
@@ -101,6 +109,7 @@ namespace InTheHand.UI.ApplicationSettings
 #endif
         }
 
+#if !__IOS__ && !__ANDROID__
         internal IList<SettingsCommand> OnCommandsRequested()
         {
             SettingsPaneCommandsRequestedEventArgs e = new SettingsPaneCommandsRequestedEventArgs();
@@ -162,6 +171,7 @@ namespace InTheHand.UI.ApplicationSettings
 #endif
             }
         }
+#endif
 
 #if WINDOWS_UWP || WINDOWS_APP
 

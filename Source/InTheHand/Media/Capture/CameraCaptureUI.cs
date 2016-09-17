@@ -175,7 +175,12 @@ namespace Windows.Media.Capture
                 return Task.Run<StorageFile>(async () =>
                 {
                     _handle.WaitOne();
-                    return await StorageFile.GetFileFromPathAsync(_path);
+                    if (!string.IsNullOrEmpty(_path))
+                    {
+                        return await StorageFile.GetFileFromPathAsync(_path);
+                    }
+
+                    return null;
                 }).AsAsyncOperation<StorageFile>();
             }
             return Task.FromResult<StorageFile>(null).AsAsyncOperation<StorageFile>();

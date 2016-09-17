@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PackageId.cs" company="In The Hand Ltd">
-//   Copyright (c) 2013-15 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2013-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides package identification info, such as name, version, and publisher.
@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 #if __ANDROID__
 using Android.App;
@@ -128,21 +129,22 @@ namespace InTheHand.ApplicationModel
         /// Gets the package version info.
         /// </summary>
         /// <value>The package version information.</value>
-        public Version Version
+        public PackageVersion Version
         {
 
             get
             {
 #if __ANDROID__
-                return Version.Parse(_packageInfo.VersionName);
+                return PackageVersionExtensions.FromVersion(System.Version.Parse(_packageInfo.VersionName));
 #elif __IOS__
                 if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("CFBundleShortVersionString")))
                 {
-                    return Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString());
+                    return PackageVersionExtensions.FromVersion(System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString()));
                 }
-                return Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString());
+
+                return PackageVersionExtensions.FromVersion(System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()));
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-                return _packageId.Version.ToVersion();
+                return _packageId.Version;
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.Version;
 #else

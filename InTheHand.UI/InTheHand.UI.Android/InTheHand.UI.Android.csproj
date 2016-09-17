@@ -59,18 +59,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
