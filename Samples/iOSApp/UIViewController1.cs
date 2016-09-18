@@ -88,19 +88,22 @@ namespace ApplicationModel.iOS
         {
             base.ViewDidAppear(animated);
 
-            var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
-            System.Diagnostics.Debug.WriteLine(file.ContentType);
+            //var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
+            //System.Diagnostics.Debug.WriteLine(file.ContentType);
 
-            await Task.Delay(2000);
-            foreach(DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))
+            Task.Run(async () =>
             {
-                System.Diagnostics.Debug.WriteLine(di.Name);
-                BluetoothLEDevice dev = await BluetoothLEDevice.FromIdAsync(di.Id);
-                foreach(GattDeviceService s in dev.GattServices)
+                await Task.Delay(2000);
+                foreach (DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))
                 {
-                    System.Diagnostics.Debug.WriteLine(s.ToString());
+                    System.Diagnostics.Debug.WriteLine(di.Name);
+                    BluetoothLEDevice dev = await BluetoothLEDevice.FromIdAsync(di.Id);
+                    foreach (GattDeviceService s in dev.GattServices)
+                    {
+                        System.Diagnostics.Debug.WriteLine(s.ToString());
+                    }
                 }
-            }
+            });
 
 
           

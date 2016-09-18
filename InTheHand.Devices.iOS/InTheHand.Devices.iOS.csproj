@@ -68,5 +68,13 @@
       <Link>Enumeration\DeviceInformation.cs</Link>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InTheHand\InTheHand.iOS\InTheHand.iOS.csproj">
+      <Project>{F7248464-786E-44A5-A7C7-6F9DCAB9F947}</Project>
+      <Name>InTheHand.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.Foundation;
+using System.Threading;
 #if __IOS__
 using CoreBluetooth;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
@@ -95,6 +97,41 @@ namespace InTheHand.Devices.Enumeration
 #endif
         }
 
+        private event TypedEventHandler<BluetoothLEDevice, object> _nameChanged;
+        /// <summary>
+        /// Occurs when the name of the device has changed.
+        /// </summary>
+        public event TypedEventHandler<BluetoothLEDevice, Object> NameChanged
+        {
+            add
+            {
+#if __IOS__
+                if (_nameChanged == null)
+                {
+                    _peripheral.UpdatedName += _peripheral_UpdatedName;
+                }
+#endif
+                _nameChanged += value;
+
+            }
+
+            remove
+            {
+                _nameChanged -= value;
+#if __IOS__
+                if (_nameChanged == null)
+                {
+                    _peripheral.UpdatedName -= _peripheral_UpdatedName;
+                }
+#endif
+            }
+        }
+
+        private void _peripheral_UpdatedName(object sender, EventArgs e)
+        {
+            _nameChanged?.Invoke(this, e);
+        }
+
         /// <summary>
         /// Gets the device address.
         /// </summary>
@@ -108,6 +145,20 @@ namespace InTheHand.Devices.Enumeration
                 return _device.BluetoothAddress;
 #else
                 return 0;
+#endif
+            }
+        }
+
+        public BluetoothConnectionStatus ConnectionStatus
+        {
+            get
+            {
+#if __IOS__
+                return _peripheral.State == CBPeripheralState.Connected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);
+#else
+                return BluetoothConnectionStatus.Disconnected;
 #endif
             }
         }
@@ -128,20 +179,25 @@ namespace InTheHand.Devices.Enumeration
 #endif
             }
         }
-
+        private EventWaitHandle _servicesHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+        private List<GattDeviceService> _services = new List<GattDeviceService>();
         public IReadOnlyList<GattDeviceService> GattServices
         {
             get
             {
-                List<GattDeviceService> services = new List<GattDeviceService>();
 #if __IOS__
-                _peripheral.DiscoverServices();
-                foreach (CBService service in _peripheral.Services)
+                if (_services.Count == 0)
                 {
-                    services.Add(new GattDeviceService(service));
+                    _peripheral.DiscoveredService += _peripheral_DiscoveredService;
+                    _peripheral.DiscoverServices();
+                    _servicesHandle.WaitOne();
+                    foreach (CBService service in _peripheral.Services)
+                    {
+                        _services.Add(new GattDeviceService(service));
+                    }
                 }
 
-                return services.AsReadOnly();
+                return _services.AsReadOnly();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 foreach(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service in _device.GattServices)
                 {
@@ -155,5 +211,24 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 
+        private void _peripheral_DiscoveredService(object sender, Foundation.NSErrorEventArgs e)
+        {
+            _servicesHandle.Set();
+        }
+    }
+
+    /// <summary>
+    /// Indicates the connection status of the device.
+    /// </summary>
+    public enum BluetoothConnectionStatus
+    {
+        /// <summary>
+        /// The device is disconnected.
+        /// </summary>
+        Disconnected = 0,
+        /// <summary>
+        /// The device is connected.
+        /// </summary>
+        Connected = 1,
     }
 }

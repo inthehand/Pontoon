@@ -33,6 +33,7 @@ namespace WindowsPhone81App
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
+            
         }
 
         /// <summary>

@@ -285,9 +285,6 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\AboutView.xaml.cs">
       <Link>UI\ApplicationSettings\AboutView.xaml.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
-      <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
       <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
     </Compile>

@@ -4,10 +4,13 @@
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids))]
+#else
 using System;
 
-namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
+namespace Windows.Devices.Bluetooth.GenericAttributeProfile
 {
     /// <summary>
     /// Provides service UUIDs for common GATT services.
@@ -59,3 +62,4 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         public static readonly Guid TxPower = new Guid(0x00001804, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
     }
 }
+#endif
