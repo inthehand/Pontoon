@@ -3,7 +3,7 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP 
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.UI.Popups.PopupMenu))]
 #else
@@ -26,13 +26,10 @@ namespace Windows.UI.Popups
     using Windows.UI.Xaml.Controls; 
 #endif
     /// <summary>
-    /// Represents a dialog.
+    /// Represents a context menu.
     /// </summary>
     /// <remarks>
-    /// The dialog has a command bar that can support up to three commands.
-    /// If you don't specify any commands, then a default command is added to close the dialog.
-    /// <para>The dialog dims the screen behind it and blocks touch events from passing to the app's canvas until the user responds.</para>
-    /// <para>Message dialogs should be used sparingly, and only for critical messages or simple questions that must block the user's flow.</para>
+    /// Context menus can show a maximum of six commands. This limit helps to ensure that the context menu remains uncluttered, usable, and directly relevant to users. 
     /// </remarks>
     public sealed class PopupMenu
     {
@@ -177,68 +174,8 @@ namespace Windows.UI.Popups
             }).AsAsyncOperation<IUICommand>();
 
 #elif WINDOWS_PHONE
-            List<string> buttons = new List<string>();
-            foreach(IUICommand uic in this.Commands)
-            {
-                buttons.Add(uic.Label);
-            }
-
-            if (buttons.Count == 0)
-            {
-                buttons.Add("Close");
-            }
-
-            MessageDialogAsyncOperation asyncOperation = new MessageDialogAsyncOperation(this);
-
-            string contentText = this.Content;
-
-            // trim message body to 255 chars
-            if (contentText.Length > 255)
-            {
-                contentText = contentText.Substring(0, 255);
-            }
-            
-            while(Microsoft.Xna.Framework.GamerServices.Guide.IsVisible)
-            {
-                Thread.Sleep(250);
-            }
-            Microsoft.Xna.Framework.GamerServices.Guide.BeginShowMessageBox(
-                        string.IsNullOrEmpty(this.Title) ? " " : this.Title,
-                        contentText,
-                        buttons,
-                        this.DefaultCommandIndex, // can choose which button has the focus
-                        Microsoft.Xna.Framework.GamerServices.MessageBoxIcon.None, // can play sounds
-                        result =>
-                        {
-                            int? returned = Microsoft.Xna.Framework.GamerServices.Guide.EndShowMessageBox(result);
-                            
-                            // process and fire the required handler
-                            if (returned.HasValue)
-                            {
-                                if (Commands.Count > returned.Value)
-                                {
-                                    IUICommand theCommand = Commands[returned.Value];
-                                    asyncOperation.SetResults(theCommand);
-                                    if (theCommand.Invoked != null)
-                                    {
-                                        theCommand.Invoked(theCommand);
-                                    }
-                                }
-                                else
-                                {
-                                    asyncOperation.SetResults(null);
-                                }
-                            }
-                            else
-                            {
-                                asyncOperation.SetResults(null);
-                            }
-                        }, null);
-
-            return asyncOperation.AsTask<IUICommand>().AsAsyncOperation<IUICommand>(); ;
-#elif WINDOWS_EMBEDDED
-            MessageDialogForm mdf = new MessageDialogForm(this);
-            mdf.Show();
+            // use toolkit contextmenu?
+            return Task.FromResult<IUICommand>(null).AsAsyncOperation<IUICommand>();
 #elif WINDOWS_UWP
             if (Commands.Count < 3 && Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract", 1))
             {

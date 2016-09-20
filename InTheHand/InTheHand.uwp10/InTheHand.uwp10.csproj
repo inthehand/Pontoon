@@ -263,6 +263,12 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
+      <Link>Foundation\Point.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Rect.cs">
+      <Link>Foundation\Rect.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
@@ -388,6 +394,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
       <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
+      <Link>UI\Popups\Placement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\PopupMenu.cs">
+      <Link>UI\Popups\PopupMenu.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>

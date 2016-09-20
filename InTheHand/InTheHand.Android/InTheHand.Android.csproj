@@ -147,6 +147,12 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
+      <Link>Foundation\Point.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Rect.cs">
+      <Link>Foundation\Rect.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>

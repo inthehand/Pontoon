@@ -6,7 +6,7 @@
 //   Represents a command in a context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.UI.Popups.Placement))]
 #else

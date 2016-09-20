@@ -211,10 +211,12 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 
+#if __IOS__
         private void _peripheral_DiscoveredService(object sender, Foundation.NSErrorEventArgs e)
         {
             _servicesHandle.Set();
         }
+#endif
     }
 
     /// <summary>
