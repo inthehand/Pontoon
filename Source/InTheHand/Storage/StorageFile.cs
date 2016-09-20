@@ -87,6 +87,13 @@ namespace Windows.Storage
     public interface IStorageFile : IStorageItem
     {
         /// <summary>
+        /// Replaces the specified file with a copy of the current file.
+        /// </summary>
+        /// <param name="fileToReplace">The file to replace.</param>
+        /// <returns>No object or value is returned when this method completes.</returns>
+        IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace);
+
+        /// <summary>
         /// Creates a copy of the file in the specified folder.
         /// </summary>
         /// <param name="destinationFolder"></param>
@@ -135,6 +142,7 @@ namespace Windows.Storage
         /// </summary>
         string FileType { get; }
     }
+
     /// <summary>
     /// Represents a file.
     /// Provides information about the file and its content, and ways to manipulate them.
@@ -160,8 +168,6 @@ namespace Windows.Storage
 
                 return new StorageFile(path);
             }).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return StorageFile.FromWindowsStorageFile(await Windows.Storage.StorageFile.GetFileFromPathAsync(path));
 #else
             return null;
 #endif
@@ -174,27 +180,20 @@ namespace Windows.Storage
         {
             _path = path;
         }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-        private Windows.Storage.StorageFile _file;
-
-        internal StorageFile(Windows.Storage.StorageFile file)
-        {
-            _file = file;
-        }
-
-        [CLSCompliant(false)]
-        public static StorageFile FromWindowsStorageFile(Windows.Storage.StorageFile file)
-        {
-            return file == null ? null : new Storage.StorageFile(file);
-        }
-       
-        [CLSCompliant(false)]
-        public static implicit operator Windows.Storage.StorageFile(StorageFile file)
-        {
-            return file._file;
-        }
 #endif
 
+        /// <summary>
+        /// Replaces the specified file with a copy of the current file.
+        /// </summary>
+        /// <param name="fileToReplace"></param>
+        /// <returns></returns>
+        public IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
+        {
+            return Task.Run(() =>
+            {
+                File.Replace(this.Path, fileToReplace.Path, null);
+            }).AsAsyncAction();
+        }
         /// <summary>
         /// Creates a copy of the file in the specified folder.
         /// </summary>
@@ -203,10 +202,7 @@ namespace Windows.Storage
         public IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder)
         {
 #if __ANDROID__ || __IOS__
-            return CopyAsync(destinationFolder, global::System.IO.Path.GetFileName(Path)).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
-            return file == null ? null : new StorageFile(file);
+            return CopyAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -227,9 +223,6 @@ namespace Windows.Storage
                 global::System.IO.File.Copy(Path, newPath);
                 return new Storage.StorageFile(newPath);
             }).AsAsyncOperation<StorageFile>();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var file = await _file.CopyAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
-            return file == null ? null : new StorageFile(file);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -246,8 +239,6 @@ namespace Windows.Storage
             {
                 global::System.IO.File.Delete(Path);
             }).AsAsyncAction();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.DeleteAsync();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -265,9 +256,6 @@ namespace Windows.Storage
                 var parent = global::System.IO.Directory.GetParent(Path);
                 return parent == null ? null : new StorageFolder(parent.FullName);
             }).AsAsyncOperation<StorageFolder>();
-#elif WINDOWS_UWP || WINDOWS_APP
-            var parent = await _file.GetParentAsync();
-            return parent == null ? null : new StorageFolder(parent);
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
             var parentPath = global::System.IO.Path.GetPathRoot(Path.TrimEnd('\\'));
             Windows.Storage.StorageFolder parent = null;
@@ -290,8 +278,6 @@ namespace Windows.Storage
         {
 #if __ANDROID__ || __IOS__
             return MoveAsync(destinationFolder, global::System.IO.Path.GetFileName(Path));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -310,25 +296,25 @@ namespace Windows.Storage
             {
                 string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
                 global::System.IO.File.Move(Path, newPath);
+                this._path = newPath;
             }).AsAsyncAction();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName);
 #else
             throw new PlatformNotSupportedException();
 #endif
         }
 
         /// <summary>
-        /// 
+        /// Moves the current file to the location of the specified file and replaces the specified file in that location.
         /// </summary>
-        /// <param name="fileToReplace"></param>
-        /// <returns></returns>
+        /// <param name="fileToReplace">The file to replace.</param>
+        /// <returns>No object or value is returned by this method.</returns>
         public IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
         {
             if(fileToReplace == null)
             {
                 throw new ArgumentNullException("fileToReplace");
             }
+
 #if __ANDROID__ || __IOS__
             return Task.Run(async () =>
             {
@@ -339,6 +325,70 @@ namespace Windows.Storage
             }).AsAsyncAction();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             await _file.MoveAndReplaceAsync((Windows.Storage.StorageFile)((StorageFile)fileToReplace));
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
+        /// <summary>
+        /// Renames the current file.
+        /// </summary>
+        /// <param name="desiredName">The desired, new name of the current item.</param>
+        /// <returns>No object or value is returned by this method when it completes.</returns>
+        public IAsyncAction RenameAsync(string desiredName)
+        {
+            return RenameAsync(desiredName, NameCollisionOption.FailIfExists);
+        }
+
+        /// <summary>
+        /// Renames the current file.
+        /// This method also specifies what to do if an existing item in the current file's location has the same name.
+        /// </summary>
+        /// <param name="desiredName">The desired, new name of the current file.
+        /// <para>If there is an existing item in the current file's location that already has the specified desiredName, the specified <see cref="NameCollisionOption"/>  determines how the system responds to the conflict.</para></param>
+        /// <param name="option">The enum value that determines how the system responds if the desiredName is the same as the name of an existing item in the current file's location.</param>
+        /// <returns>No object or value is returned by this method when it completes.</returns>
+        public IAsyncAction RenameAsync(string desiredName, NameCollisionOption option)
+        {
+            if(string.IsNullOrEmpty(desiredName))
+            {
+                throw new ArgumentNullException("desiredName");
+            }
+
+#if __ANDROID__ || __IOS__
+            return Task.Run(() =>
+            {
+                string folder = System.IO.Path.GetDirectoryName(this.Path);
+                string newPath = System.IO.Path.Combine(folder, desiredName);
+                switch(option)
+                {
+
+                    case NameCollisionOption.GenerateUniqueName:
+                        string generatedPath = newPath;
+                        int num = 2;
+                        while(File.Exists(generatedPath))
+                        {
+                            generatedPath = System.IO.Path.Combine(folder, System.IO.Path.GetFileNameWithoutExtension(desiredName), string.Format("({0})", num), System.IO.Path.GetExtension(desiredName));
+                            num++;
+                        }
+                        newPath = generatedPath;
+                        break;
+
+                    case NameCollisionOption.ReplaceExisting:
+
+                        if(File.Exists(newPath))
+                        {
+                            File.Delete(newPath);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                System.IO.File.Move(Path, System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Path), desiredName));
+                _path = newPath;
+            }).AsAsyncAction();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -480,10 +530,20 @@ namespace Windows.Storage
         }
 
         /// <summary>
-        /// Determines whether the current StorageFile matches the specified <see cref="StorageItemTypes"/> value.
+        /// Indicates whether the current file is equal to the specified file.
+        /// </summary>
+        /// <param name="item">The <see cref="IStorageItem"/>  object that represents a file to compare against.</param>
+        /// <returns>Returns true if the current file is equal to the specified file; otherwise false.</returns>
+        public bool IsEqual(IStorageItem item)
+        {
+            return this.Path == item.Path;
+        }
+
+        /// <summary>
+        /// Determines whether the current <see cref="StorageFile"/> matches the specified <see cref="StorageItemTypes"/> value.
         /// </summary>
         /// <param name="type">The value to match against.</param>
-        /// <returns>True if the StorageFile matches the specified value; otherwise false.</returns>
+        /// <returns>True if the <see cref="StorageFile"/> matches the specified value; otherwise false.</returns>
         public bool IsOfType(StorageItemTypes type)
         {
             return type == StorageItemTypes.File;
