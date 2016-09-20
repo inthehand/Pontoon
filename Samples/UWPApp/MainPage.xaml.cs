@@ -43,7 +43,7 @@ namespace UWPApp
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
 
             StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
-
+            
            
             Windows.Devices.Enumeration.DeviceInformationPairing dip;
             Task.Run(async () => {

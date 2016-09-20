@@ -1,11 +1,11 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="MessageDialog.cs" company="In The Hand Ltd">
-//     Copyright © 2012-16 In The Hand Ltd. All rights reserved.
+// <copyright file="PopupMenu.cs" company="In The Hand Ltd">
+//     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.MessageDialog))]
+[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.PopupMenu))]
 #else
 namespace Windows.UI.Popups
 {
@@ -34,13 +34,9 @@ namespace Windows.UI.Popups
     /// <para>The dialog dims the screen behind it and blocks touch events from passing to the app's canvas until the user responds.</para>
     /// <para>Message dialogs should be used sparingly, and only for critical messages or simple questions that must block the user's flow.</para>
     /// </remarks>
-    public sealed class MessageDialog
+    public sealed class PopupMenu
     {
-#if WINDOWS_PHONE || WINDOWS_PHONE_APP
-        private const int MaxCommands = 2;
-#else
-        private const int MaxCommands = 3;
-#endif
+        private const int MaxCommands = 6;
 
 #if __ANDROID__ || __IOS__
         EventWaitHandle handle = new EventWaitHandle(false, EventResetMode.AutoReset);
@@ -77,34 +73,42 @@ namespace Windows.UI.Popups
 #endif
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageDialog"/> class to display an untitled message dialog box that can be used to ask your user simple questions.
+        /// Creates a new instance of the PopupMenu class.
         /// </summary>
-        /// <param name="content">The message you want displayed to the user.</param>
-        public MessageDialog(string content) : this(content, string.Empty)
+        public PopupMenu()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageDialog"/> class to display a titled message dialog box that can be used to ask your user simple questions.
+        /// Shows the context menu at the specified client coordinates.
         /// </summary>
-        /// <param name="content">The message you want displayed to the user.</param>
-        /// <param name="title">The title you want displayed on the dialog box.</param>
-        public MessageDialog(string content, string title)
-        {
-            this.Content = content;
-            this.Title = title;
-        }
-
-        /// <summary>
-        /// Begins an asynchronous operation showing a dialog.
-        /// </summary>
+        /// <param name="invocationPoint">The coordinates (in DIPs), relative to the window, of the user's finger or mouse pointer when the oncontextmenu event fired.
+        /// The menu is placed above and centered on this point.</param>
         /// <returns>An object that represents the asynchronous operation.
         /// For more on the async pattern, see Asynchronous programming in the Windows Runtime.</returns>
-        /// <remarks>In some cases, such as when the dialog is closed by the system out of your control, your result can be an empty command.
-        /// <see cref="IAsyncOperation{TResult}.GetResults()"/> returns either the command selected which destroyed the dialog, or an empty command.
-        /// For example, a dialog hosted in a charms window will return an empty command if the charms window has been dismissed.</remarks>
-        public IAsyncOperation<IUICommand> ShowAsync()
+        public IAsyncOperation<IUICommand> ShowAsync(Point invocationPoint)
         {
+            return ShowForSelectionAsync(new Rect(invocationPoint.X, invocationPoint.Y,0,0), Placement.Default);
+        }
+
+        /// <summary>
+        /// Shows the context menu by the specified selection.
+        /// </summary>
+        /// <param name="selection">The coordinates (in DIPs) of the selected rectangle, relative to the window.</param>
+        /// <returns></returns>
+        public IAsyncOperation<IUICommand> ShowForSelectionAsync(Rect selection)
+        {
+            return ShowForSelectionAsync(selection, Placement.Default);
+        }
+
+        /// <summary>
+        /// Shows the context menu in the preferred placement relative to the specified selection.
+        /// </summary>
+        /// <param name="selection">The coordinates (in DIPs) of the selected rectangle, relative to the window.</param>
+        /// <param name="preferredPlacement">The preferred placement of the context menu relative to the selection rectangle.</param>
+        /// <returns></returns>
+        public IAsyncOperation<IUICommand> ShowForSelectionAsync(Rect selection, Placement preferredPlacement)
+        { 
             if (this.Commands.Count > MaxCommands)
             {
                 throw new InvalidOperationException();
@@ -135,10 +139,10 @@ namespace Windows.UI.Popups
             }).AsAsyncOperation<IUICommand>();
 
 #elif __IOS__
-            uac = UIAlertController.Create(this.Title, this.Content, UIAlertControllerStyle.Alert);
+            uac = UIAlertController.Create(this.Title, this.Content, UIAlertControllerStyle.ActionSheet);
             if (Commands.Count == 0)
             {
-                uac.AddAction(UIAlertAction.Create("Close", UIAlertActionStyle.Cancel | UIAlertActionStyle.Default, ActionClicked));
+                uac.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel | UIAlertActionStyle.Default, ActionClicked));
             }
             else
             {
@@ -148,10 +152,22 @@ namespace Windows.UI.Popups
                     uac.AddAction(action);
                 }
             }
+
+             
+
             UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
             while (currentController.PresentedViewController != null)
                 currentController = currentController.PresentedViewController;
-            
+
+            // set layout requirements for iPad
+            var popoverController = uac.PopoverPresentationController;
+            if(popoverController != null)
+            {
+                popoverController.SourceView = currentController.View;
+                popoverController.SourceRect = new CoreGraphics.CGRect(selection.X, selection.Y, selection.Width, selection.Height);
+                popoverController.PermittedArrowDirections = InTheHand.UI.Popups.PlacementHelper.ToArrowDirection(preferredPlacement);
+            }
+
             currentController.PresentViewController(uac, true, null);
 
             return Task.Run<IUICommand>(() =>

@@ -10,6 +10,7 @@ using InTheHand.Devices.Enumeration;
 using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Popups;
 
 namespace ApplicationModel.iOS
 {
@@ -90,6 +91,15 @@ namespace ApplicationModel.iOS
 
             //var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
             //System.Diagnostics.Debug.WriteLine(file.ContentType);
+
+            Windows.UI.Popups.PopupMenu pm = new Windows.UI.Popups.PopupMenu();
+            pm.Commands.Add(new UICommand("First", (c) => { }));
+            pm.Commands.Add(new UICommand("Second", (c) => { }));
+            pm.Commands.Add(new UICommand("Third", (c) => { }));
+            pm.Commands.Add(new UICommand("Fourth", (c) => { }));
+            pm.Commands.Add(new UICommand("Fifth", (c) => { }));
+            pm.Commands.Add(new UICommand("Sixth", (c) => { }));
+            await pm.ShowAsync(new Windows.Foundation.Point() { X = 20, Y = 20 });
 
             Task.Run(async () =>
             {

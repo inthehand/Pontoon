@@ -312,6 +312,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
       <Link>UI\Popups\MessageDialog.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
+      <Link>UI\Popups\Placement.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>
     </Compile>
