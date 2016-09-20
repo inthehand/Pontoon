@@ -243,6 +243,15 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
       <Link>Storage\FileIO.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
+      <Link>Storage\IStorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem.cs">
+      <Link>Storage\IStorageItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem2.cs">
+      <Link>Storage\IStorageItem2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
       <Link>Storage\KnownFolders.cs</Link>
     </Compile>
@@ -260,6 +269,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFolder.cs">
       <Link>Storage\StorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageItemTypes.cs">
+      <Link>Storage\StorageItemTypes.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs">
       <Link>Storage\Streams\UnicodeEncoding.cs</Link>

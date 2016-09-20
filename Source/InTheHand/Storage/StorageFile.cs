@@ -3,157 +3,24 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageFile))]
+#else
 
 using System;
 using System.IO;
-using System.Runtime.CompilerServices;
+
 using System.Threading.Tasks;
 using Windows.Foundation;
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageItem))]
-[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageFile))]
-[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageFile))]
-[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageItemTypes))]
-#else
-
 namespace Windows.Storage
 {
-
-    /// <summary>
-    /// Manipulates storage items (files and folders) and their contents, and provides information about them.
-    /// </summary>
-    public interface IStorageItem
-    {
-        /// <summary>
-        /// Deletes the current item. 
-        /// </summary>
-        /// <returns></returns>
-        IAsyncAction DeleteAsync();
-
-        /// <summary>
-        /// Deletes the current item, optionally deleting it permanently. 
-        /// </summary>
-        /// <returns></returns>
-        IAsyncAction DeleteAsync(StorageDeleteOption option);
-
-        /// <summary>
-        /// Determines whether the current IStorageItem matches the specified StorageItemTypes value.
-        /// </summary>
-        /// <param name="type">The value to match against.</param>
-        /// <returns></returns>
-        bool IsOfType(StorageItemTypes type);
-
-        /// <summary>
-        /// Gets the attributes of a storage item.
-        /// </summary>
-        FileAttributes Attributes { get; }
-
-        /// <summary>
-        /// Gets the date and time when the current item was created. 
-        /// </summary>
-        DateTimeOffset DateCreated { get; }
-
-        /// <summary>
-        /// Gets the name of the item including the file name extension if there is one.
-        /// </summary>
-        string Name { get; }
-        
-        /// <summary>
-        /// Gets the full file-system path of the item, if the item has a path.
-        /// </summary>
-        string Path { get; }
-    }
-
-    /// <summary>
-    /// Describes whether an item that implements the <see cref="IStorageItem"/> interface is a file or a folder.
-    /// </summary>
-    public enum StorageItemTypes
-    {
-        /// <summary>
-        /// A storage item that is neither a file nor a folder.
-        /// </summary>
-        None = 0,
-
-        /// <summary>
-        /// A file that is represented as a <see cref="StorageFile"/> instance.
-        /// </summary>
-        File = 1,
-
-        /// <summary>
-        /// A folder that is represented as a <see cref="StorageFolder"/> instance.
-        /// </summary>
-        Folder = 2,
-    }
-
-    /// <summary>
-    /// Represents a file.
-    /// Provides information about the file and its contents, and ways to manipulate them.
-    /// </summary>
-    public interface IStorageFile : IStorageItem
-    {
-        /// <summary>
-        /// Replaces the specified file with a copy of the current file.
-        /// </summary>
-        /// <param name="fileToReplace">The file to replace.</param>
-        /// <returns>No object or value is returned when this method completes.</returns>
-        IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace);
-
-        /// <summary>
-        /// Creates a copy of the file in the specified folder.
-        /// </summary>
-        /// <param name="destinationFolder"></param>
-        /// <returns></returns>
-        IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder);
-
-        /// <summary>
-        /// Creates a copy of the file in the specified folder, using the desired name.
-        /// </summary>
-        /// <param name="destinationFolder"></param>
-        /// <param name="desiredNewName"></param>
-        /// <returns></returns>
-        IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
-
-        /// <summary>
-        /// Moves the current file to the location of the specified file and replaces the specified file in that location.
-        /// </summary>
-        /// <param name="fileToReplace"></param>
-        /// <returns></returns>
-        IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace);
-
-        /// <summary>
-        /// Moves the current file to the specified folder.
-        /// </summary>
-        /// <param name="destinationFolder"></param>
-        /// <returns></returns>
-        IAsyncAction MoveAsync(IStorageFolder destinationFolder);
-
-        /// <summary>
-        /// Moves the current file to the specified folder and renames the file according to the desired name.
-        /// </summary>
-        /// <param name="destinationFolder"></param>
-        /// <param name="desiredNewName"></param>
-        /// <returns></returns>
-        IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
-        
-        /// <summary>
-        /// Gets the MIME type of the contents of the file.
-        /// </summary>
-        /// <value>The MIME type of the file contents.
-        /// For example, a music file might have the "audio/mpeg" MIME type.</value>
-        string ContentType { get; }
-
-        /// <summary>
-        /// Gets the type (file name extension) of the file.
-        /// </summary>
-        string FileType { get; }
-    }
-
     /// <summary>
     /// Represents a file.
     /// Provides information about the file and its content, and ways to manipulate them.
     /// </summary>
-    public sealed class StorageFile : IStorageFile, IStorageItem
+    public sealed class StorageFile : IStorageFile, IStorageItem, IStorageItem2
     {
         /// <summary>
         /// Gets a StorageFile object to represent the file at the specified path.
@@ -181,7 +48,6 @@ namespace Windows.Storage
         {
             _path = path;
         }
-#endif
 
         /// <summary>
         /// Replaces the specified file with a copy of the current file.
@@ -190,10 +56,14 @@ namespace Windows.Storage
         /// <returns></returns>
         public IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace)
         {
+#if __ANDROID__ || __IOS__
             return Task.Run(() =>
             {
                 File.Replace(this.Path, fileToReplace.Path, null);
             }).AsAsyncAction();
+#else
+            throw new PlatformNotSupportedException();
+#endif
         }
         /// <summary>
         /// Creates a copy of the file in the specified folder.
@@ -366,8 +236,8 @@ namespace Windows.Storage
 #if __ANDROID__ || __IOS__
             return Task.Run(() =>
             {
-                string folder = System.IO.Path.GetDirectoryName(this.Path);
-                string newPath = System.IO.Path.Combine(folder, desiredName);
+                string folder = global::System.IO.Path.GetDirectoryName(this.Path);
+                string newPath = global::System.IO.Path.Combine(folder, desiredName);
                 switch(option)
                 {
 
@@ -376,7 +246,7 @@ namespace Windows.Storage
                         int num = 2;
                         while(File.Exists(generatedPath))
                         {
-                            generatedPath = System.IO.Path.Combine(folder, System.IO.Path.GetFileNameWithoutExtension(desiredName), string.Format("({0})", num), System.IO.Path.GetExtension(desiredName));
+                            generatedPath = global::System.IO.Path.Combine(folder, global::System.IO.Path.GetFileNameWithoutExtension(desiredName), string.Format("({0})", num), global::System.IO.Path.GetExtension(desiredName));
                             num++;
                         }
                         newPath = generatedPath;
@@ -394,7 +264,7 @@ namespace Windows.Storage
                         break;
                 }
 
-                System.IO.File.Move(Path, System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Path), desiredName));
+                File.Move(Path, global::System.IO.Path.Combine(global::System.IO.Path.GetDirectoryName(Path), desiredName));
                 _path = newPath;
             }).AsAsyncAction();
 #else

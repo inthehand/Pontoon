@@ -201,10 +201,10 @@ namespace InTheHand.Devices.Enumeration
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 foreach(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service in _device.GattServices)
                 {
-                    services.Add(new GattDeviceService(service));
+                    _services.Add(new GattDeviceService(service));
                 }
 
-                return new ReadOnlyCollection<GattDeviceService>(services);
+                return new ReadOnlyCollection<GattDeviceService>(_services);
 #else
                 return new ReadOnlyCollection<GattDeviceService>(new List<GattDeviceService>());
 #endif
