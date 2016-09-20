@@ -1,13 +1,16 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="SettingsCommand.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsCommand))]
+#else
 using System;
-using InTheHand.UI.Popups;
+using Windows.UI.Popups;
 
-namespace InTheHand.UI.ApplicationSettings
+namespace Windows.UI.ApplicationSettings
 {
     /// <summary>
     /// Creates a settings command object that represents a settings entry.
@@ -46,3 +49,4 @@ namespace InTheHand.UI.ApplicationSettings
         public string Label { set; get; }
     }
 }
+#endif

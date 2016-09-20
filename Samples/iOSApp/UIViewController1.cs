@@ -6,9 +6,11 @@ using UIKit;
 using Foundation;
 using InTheHand.UI.Popups;
 using System.Threading.Tasks;
-using InTheHand.Storage;
 using InTheHand.Devices.Enumeration;
 using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.UI.Popups;
 
 namespace ApplicationModel.iOS
 {
@@ -34,13 +36,13 @@ namespace ApplicationModel.iOS
                 await Task.Delay(3000);
                 BeginInvokeOnMainThread(async () =>
                 {
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
-                    InTheHand.Storage.ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
+                    ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
+                    ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
+                    ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
+                    ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
                     
-                    InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
-                    StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
+                    Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
+                    StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
                     /*
                     string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery);
                     var devs = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(q);
@@ -56,7 +58,7 @@ namespace ApplicationModel.iOS
             });
         }
 
-        private void Values_MapChanged(InTheHand.Foundation.Collections.IObservableMap<string, object> sender, InTheHand.Foundation.Collections.IMapChangedEventArgs<string> eventArgs)
+        private void Values_MapChanged(IObservableMap<string, object> sender, IMapChangedEventArgs<string> eventArgs)
         {
             System.Diagnostics.Debug.WriteLine(eventArgs.CollectionChange.ToString() + " " + eventArgs.Key);
         }
@@ -67,10 +69,10 @@ namespace ApplicationModel.iOS
     {
         public UIViewController1()
         {
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
         }
 
-        private void UIViewController1_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
+        private void UIViewController1_DataRequested(object sender, Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
         {
             e.Request.Data.SetText("Hello World!");
             e.Request.Data.Properties.Title = "New Share";
@@ -87,19 +89,31 @@ namespace ApplicationModel.iOS
         {
             base.ViewDidAppear(animated);
 
-            var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
-            System.Diagnostics.Debug.WriteLine(file.ContentType);
+            //var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
+            //System.Diagnostics.Debug.WriteLine(file.ContentType);
 
-            await Task.Delay(2000);
-            foreach(DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))
+            Windows.UI.Popups.PopupMenu pm = new Windows.UI.Popups.PopupMenu();
+            pm.Commands.Add(new UICommand("First", (c) => { }));
+            pm.Commands.Add(new UICommand("Second", (c) => { }));
+            pm.Commands.Add(new UICommand("Third", (c) => { }));
+            pm.Commands.Add(new UICommand("Fourth", (c) => { }));
+            pm.Commands.Add(new UICommand("Fifth", (c) => { }));
+            pm.Commands.Add(new UICommand("Sixth", (c) => { }));
+            await pm.ShowAsync(new Windows.Foundation.Point() { X = 20, Y = 20 });
+
+            Task.Run(async () =>
             {
-                System.Diagnostics.Debug.WriteLine(di.Name);
-                BluetoothLEDevice dev = await BluetoothLEDevice.FromIdAsync(di.Id);
-                foreach(GattDeviceService s in dev.GattServices)
+                await Task.Delay(2000);
+                foreach (DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))
                 {
-                    System.Diagnostics.Debug.WriteLine(s.ToString());
+                    System.Diagnostics.Debug.WriteLine(di.Name);
+                    BluetoothLEDevice dev = await BluetoothLEDevice.FromIdAsync(di.Id);
+                    foreach (GattDeviceService s in dev.GattServices)
+                    {
+                        System.Diagnostics.Debug.WriteLine(s.ToString());
+                    }
                 }
-            }
+            });
 
 
           

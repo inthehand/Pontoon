@@ -3,6 +3,10 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Phone.Devices.Notification.VibrationDevice))]
+#else
 
 #if __ANDROID__
 using Android.Content;
@@ -14,7 +18,7 @@ using Foundation;
 
 using System;
 
-namespace InTheHand.Phone.Devices.Notification
+namespace Windows.Phone.Devices.Notification
 {
     /// <summary>
     /// Vibrates the phone.
@@ -31,6 +35,7 @@ namespace InTheHand.Phone.Devices.Notification
     public sealed class VibrationDevice
     {
         private static VibrationDevice  _default;
+
         /// <summary>
         /// Gets an instance of the VibrationDevice class.
         /// </summary>
@@ -39,36 +44,14 @@ namespace InTheHand.Phone.Devices.Notification
         {
             if(_default == null)
             {
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-#if WINDOWS_UWP
-                if (Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1))
-#endif
-                {
-                    _default = new VibrationDevice(Windows.Phone.Devices.Notification.VibrationDevice.GetDefault());
-                }
-#elif __IOS__ || WINDOWS_PHONE
+#if __ANDROID__ || __IOS__
                 _default = new VibrationDevice();
-#else
 #endif
             }
 
             return _default;
         }
 
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-        private Windows.Phone.Devices.Notification.VibrationDevice _device;
-
-        private VibrationDevice(Windows.Phone.Devices.Notification.VibrationDevice device)
-        {
-            _device = device;
-        }
-
-        [CLSCompliant(false)]
-        public static implicit operator Windows.Phone.Devices.Notification.VibrationDevice(VibrationDevice device)
-        {
-            return device._device;
-        }
-#else
 #if __ANDROID__
         private Vibrator _vibrator;
 #endif
@@ -78,7 +61,6 @@ namespace InTheHand.Phone.Devices.Notification
             _vibrator = (Vibrator)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Context.VibratorService);
 #endif
         }
-#endif
 
         /// <summary>
         /// Vibrates the phone for the specified duration (from 0 to 5 seconds).
@@ -90,6 +72,7 @@ namespace InTheHand.Phone.Devices.Notification
             {
                 throw new ArgumentOutOfRangeException("duration");
             }
+
 #if __ANDROID__
             if (_vibrator.HasVibrator)
             {
@@ -97,8 +80,6 @@ namespace InTheHand.Phone.Devices.Notification
             }
 #elif __IOS__
             SystemSound.Vibrate.PlaySystemSound();
-#elif WINDOWS_UWP || WINDOWS_PHONE_APP
-            _device.Vibrate(duration);
 #elif WINDOWS_PHONE
             Microsoft.Devices.VibrateController.Default.Start(duration);
 #else
@@ -114,12 +95,10 @@ namespace InTheHand.Phone.Devices.Notification
             _vibrator.Cancel();
 #elif __IOS__
             SystemSound.Vibrate.Close();
-#elif WINDOWS_UWP || WINDOWS_PHONE_APP
-            _device.Cancel();
 #elif WINDOWS_PHONE
             Microsoft.Devices.VibrateController.Default.Stop();
-#else
 #endif
         }
     }
 }
+#endif

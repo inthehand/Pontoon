@@ -224,11 +224,11 @@ namespace InTheHand.ApplicationModel
         /// <summary>
         /// Gets the location of the installed package.
         /// </summary>
-        public InTheHand.Storage.StorageFolder InstalledLocation
+        public StorageFolder InstalledLocation
         {
             get
             {
-                return new Storage.StorageFolder(_package.InstalledLocation);
+                return _package.InstalledLocation;
             }
         }
 #endif

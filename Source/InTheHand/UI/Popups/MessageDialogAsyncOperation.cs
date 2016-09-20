@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="MessageDialogAsyncOperation.cs" company="In The Hand Ltd">
-//   Copyright (c) 2012-15 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2012-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides information about a message dialog's asynchronous operation.
@@ -8,13 +8,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-#if WINDOWS_PHONE
 using Windows.Foundation;
-#else
-using InTheHand.Foundation;
-#endif
+using Windows.UI.Popups;
 
-namespace InTheHand.UI.Popups
+namespace Windows.UI.Popups
 {
     /// <summary>
     /// Provides information about a message dialog's asynchronous operation.

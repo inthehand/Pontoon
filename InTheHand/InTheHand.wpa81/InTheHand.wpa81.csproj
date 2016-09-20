@@ -152,14 +152,62 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
+      <Link>ApplicationModel\PackageVersion.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
       <Link>ApplicationModel\Store\CurrentApp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
+      <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeopositionExtensions.cs">
       <Link>Devices\Geolocation\BasicGeopositionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocircle.cs">
+      <Link>Devices\Geolocation\Geocircle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocoordinate.cs">
+      <Link>Devices\Geolocation\Geocoordinate.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\GeocoordinateExtensions.cs">
       <Link>Devices\Geolocation\GeocoordinateExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\Geofence.cs">
+      <Link>Devices\Geolocation\Geofencing\Geofence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitor.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
+      <Link>Devices\Geolocation\Geolocator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geopoint.cs">
+      <Link>Devices\Geolocation\Geopoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geoposition.cs">
+      <Link>Devices\Geolocation\Geoposition.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionAccuracy.cs">
+      <Link>Devices\Geolocation\PositionAccuracy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionChangedEventArgs.cs">
+      <Link>Devices\Geolocation\PositionChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionSource.cs">
+      <Link>Devices\Geolocation\PositionSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionStatus.cs">
+      <Link>Devices\Geolocation\PositionStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
+      <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
@@ -167,8 +215,20 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
+      <Link>Foundation\IAsyncAction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
+      <Link>Foundation\IAsyncOperation.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
+      <Link>Foundation\Point.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Rect.cs">
+      <Link>Foundation\Rect.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
@@ -212,6 +272,18 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
+      <Link>Storage\FileIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
+      <Link>Storage\KnownFolders.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
+      <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
+      <Link>Storage\StorageDeleteOption.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
       <Link>Storage\StorageFile.cs</Link>
     </Compile>
@@ -235,6 +307,66 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
       <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
+      <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+      <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
+      <Link>UI\Notifications\BadgeNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
+      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
+      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
+      <Link>UI\Notifications\BadgeUpdater.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ScheduledToastNotification.cs">
+      <Link>UI\Notifications\ScheduledToastNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotification.cs">
+      <Link>UI\Notifications\ToastNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationCreator.cs">
+      <Link>UI\Notifications\ToastNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationManager.cs">
+      <Link>UI\Notifications\ToastNotificationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.cs">
+      <Link>UI\Notifications\ToastNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
+      <Link>UI\Popups\IUICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
+      <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
+      <Link>UI\Popups\Placement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\PopupMenu.cs">
+      <Link>UI\Popups\PopupMenu.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
+      <Link>UI\Popups\UICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
+      <Link>UI\ViewManagement\StatusBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
+      <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
     </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

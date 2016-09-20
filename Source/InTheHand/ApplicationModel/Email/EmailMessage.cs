@@ -1,12 +1,15 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="EmailMessage.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailMessage))]
+#else
 using System.Collections.Generic;
 
-namespace InTheHand.ApplicationModel.Email
+namespace Windows.ApplicationModel.Email
 {
     /// <summary>
     /// Represents an email message.
@@ -49,3 +52,4 @@ namespace InTheHand.ApplicationModel.Email
         public IList<EmailRecipient> Bcc { get; private set; }
     }
 }
+#endif

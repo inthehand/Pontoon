@@ -1,10 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ResolutionScale.cs" company="In The Hand Ltd">
-//     Copyright © 2013-14 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.ResolutionScale))]
+#else
 
-namespace InTheHand.Graphics.Display
+namespace Windows.Graphics.Display
 {
     /// <summary>
     /// Describes the scale factor of the immersive environment.
@@ -38,3 +42,4 @@ namespace InTheHand.Graphics.Display
         Scale225Percent = 225,
     }
 }
+#endif

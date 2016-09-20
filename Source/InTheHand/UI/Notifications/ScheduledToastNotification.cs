@@ -3,6 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ScheduledToastNotification))]
+#else
 
 using System;
 #if __IOS__
@@ -10,7 +14,7 @@ using Foundation;
 using UIKit;
 #endif
 
-namespace InTheHand.UI.Notifications
+namespace Windows.UI.Notifications
 {
     /// <summary>
     /// </summary>
@@ -151,3 +155,4 @@ namespace InTheHand.UI.Notifications
         }
     }
 }
+#endif

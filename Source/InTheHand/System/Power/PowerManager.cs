@@ -3,6 +3,13 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerManager))]
+[assembly: TypeForwardedTo(typeof(Windows.System.Power.BatteryStatus))]
+[assembly: TypeForwardedTo(typeof(Windows.System.Power.EnergySaverStatus))]
+[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerSupplyStatus))]
+#else
 
 #if __ANDROID__
 using Android.Content;
@@ -13,7 +20,7 @@ using Foundation;
 using System;
 using System.Reflection;
 
-namespace InTheHand.System.Power
+namespace Windows.System.Power
 {
     /// <summary>
     /// Provides information about the status of the device's battery.
@@ -82,8 +89,6 @@ namespace InTheHand.System.Power
                         return BatteryStatus.NotPresent;
                         
                 }
-#elif WINDOWS_UWP
-                return (BatteryStatus) ((int)Windows.System.Power.PowerManager.BatteryStatus);
 #else
                 return BatteryStatus.Idle;
 #endif
@@ -105,15 +110,9 @@ namespace InTheHand.System.Power
                 {
                     bool saverOn = Windows.Phone.System.Power.PowerManager.PowerSavingMode == Windows.Phone.System.Power.PowerSavingMode.On;
                     return saverOn ? EnergySaverStatus.On : EnergySaverStatus.Off;
-                }
-
-                return EnergySaverStatus.Disabled;
-
-#elif WINDOWS_UWP
-                return (EnergySaverStatus) ((int)Windows.System.Power.PowerManager.EnergySaverStatus);
-#else
-                return EnergySaverStatus.Disabled;
+                }             
 #endif
+                return EnergySaverStatus.Disabled;
             }
         }
 
@@ -149,9 +148,6 @@ namespace InTheHand.System.Power
                 else
                 {
                     return 0;
-                    /*NativeMethods.SYSTEM_POWER_STATUS status;
-                    bool success = NativeMethods.GetSystemPowerStatus(out status);
-                    return status.BatteryLifePercent;*/
                 }
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _battery.RemainingChargePercent;
@@ -185,8 +181,6 @@ namespace InTheHand.System.Power
                     }
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged += _battery_RemainingChargePercentChanged;
-#elif WINDOWS_UWP
-                    Windows.System.Power.PowerManager.RemainingChargePercentChanged += _battery_RemainingChargePercentChanged;
 #endif
                 }
                 _remainingChargePercentChanged += value;
@@ -201,8 +195,6 @@ namespace InTheHand.System.Power
                     //_device.BatteryMonitoringEnabled = false;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged -= _battery_RemainingChargePercentChanged;
-#elif WINDOWS_UWP
-                    Windows.System.Power.PowerManager.RemainingChargePercentChanged -= _battery_RemainingChargePercentChanged;
 #endif
                 }
             }
@@ -215,7 +207,7 @@ namespace InTheHand.System.Power
             _remainingChargePercentChanged?.Invoke(null, null);
         }
 
-#elif WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
+#elif WINDOWS_PHONE_APP || WINDOWS_PHONE
         private static void _battery_RemainingChargePercentChanged(object sender, object e)
         {
             if(_remainingChargePercentChanged != null)
@@ -331,13 +323,16 @@ namespace InTheHand.System.Power
         /// The device has no power supply. 
         /// </summary>
         NotPresent = 0,
+
         /// <summary>
         /// The device has an inadequate power supply. 
         /// </summary>
         Inadequate = 1,
+
         /// <summary>
         /// The device has an adequate power supply. 
         /// </summary>
         Adequate = 2,
     }
 }
+#endif

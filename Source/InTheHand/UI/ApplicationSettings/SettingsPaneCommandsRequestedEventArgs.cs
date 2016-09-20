@@ -1,10 +1,13 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="SettingsPaneCommandsRequestedEventArgs.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-namespace InTheHand.UI.ApplicationSettings
+#if WINDOWS_UWP || WINDOWS_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs))]
+#else
+namespace Windows.UI.ApplicationSettings
 {
     /// <summary>
     /// Contains arguments that are available from the event object during the <see cref="SettingsPane.CommandsRequested"/> event.
@@ -22,3 +25,4 @@ namespace InTheHand.UI.ApplicationSettings
         public SettingsPaneCommandsRequest Request { get; private set; }
     }
 }
+#endif

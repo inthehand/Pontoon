@@ -5,7 +5,10 @@
 //-----------------------------------------------------------------------
 
 using System;
-
+using System.Runtime.CompilerServices;
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationData))]
+#else
 namespace Windows.Storage
 {
     /// <summary>
@@ -104,8 +107,6 @@ namespace Windows.Storage
                 return new StorageFolder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.CacheDir.AbsolutePath);
 #elif __IOS__
                 return new StorageFolder("tmp/");
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new StorageFolder(Windows.Storage.ApplicationData.Current.TemporaryFolder);
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -113,3 +114,4 @@ namespace Windows.Storage
         }
     }
 }
+#endif

@@ -1,10 +1,13 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="TargetApplicationChosenEventArgs.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-namespace InTheHand.ApplicationModel.DataTransfer
+#if WINDOWS_UWP || WINDOWS_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.TargetApplicationChosenEventArgs))]
+#else
+namespace Windows.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Contains information about the target app the user chose to share content with.
@@ -23,3 +26,4 @@ namespace InTheHand.ApplicationModel.DataTransfer
         public string ApplicationName { get; private set; }
     }
 }
+#endif

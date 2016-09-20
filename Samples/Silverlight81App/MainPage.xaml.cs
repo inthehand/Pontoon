@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Silverlight81App.Resources;
+using Windows.UI.Popups;
 
 namespace Silverlight81App
 {
@@ -30,18 +31,18 @@ namespace Silverlight81App
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.UI.Popups.MessageDialog md1 = new InTheHand.UI.Popups.MessageDialog("hello1");
-            md1.Commands.Add(new InTheHand.UI.Popups.UICommand("one", async (c) =>
+            MessageDialog md1 = new MessageDialog("hello1");
+            md1.Commands.Add(new Windows.UI.Popups.UICommand("one", async (c) =>
             {
-                InTheHand.UI.Popups.MessageDialog md3 = new InTheHand.UI.Popups.MessageDialog("hello3");
+                MessageDialog md3 = new MessageDialog("hello3");
                 await md3.ShowAsync();
             }));
             md1.ShowAsync();
 
-            InTheHand.UI.Popups.MessageDialog md2 = new InTheHand.UI.Popups.MessageDialog("hello2");
-            md2.Commands.Add(new InTheHand.UI.Popups.UICommand("two", async (c) =>
+            MessageDialog md2 = new MessageDialog("hello2");
+            md2.Commands.Add(new UICommand("two", async (c) =>
             {
-                InTheHand.UI.Popups.MessageDialog md4 = new InTheHand.UI.Popups.MessageDialog("hello4");
+                MessageDialog md4 = new MessageDialog("hello4");
                 await md4.ShowAsync();
             }));
             md2.ShowAsync();

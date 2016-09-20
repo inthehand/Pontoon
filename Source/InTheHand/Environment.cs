@@ -4,11 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-#if WINDOWS_UWP
 using Windows.System.Profile;
-#else
-using InTheHand.System.Profile;
-#endif
 using System;
 
 namespace InTheHand

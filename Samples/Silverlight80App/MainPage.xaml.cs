@@ -25,11 +25,14 @@ namespace Silverlight80App
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
+            
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("content", "title");
+
+            Windows.ApplicationModel.Chat.ChatMessageManager.ShowSmsSettings();
+            Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog("content", "title");
             await md.ShowAsync();
             System.Diagnostics.Debug.WriteLine("Shown");
         }

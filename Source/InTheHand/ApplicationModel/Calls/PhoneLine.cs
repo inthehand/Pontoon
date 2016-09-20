@@ -6,10 +6,14 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
+#if WINDOWS_UWP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneLine))]
+#else
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
@@ -24,21 +28,14 @@ using Windows.Foundation;
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace InTheHand.ApplicationModel.Calls
+namespace Windows.ApplicationModel.Calls
 {
     /// <summary>
     /// Provides methods for launching the built-in phone call UI.
     /// </summary>
     public sealed class PhoneLine
     {
-#if WINDOWS_UWP
-        private Windows.ApplicationModel.Calls.PhoneLine _line;
-
-        internal PhoneLine(Windows.ApplicationModel.Calls.PhoneLine line)
-        {
-            _line = line;
-        }
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_APP || WINDOWS_PHONE_APP
         
         internal static Type _type10;
 
@@ -60,16 +57,17 @@ namespace InTheHand.ApplicationModel.Calls
         {
         }
 #endif
-        public static async Task<PhoneLine> FromIdAsync(Guid lineId)
+        public static IAsyncOperation<PhoneLine> FromIdAsync(Guid lineId)
         {
 #if __ANDROID__ || __IOS__
-            return new PhoneLine();
-#elif WINDOWS_UWP
-            return new PhoneLine(await Windows.ApplicationModel.Calls.PhoneLine.FromIdAsync(lineId));
+            return Task.FromResult<PhoneLine>(new PhoneLine()).AsAsyncOperation<PhoneLine>();
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
             if(_type10 != null)
             {
-                return new PhoneLine(await ((IAsyncOperation<object>)_type10.GetRuntimeMethod("FromIdAsync", new Type[] { typeof(Guid) }).Invoke(null, new object[] { lineId })));
+                return Task.Run<PhoneLine>(async () =>
+                {
+                    return new PhoneLine(await ((IAsyncOperation<object>)_type10.GetRuntimeMethod("FromIdAsync", new Type[] { typeof(Guid) }).Invoke(null, new object[] { lineId })));
+                }).AsAsyncOperation<PhoneLine>();
             }
 
             return null;
@@ -95,9 +93,8 @@ namespace InTheHand.ApplicationModel.Calls
 #elif __IOS__
             global::Foundation.NSUrl url = new global::Foundation.NSUrl("tel:" + PhoneCallManager.CleanPhoneNumber(number));
             UIKit.UIApplication.SharedApplication.OpenUrl(url);
-#elif WINDOWS_UWP
-            _line.Dial(number, displayName);
 #endif
         }
     }
 }
+#endif

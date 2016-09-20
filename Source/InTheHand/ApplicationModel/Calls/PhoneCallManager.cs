@@ -6,25 +6,25 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallManager))]
+#else
 using System;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
 using Android.Content;
 #elif WINDOWS_APP
 using Windows.UI.Popups;
-#elif WINDOWS_PHONE_APP
-using Windows.ApplicationModel.Calls;
-using Windows.Foundation;
 #elif WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace InTheHand.ApplicationModel.Calls
+namespace Windows.ApplicationModel.Calls
 {
     /// <summary>
     /// Provides methods for launching the built-in phone call UI.
@@ -44,44 +44,40 @@ namespace InTheHand.ApplicationModel.Calls
         /// 
         /// </summary>
         /// <returns></returns>
-        public static async Task<PhoneCallStore> RequestStoreAsync()
+        public static IAsyncOperation<PhoneCallStore> RequestStoreAsync()
         {
 #if __ANDROID__
-            return new PhoneCallStore();
-
+            return Task.FromResult<PhoneCallStore>(new PhoneCallStore()).AsAsyncOperation<PhoneCallStore>();
 #elif __IOS__
-            if (UIKit.UIDevice.CurrentDevice.Model == "iPhone")
+            return Task.Run<PhoneCallStore>(()=>
             {
-                return new PhoneCallStore();
-            }
+                if (UIKit.UIDevice.CurrentDevice.Model == "iPhone")
+                {
+                    return new PhoneCallStore();
+                }
+                return null;
+            }).AsAsyncOperation<PhoneCallStore>();
+            /*#elif WINDOWS_PHONE_APP
+                        if (_type10 != null)
+                        {
+                            Type storeType = Type.GetType("Windows.ApplicationModel.Calls.PhoneCallStore, Windows, ContentType=WindowsRuntime");
+                            object act = _type10.GetRuntimeProperty("IsCallActive").GetValue(null);
 
-#elif WINDOWS_UWP
-            if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Calls.PhoneCallManager", "RequestStoreAsync"))
-            {
-                return new PhoneCallStore(await Windows.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync());
-            }
+                            Type template = typeof(Windows.Foundation.IAsyncOperation<>);
+                            Type genericType = template.MakeGenericType(storeType);
+                            Type deltype = typeof(AsyncOperationCompletedHandler<>).MakeGenericType(storeType);
+                            object nativeStoreTask = _type10.GetRuntimeMethod("RequestStoreAsync", new Type[0]).Invoke(null, new object[0]);
+                            Type pcsType = typeof(PhoneCallManager);
+                            MethodInfo completionInfo = pcsType.GetTypeInfo().GetDeclaredMethod("CompletionHandler");
+                            Delegate del = completionInfo.CreateDelegate(deltype);
 
-/*#elif WINDOWS_PHONE_APP
-            if (_type10 != null)
-            {
-                Type storeType = Type.GetType("Windows.ApplicationModel.Calls.PhoneCallStore, Windows, ContentType=WindowsRuntime");
-                object act = _type10.GetRuntimeProperty("IsCallActive").GetValue(null);
+                            genericType.GetRuntimeProperty("Completed").SetValue(nativeStoreTask, del);
 
-                Type template = typeof(Windows.Foundation.IAsyncOperation<>);
-                Type genericType = template.MakeGenericType(storeType);
-                Type deltype = typeof(AsyncOperationCompletedHandler<>).MakeGenericType(storeType);
-                object nativeStoreTask = _type10.GetRuntimeMethod("RequestStoreAsync", new Type[0]).Invoke(null, new object[0]);
-                Type pcsType = typeof(PhoneCallManager);
-                MethodInfo completionInfo = pcsType.GetTypeInfo().GetDeclaredMethod("CompletionHandler");
-                Delegate del = completionInfo.CreateDelegate(deltype);
-
-                genericType.GetRuntimeProperty("Completed").SetValue(nativeStoreTask, del);
-                
-                //object nativeStore = nativeStoreTask.GetType().GetRuntimeMethod("GetResults",new Type[0]).Invoke(nativeStoreTask, new object[0]);
-                //return new PhoneCallStore(await (Windows.Foundation.IAsyncOperation<object>)nativeStoreTask);
-            }*/
+                            //object nativeStore = nativeStoreTask.GetType().GetRuntimeMethod("GetResults",new Type[0]).Invoke(nativeStoreTask, new object[0]);
+                            //return new PhoneCallStore(await (Windows.Foundation.IAsyncOperation<object>)nativeStoreTask);
+                        }*/
 #endif
-            return null;
+            return Task.FromResult<PhoneCallStore>(null).AsAsyncOperation<PhoneCallStore>();
         }
 
         /*internal static void CompletionHandler(IAsyncInfo operation, AsyncStatus status)
@@ -154,9 +150,6 @@ namespace InTheHand.ApplicationModel.Calls
             prompt.Commands.Add(new UICommand("Cancel", null));
             prompt.ShowAsync();
 
-#elif WINDOWS_PHONE_APP || WINDOWS_UWP
-            PhoneCallManager.ShowPhoneCallUI(phoneNumber, displayName);
-
 #elif WINDOWS_PHONE
             PhoneCallTask pct = new PhoneCallTask();
             pct.PhoneNumber = phoneNumber;
@@ -173,3 +166,4 @@ namespace InTheHand.ApplicationModel.Calls
         }
     }
 }
+#endif

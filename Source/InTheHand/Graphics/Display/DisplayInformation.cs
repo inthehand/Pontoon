@@ -3,14 +3,17 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.DisplayInformation))]
+#else
 #if __IOS__
 using UIKit;
 #endif
 
 using System;
 
-namespace InTheHand.Graphics.Display
+namespace Windows.Graphics.Display
 {
     /// <summary>
     /// Monitors and controls physical display information.
@@ -34,15 +37,7 @@ namespace InTheHand.Graphics.Display
             return current;
         }
 
-#if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
-        private Windows.Graphics.Display.DisplayInformation _displayInformation;
-
-        [CLSCompliant(false)]
-        public static implicit operator Windows.Graphics.Display.DisplayInformation(DisplayInformation d)
-        {
-            return d._displayInformation;
-        }
-#elif __IOS__
+#if __IOS__
         private UIScreen _screen;
         
         [CLSCompliant(false)]
@@ -54,9 +49,7 @@ namespace InTheHand.Graphics.Display
 
         private DisplayInformation()
         {
-#if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
-            _displayInformation = Windows.Graphics.Display.DisplayInformation.GetForCurrentView();
-#elif __IOS__
+#if __IOS__
             _screen = UIApplication.SharedApplication.KeyWindow.Screen;
 #endif
         }
@@ -76,8 +69,6 @@ namespace InTheHand.Graphics.Display
                     rawDpiX = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Xdpi;
 #elif __IOS__
                     rawDpiX = (float?)_screen.NativeScale;
-#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
-                    rawDpiX = _displayInformation.RawDpiX;
 #elif WINDOWS_PHONE
                     object temp;
                     if(Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiX", out temp))
@@ -112,8 +103,6 @@ namespace InTheHand.Graphics.Display
                     rawDpiY = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Ydpi;
 #elif __IOS__
                     rawDpiY = (float?)_screen.NativeScale;
-#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
-                    rawDpiY = _displayInformation.RawDpiY;
 #elif WINDOWS_PHONE
                     object temp;
                     if (Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiY", out temp))
@@ -147,8 +136,6 @@ namespace InTheHand.Graphics.Display
                     _rawPixelsPerViewPixel = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Density;
 #elif __IOS__
                     _rawPixelsPerViewPixel = (float?)_screen.Scale;
-#elif WINDOWS_UWP || WINDOWS_PHONE_APP
-                    _rawPixelsPerViewPixel = _displayInformation.RawPixelsPerViewPixel;
 #elif WINDOWS_APP || WINDOWS_PHONE
                     _rawPixelsPerViewPixel = ((int)ResolutionScale) / 100.0;
 #endif
@@ -170,8 +157,6 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__ || __IOS__
                     resolutionScale = (ResolutionScale)((int)(RawPixelsPerViewPixel * 100));
-#elif WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
-                    resolutionScale = (ResolutionScale)((int)_displayInformation.ResolutionScale);
 #elif WINDOWS_PHONE
                     int scaleFactor = global::System.Windows.Application.Current.Host.Content.ScaleFactor;
 
@@ -193,3 +178,4 @@ namespace InTheHand.Graphics.Display
         }
     }
 }
+#endif

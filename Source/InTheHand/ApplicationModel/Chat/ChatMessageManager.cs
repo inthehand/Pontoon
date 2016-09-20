@@ -1,24 +1,27 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ChatMessageManager.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Chat.ChatMessageManager))]
+#else
 
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.System;
 #if __ANDROID__
 using Android.Content;
 using Android.App;
 #elif __IOS__
 using MessageUI;
 using UIKit;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
-using Windows.Foundation;
-#else
 #endif
 
-namespace InTheHand.ApplicationModel.Chat
+namespace Windows.ApplicationModel.Chat
 {
     /// <summary>
     /// Provides methods for managing chat messages.
@@ -30,7 +33,7 @@ namespace InTheHand.ApplicationModel.Chat
         /// </summary>
         /// <param name="message">The chat message.</param>
         /// <returns>An asynchronous action.</returns>
-        public static Task ShowComposeSmsMessageAsync(ChatMessage message)
+        public static IAsyncAction ShowComposeSmsMessageAsync(ChatMessage message)
         {
 #if __ANDROID__
             return Task.Run(() =>
@@ -50,7 +53,7 @@ namespace InTheHand.ApplicationModel.Chat
                 smsIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(smsIntent);
                 //Platform.Android.ContextManager.Context.StartActivity(smsIntent);
-            });
+            }).AsAsyncAction();
 #elif __IOS__
             return Task.Run(() =>
             {
@@ -81,47 +84,42 @@ namespace InTheHand.ApplicationModel.Chat
                     // probably an iPod/iPad
                     throw new PlatformNotSupportedException();
                 }
-            });
+            }).AsAsyncAction();
 #elif WINDOWS_APP
-            // build uri
-            StringBuilder sb = new StringBuilder();
-
-            if (message.Recipients.Count == 0)
+            return Task.Run(async () =>
             {
-                throw new InvalidOperationException();
-            }
-            else
-            {
-                sb.Append("sms:");
+                // build uri
+                StringBuilder sb = new StringBuilder();
 
-                foreach (string recipient in message.Recipients)
+                if (message.Recipients.Count == 0)
                 {
-                    sb.Append(recipient + ";");
+                    throw new InvalidOperationException();
+                }
+                else
+                {
+                    sb.Append("sms:");
+
+                    foreach (string recipient in message.Recipients)
+                    {
+                        sb.Append(recipient + ";");
+                    }
+
+                    // Remove last semi-colon
+                    if (sb.Length > 4)
+                    {
+                        sb.Length -= 1;
+                    }
                 }
 
-                // Remove last semi-colon
-                if (sb.Length > 4)
+                // add body if present
+                if (!string.IsNullOrEmpty(message.Body))
                 {
-                    sb.Length -= 1;
+                    sb.Append("?");
+                    sb.Append("body=" + Uri.EscapeDataString(message.Body));
                 }
-            }
 
-            // add body if present
-            if (!string.IsNullOrEmpty(message.Body))
-            {
-                sb.Append("?");
-                sb.Append("body=" + Uri.EscapeDataString(message.Body));
-            }
-
-            return Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString())).AsTask<bool>();
-#elif WINDOWS_PHONE_APP || WINDOWS_UWP
-            Windows.ApplicationModel.Chat.ChatMessage nativeMessage = new Windows.ApplicationModel.Chat.ChatMessage() { Body = message.Body };
-            foreach(string recipient in message.Recipients)
-            {
-                nativeMessage.Recipients.Add(recipient);
-            }
-
-            return Windows.ApplicationModel.Chat.ChatMessageManager.ShowComposeSmsMessageAsync(nativeMessage).AsTask();
+                await Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
+            }).AsAsyncAction();
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {
@@ -143,7 +141,7 @@ namespace InTheHand.ApplicationModel.Chat
 
                 composeTask.To = recipients.ToString();
                 composeTask.Show();
-            });
+            }).AsAsyncAction();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -155,5 +153,18 @@ namespace InTheHand.ApplicationModel.Chat
             e.Controller.DismissViewController(true, null);
         }
 #endif
+        /// <summary>
+        /// Launches the device's SMS settings app.
+        /// </summary>
+        public static void ShowSmsSettings()
+        {
+#if __ANDROID__
+            Intent settingsIntent = new Intent(Android.Provider.Settings.ActionDataRoamingSettings);
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(settingsIntent);
+#elif WINDOWS_PHONE
+            Launcher.LaunchUriAsync(new Uri("ms-settings-cellular:"));
+#endif
+        }
     }
 }
+#endif

@@ -32,18 +32,18 @@ namespace Windows81App
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
-            System.Diagnostics.Debug.WriteLine(InTheHand.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+            System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
 
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
         }
 
         private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
         {
-            InTheHand.UI.ApplicationSettings.SettingsPane.Show();
+            Windows.UI.ApplicationSettings.SettingsPane.Show();
         }
     }
 }

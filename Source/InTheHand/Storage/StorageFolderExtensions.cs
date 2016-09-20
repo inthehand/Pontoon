@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="StorageFolderExtensions.cs" company="In The Hand Ltd">
-//     Copyright © 2013-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 
-namespace InTheHand.Storage
+namespace Windows.Storage
 {
     /// <summary>
     /// Provides additional methods for <see cref="Windows.Storage.StorageFolder"/>.
@@ -138,7 +138,7 @@ namespace InTheHand.Storage
         /// If the file or folder can't be found, <see cref="TryGetItemAsync"/> returns null and doesn't raise an exception.
         /// Because the method returns null, you can use it to check if the specified fie or folder exists.</remarks>
         [CLSCompliant(false)]
-        public static IAsyncOperation<Windows.Storage.IStorageItem> TryGetItemAsync(this Windows.Storage.StorageFolder folder, string name)
+        public static IAsyncOperation<IStorageItem> TryGetItemAsync(this StorageFolder folder, string name)
         {
             Task<Windows.Storage.IStorageItem> t = Task.Run<Windows.Storage.IStorageItem>(async () =>
             {

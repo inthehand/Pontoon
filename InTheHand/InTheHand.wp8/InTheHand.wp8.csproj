@@ -182,6 +182,12 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
+      <Link>ApplicationModel\PackageVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
+      <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Resources\ResourceLoader.cs">
       <Link>ApplicationModel\Resources\ResourceLoader.cs</Link>
     </Compile>
@@ -194,8 +200,20 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
+      <Link>Foundation\IAsyncAction.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
+      <Link>Foundation\IAsyncOperation.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
+      <Link>Foundation\Point.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Rect.cs">
+      <Link>Foundation\Rect.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
@@ -205,6 +223,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
       <Link>Graphics\Display\ResolutionScale.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
+      <Link>Media\Capture\CameraCaptureUI.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
@@ -239,6 +260,18 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
+      <Link>Storage\FileIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
+      <Link>Storage\KnownFolders.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
+      <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
+      <Link>Storage\StorageDeleteOption.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
       <Link>Storage\StorageFile.cs</Link>
     </Compile>
@@ -250,6 +283,9 @@
     </Compile>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs">
+      <Link>Storage\Streams\UnicodeEncoding.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
@@ -269,6 +305,69 @@
     <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
       <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
+      <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+      <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
+      <Link>UI\Notifications\BadgeNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
+      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
+      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
+      <Link>UI\Notifications\BadgeUpdater.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ScheduledToastNotification.cs">
+      <Link>UI\Notifications\ScheduledToastNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotification.cs">
+      <Link>UI\Notifications\ToastNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationCreator.cs">
+      <Link>UI\Notifications\ToastNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationManager.cs">
+      <Link>UI\Notifications\ToastNotificationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.cs">
+      <Link>UI\Notifications\ToastNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
+      <Link>UI\Popups\IUICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
+      <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialogAsyncOperation.cs">
+      <Link>UI\Popups\MessageDialogAsyncOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
+      <Link>UI\Popups\Placement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\PopupMenu.cs">
+      <Link>UI\Popups\PopupMenu.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
+      <Link>UI\Popups\UICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
+      <Link>UI\ViewManagement\StatusBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
+      <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
+    </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
@@ -276,7 +375,15 @@
       <Link>ApplicationModel\WMAppManifest.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=8.0.1.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />

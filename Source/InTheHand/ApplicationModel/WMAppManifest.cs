@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="WMAppManifest.cs" company="In The Hand Ltd">
-//   Copyright (c) 2013-15 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2013-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides information about a Silverlight app package.
@@ -11,6 +11,7 @@ using System;
 using System.Reflection;
 using System.Windows;
 using System.Xml;
+using Windows.ApplicationModel;
 
 namespace InTheHand.ApplicationModel
 {
@@ -66,18 +67,7 @@ namespace InTheHand.ApplicationModel
 
 
                     
-                    Version = new Version(xr["Version"]);
-                
-
-                    /*this.Id.Author = xr["Author"];
-
-
-                    
-                    string isBeta = xr["IsBeta"];
-                    if (!string.IsNullOrEmpty(isBeta))
-                    {
-                        this.IsBeta = bool.Parse(isBeta);
-                    }*/
+                    Version = PackageVersionExtensions.FromVersion(new Version(xr["Version"]));
 
                     PublisherDisplayName = xr["Publisher"];
                     PublisherId = xr["PublisherID"];
@@ -246,7 +236,7 @@ namespace InTheHand.ApplicationModel
             private set;
         }
 
-        public Version Version
+        public PackageVersion Version
         {
             get;
             private set;

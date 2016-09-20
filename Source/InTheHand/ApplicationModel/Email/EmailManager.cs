@@ -1,13 +1,18 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="EmailManager.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailManager))]
+#else
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 #if __ANDROID__
 using Android.Content;
 using Android.App;
@@ -16,13 +21,11 @@ using MessageUI;
 using UIKit;
 #elif WINDOWS_APP
 using Windows.System;
-#elif WINDOWS_PHONE_APP
-using Windows.ApplicationModel.Email;
 #elif WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace InTheHand.ApplicationModel.Email
+namespace Windows.ApplicationModel.Email
 {
     /// <summary>
     /// Allows an application to launch the email application with a new message displayed.
@@ -33,17 +36,18 @@ namespace InTheHand.ApplicationModel.Email
         /// <summary>
         /// Launches the email application with a new message displayed.
         /// </summary>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static Task ShowComposeNewEmailAsync(InTheHand.ApplicationModel.Email.EmailMessage message)
+        /// <param name="message">The email message that is displayed when the email application is launched.</param>
+        /// <returns>An asynchronous action used to indicate when the operation has completed.</returns>
+        public static IAsyncAction ShowComposeNewEmailAsync(EmailMessage message)
         {
             if (message == null)
             {
                 throw new ArgumentNullException();
             }
-#if __ANDROID__
+
             return Task.Run(() =>
             {
+#if __ANDROID__
                 Intent emailIntent = new Intent(Intent.ActionSendto);
                 //emailIntent.SetType("message/rfc822");
                 emailIntent.SetData(Android.Net.Uri.Parse("mailto:"));
@@ -61,11 +65,8 @@ namespace InTheHand.ApplicationModel.Email
                 emailIntent.PutExtra(Intent.ExtraText, message.Body);
                 emailIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(emailIntent);
-                //Platform.Android.ContextManager.Context.StartActivity(emailIntent);
-            });
+                //Platform.Android.ContextManager.Context.StartActivity(emailIntent);           
 #elif __IOS__
-            return Task.Run(() =>
-            {
                 try
                 {
                     MFMailComposeViewController mcontroller = new MFMailComposeViewController();
@@ -88,13 +89,12 @@ namespace InTheHand.ApplicationModel.Email
                 {
                     throw new PlatformNotSupportedException();
                 }
-            });
 #elif WINDOWS_APP
-// build URI for Windows Store platform
+            // build URI for Windows Store platform
 
-// build a uri
-StringBuilder sb = new StringBuilder();
-bool firstParameter = true;
+            // build a uri
+            StringBuilder sb = new StringBuilder();
+            bool firstParameter = true;
 
             if (message.To.Count == 0)
             {
@@ -165,28 +165,8 @@ bool firstParameter = true;
                 sb.Append("body=" + Uri.EscapeDataString(message.Body));
             }
 
-            return Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString())).AsTask<bool>(); 
-#elif WINDOWS_PHONE_APP || WINDOWS_UWP
-            Windows.ApplicationModel.Email.EmailMessage nativeMessage = new Windows.ApplicationModel.Email.EmailMessage();
-            nativeMessage.Subject = message.Subject;
-            nativeMessage.Body = message.Body;
-            foreach (EmailRecipient toRecipient in message.To)
-            {
-                nativeMessage.To.Add(new Windows.ApplicationModel.Email.EmailRecipient(toRecipient.Address, toRecipient.Name));
-            }
-            foreach (EmailRecipient ccRecipient in message.CC)
-            {
-                nativeMessage.To.Add(new Windows.ApplicationModel.Email.EmailRecipient(ccRecipient.Address, ccRecipient.Name));
-            }
-            foreach (EmailRecipient bccRecipient in message.Bcc)
-            {
-                nativeMessage.To.Add(new Windows.ApplicationModel.Email.EmailRecipient(bccRecipient.Address, bccRecipient.Name));
-            }
-
-            return Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(nativeMessage).AsTask();
+            Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
 #elif WINDOWS_PHONE
-            return Task.Run(() =>
-            {
                 // On Phone 8.0 use the email compose dialog
                 EmailComposeTask task = new EmailComposeTask();
 
@@ -220,10 +200,10 @@ bool firstParameter = true;
                 }
 
                 task.Show();
-            });
 #else
-            throw new PlatformNotSupportedException();
+                throw new PlatformNotSupportedException();
 #endif
+            }).AsAsyncAction();
         }
 
 #if __IOS__
@@ -282,3 +262,4 @@ bool firstParameter = true;
 #endif
     }
 }
+#endif

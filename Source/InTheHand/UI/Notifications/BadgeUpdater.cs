@@ -3,6 +3,10 @@
 //     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.BadgeUpdater))]
+#else
 
 #if __IOS__
 using UIKit;
@@ -10,7 +14,7 @@ using UIKit;
 using Windows.UI.Notifications;
 #endif
 
-namespace InTheHand.UI.Notifications
+namespace Windows.UI.Notifications
 {
     /// <summary>
     /// Updates a badge overlay on the specific tile that the updater is bound to.
@@ -61,3 +65,4 @@ namespace InTheHand.UI.Notifications
         }
     }
 }
+#endif

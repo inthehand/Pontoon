@@ -59,62 +59,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
-      <Link>UI\Notifications\BadgeNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
-      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
-      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
-      <Link>UI\Notifications\BadgeUpdater.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ScheduledToastNotification.cs">
-      <Link>UI\Notifications\ScheduledToastNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotification.cs">
-      <Link>UI\Notifications\ToastNotification.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationCreator.cs">
-      <Link>UI\Notifications\ToastNotificationCreator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationManager.cs">
-      <Link>UI\Notifications\ToastNotificationManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.cs">
-      <Link>UI\Notifications\ToastNotifier.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\inthehand\ui\popups\IUICommand.cs">
-      <Link>UI\Popups\IUICommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\inthehand\ui\popups\MessageDialog.cs">
-      <Link>UI\Popups\MessageDialog.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\inthehand\ui\popups\UICommand.cs">
-      <Link>UI\Popups\UICommand.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
-      <Link>UI\ViewManagement\StatusBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
-      <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
     </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="..\AssemblyInfo.cs">
@@ -133,6 +91,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

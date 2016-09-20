@@ -1,15 +1,18 @@
-﻿using InTheHand.UI.Popups;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Calls;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,7 +34,7 @@ namespace UWPApp
         {
             this.InitializeComponent();
 
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
+            DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
@@ -39,8 +42,8 @@ namespace UWPApp
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
 
-            InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
-
+            StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
+            
            
             Windows.Devices.Enumeration.DeviceInformationPairing dip;
             Task.Run(async () => {
@@ -66,12 +69,12 @@ namespace UWPApp
                 {
                     
 
-                    InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
+                    StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
                 });
             });
         }
 
-        private void MainPage_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
+        private void MainPage_DataRequested(object sender, DataRequestedEventArgs e)
         {
             e.Request.Data.SetText("Hello Windows World");
             e.Request.Data.SetWebLink(new Uri("http://peterfoot.net"));
@@ -81,15 +84,15 @@ namespace UWPApp
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
-           InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Message", "Title");
-            md.Commands.Add(new InTheHand.UI.Popups.UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
-            md.Commands.Add(new InTheHand.UI.Popups.UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
+            var store = await PhoneCallManager.RequestStoreAsync();
+           MessageDialog md = new MessageDialog("Message", "Title");
+            md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
+            md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
 
             IUICommand uc = await md.ShowAsync();
             uc.Invoked.Invoke(uc);
 
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
+            DataTransferManager.ShowShareUI();
         }
 
         private async void AppBarButton_Click_1(object sender, RoutedEventArgs e)

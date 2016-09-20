@@ -32,6 +32,12 @@ namespace Windows.Storage
         IAsyncAction DeleteAsync();
 
         /// <summary>
+        /// Deletes the current item, optionally deleting it permanently. 
+        /// </summary>
+        /// <returns></returns>
+        IAsyncAction DeleteAsync(StorageDeleteOption option);
+
+        /// <summary>
         /// Determines whether the current IStorageItem matches the specified StorageItemTypes value.
         /// </summary>
         /// <param name="type">The value to match against.</param>
@@ -158,22 +164,17 @@ namespace Windows.Storage
         /// <returns>When this method completes, it returns the file as a StorageFile.</returns>
         public static IAsyncOperation<StorageFile> GetFileFromPathAsync(string path)
         {
-#if __ANDROID__ || __IOS__
-            return Task.Run<StorageFile>(()=>
+            if (string.IsNullOrEmpty(path))
             {
-                if(string.IsNullOrEmpty(path))
-                {
-                    return null;
-                }
-
-                return new StorageFile(path);
-            }).AsAsyncOperation<StorageFile>();
+                throw new ArgumentNullException("path");
+            }
+#if __ANDROID__ || __IOS__
+            return Task.FromResult<StorageFile>(new StorageFile(path)).AsAsyncOperation<StorageFile>();
 #else
             return null;
 #endif
         }
-
-#if __ANDROID__ || __IOS__
+        
         private string _path;
     
         internal StorageFile(string path)
@@ -233,6 +234,15 @@ namespace Windows.Storage
         /// </summary>
         /// <returns></returns>
         public IAsyncAction DeleteAsync()
+        {
+            return DeleteAsync(StorageDeleteOption.Default);
+        }
+
+        /// <summary>
+        /// Deletes the current file, optionally deleting the item permanently.
+        /// </summary>
+        /// <returns></returns>
+        public IAsyncAction DeleteAsync(StorageDeleteOption option)
         {
 #if __ANDROID__ || __IOS__
             return Task.Run(() =>
@@ -323,8 +333,6 @@ namespace Windows.Storage
                 await fileToReplace.DeleteAsync();
                 await this.MoveAsync(await StorageFolder.GetFolderFromPathAsync(folder), fileName);
             }).AsAsyncAction();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            await _file.MoveAndReplaceAsync((Windows.Storage.StorageFile)((StorageFile)fileToReplace));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -404,10 +412,8 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return FileAttributesHelper.FromIOFileAttributes(global::System.IO.File.GetAttributes(Path));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return (FileAttributes)((uint)_file.Attributes);
 #else
-                return FileAttributes.Normal;
+                throw new PlatformNotSupportedException();
 #endif
             }
         }
@@ -424,10 +430,8 @@ namespace Windows.Storage
                 var local = global::System.IO.File.GetCreationTime(Path);
                 var offset = local - utc;
                 return new DateTimeOffset(local, offset);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.DateCreated;
 #else
-                return DateTimeOffset.MinValue;
+                throw new PlatformNotSupportedException();
 #endif
             }
         }
@@ -445,9 +449,6 @@ namespace Windows.Storage
                     mime = MobileCoreServices.UTType.GetPreferredTag(utref, MobileCoreServices.UTType.TagClassMIMEType);
                 }
                 return mime;
-
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.ContentType;
 #else
                 return string.Empty;
 #endif
@@ -463,8 +464,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return global::System.IO.Path.GetExtension(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.FileType;
 #else
                 return string.Empty;
 #endif
@@ -480,8 +479,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return global::System.IO.Path.GetFileName(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.Name;
 #else
                 return string.Empty;
 #endif
@@ -497,36 +494,10 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return _path;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return _file.Path;
 #else
                 return string.Empty;
 #endif
             }
-        }
-
-        [CLSCompliantAttribute(false)]
-        public async Task<Stream> OpenStreamForReadAsync()
-        {
-#if __ANDROID__ || __IOS__
-                return global::System.IO.File.OpenRead(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return await _file.OpenStreamForReadAsync();
-#else
-                throw new PlatformNotSupportedException();
-#endif
-        }
-
-        [CLSCompliantAttribute(false)]
-        public async Task<Stream> OpenStreamForWriteAsync()
-        {
-#if __ANDROID__ || __IOS__
-                return global::System.IO.File.OpenWrite(Path);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return await _file.OpenStreamForWriteAsync();
-#else
-                throw new PlatformNotSupportedException();
-#endif
         }
 
         /// <summary>

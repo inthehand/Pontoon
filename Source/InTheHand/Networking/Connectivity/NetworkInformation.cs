@@ -3,7 +3,10 @@
 //     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkInformation))]
+#else
 
 using System;
 using System.Collections.Generic;
@@ -14,7 +17,7 @@ using Android.Net;
 #elif __IOS__
 using SystemConfiguration;
 #endif
-namespace InTheHand.Networking.Connectivity
+namespace Windows.Networking.Connectivity
 {
     /// <summary>
     /// Provides access to network connection information for the local machine.
@@ -34,11 +37,6 @@ namespace InTheHand.Networking.Connectivity
         {
             OnNetworkStatusChanged();
         }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-        private static void NetworkInformation_NetworkStatusChanged(object sender)
-        {
-            OnNetworkStatusChanged();
-        }
 #endif
 
         static NetworkInformation()
@@ -48,8 +46,6 @@ namespace InTheHand.Networking.Connectivity
             //_manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);
 #elif __IOS__
             _reachability = new NetworkReachability("0.0.0.0");
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-
 #endif
         }
 
@@ -72,14 +68,7 @@ namespace InTheHand.Networking.Connectivity
                     return new ConnectionProfile(flags);
                 }
             }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            Windows.Networking.Connectivity.ConnectionProfile p = Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile();
-            if(p != null)
-            {
-                return new ConnectionProfile(p);
-            }
 #endif
-
             return null;
         }
 
@@ -98,8 +87,6 @@ namespace InTheHand.Networking.Connectivity
 #elif __IOS__
                     _reachability.SetNotification(new NetworkReachability.Notification(ReachabilityNotification));
                     _reachability.Schedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-           Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
 #endif
                 }
                 networkStatusChanged += value;
@@ -113,8 +100,6 @@ namespace InTheHand.Networking.Connectivity
                     _manager.DefaultNetworkActive -= _manager_DefaultNetworkActive;
 #elif __IOS__
                     _reachability.Unschedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                    Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged -= NetworkInformation_NetworkStatusChanged;
 #endif
                 }
             }
@@ -129,3 +114,4 @@ namespace InTheHand.Networking.Connectivity
         }
     }
 }
+#endif

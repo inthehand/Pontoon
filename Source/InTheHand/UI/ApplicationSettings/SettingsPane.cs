@@ -3,29 +3,35 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP
+#pragma warning disable 618
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsPane))]
+#else
+
 
 using System;
 using System.Collections.Generic;
 using System.Net;
-#if __ANDROID__
-using InTheHand.Storage;
-#elif WINDOWS_PHONE
-#if WINDOWS_PHONE_81
 using Windows.Storage;
-#else
-using InTheHand.Storage;
-#endif
+
+#if __ANDROID__
+using InTheHand.UI.ApplicationSettings;
+#elif __IOS__
+using Foundation;
+using UIKit;
+#elif WINDOWS_PHONE
 using System.Windows;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-using Windows.Storage;
 using Windows.UI;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 #endif
 
-namespace InTheHand.UI.ApplicationSettings
+namespace Windows.UI.ApplicationSettings
 {
     /// <summary>
     /// A static class that enables the app to control the Settings page.
@@ -79,7 +85,11 @@ namespace InTheHand.UI.ApplicationSettings
             {
                 GetForCurrentView().showAbout = (bool)objAbout;
             }
-#if WINDOWS_UWP
+#if __ANDROID__
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(typeof(SettingsActivity));
+#elif __IOS__
+            UIApplication.SharedApplication.OpenUrl(new NSUrl(UIApplication.OpenSettingsUrlString));
+#elif WINDOWS_UWP
             if(hasSettingsPane)
             {
 #pragma warning disable 618
@@ -108,6 +118,7 @@ namespace InTheHand.UI.ApplicationSettings
 #endif
         }
 
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE
         internal IList<SettingsCommand> OnCommandsRequested()
         {
             SettingsPaneCommandsRequestedEventArgs e = new SettingsPaneCommandsRequestedEventArgs();
@@ -169,6 +180,7 @@ namespace InTheHand.UI.ApplicationSettings
 #endif
             }
         }
+#endif
 
 #if WINDOWS_UWP || WINDOWS_APP
 
@@ -178,7 +190,7 @@ namespace InTheHand.UI.ApplicationSettings
             foreach(SettingsCommand cmd in OnCommandsRequested())
             {
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.Popups.UICommandInvokedHandler((c)=> { InTheHand.UI.ApplicationSettings.SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.Popups.UICommandInvokedHandler((c)=> { SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
             }
 
 #if WINDOWS_UWP
@@ -219,3 +231,4 @@ namespace InTheHand.UI.ApplicationSettings
 #endif
     }
 }
+#endif
