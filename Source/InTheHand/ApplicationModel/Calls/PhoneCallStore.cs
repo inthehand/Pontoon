@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
@@ -38,13 +39,6 @@ namespace Windows.ApplicationModel.Calls
         internal PhoneCallStore()
         {
         }
-#elif WINDOWS_UWP
-        private Windows.ApplicationModel.Calls.PhoneCallStore _store;
-
-        internal PhoneCallStore(Windows.ApplicationModel.Calls.PhoneCallStore store)
-        {
-            _store = store;
-        }
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
         private object _store;
         private Type _type;
@@ -56,14 +50,12 @@ namespace Windows.ApplicationModel.Calls
         }
 #endif
 
-        public async Task<Guid> GetDefaultLineAsync()
+        public IAsyncOperation<Guid> GetDefaultLineAsync()
         {
-#if WINDOWS_UWP
-            return await _store.GetDefaultLineAsync();
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
-            return await (_type.GetRuntimeMethod("GetDefaultLineAsync", new Type[0]).Invoke(_store, new object[0]) as IAsyncOperation<Guid>);
+#if WINDOWS_APP || WINDOWS_PHONE_APP
+            return _type.GetRuntimeMethod("GetDefaultLineAsync", new Type[0]).Invoke(_store, new object[0]) as IAsyncOperation<Guid>;
 #else
-            return Guid.Empty;
+            return Task.FromResult<Guid>(Guid.Empty).AsAsyncOperation<Guid>();
 #endif
         }
     }

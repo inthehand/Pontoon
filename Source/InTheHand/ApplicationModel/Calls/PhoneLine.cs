@@ -10,6 +10,7 @@
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneLine))]
 #else
+
 using System;
 using System.Reflection;
 using System.Threading.Tasks;

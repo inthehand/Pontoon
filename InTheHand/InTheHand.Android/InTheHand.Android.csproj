@@ -129,6 +129,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
       <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Resources\ResourceLoader.cs">
+      <Link>ApplicationModel\Resources\ResourceLoader.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
       <Link>ApplicationModel\Store\CurrentApp.cs</Link>
     </Compile>
