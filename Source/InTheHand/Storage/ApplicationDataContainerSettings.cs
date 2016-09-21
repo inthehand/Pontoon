@@ -34,6 +34,9 @@ namespace Windows.Storage
     /// <summary>
     /// Provides access to the settings in a settings container.
     /// </summary>
+#if __ANDROID__
+    [CLSCompliant(false)]
+#endif
     public sealed class ApplicationDataContainerSettings :
 #if __ANDROID__
         Java.Lang.Object, ISharedPreferencesOnSharedPreferenceChangeListener, 

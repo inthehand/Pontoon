@@ -12,6 +12,7 @@ using UIKit;
 #endif
 
 using System;
+using System.Windows;
 
 namespace Windows.Graphics.Display
 {
@@ -37,7 +38,9 @@ namespace Windows.Graphics.Display
             return current;
         }
 
-#if __IOS__
+#if __ANDROID__
+        private Android.Util.DisplayMetrics _metrics;
+#elif __IOS__
         private UIScreen _screen;
         
         [CLSCompliant(false)]
@@ -49,9 +52,30 @@ namespace Windows.Graphics.Display
 
         private DisplayInformation()
         {
-#if __IOS__
+#if __ANDROID__
+            _metrics = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics;
+#elif __IOS__
             _screen = UIApplication.SharedApplication.KeyWindow.Screen;
 #endif
+        }
+
+        /// <summary>
+        /// Gets the current orientation of a rectangular monitor.
+        /// </summary>
+        public DisplayOrientations CurrentOrientation
+        {
+            get
+            {
+#if __ANDROID__
+                return _metrics.WidthPixels > _metrics.HeightPixels ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+#elif __IOS__
+                return _screen.Bounds.Width > _screen.Bounds.Height ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+#elif WINDOWS_PHONE
+                return Application.Current.Host.Content.ActualWidth > Application.Current.Host.Content.ActualHeight ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+#else
+                return DisplayOrientations.None;
+#endif
+            }
         }
 
         private float? rawDpiX;

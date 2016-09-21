@@ -207,6 +207,9 @@
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
+      <Link>Graphics\Display\DisplayOrientations.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
       <Link>Graphics\Display\ResolutionScale.cs</Link>
     </Compile>
@@ -246,6 +249,15 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
+      <Link>Storage\IStorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem.cs">
+      <Link>Storage\IStorageItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem2.cs">
+      <Link>Storage\IStorageItem2.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
       <Link>Storage\KnownFolders.cs</Link>
     </Compile>
@@ -255,11 +267,17 @@
     <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
       <Link>Storage\StorageDeleteOption.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\NameCollisionOption.cs">
+      <Link>Storage\NameCollisionOption.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
       <Link>Storage\StorageFile.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFolder.cs">
       <Link>Storage\StorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageItemTypes.cs">
+      <Link>Storage\StorageItemTypes.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs">
       <Link>Storage\Streams\UnicodeEncoding.cs</Link>
@@ -335,6 +353,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
       <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
+      <Link>WindowsRuntimeStorageExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
       <Link>WindowsRuntimeSystemExtensions.cs</Link>
