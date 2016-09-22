@@ -8,9 +8,10 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Resources.ResourceLoader))]
 #else
 
-#if WINDOWS_PHONE
 using System.Reflection;
 using System.Resources;
+using System.Threading;
+#if WINDOWS_PHONE
 using System.Windows;
 #endif
 
@@ -65,12 +66,16 @@ namespace Windows.ApplicationModel.Resources
         /// <returns>The most appropriate string value of the specified resource for the default ResourceContext.</returns>
         public string GetString(string resource)
         {
-            if(global::System.Threading.Thread.CurrentThread.CurrentCulture == null)
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+            if(Thread.CurrentThread.CurrentCulture == null)
             {
-                global::System.Threading.Thread.CurrentThread.CurrentCulture = global::System.Globalization.CultureInfo.DefaultThreadCurrentCulture;
+                Thread.CurrentThread.CurrentCulture = global::System.Globalization.CultureInfo.DefaultThreadCurrentCulture;
             }
 
             return this.resourceManager.GetString(resource);
+#else
+            return null;
+#endif
         }
     }
 }

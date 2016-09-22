@@ -37,7 +37,7 @@ namespace DroidApp
             ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
             button.Click += new EventHandler((s,e)=> { button.Text = string.Format("{0} clicks!", count++);
-                InTheHand.UI.ApplicationSettings.SettingsPane.Show();
+                Windows.UI.ApplicationSettings.SettingsPane.Show();
                 /*System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.FullName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);

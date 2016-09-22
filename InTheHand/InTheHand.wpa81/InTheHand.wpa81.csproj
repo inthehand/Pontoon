@@ -84,6 +84,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
+      <Link>UI\ApplicationSettings\SettingsPage.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
@@ -260,6 +265,9 @@
     <Compile Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
       <Link>Phone\Devices\Notification\VibrationDevice.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Phone\System\SystemProtection.cs">
+      <Link>Phone\System\SystemProtection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>
     </Compile>
@@ -316,6 +324,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
+      <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>

@@ -245,6 +245,9 @@
     <Compile Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
       <Link>Phone\Devices\Notification\VibrationDevice.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Phone\System\SystemProtection.cs">
+      <Link>Phone\System\SystemProtection.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>
     </Compile>

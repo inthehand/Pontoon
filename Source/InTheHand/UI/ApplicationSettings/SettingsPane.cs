@@ -23,6 +23,7 @@ using UIKit;
 #elif WINDOWS_PHONE
 using System.Windows;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
+using InTheHand.UI.ApplicationSettings;
 using Windows.UI;
 using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
