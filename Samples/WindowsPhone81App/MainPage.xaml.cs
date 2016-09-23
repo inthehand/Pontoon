@@ -33,7 +33,9 @@ namespace WindowsPhone81App
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
-            
+
+            Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
+            System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
         }
 
         /// <summary>

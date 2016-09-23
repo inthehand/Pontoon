@@ -26,7 +26,8 @@ namespace Silverlight81App
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
-            
+            Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
+            System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
