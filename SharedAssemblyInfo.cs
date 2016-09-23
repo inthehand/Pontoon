@@ -23,7 +23,7 @@ using System.Resources;
 #else
 [assembly: AssemblyConfiguration("Portable")]
 #endif
-[assembly: AssemblyProduct("Charming Apps")]
+[assembly: AssemblyProduct("UWP/e")]
 [assembly: AssemblyCompany("In The Hand Ltd")]
 [assembly: AssemblyCopyright("Copyright © In The Hand Ltd 2013-16. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
@@ -39,7 +39,7 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("9.0.0.0")]
-[assembly: AssemblyFileVersion("9.2016.9.6")]
+[assembly: AssemblyFileVersion("9.2016.9.22")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 #if SIGNED
 [assembly: AssemblyKeyFile("C:\\InTheHand.snk")]

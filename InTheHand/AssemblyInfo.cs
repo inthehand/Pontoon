@@ -7,4 +7,4 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("InTheHand")]
-[assembly: AssemblyDescription("Charming Apps")]
+[assembly: AssemblyDescription("UWP/e")]

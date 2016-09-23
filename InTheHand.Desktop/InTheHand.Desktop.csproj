@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{05145612-63D9-455B-9329-BA0462B90903}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InTheHand</RootNamespace>
+    <AssemblyName>InTheHand</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\InTheHand\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\DateTimeOffsetExtensions.cs">
+      <Link>DateTimeOffsetExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
+      <Link>Foundation\Collections\IObservableMap.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Foundation\IAsyncAction.cs">
+      <Link>Foundation\IAsyncAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Foundation\IAsyncOperation.cs">
+      <Link>Foundation\IAsyncOperation.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
+      <Link>Foundation\Metadata\ApiInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Foundation\Point.cs">
+      <Link>Foundation\Point.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Foundation\Rect.cs">
+      <Link>Foundation\Rect.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Foundation\TypedEventHandler.cs">
+      <Link>Foundation\TypedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\CreationCollisionOption.cs">
+      <Link>Storage\CreationCollisionOption.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\FileAttributes.cs">
+      <Link>Storage\FileAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\FileIO.cs">
+      <Link>Storage\FileIO.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\IStorageFile.cs">
+      <Link>Storage\IStorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\IStorageItem.cs">
+      <Link>Storage\IStorageItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\IStorageItem2.cs">
+      <Link>Storage\IStorageItem2.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\KnownFolders.cs">
+      <Link>Storage\KnownFolders.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\NameCollisionOption.cs">
+      <Link>Storage\NameCollisionOption.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\PathIO.cs">
+      <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\StorageDeleteOption.cs">
+      <Link>Storage\StorageDeleteOption.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\StorageFile.cs">
+      <Link>Storage\StorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\StorageFolder.cs">
+      <Link>Storage\StorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\StorageItemTypes.cs">
+      <Link>Storage\StorageItemTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs">
+      <Link>Storage\Stream\UnicodeEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
+      <Link>WindowsRuntimeStorageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
+      <Link>WindowsRuntimeSystemExtensions.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
