@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="DateTimeOffsetHelper.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 

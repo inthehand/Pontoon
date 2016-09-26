@@ -34,6 +34,8 @@ namespace ApplicationModel.iOS
             // make the window visible
             window.MakeKeyAndVisible();
 
+            System.Diagnostics.Debug.WriteLine(System.Environment.UserName);
+
             //UIApplication.SharedApplication.OpenUrl(new NSUrl(UIApplication.OpenSettingsUrlString));
             return true;
         }

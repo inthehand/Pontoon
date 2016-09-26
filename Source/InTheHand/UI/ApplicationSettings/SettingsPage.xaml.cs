@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Navigation;
 using InTheHand.UI.ApplicationSettings;
 using Windows.UI.Core;
 using Windows.UI;
+using Windows.UI.ApplicationSettings;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 

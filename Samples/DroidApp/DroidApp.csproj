@@ -97,10 +97,6 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.Android\InTheHand.UI.Android.csproj">
-      <Project>{d25a43f9-5fc0-47e7-b820-48df8ad1c71b}</Project>
-      <Name>InTheHand.UI.Android</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand\InTheHand.Android\InTheHand.Android.csproj">
       <Project>{238fe401-b123-4ada-af12-bbf148e34288}</Project>
       <Name>InTheHand.Android</Name>

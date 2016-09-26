@@ -3,12 +3,13 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-using System;
-using System.Runtime.CompilerServices;
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationData))]
 #else
+
+using System;
+
 namespace Windows.Storage
 {
     /// <summary>
@@ -48,6 +49,8 @@ namespace Windows.Storage
                 return new StorageFolder(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal));
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return new StorageFolder(Windows.Storage.ApplicationData.Current.LocalFolder);
+#elif WIN32
+                return new StorageFolder(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), InTheHand.ApplicationModel.Package.Current.Id.FullName));
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -77,6 +80,21 @@ namespace Windows.Storage
         }
 
         /// <summary>
+        /// Gets the root folder in the roaming app data store.
+        /// </summary>
+        public StorageFolder RoamingFolder
+        {
+            get
+            {
+#if WIN32
+                return new StorageFolder(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), InTheHand.ApplicationModel.Package.Current.Id.FullName));
+#else
+                throw new PlatformNotSupportedException();
+#endif
+            }
+        }
+
+        /// <summary>
         /// Gets the application settings container in the local app data store.
         /// </summary>
         /// <value>The application settings container.</value>
@@ -88,10 +106,13 @@ namespace Windows.Storage
                 {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     roamingSettings = new ApplicationDataContainer(Windows.Storage.ApplicationData.Current.RoamingSettings);
+#elif WIN32
+                    // no concept of roaming on Win32
 #else
                     roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming);
 #endif
                 }
+
                 return roamingSettings;
             }
         }
@@ -107,6 +128,8 @@ namespace Windows.Storage
                 return new StorageFolder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.CacheDir.AbsolutePath);
 #elif __IOS__
                 return new StorageFolder("tmp/");
+#elif WIN32
+                return new StorageFolder(System.IO.Path.GetTempPath());
 #else
                 throw new PlatformNotSupportedException();
 #endif

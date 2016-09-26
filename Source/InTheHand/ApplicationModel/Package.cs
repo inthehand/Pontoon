@@ -64,6 +64,8 @@ namespace InTheHand.ApplicationModel
         {
             return p._package;
         }
+#elif WIN32
+        internal AssemblyManifest _manifest= new AssemblyManifest();
 #endif
 
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
@@ -73,7 +75,7 @@ namespace InTheHand.ApplicationModel
 #if WINDOWS_PHONE
         internal WMAppManifest _appManifest;
 #endif
-        
+
         private Package()
         {
 #if __ANDROID__
@@ -101,6 +103,9 @@ namespace InTheHand.ApplicationModel
 #endif
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             Logo = _appxManifest.Logo;
+#endif
+#if WIN32
+            Description = _manifest.Description;
 #endif
         }
 
@@ -163,6 +168,8 @@ namespace InTheHand.ApplicationModel
                 return _appxManifest.DisplayName;
 #elif WINDOWS_PHONE
                 return _appManifest.DisplayName;
+#elif WIN32
+                return _manifest.DisplayName;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -224,6 +231,7 @@ namespace InTheHand.ApplicationModel
         /// <summary>
         /// Gets the location of the installed package.
         /// </summary>
+        [CLSCompliant(false)]
         public StorageFolder InstalledLocation
         {
             get
@@ -314,6 +322,8 @@ namespace InTheHand.ApplicationModel
                 return _appxManifest.PublisherDisplayName;
 #elif WINDOWS_PHONE
                 return _appManifest.PublisherDisplayName;
+#elif WIN32
+                return _manifest.PublisherDisplayName;
 #else
                 throw new PlatformNotSupportedException();
 #endif

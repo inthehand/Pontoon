@@ -67,7 +67,7 @@ namespace InTheHand.ApplicationModel
 
 
                     
-                    Version = PackageVersionExtensions.FromVersion(new Version(xr["Version"]));
+                    Version = new Version(xr["Version"]).ToPackageVersion();
 
                     PublisherDisplayName = xr["Publisher"];
                     PublisherId = xr["PublisherID"];

@@ -111,10 +111,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.wpa81\InTheHand.UI.wpa81.csproj">
-      <Project>{33192d86-2f98-4135-9caf-9d0106bfeb61}</Project>
-      <Name>InTheHand.UI.wpa81</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand\InTheHand.wpa81\InTheHand.wpa81.csproj">
       <Project>{84860412-ac9c-4878-ac4f-d893c2b82139}</Project>
       <Name>InTheHand.wpa81</Name>

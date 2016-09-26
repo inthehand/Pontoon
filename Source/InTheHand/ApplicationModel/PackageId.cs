@@ -84,6 +84,8 @@ namespace InTheHand.ApplicationModel
                 return _packageId.FullName;
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.ProductID;
+#elif WIN32
+                return Package.Current._manifest.Guid.ToString();
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -107,6 +109,8 @@ namespace InTheHand.ApplicationModel
                 return _packageId.Name;
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.DisplayName;
+#elif WIN32
+                return Package.Current._manifest.DisplayName;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -129,24 +133,27 @@ namespace InTheHand.ApplicationModel
         /// Gets the package version info.
         /// </summary>
         /// <value>The package version information.</value>
+        [CLSCompliant(false)]
         public PackageVersion Version
         {
 
             get
             {
 #if __ANDROID__
-                return PackageVersionExtensions.FromVersion(System.Version.Parse(_packageInfo.VersionName));
+                return System.Version.Parse(_packageInfo.VersionName).ToPackageVersion();
 #elif __IOS__
                 if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("CFBundleShortVersionString")))
                 {
-                    return PackageVersionExtensions.FromVersion(System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString()));
+                    return System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString()).ToPackageVersion();
                 }
 
-                return PackageVersionExtensions.FromVersion(System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()));
+                return System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()).ToPackageVersion();
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
                 return _packageId.Version;
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.Version;
+#elif WIN32
+                return Package.Current._manifest.AssemblyVersion.ToPackageVersion();
 #else
                 throw new PlatformNotSupportedException();
 #endif

@@ -140,10 +140,6 @@
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.uwp10\InTheHand.UI.uwp10.csproj">
-      <Project>{e3854dd2-2743-40aa-bc38-6cb5d777e553}</Project>
-      <Name>InTheHand.UI.uwp10</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand\InTheHand.uwp10\InTheHand.uwp10.csproj">
       <Project>{c919d564-3221-4293-92f5-071571df48b9}</Project>
       <Name>InTheHand.uwp10</Name>

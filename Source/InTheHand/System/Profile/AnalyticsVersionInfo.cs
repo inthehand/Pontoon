@@ -3,6 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.System.Profile.AnalyticsVersionInfo))]
+#else
 
 using System;
 using System.Reflection;
@@ -57,3 +61,4 @@ namespace Windows.System.Profile
         }
     }
 }
+#endif

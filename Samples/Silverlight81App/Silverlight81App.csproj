@@ -191,10 +191,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\InTheHand.UI\InTheHand.UI.wp81\InTheHand.UI.wp81.csproj">
-      <Project>{3188b044-376d-4c8c-bbd4-ec105254325c}</Project>
-      <Name>InTheHand.UI.wp81</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand\InTheHand.wp81\InTheHand.wp81.csproj">
       <Project>{199bde53-6ee2-42b5-be25-42bb20dd9ec1}</Project>
       <Name>InTheHand.wp81</Name>

@@ -3,6 +3,11 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.Geofence))]
+[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.MonitoredGeofenceStates))]
+#else
 
 using System;
 using System.Collections.Generic;
@@ -118,3 +123,4 @@ namespace Windows.Devices.Geolocation.Geofencing
         Removed,
     }
 }
+#endif

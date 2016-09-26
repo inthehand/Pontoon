@@ -26,7 +26,6 @@ namespace DroidApp
 		
 		public static void UpdateIdValues()
 		{
-			global::InTheHandUI.Resource.String.Close = global::DroidApp.Resource.String.Close;
 		}
 		
 		public partial class Attribute
@@ -93,14 +92,11 @@ namespace DroidApp
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040002
-			public const int ApplicationName = 2130968578;
+			// aapt resource value: 0x7f040001
+			public const int ApplicationName = 2130968577;
 			
 			// aapt resource value: 0x7f040000
-			public const int Close = 2130968576;
-			
-			// aapt resource value: 0x7f040001
-			public const int Hello = 2130968577;
+			public const int Hello = 2130968576;
 			
 			static String()
 			{

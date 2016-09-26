@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -48,6 +48,24 @@
     </Compile>
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\ApplicationModel\AssemblyManifest.cs">
+      <Link>ApplicationModel\AssemblyManifest.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\ApplicationModel\Capability.cs">
+      <Link>ApplicationModel\Capability.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\ApplicationModel\Package.cs">
+      <Link>ApplicationModel\Package.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\ApplicationModel\PackageId.cs">
+      <Link>ApplicationModel\PackageId.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
+      <Link>ApplicationModel\PackageVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
+      <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
@@ -72,6 +90,18 @@
     </Compile>
     <Compile Include="..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\ApplicationData.cs">
+      <Link>Storage\ApplicationData.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\ApplicationDataContainer.cs">
+      <Link>Storage\ApplicationDataContainer.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
+      <Link>Storage\ApplicationDataContainerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
+      <Link>Storage\ApplicationDataLocality.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Storage\CreationCollisionOption.cs">
       <Link>Storage\CreationCollisionOption.cs</Link>

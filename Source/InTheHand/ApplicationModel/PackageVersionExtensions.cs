@@ -14,7 +14,7 @@ namespace InTheHand.ApplicationModel
     [CLSCompliant(false)]
     public static class PackageVersionExtensions
     {
-        internal static PackageVersion FromVersion(this global::System.Version version)
+        internal static PackageVersion ToPackageVersion(this global::System.Version version)
         {
             PackageVersion packageVersion = new PackageVersion();
             packageVersion.Major = (ushort)version.Major;

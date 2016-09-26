@@ -3,6 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.System.Profile.AnalyticsInfo))]
+#else
 
 #if __ANDROID__
 using Android.App;
@@ -38,8 +42,6 @@ namespace Windows.System.Profile
                 {
                     return _type10.GetRuntimeProperty("DeviceForm").GetValue(null).ToString();
                 }
-#elif WINDOWS_UWP
-                return Windows.System.Profile.AnalyticsInfo.DeviceForm;
 #endif
                 return "Unknown";
             }
@@ -62,8 +64,6 @@ namespace Windows.System.Profile
                     {
                         _versionInfo = new AnalyticsVersionInfo(null);
                     }
-#elif WINDOWS_UWP
-                    _versionInfo = new AnalyticsVersionInfo(Windows.System.Profile.AnalyticsInfo.VersionInfo);
 #endif
                 }
 
@@ -72,3 +72,4 @@ namespace Windows.System.Profile
         }
     }
 }
+#endif
