@@ -14,9 +14,6 @@ using global::System.Linq;
 using global::System.Threading.Tasks;
 using global::System.Collections.ObjectModel;
 using Windows.Foundation;
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-using Windows.Foundation;
-#endif
 
 namespace Windows.ApplicationModel.DataTransfer
 {
@@ -117,7 +114,7 @@ namespace Windows.ApplicationModel.DataTransfer
             }).AsAsyncOperation<string>();
         }
 
-        private Uri GetUriClr(string format)
+        private Uri GetUri(string format)
         {
             if (package.data.ContainsKey(format))
             {
@@ -143,7 +140,7 @@ namespace Windows.ApplicationModel.DataTransfer
         {
             return Task.Run<Uri>(() =>
             {
-                return GetUriClr(StandardDataFormats.ApplicationLink);
+                return GetUri(StandardDataFormats.ApplicationLink);
             }).AsAsyncOperation<Uri>();
         }
 
@@ -155,7 +152,7 @@ namespace Windows.ApplicationModel.DataTransfer
         {
             return Task.Run<Uri>(() =>
             {
-                return GetUriClr(StandardDataFormats.WebLink);
+                return GetUri(StandardDataFormats.WebLink);
             }).AsAsyncOperation<Uri>();
         }
     }

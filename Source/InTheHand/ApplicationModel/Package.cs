@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 #if __ANDROID__
 using Android.App;
@@ -169,7 +170,7 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_PHONE
                 return _appManifest.DisplayName;
 #elif WIN32
-                return _manifest.DisplayName;
+                return _manifest.Product;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -221,13 +222,15 @@ namespace InTheHand.ApplicationModel
                 return _package.InstalledLocation.DateCreated;
 #elif WINDOWS_UWP
                 return _package.InstalledDate;
+#elif WIN32
+                return _manifest.InstalledDate;
 #else
                 throw new PlatformNotSupportedException();
 #endif
             }
         }
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+
         /// <summary>
         /// Gets the location of the installed package.
         /// </summary>
@@ -236,19 +239,24 @@ namespace InTheHand.ApplicationModel
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _package.InstalledLocation;
+#elif WIN32
+                return new StorageFolder(_manifest.InstalledLocation);
+#else
+                return null;
+#endif
             }
         }
-#endif
 
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE
         private bool? _isDevelopmentMode;
 #endif
-        /// <summary>
-        /// Indicates whether the package is installed in development mode.
-        /// </summary>
-        /// <remarks>A Boolean value that indicates whether the package is installed in development mode.
-        /// TRUE indicates that the package is installed in development mode; otherwise FALSE.</remarks>
+                /// <summary>
+                /// Indicates whether the package is installed in development mode.
+                /// </summary>
+                /// <remarks>A Boolean value that indicates whether the package is installed in development mode.
+                /// TRUE indicates that the package is installed in development mode; otherwise FALSE.</remarks>
         public bool IsDevelopmentMode
         {
             get
@@ -323,7 +331,7 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_PHONE
                 return _appManifest.PublisherDisplayName;
 #elif WIN32
-                return _manifest.PublisherDisplayName;
+                return _manifest.Company;
 #else
                 throw new PlatformNotSupportedException();
 #endif

@@ -25,7 +25,7 @@ namespace Windows.ApplicationModel.DataTransfer
     /// <summary>
     /// Gets and sets information from the clipboard object.
     /// </summary>
-    public static class Clipboard
+    public static partial class Clipboard
     {
 #if __ANDROID__
         static ClipboardManager _clipboardManager = Android.App.Application.Context.GetSystemService(Context.ClipboardService) as ClipboardManager;
@@ -62,6 +62,8 @@ namespace Windows.ApplicationModel.DataTransfer
             }
 #elif WINDOWS_PHONE
             global::System.Windows.Clipboard.SetText("");
+#elif WIN32
+            EmptyClipboard();
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -100,7 +102,22 @@ namespace Windows.ApplicationModel.DataTransfer
                 return package.GetView();
             }
 #elif __IOS__
-            
+            if(UIPasteboard.General.Count > 0)
+            {
+                DataPackage package = new DataPackage();
+                var str = UIPasteboard.General.String;
+                if(!string.IsNullOrEmpty(str))
+                {
+                    package.SetText(str);
+                }
+                var url = UIPasteboard.General.Url;
+                if(url != null)
+                {
+                    package.SetWebLink(new Uri(url.ToString()));
+                }
+
+                return package.GetView();
+            }
 #elif WINDOWS_PHONE_APP
             if(_on10)
             {
@@ -136,6 +153,14 @@ namespace Windows.ApplicationModel.DataTransfer
                     return package.GetView();
                 }
             }
+#elif WIN32
+            string txt = GetText();
+            if(!string.IsNullOrEmpty(txt))
+            {
+                DataPackage package = new DataPackage();
+                package.SetText(txt);
+                return package.GetView();
+            }
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -154,8 +179,10 @@ namespace Windows.ApplicationModel.DataTransfer
             if (_on10)
             {
                 _type10.GetRuntimeMethod("SetContent", new Type[] { typeof(Windows.ApplicationModel.DataTransfer.DataPackage) }).Invoke(null, new object[] { content });
+                ContentChanged?.Invoke(null, null);
+                return;
             }
-#else
+#endif
             string text = "";
             Uri uri = null;
 
@@ -176,6 +203,12 @@ namespace Windows.ApplicationModel.DataTransfer
                     uri = await view.GetApplicationLinkAsync();
                 }
             }
+            else
+            {
+                Clear();
+                return;
+            }
+
 #if __ANDROID__
             if (string.IsNullOrEmpty(text) && uri != null)
             {
@@ -201,20 +234,25 @@ namespace Windows.ApplicationModel.DataTransfer
             {
                 global::System.Windows.Clipboard.SetText(text);
             }
+#elif WIN32
+            if (string.IsNullOrEmpty(text) && uri != null)
+            {
+                SetText(uri.ToString());
+            }
+            else
+            {
+                SetText(text);
+            }
 #else
             throw new PlatformNotSupportedException();
 #endif
-#endif
-                }
+            ContentChanged?.Invoke(null, null);
+        }
 
         /// <summary>
         /// Occurs when the data stored in the Clipboard changes.
         /// </summary>
-        public static event EventHandler<object> ContentChanged
-        {
-            add { }
-            remove { }
-        }
+        public static event EventHandler<object> ContentChanged;
     }
 }
 

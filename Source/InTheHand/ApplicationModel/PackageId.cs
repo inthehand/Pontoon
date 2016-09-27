@@ -110,7 +110,7 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.DisplayName;
 #elif WIN32
-                return Package.Current._manifest.DisplayName;
+                return Package.Current._manifest.Title;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -123,12 +123,35 @@ namespace InTheHand.ApplicationModel
             {
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return InTheHand.ApplicationModel.Package.Current._appxManifest.PhoneProductId.ToString();
+#elif WINDOWS_PHONE
+                return InTheHand.ApplicationModel.Package.Current._appManifest.ProductID;
+#elif WIN32
+                return Package.Current._manifest.Guid.ToString();
 #else
                 throw new PlatformNotSupportedException();
 #endif
             }
         }
-        
+
+        /// <summary>
+        /// Gets the publisher of the package.
+        /// </summary>
+        public string Publisher
+        {
+            get
+            {
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return InTheHand.ApplicationModel.Package.Current.Id.Publisher;
+#elif WINDOWS_PHONE
+                return InTheHand.ApplicationModel.Package.Current._appManifest.PublisherDisplayName;
+#elif WIN32
+                return Package.Current._manifest.Company.ToString();
+#else
+                throw new PlatformNotSupportedException();
+#endif
+            }
+        }
+
         /// <summary>
         /// Gets the package version info.
         /// </summary>

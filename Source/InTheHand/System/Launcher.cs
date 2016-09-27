@@ -24,7 +24,7 @@ namespace Windows.System
     /// <summary>
     /// Starts the default app associated with the specified file or URI.
     /// </summary>
-    public static class Launcher
+    public static partial class Launcher
     {
         /// <summary>
         /// Starts the default app associated with the URI scheme name for the specified URI.
@@ -50,6 +50,8 @@ namespace Windows.System
             {
                 return UIKit.UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
             }).AsAsyncOperation<bool>();
+#elif WIN32
+            return Task.FromResult<bool>(LaunchUri(uri)).AsAsyncOperation<bool>();
 #else
             throw new PlatformNotSupportedException();
 #endif

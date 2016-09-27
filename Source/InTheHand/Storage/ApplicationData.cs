@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 #else
 
 using System;
+using System.IO;
 
 namespace Windows.Storage
 {
@@ -50,7 +51,7 @@ namespace Windows.Storage
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return new StorageFolder(Windows.Storage.ApplicationData.Current.LocalFolder);
 #elif WIN32
-                return new StorageFolder(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), InTheHand.ApplicationModel.Package.Current.Id.FullName));
+                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), InTheHand.ApplicationModel.Package.Current.Id.Publisher, InTheHand.ApplicationModel.Package.Current.Id.Name));
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -87,7 +88,7 @@ namespace Windows.Storage
             get
             {
 #if WIN32
-                return new StorageFolder(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), InTheHand.ApplicationModel.Package.Current.Id.FullName));
+                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), InTheHand.ApplicationModel.Package.Current.Id.Publisher, InTheHand.ApplicationModel.Package.Current.Id.Name));
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -129,7 +130,7 @@ namespace Windows.Storage
 #elif __IOS__
                 return new StorageFolder("tmp/");
 #elif WIN32
-                return new StorageFolder(System.IO.Path.GetTempPath());
+                return new StorageFolder(Path.GetTempPath());
 #else
                 throw new PlatformNotSupportedException();
 #endif

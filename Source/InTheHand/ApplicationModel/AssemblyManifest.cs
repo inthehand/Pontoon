@@ -31,7 +31,23 @@ namespace InTheHand.ApplicationModel
             }
         }
 
-        public string DisplayName
+        public DateTimeOffset InstalledDate
+        {
+            get
+            {
+                return new DateTimeOffset(System.IO.File.GetCreationTime(_launchingAssembly.Location));
+            }
+        }
+
+        public string InstalledLocation
+        {
+            get
+            {
+                return Path.GetDirectoryName(_launchingAssembly.Location);
+            }
+        }
+
+        public string Title
         {
             get
             {
@@ -45,7 +61,7 @@ namespace InTheHand.ApplicationModel
             }
         }
 
-        public string PublisherDisplayName
+        public string Company
         {
             get
             {
@@ -53,6 +69,20 @@ namespace InTheHand.ApplicationModel
                 if (attr != null)
                 {
                     return attr.Company;
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public string Product
+        {
+            get
+            {
+                var attr = _launchingAssembly.GetCustomAttribute<AssemblyProductAttribute>();
+                if (attr != null)
+                {
+                    return attr.Product;
                 }
 
                 return string.Empty;
