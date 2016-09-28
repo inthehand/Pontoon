@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Notifications;
+using InTheHand.UI.ApplicationSettings;
 
 namespace DroidApp
 {
@@ -37,7 +38,7 @@ namespace DroidApp
             ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
 
             button.Click += new EventHandler((s,e)=> { button.Text = string.Format("{0} clicks!", count++);
-                Windows.UI.ApplicationSettings.SettingsPane.Show();
+                SettingsPane.Show();
                 /*System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.FullName);
                 System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);

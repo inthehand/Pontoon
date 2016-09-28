@@ -3,11 +3,8 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs))]
-#else
-namespace Windows.UI.ApplicationSettings
+
+namespace InTheHand.UI.ApplicationSettings
 {
     /// <summary>
     /// Contains arguments that are available from the event object during the <see cref="SettingsPane.CommandsRequested"/> event.
@@ -25,4 +22,3 @@ namespace Windows.UI.ApplicationSettings
         public SettingsPaneCommandsRequest Request { get; private set; }
     }
 }
-#endif

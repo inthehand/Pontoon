@@ -4,7 +4,6 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using InTheHand.UI.ApplicationSettings;
 using Windows.UI.Core;
 using Windows.UI;
 using Windows.UI.ApplicationSettings;
@@ -111,7 +110,7 @@ namespace InTheHand.UI.ApplicationSettings
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            commands = InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().OnCommandsRequested();
+            commands = SettingsPane.GetForCurrentView().OnCommandsRequested();
 
             if (commands == null)
             {
@@ -135,13 +134,13 @@ namespace InTheHand.UI.ApplicationSettings
 #if !DEBUG
             }
 #endif
-            if (SettingsPane.GetForCurrentView().showAbout)
+            /*if (SettingsPane.GetForCurrentView().showAbout)
             {
                 commands.Add(new SettingsCommand("About", "About", (c) =>
                 {
                     Frame.Navigate(typeof(AboutPage));
                 }));
-            }
+            }*/
 
             SettingsList.ItemsSource = commands;
 

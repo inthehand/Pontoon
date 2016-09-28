@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InTheHand.UI.ApplicationSettings;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -107,7 +108,7 @@ namespace WindowsPhone81App
             Window.Current.Activate();
 
 
-            InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().CommandsRequested += App_CommandsRequested;
+            SettingsPane.GetForCurrentView().CommandsRequested += App_CommandsRequested;
         }
 
         private void App_CommandsRequested(object sender, SettingsPaneCommandsRequestedEventArgs args)

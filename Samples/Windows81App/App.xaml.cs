@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,9 +36,9 @@ namespace Windows81App
             this.Suspending += OnSuspending;
         }
 
-        private void App_CommandsRequested(object sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
+        private void App_CommandsRequested(InTheHand.UI.ApplicationSettings.SettingsPane sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {
-            args.Request.ApplicationCommands.Add(new InTheHand.UI.ApplicationSettings.SettingsCommand("test", "Testing", async (c) =>
+            args.Request.ApplicationCommands.Add(new SettingsCommand("test", "Testing", async (c) =>
             {
                 MessageDialog md = new MessageDialog("Testing", "Woo title");
                 await md.ShowAsync();

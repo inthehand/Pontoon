@@ -37,6 +37,7 @@ namespace Windows.Media.Capture
     /// <summary>
     /// Provides a full window UI for capturing audio, video, and photos from a camera. 
     /// </summary>
+    [CLSCompliant(false)]
     public sealed class CameraCaptureUI
     {
 #if __IOS__

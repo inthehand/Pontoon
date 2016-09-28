@@ -3,13 +3,11 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsPaneCommandsRequest))]
-#else
-using System.Collections.Generic;
 
-namespace Windows.UI.ApplicationSettings
+using System.Collections.Generic;
+using Windows.UI.ApplicationSettings;
+
+namespace InTheHand.UI.ApplicationSettings
 {
     /// <summary>
     /// Contains properties that are only available during the <see cref="SettingsPane.CommandsRequested"/> event.
@@ -28,4 +26,3 @@ namespace Windows.UI.ApplicationSettings
         public IList<SettingsCommand> ApplicationCommands { get; internal set; }
     }
 }
-#endif

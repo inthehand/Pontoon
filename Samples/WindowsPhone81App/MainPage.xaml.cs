@@ -19,6 +19,7 @@ using Windows.Storage;
 using Windows.Media.Capture;
 using Windows.UI.Notifications;
 using Windows.ApplicationModel.Chat;
+using InTheHand.UI.ApplicationSettings;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App
@@ -60,8 +61,9 @@ namespace WindowsPhone81App
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
-            
-            //Windows.ApplicationModel.DataTransfer.Clipboard.Clear();
+
+            var folder = await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFolderAsync("Test1", CreationCollisionOption.OpenIfExists);
+            var parent = await folder.GetParentAsync();
 
            ToastNotificationManager.CreateToastNotifier().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
 
@@ -94,7 +96,7 @@ namespace WindowsPhone81App
             //Windows.Storage.StorageFile sf = await CaptureFileAsync();
 
             //System.Diagnostics.Debug.WriteLine(sf);
-            Windows.UI.ApplicationSettings.SettingsPane.Show();
+            SettingsPane.Show();
         }
 
         public Task<Windows.Storage.StorageFile> CaptureFileAsync()

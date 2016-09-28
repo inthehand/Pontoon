@@ -3,36 +3,26 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-#pragma warning disable 618
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsPane))]
-#else
-
 
 using System;
 using System.Collections.Generic;
-using System.Net;
 using Windows.Storage;
+#pragma warning disable 618
+using Windows.UI.ApplicationSettings;
+using Windows.Foundation;
 
-#if __ANDROID__
-using InTheHand.UI.ApplicationSettings;
-#elif __IOS__
+#if __IOS__
 using Foundation;
 using UIKit;
 #elif WINDOWS_PHONE
 using System.Windows;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-using InTheHand.UI.ApplicationSettings;
 using Windows.UI;
-using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 #endif
 
-namespace Windows.UI.ApplicationSettings
+namespace InTheHand.UI.ApplicationSettings
 {
     /// <summary>
     /// A static class that enables the app to control the Settings page.
@@ -119,7 +109,7 @@ namespace Windows.UI.ApplicationSettings
 #endif
         }
 
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         internal IList<SettingsCommand> OnCommandsRequested()
         {
             SettingsPaneCommandsRequestedEventArgs e = new SettingsPaneCommandsRequestedEventArgs();
@@ -136,14 +126,14 @@ namespace Windows.UI.ApplicationSettings
             return null;
         }
 
-        private event EventHandler<SettingsPaneCommandsRequestedEventArgs> _commandsRequested;
+        private event TypedEventHandler<SettingsPane, SettingsPaneCommandsRequestedEventArgs> _commandsRequested;
         /// <summary>
         /// Occurs when the user opens the settings pane.
         /// Listening for this event lets the app initialize the setting commands and pause its UI until the user closes the pane.
         /// During this event, append your SettingsCommand objects to the available ApplicationCommands vector to make them available to the SettingsPane UI.
         /// </summary>
         [CLSCompliant(false)]
-        public event EventHandler<SettingsPaneCommandsRequestedEventArgs> CommandsRequested
+        public event TypedEventHandler<SettingsPane, SettingsPaneCommandsRequestedEventArgs> CommandsRequested
         {
             add
             {
@@ -217,7 +207,7 @@ namespace Windows.UI.ApplicationSettings
 
 
 #endif
-            if (showAbout)
+            /*if (showAbout)
             {
                 args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("about", "About", (c) =>
                 {
@@ -227,9 +217,8 @@ namespace Windows.UI.ApplicationSettings
                     flyout.Content = new InTheHandUI.AboutView();
                     flyout.Show();
                 }));
-            }
+            }*/
         }
 #endif
     }
 }
-#endif

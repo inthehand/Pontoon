@@ -127,6 +127,30 @@ namespace Windows.Storage
         }
 #endif
 
+        /// <summary>
+        /// Gets the parent folder of the current folder.
+        /// </summary>
+        /// <param name="folder">The StorageFolder.</param>
+        /// <returns>When this method completes, it returns the parent folder as a StorageFolder.</returns>
+        public static IAsyncOperation<StorageFolder> GetParentAsync(this StorageFolder folder)
+        {
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFolder>(async () =>
+            {
+                var parentPath = folder.Path.Substring(0, folder.Path.TrimEnd('\\').LastIndexOf('\\'));
+                StorageFolder parent = null;
+                if (!string.IsNullOrEmpty(parentPath))
+                {
+                    parent = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(parentPath);
+                }
+
+                return parent;
+            }).AsAsyncOperation<StorageFolder>();
+#else
+            return folder.GetParentAsync();
+#endif
+        }
+
 #if WINDOWS_PHONE_APP
         /// <summary>
         /// Try to get a single file or sub-folder from the current folder by using the name of the item.

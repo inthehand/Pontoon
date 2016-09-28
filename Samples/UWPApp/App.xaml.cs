@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InTheHand.UI.Popups;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,9 +31,6 @@ namespace UWPApp
         /// </summary>
         public App()
         {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
-                Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
-                Microsoft.ApplicationInsights.WindowsCollectors.Session);
             Windows.UI.Xaml.Resources.CustomXamlResourceLoader.Current = new InTheHand.UI.Xaml.Resources.WindowsXamlResourceLoader();
             this.InitializeComponent();
             this.Suspending += OnSuspending;
@@ -40,17 +38,19 @@ namespace UWPApp
            
         }
 
-        private void App_CommandsRequested(object sender, SettingsPaneCommandsRequestedEventArgs args)
+        private void App_CommandsRequested(InTheHand.UI.ApplicationSettings.SettingsPane sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {
             args.Request.ApplicationCommands.Add(new SettingsCommand("test", "Testing", async (c) =>
             {
                 MessageDialog md = new MessageDialog("Testing", "Woohoo title");
-                await md.ShowAsync();
+                await md.ShowAsync2();
             }));
             args.Request.ApplicationCommands.Add(new SettingsCommand("system", "System", async (c) =>
             {
                 Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog("Testing", "Woohoo title");
-                await md.ShowAsync();
+                md.Commands.Add(new UICommand("one", (c2) => { System.Diagnostics.Debug.WriteLine("One"); }, "1"));
+                md.Commands.Add(new UICommand("two", (c2) => { System.Diagnostics.Debug.WriteLine("Two"); }, "2"));
+                await md.ShowAsync2();
             }));
         }
 

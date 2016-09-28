@@ -10,6 +10,7 @@ using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
@@ -42,8 +43,10 @@ namespace UWPApp
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
 
-            StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
-            
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagment.StatusBar"))
+            {
+                StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
+            }
            
             Windows.Devices.Enumeration.DeviceInformationPairing dip;
             Task.Run(async () => {
@@ -67,9 +70,11 @@ namespace UWPApp
 
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    
 
-                    StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
+                    if (ApiInformation.IsTypePresent("Windows.UI.ViewManagment.StatusBar"))
+                    {
+                        StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
+                    }
                 });
             });
         }

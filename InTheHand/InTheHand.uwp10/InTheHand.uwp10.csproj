@@ -368,8 +368,18 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
+      <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
+      <DependentUpon>UI\ApplicationSettings\SettingsPage.UWP.xaml</DependentUpon>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
@@ -404,6 +414,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
       <Link>UI\Popups\MessageDialog.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialogHelper.cs">
+      <Link>UI\Popups\MessageDialogHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
       <Link>UI\Popups\Placement.cs</Link>
     </Compile>
@@ -419,6 +432,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
       <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Xaml\Resources\WindowsXamlResourceLoader.cs">
+      <Link>UI\Xaml\Resources\WindowsXamlResourceLoader.cs</Link>
+    </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
@@ -431,7 +447,13 @@
       <Name>Windows Mobile Extensions for the UWP %28WindowsMobile, Version=10.0.10240.0%29</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml">
+      <Link>UI\ApplicationSettings\SettingsPage.UWP.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
