@@ -26,7 +26,7 @@ namespace InTheHand
         /// <returns>A date and time value that represents the same moment in time as the Unix time. </returns>
         public static DateTimeOffset FromUnixTimeSeconds(long seconds)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__
             return DateTimeOffset.FromUnixTimeSeconds(seconds);
 #else
             return dt.AddSeconds(seconds);
@@ -41,7 +41,7 @@ namespace InTheHand
         /// <returns>A date and time value that represents the same moment in time as the Unix time. </returns>
         public static DateTimeOffset FromUnixTimeMilliseconds(long milliseconds)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__
             return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
 #else
             return dt.AddSeconds(milliseconds / 1000);
@@ -59,7 +59,7 @@ namespace InTheHand
         /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.</para></remarks>
         public static long ToUnixTimeSeconds(this DateTimeOffset date)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__
             return date.ToUnixTimeSeconds();
 #else
             return Convert.ToInt64(date.Subtract(dt).TotalSeconds);

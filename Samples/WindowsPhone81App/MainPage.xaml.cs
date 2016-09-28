@@ -20,6 +20,7 @@ using Windows.Media.Capture;
 using Windows.UI.Notifications;
 using Windows.ApplicationModel.Chat;
 using InTheHand.UI.ApplicationSettings;
+using InTheHand.Storage;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App

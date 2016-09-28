@@ -67,6 +67,7 @@ namespace Windows.ApplicationModel.DataTransfer
 #else
             throw new PlatformNotSupportedException();
 #endif
+            ContentChanged?.Invoke(null, null);
         }
 
         /// <summary>

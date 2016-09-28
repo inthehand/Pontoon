@@ -34,7 +34,7 @@ namespace Windows.UI.Popups
     /// <para>The dialog dims the screen behind it and blocks touch events from passing to the app's canvas until the user responds.</para>
     /// <para>Message dialogs should be used sparingly, and only for critical messages or simple questions that must block the user's flow.</para>
     /// </remarks>
-    public sealed class MessageDialog
+    public sealed partial class MessageDialog
     {
 #if WINDOWS_PHONE || WINDOWS_PHONE_APP
         private const int MaxCommands = 2;
@@ -220,9 +220,6 @@ namespace Windows.UI.Popups
                         }, null);
 
             return asyncOperation.AsTask<IUICommand>().AsAsyncOperation<IUICommand>(); ;
-#elif WINDOWS_EMBEDDED
-            MessageDialogForm mdf = new MessageDialogForm(this);
-            mdf.Show();
 #elif WINDOWS_UWP
             if (Commands.Count < 3 && Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract", 1))
             {
@@ -307,27 +304,16 @@ namespace Windows.UI.Popups
                     return null;
                 });
             }
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
-            Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog(this.Content, this.Title);
-            foreach(IUICommand command in this.Commands)
+#elif WIN32
+            return Task.Run<IUICommand>(() =>
             {
-                dialog.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, null, command.Id));
-            }
-            Task<Windows.UI.Popups.IUICommand> t = dialog.ShowAsync().AsTask<Windows.UI.Popups.IUICommand>();
-            
-            return Task.Run<IUICommand>(() => {
-                t.Wait();
-                Windows.UI.Popups.IUICommand command = t.Result;
-               
-                if (command != null)
+                IUICommand cmd = ShowTaskDialog();
+                if (cmd != null)
                 {
-                    if (command.Invoked != null)
-                    {
-                        command.Invoked.Invoke(command);
-                    }
-                    return new UICommand(command.Label, null, command.Id);
+                    cmd.Invoked?.Invoke(cmd);
                 }
-                return null;
+
+                return cmd;
             }).AsAsyncOperation<IUICommand>();
 #else
             throw new PlatformNotSupportedException();

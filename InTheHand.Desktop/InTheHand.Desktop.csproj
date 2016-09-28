@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>InTheHand</RootNamespace>
     <AssemblyName>InTheHand</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -26,11 +26,15 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\NuGet\InTheHand\lib\net452\</OutputPath>
     <DefineConstants>TRACE;WIN32</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\NuGet\InTheHand\lib\net452\InTheHand.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>InTheHand.dll.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -178,6 +182,18 @@
     <Compile Include="..\Source\InTheHand\System\LauncherOptions.cs">
       <Link>System\LauncherOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\UI\Popups\IUICommand.cs">
+      <Link>UI\Popups\IUICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\UI\Popups\MessageDialog.cs">
+      <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\UI\Popups\MessageDialog.Win32.cs">
+      <Link>UI\Popups\MessageDialog.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\UI\Popups\UICommand.cs">
+      <Link>UI\Popups\UICommand.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
     </Compile>
@@ -185,7 +201,9 @@
       <Link>WindowsRuntimeSystemExtensions.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="InTheHand.dll.manifest" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
