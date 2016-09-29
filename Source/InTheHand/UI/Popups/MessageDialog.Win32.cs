@@ -35,6 +35,8 @@ namespace Windows.UI.Popups
             tdc.cButtons = this.Commands.Count;
             int ibtn;
             int hresult = NativeMethods.TaskDialogIndirect(ref tdc, out ibtn, IntPtr.Zero, IntPtr.Zero);
+            Marshal.FreeHGlobal(bptr);
+
             if(ibtn > 0)
             {
                 return this.Commands[ibtn - 1];
