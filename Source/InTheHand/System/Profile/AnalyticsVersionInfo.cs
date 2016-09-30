@@ -25,6 +25,9 @@ namespace Windows.System.Profile
             _native = native;
         }
 
+        /// <summary>
+        /// Gets a string that represents the type of device the application is running on.
+        /// </summary>
         public string DeviceFamily
         {
             get
@@ -33,7 +36,13 @@ namespace Windows.System.Profile
                 {
                     return _native.GetType().GetRuntimeProperty("DeviceFamily").GetValue(_native).ToString();
                 }
-#if WINDOWS_APP
+#if __ANDROID__
+                return "Android";
+#elif __IOS__
+                return "Apple.Mobile";
+#elif __MAC__
+                return "Apple.Desktop";
+#elif WINDOWS_APP || WIN32
                 return "Windows.Desktop";
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return "Windows.Mobile";
@@ -43,11 +52,14 @@ namespace Windows.System.Profile
             }
         }
 
+        /// <summary>
+        /// Gets the version within the device family.
+        /// </summary>
         public string DeviceFamilyVersion
         {
             get
             {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE || WIN32
                 return global::System.Environment.OSVersion.Version.ToString();
 #else
                 if (_native != null)

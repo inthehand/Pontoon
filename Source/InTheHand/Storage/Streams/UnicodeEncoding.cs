@@ -3,18 +3,13 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-using System;
-using System.Runtime.CompilerServices;
-using System.Text;
-
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.Storage.Streams.UnicodeEncoding))]
-#endif
+#else
 
 namespace Windows.Storage.Streams
 {
-    #if !WINDOWS_UWP && !WINDOWS_APP && !WINDOWS_PHONE_APP && !WINDOWS_PHONE
     /// <summary>
     /// Specifies the type of character encoding for a stream.
     /// </summary>
@@ -35,25 +30,5 @@ namespace Windows.Storage.Streams
         /// </summary>
         Utf16BE = 2,
     }
-#endif
-
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
-    internal static class UnicodeEncodingHelper
-    {
-        public static Encoding EncodingFromUnicodeEncoding(UnicodeEncoding e)
-        {
-            switch (e)
-            {
-                case UnicodeEncoding.Utf16LE:
-                    return Encoding.Unicode;
-
-                case UnicodeEncoding.Utf16BE:
-                    return Encoding.BigEndianUnicode;
-
-                default:
-                    return Encoding.UTF8;
-            }
-        }
-    }
-#endif
 }
+#endif

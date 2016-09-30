@@ -42,7 +42,7 @@ namespace Windows.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyDocuments);
 #else
                 return null;
@@ -57,7 +57,7 @@ namespace Windows.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyMusic);
 #else
                 return null;
@@ -72,7 +72,7 @@ namespace Windows.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyPictures);
 #else
                 return null;
@@ -87,7 +87,7 @@ namespace Windows.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyVideos);
 #else
                 return null;
@@ -95,7 +95,7 @@ namespace Windows.Storage
             }
         }
 
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
         private static StorageFolder GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder folder)
         {
             string path = global::System.Environment.GetFolderPath(folder);

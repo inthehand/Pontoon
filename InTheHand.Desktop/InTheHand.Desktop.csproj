@@ -98,6 +98,9 @@
     <Compile Include="..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\Environment.cs">
+      <Link>Environment.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
@@ -173,6 +176,9 @@
     <Compile Include="..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs">
       <Link>Storage\Stream\UnicodeEncoding.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\Streams\UnicodeEncodingHelper.cs">
+      <Link>Storage\Stream\UnicodeEncodingHelper.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\System\Launcher.cs">
       <Link>System\Launcher.cs</Link>
     </Compile>
@@ -181,6 +187,12 @@
     </Compile>
     <Compile Include="..\Source\InTheHand\System\LauncherOptions.cs">
       <Link>System\LauncherOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\System\Profile\AnalyticsInfo.cs">
+      <Link>System\Profile\AnalyticsInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
+      <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\UI\Popups\IUICommand.cs">
       <Link>UI\Popups\IUICommand.cs</Link>

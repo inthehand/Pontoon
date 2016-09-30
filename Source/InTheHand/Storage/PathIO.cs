@@ -3,19 +3,20 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Storage.PathIO))]
+#else
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
+
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
-
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-[assembly: TypeForwardedTo(typeof(Windows.Storage.PathIO))]
-#else
+using InTheHand.Storage.Streams;
 
 namespace Windows.Storage
 {
@@ -45,7 +46,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction AppendLinesAsync(string absolutePath, IEnumerable<string> lines, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return Task.Run(() => { File.AppendAllLines(absolutePath, lines,UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); }).AsAsyncAction();
 #elif WINDOWS_PHONE
             return Task.Run(() =>
@@ -87,7 +88,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction AppendTextAsync(string absolutePath, string contents, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return Task.Run(() => { File.AppendAllText(absolutePath, contents, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); }).AsAsyncAction();
 #elif WINDOWS_PHONE
             return Task.Run(() =>
@@ -123,7 +124,7 @@ namespace Windows.Storage
         /// Each line of text in the list is represented by a String object.</returns>
         public static IAsyncOperation<IList> ReadLinesAsync(string absolutePath, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return Task.Run<IList>(() => { return File.ReadAllLines(absolutePath, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); }).AsAsyncOperation<IList>();
 #elif WINDOWS_PHONE
             return Task.Run<IList>(() =>
@@ -161,7 +162,7 @@ namespace Windows.Storage
         /// <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
         public static IAsyncOperation<string> ReadTextAsync(string absolutePath, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return Task.Run<string>(() => { return File.ReadAllText(absolutePath, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); }).AsAsyncOperation<string>();
 #elif WINDOWS_PHONE
             Stream s = File.OpenRead(absolutePath);
@@ -192,7 +193,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction WriteLinesAsync(string absolutePath, IEnumerable<string> lines, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return Task.Run(() => { File.WriteAllLines(absolutePath, lines, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); }).AsAsyncAction();
 #elif WINDOWS_PHONE
             return Task.Run(() =>
@@ -231,7 +232,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction WriteTextAsync(string absolutePath, string contents, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return Task.Run(() => { File.WriteAllText(absolutePath, contents, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); }).AsAsyncAction();
 #elif WINDOWS_PHONE
             return Task.Run(() =>

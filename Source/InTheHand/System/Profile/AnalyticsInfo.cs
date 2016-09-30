@@ -53,7 +53,7 @@ namespace Windows.System.Profile
             {
                 if (_versionInfo == null)
                 {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE || WIN32
                     _versionInfo = new AnalyticsVersionInfo(null);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
                     if (_type10 != null)

@@ -34,7 +34,7 @@ namespace InTheHand
 
                 if (_version == null)
                 {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE || WIN32
                     _version = global::System.Environment.OSVersion.Version;
 #else
                     string rawString = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;

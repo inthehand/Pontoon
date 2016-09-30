@@ -3,19 +3,21 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.Storage.FileIO))]
+#else
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
-
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-[assembly: TypeForwardedTo(typeof(Windows.Storage.FileIO))]
-#else
+#if WINDOWS_PHONE
+using InTheHand.Storage.Streams;
+#endif
 
 namespace Windows.Storage
 {
@@ -45,7 +47,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction AppendLinesAsync(IStorageFile file, IEnumerable<string> lines, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return PathIO.AppendLinesAsync(file.Path, lines, encoding);
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
@@ -86,7 +88,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction AppendTextAsync(IStorageFile file, string contents, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return PathIO.AppendTextAsync(file.Path, contents, encoding);
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
@@ -122,7 +124,7 @@ namespace Windows.Storage
         /// Each line of text in the list is represented by a String object.</returns>
         public static IAsyncOperation<IList> ReadLinesAsync(IStorageFile file, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return PathIO.ReadLinesAsync(file.Path, encoding);
 #elif WINDOWS_PHONE
             return Task.Run<IList>(async () =>
@@ -161,7 +163,7 @@ namespace Windows.Storage
         /// <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
         public static IAsyncOperation<string> ReadTextAsync(IStorageFile file, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return PathIO.ReadTextAsync(file.Path, encoding);
 #elif WINDOWS_PHONE
             return Task.Run<string>(async () =>
@@ -195,7 +197,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction WriteLinesAsync(IStorageFile file, IEnumerable<string> lines, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return PathIO.WriteLinesAsync(file.Path, lines, encoding);
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
@@ -234,7 +236,7 @@ namespace Windows.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction WriteTextAsync(IStorageFile file, string contents, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
             return PathIO.WriteTextAsync(file.Path, contents, encoding);
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
