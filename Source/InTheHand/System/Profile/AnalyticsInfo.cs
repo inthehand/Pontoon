@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace Windows.System.Profile
 {
     /// <summary>
-    /// Starts the default app associated with the specified file or URI.
+    /// Provides information about the device for profiling purposes.
     /// </summary>
     public static class AnalyticsInfo
     {

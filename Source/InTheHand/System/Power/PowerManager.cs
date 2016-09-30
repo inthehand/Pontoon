@@ -26,7 +26,7 @@ namespace Windows.System.Power
     /// Provides information about the status of the device's battery.
     /// <para>Only supported for Windows 8.1 apps when deployed to Windows 10 machines.</para>
     /// </summary>
-    public static class PowerManager
+    public static partial class PowerManager
     {
 
 #if __IOS__
@@ -89,6 +89,24 @@ namespace Windows.System.Power
                         return BatteryStatus.NotPresent;
                         
                 }
+#elif WIN32
+                GetStatus();
+                switch(_status.BatteryFlag)
+                {
+                    case NativeMethods.BATTERY_FLAG.CHARGING:
+                        return BatteryStatus.Charging;
+
+                    case NativeMethods.BATTERY_FLAG.NO_BATTERY:
+                        return BatteryStatus.NotPresent;
+
+                    default:
+                        if(_status.ACLineStatus == NativeMethods.AC_LINE.OFFLINE)
+                        {
+                            return BatteryStatus.Discharging;
+                        }
+
+                        return BatteryStatus.Idle;
+                }
 #else
                 return BatteryStatus.Idle;
 #endif
@@ -110,7 +128,10 @@ namespace Windows.System.Power
                 {
                     bool saverOn = Windows.Phone.System.Power.PowerManager.PowerSavingMode == Windows.Phone.System.Power.PowerSavingMode.On;
                     return saverOn ? EnergySaverStatus.On : EnergySaverStatus.Off;
-                }             
+                }  
+#elif WIN32
+                GetStatus();
+                return _status.SystemStatusFlag != 0 ? EnergySaverStatus.On : EnergySaverStatus.Off;          
 #endif
                 return EnergySaverStatus.Disabled;
             }
@@ -151,6 +172,9 @@ namespace Windows.System.Power
                 }
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _battery.RemainingChargePercent;
+#elif WIN32
+                GetStatus();
+                return _status.BatteryLifePercent == 255 ? 0 : _status.BatteryLifePercent;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -218,7 +242,7 @@ namespace Windows.System.Power
 #endif
 
 
-#if WINDOWS_APP
+#if WINDOWS_APP || WIN32
         /// <summary>
         /// Gets a value that estimates how long is left until the device's battery is fully discharged.
         /// <para>Not supported for apps deployed on Windows 8.1 from the public Windows Store.</para>
@@ -227,43 +251,24 @@ namespace Windows.System.Power
         {
             get
             {
+#if WINDOWS_APP
                 if (_on10)
                 {
                     return (TimeSpan)_type10.GetRuntimeProperty("RemainingDischargeTime").GetValue(null);
                 }
-                else
+#elif WIN32
+                GetStatus();
+                if(_status.BatteryLifeTime != -1)
                 {
-                    return TimeSpan.MinValue;
-                    /*NativeMethods.SYSTEM_POWER_STATUS status;
-                    bool success = NativeMethods.GetSystemPowerStatus(out status);
-                    int seconds = status.BatteryLifeTime;
-                    if (seconds == -1)
-                    {
-                        return TimeSpan.Zero;
-                    }
+                    return TimeSpan.FromSeconds(_status.BatteryLifeTime);
+                }             
+#endif
 
-                    return TimeSpan.FromSeconds(seconds);*/
-                }
+                return TimeSpan.Zero;
             }
         }
-
-        /*private static class NativeMethods
-        {
-            [global::System.Runtime.InteropServices.DllImport("kernel32.dll")]
-            internal static extern bool GetSystemPowerStatus(out SYSTEM_POWER_STATUS lpSystemPowerStatus);
-
-            internal struct SYSTEM_POWER_STATUS
-            {
-                public byte ACLineStatus;
-                public byte BatteryFlag;
-                public byte BatteryLifePercent;
-                public byte Reserved1;            // set to 0
-                public int BatteryLifeTime;
-                public int BatteryFullLifeTime;
-            }
-        }*/
 #endif
-    }
+            }
 
     /// <summary>
     /// Indicates the status of the battery.

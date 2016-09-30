@@ -28,11 +28,14 @@ namespace Windows.UI.ViewManagement
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
 #endif
-    
+
+    /// <summary>
+    /// Provides methods and properties for interacting with the status bar on a window (app view).
+    /// </summary>
     public sealed class StatusBar
     {
         /// <summary>
-        /// 
+        /// Gets the status bar for the current window (app view).
         /// </summary>
         /// <returns></returns>
         public static StatusBar GetForCurrentView()

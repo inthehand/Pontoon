@@ -17,6 +17,7 @@ using UIKit;
 namespace Windows.UI.Notifications
 {
     /// <summary>
+    /// Contains the definition of the toast notification that will display at the scheduled time.
     /// </summary>
     public sealed class ScheduledToastNotification
     {

@@ -89,13 +89,12 @@ namespace UWPApp
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var store = await PhoneCallManager.RequestStoreAsync();
            MessageDialog md = new MessageDialog("Message", "Title");
             md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
             md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
 
             IUICommand uc = await md.ShowAsync();
-            uc.Invoked.Invoke(uc);
+            //uc.Invoked.Invoke(uc);
 
             DataTransferManager.ShowShareUI();
         }

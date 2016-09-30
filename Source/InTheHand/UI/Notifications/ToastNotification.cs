@@ -20,6 +20,7 @@ using Microsoft.Phone.Shell;
 namespace Windows.UI.Notifications
 {
     /// <summary>
+    /// Defines the content, associated metadata and events, and expiration time of a toast notification.
     /// </summary>
     public sealed class ToastNotification
     {

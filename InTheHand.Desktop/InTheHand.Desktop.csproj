@@ -188,6 +188,12 @@
     <Compile Include="..\Source\InTheHand\System\LauncherOptions.cs">
       <Link>System\LauncherOptions.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\System\Power\PowerManager.cs">
+      <Link>System\Power\PowerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\System\Power\PowerManager.Win32.cs">
+      <Link>System\Power\PowerManager.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\System\Profile\AnalyticsInfo.cs">
       <Link>System\Profile\AnalyticsInfo.cs</Link>
     </Compile>
@@ -214,7 +220,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="InTheHand.dll.manifest" />
+    <EmbeddedResource Include="InTheHand.dll.manifest" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

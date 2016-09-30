@@ -350,7 +350,7 @@ namespace Windows.UI.Popups
         }
 #endif
         
-        private List<IUICommand> commands = new List<IUICommand>();
+        private List<IUICommand> _commands = new List<IUICommand>();
 
         /// <summary>
         /// Gets the set of commands that appear in the command bar of the message dialog.
@@ -362,7 +362,7 @@ namespace Windows.UI.Popups
         {
             get
             {
-                return this.commands;
+                return _commands;
             }
         }
 
@@ -377,7 +377,32 @@ namespace Windows.UI.Popups
         /// Don't repeat the title with slightly different wording.</para></remarks>
         public string Content { get; set; }
 
-        private int defaultCommandIndex;
+        private uint _cancelCommandIndex = uint.MaxValue;
+
+        /// <summary>
+        /// Gets or sets the index of the command you want to use as the cancel command.
+        /// This is the command that fires when users press the ESC key.
+        /// <para>Add the commands before you set the index.</para>
+        /// </summary>
+        [CLSCompliant(false)]
+        public uint CancelCommandIndex
+        {
+            get
+            {
+                return _cancelCommandIndex;
+            }
+            set
+            {
+                if(value >= Commands.Count && value != uint.MaxValue)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _cancelCommandIndex = value;
+            }
+        }
+
+        private uint _defaultCommandIndex = uint.MaxValue;
 
         /// <summary>
         /// Gets or sets the index of the command you want to use as the default.
@@ -385,21 +410,22 @@ namespace Windows.UI.Popups
         /// </summary>
         /// <remarks>Add the commands before you set the index.</remarks>
         /// <value>The index of the default command.</value>
-        public int DefaultCommandIndex
+        [CLSCompliant(false)]
+        public uint DefaultCommandIndex
         {
             get
             {
-                return this.defaultCommandIndex;
+                return _defaultCommandIndex;
             }
 
             set
             {
-                if (value < 0 || value >= this.Commands.Count)
+                if (value >= this.Commands.Count && value != uint.MaxValue)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                this.defaultCommandIndex = value;
+                _defaultCommandIndex = value;
             }
         }
 

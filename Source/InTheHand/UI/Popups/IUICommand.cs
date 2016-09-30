@@ -15,7 +15,7 @@ using System.Runtime.CompilerServices;
 namespace Windows.UI.Popups
 {
     /// <summary>
-    /// ts a command in a context menu or message dialog box.
+    /// Represents a command in a context menu or message dialog box.
     /// </summary>
     public interface IUICommand
     {

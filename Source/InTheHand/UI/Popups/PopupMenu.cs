@@ -29,7 +29,8 @@ namespace Windows.UI.Popups
     /// Represents a context menu.
     /// </summary>
     /// <remarks>
-    /// Context menus can show a maximum of six commands. This limit helps to ensure that the context menu remains uncluttered, usable, and directly relevant to users. 
+    /// Context menus can show a maximum of six commands.
+    /// This limit helps to ensure that the context menu remains uncluttered, usable, and directly relevant to users. 
     /// </remarks>
     public sealed class PopupMenu
     {
@@ -51,7 +52,7 @@ namespace Windows.UI.Popups
             {
                 if(uac.Actions[i] == action)
                 {
-                    if (commands.Count > i)
+                    if (_commands.Count > i)
                     {
                         _selectedCommand = Commands[i];
 
@@ -136,7 +137,7 @@ namespace Windows.UI.Popups
             }).AsAsyncOperation<IUICommand>();
 
 #elif __IOS__
-            uac = UIAlertController.Create(this.Title, this.Content, UIAlertControllerStyle.ActionSheet);
+            uac = UIAlertController.Create("", "", UIAlertControllerStyle.ActionSheet);
             if (Commands.Count == 0)
             {
                 uac.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel | UIAlertActionStyle.Default, ActionClicked));
@@ -287,20 +288,7 @@ namespace Windows.UI.Popups
 #endif
         }
 
-#if WINDOWS_UWP
-        private void Cd_SecondaryButtonClick(Windows.UI.Xaml.Controls.ContentDialog sender, Windows.UI.Xaml.Controls.ContentDialogButtonClickEventArgs args)
-        {
-            Commands[1].Invoked.Invoke(Commands[1]);
-        }
 
-        private void Cd_PrimaryButtonClick(Windows.UI.Xaml.Controls.ContentDialog sender, Windows.UI.Xaml.Controls.ContentDialogButtonClickEventArgs args)
-        {
-            if(Commands.Count > 0)
-            {
-                Commands[0].Invoked.Invoke(Commands[0]);
-            }
-        }
-#endif
 
 #if __ANDROID__
         private void Clicked(object sender, Android.Content.DialogClickEventArgs e)
@@ -317,69 +305,19 @@ namespace Windows.UI.Popups
         }
 #endif
         
-        private List<IUICommand> commands = new List<IUICommand>();
+        private List<IUICommand> _commands = new List<IUICommand>();
 
         /// <summary>
-        /// Gets the set of commands that appear in the command bar of the message dialog.
+        /// Gets the commands for the context menu.
         /// </summary>
-        /// <remarks>This is the array of commands that makes the dialog actionable.
-        /// Get this array and add your dialog commands to it.</remarks>
-        /// <value>The commands.</value>
+        /// <value>The commands for the context menu.</value>
         public IList<IUICommand> Commands
         {
             get
             {
-                return this.commands;
+                return _commands;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the message to be displayed to the user.
-        /// </summary>
-        /// <value>The message to be displayed to the user.</value>
-        /// <remarks>Use the content to convey the objective of the dialog.
-        /// Present the message, error or blocking question as simply as possible without extraneous information.
-        /// <para>When a title is used, use the content to present additional information helpful to understanding or using the dialog.
-        /// You can use this area to provide more detail or define terminology.
-        /// Don't repeat the title with slightly different wording.</para></remarks>
-        public string Content { get; set; }
-
-        private int defaultCommandIndex;
-
-        /// <summary>
-        /// Gets or sets the index of the command you want to use as the default.
-        /// This is the command that fires by default when users press the ENTER key instead of a specific command, for example.
-        /// </summary>
-        /// <remarks>Add the commands before you set the index.</remarks>
-        /// <value>The index of the default command.</value>
-        public int DefaultCommandIndex
-        {
-            get
-            {
-                return this.defaultCommandIndex;
-            }
-
-            set
-            {
-                if (value < 0 || value >= this.Commands.Count)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                this.defaultCommandIndex = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the title to display on the dialog box, if any. 
-        /// </summary>
-        /// <value>The title you want to display on the dialog.
-        /// If the title is not set, this will return an empty string.</value>
-        /// <remarks>Use the title as a concise main instruction to convey the objective of the dialog.
-        /// <para>Long titles do not wrap and will be truncated.</para>
-        /// <para>If you're using the dialog to deliver a simple message, error or question, omit the title.
-        /// Rely on the <see cref="Content"/> to deliver that core information.</para></remarks>
-        public string Title { get; set; }
     }
 }
 #endif
