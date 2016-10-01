@@ -10,6 +10,8 @@ using System.Runtime.CompilerServices;
 
 #if __IOS__
 using CoreLocation;
+#elif WIN32
+using System.Device.Location;
 #endif
 
 namespace Windows.Devices.Geolocation
@@ -44,6 +46,18 @@ namespace Windows.Devices.Geolocation
 
                 Coordinate.Timestamp = InTheHand.DateTimeOffsetHelper.FromNSDate(location.Timestamp);
             }
+        }
+#elif WIN32
+        internal Geoposition(GeoPosition<GeoCoordinate> position)
+        {
+            this.Coordinate = new Geocoordinate();
+            this.Coordinate.Point = new Geopoint(new BasicGeoposition() { Latitude = position.Location.Latitude, Longitude = position.Location.Longitude, Altitude = position.Location.Altitude });
+            this.Coordinate.Accuracy = position.Location.HorizontalAccuracy;
+            this.Coordinate.Timestamp = position.Timestamp;
+            this.Coordinate.AltitudeAccuracy = position.Location.VerticalAccuracy;
+            this.Coordinate.Heading = position.Location.Course;
+            this.Coordinate.Speed = position.Location.Speed;
+            this.Coordinate.PositionSource = PositionSource.Unknown;
         }
 #endif
 

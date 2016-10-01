@@ -16,6 +16,8 @@ using System.Diagnostics;
 #if __IOS__
 using Foundation;
 using CoreLocation;
+#elif WIN32
+using System.Device.Location;
 #endif
 
 namespace Windows.Devices.Geolocation
@@ -27,6 +29,8 @@ namespace Windows.Devices.Geolocation
     {
 #if __IOS__
         CLLocationManager manager = new CLLocationManager();
+#elif WIN32
+        GeoCoordinateWatcher _watcher;
 #endif
         private bool isUpdating = false;
 
@@ -53,6 +57,7 @@ namespace Windows.Devices.Geolocation
             {
                 LocationStatus = PositionStatus.Disabled;
             }
+#elif WIN32
 #endif
         }
 
@@ -110,6 +115,8 @@ namespace Windows.Devices.Geolocation
             {
 #if __IOS__
                 return manager.DesiredAccuracy == CLLocation.AccuracyBest ? PositionAccuracy.High : PositionAccuracy.Default;
+#elif WIN32
+                return _watcher.DesiredAccuracy == GeoPositionAccuracy.High ? PositionAccuracy.High : PositionAccuracy.Default;
 #else
                 return PositionAccuracy.Default;
 #endif
@@ -120,6 +127,7 @@ namespace Windows.Devices.Geolocation
 #if __IOS__
                 // TODO: check that Kilometer is a suitable equivalent for cell-tower location
                 manager.DesiredAccuracy = value == PositionAccuracy.High ? CLLocation.AccuracyBest : CLLocation.AccuracyKilometer;
+#elif WIN32
 #endif
             }
         }
@@ -202,6 +210,11 @@ namespace Windows.Devices.Geolocation
             Geoposition pos = new Geoposition(current);
 
             return pos;
+#elif WIN32
+            if (_watcher == null)
+                _watcher = new GeoCoordinateWatcher(this.DesiredAccuracy == PositionAccuracy.High ? GeoPositionAccuracy.High : GeoPositionAccuracy.Default);
+            var pos = _watcher.Position;
+            return new Geoposition(pos);
 #else
             return new Geoposition();
 #endif
