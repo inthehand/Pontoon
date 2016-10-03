@@ -183,6 +183,9 @@
     <Compile Include="..\Source\InTheHand\Storage\FileIO.cs">
       <Link>Storage\FileIO.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
+      <Link>Storage\FileProperties\BasicProperties.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>
     </Compile>

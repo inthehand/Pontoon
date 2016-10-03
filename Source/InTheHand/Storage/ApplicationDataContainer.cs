@@ -3,15 +3,13 @@
 //     Copyright (c) 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-using Windows.Foundation.Collections;
-using System;
-using System.Runtime.CompilerServices;
-
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataContainer))]
 #else
 
+using System;
+using Windows.Foundation.Collections;
 namespace Windows.Storage
 {
     /// <summary>
@@ -20,20 +18,6 @@ namespace Windows.Storage
     /// </summary>
     public sealed class ApplicationDataContainer
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private Windows.Storage.ApplicationDataContainer _container;
-
-        [CLSCompliant(false)]
-        public static implicit operator Windows.Storage.ApplicationDataContainer(ApplicationDataContainer c)
-        {
-            return c._container;
-        }
-
-        internal ApplicationDataContainer(Windows.Storage.ApplicationDataContainer container)
-        {
-            _container = container;
-        }
-#else
         private ApplicationDataContainerSettings _settings;
         private ApplicationDataLocality _locality;
 
@@ -42,18 +26,13 @@ namespace Windows.Storage
             _locality = locality;
             _settings = new ApplicationDataContainerSettings(locality);
         }
-#endif
 
 
         public ApplicationDataLocality Locality
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return (ApplicationDataLocality)((int)_container.Locality);
-#else
                 return _locality;
-#endif
             }
         }
 
@@ -61,11 +40,7 @@ namespace Windows.Storage
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _container.Name;
-#else
                 return string.Empty;
-#endif
             }
         }
 
@@ -77,15 +52,9 @@ namespace Windows.Storage
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return new ApplicationDataContainerSettings(_container.Values);
-#else
                 return _settings;
-#endif
             }
         }
-
-        
     }
 }
 #endif

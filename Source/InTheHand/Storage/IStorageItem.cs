@@ -12,6 +12,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage.FileProperties;
 
 namespace Windows.Storage
 {
@@ -32,6 +33,12 @@ namespace Windows.Storage
         /// </summary>
         /// <returns></returns>
         IAsyncAction DeleteAsync(StorageDeleteOption option);
+
+        /// <summary>
+        /// Gets the basic properties of the current item (like a file or folder).
+        /// </summary>
+        /// <returns></returns>
+        IAsyncOperation<BasicProperties> GetBasicPropertiesAsync();
 
         /// <summary>
         /// Determines whether the current IStorageItem matches the specified StorageItemTypes value.

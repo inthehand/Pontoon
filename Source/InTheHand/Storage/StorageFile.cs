@@ -13,6 +13,7 @@ using System.IO;
 
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage.FileProperties;
 
 namespace Windows.Storage
 {
@@ -122,6 +123,15 @@ namespace Windows.Storage
 #else
             throw new PlatformNotSupportedException();
 #endif
+        }
+
+        /// <summary>
+        /// Gets the basic properties of the current file.
+        /// </summary>
+        /// <returns></returns>
+        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
+        {
+            return Task.FromResult<BasicProperties>(new BasicProperties(this)).AsAsyncOperation<BasicProperties>();
         }
 
         /// <summary>

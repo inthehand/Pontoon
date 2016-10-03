@@ -11,6 +11,7 @@ using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Popups;
+using InTheHand.ApplicationModel;
 
 namespace ApplicationModel.iOS
 {
@@ -41,8 +42,6 @@ namespace ApplicationModel.iOS
                     ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
                     ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
                     
-                    Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
-                    StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
                     /*
                     string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery);
                     var devs = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(q);
@@ -85,35 +84,30 @@ namespace ApplicationModel.iOS
 
             // Release any cached data, images, etc that aren't in use.
         }
-        public async override void ViewDidAppear(bool animated)
+
+        private async void B_TouchUpInside(object sender, EventArgs e)
+        {
+            Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
+            StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
+            var p = await sf.GetBasicPropertiesAsync();
+        }
+
+        public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
 
             //var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
             //System.Diagnostics.Debug.WriteLine(file.ContentType);
 
-            Windows.UI.Popups.PopupMenu pm = new Windows.UI.Popups.PopupMenu();
-            pm.Commands.Add(new UICommand("First", (c) => { }));
-            pm.Commands.Add(new UICommand("Second", (c) => { }));
-            pm.Commands.Add(new UICommand("Third", (c) => { }));
-            pm.Commands.Add(new UICommand("Fourth", (c) => { }));
-            pm.Commands.Add(new UICommand("Fifth", (c) => { }));
-            pm.Commands.Add(new UICommand("Sixth", (c) => { }));
-            await pm.ShowAsync(new Windows.Foundation.Point() { X = 20, Y = 20 });
+            /* Windows.UI.Popups.PopupMenu pm = new Windows.UI.Popups.PopupMenu();
+             pm.Commands.Add(new UICommand("First", (c) => { }));
+             pm.Commands.Add(new UICommand("Second", (c) => { }));
+             pm.Commands.Add(new UICommand("Third", (c) => { }));
+             pm.Commands.Add(new UICommand("Fourth", (c) => { }));
+             pm.Commands.Add(new UICommand("Fifth", (c) => { }));
+             pm.Commands.Add(new UICommand("Sixth", (c) => { }));
+             await pm.ShowAsync(new Windows.Foundation.Point() { X = 20, Y = 20 });*/
 
-            Task.Run(async () =>
-            {
-                await Task.Delay(2000);
-                foreach (DeviceInformation di in await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(""))
-                {
-                    System.Diagnostics.Debug.WriteLine(di.Name);
-                    BluetoothLEDevice dev = await BluetoothLEDevice.FromIdAsync(di.Id);
-                    foreach (GattDeviceService s in dev.GattServices)
-                    {
-                        System.Diagnostics.Debug.WriteLine(s.ToString());
-                    }
-                }
-            });
 
 
           
@@ -125,7 +119,7 @@ namespace ApplicationModel.iOS
 
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
+            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4));
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
@@ -142,6 +136,12 @@ namespace ApplicationModel.iOS
         public override void ViewDidLoad()
         {
             View = new UniversalView();
+            var b = new UIButton(UIButtonType.System);
+            b.Center = new CoreGraphics.CGPoint(200, 200);
+            b.Bounds = new CoreGraphics.CGRect(0, 0, 400, 200);
+            b.SetTitle("Camera", UIControlState.Normal);
+            b.TouchUpInside += B_TouchUpInside;
+            View.Add(b);
 
             base.ViewDidLoad();
 

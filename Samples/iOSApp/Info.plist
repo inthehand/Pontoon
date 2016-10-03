@@ -30,5 +30,7 @@
     </array>
     <key>MinimumOSVersion</key>
     <string>7.0</string>
+    <key>NSCameraUsageDescription</key>
+    <string>We wll take your picture</string>
   </dict>
 </plist>

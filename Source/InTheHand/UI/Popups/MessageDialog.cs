@@ -58,7 +58,7 @@ namespace Windows.UI.Popups
             {
                 if(uac.Actions[i] == action)
                 {
-                    if (commands.Count > i)
+                    if (Commands.Count > i)
                     {
                         _selectedCommand = Commands[i];
 

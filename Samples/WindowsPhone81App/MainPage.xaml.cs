@@ -21,6 +21,7 @@ using Windows.UI.Notifications;
 using Windows.ApplicationModel.Chat;
 using InTheHand.UI.ApplicationSettings;
 using InTheHand.Storage;
+using Windows.Networking.Connectivity;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App
@@ -50,6 +51,10 @@ namespace WindowsPhone81App
         {
             // TODO: Prepare page for display here.
 
+            foreach(ConnectionProfile prof in NetworkInformation.GetConnectionProfiles())
+            {
+                System.Diagnostics.Debug.WriteLine(prof.GetSignalBars());
+            }
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);

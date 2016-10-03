@@ -20,26 +20,14 @@ namespace Silverlight80App
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
-
-            Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
-            System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
-
-
+            
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            Windows.ApplicationModel.Chat.ChatMessageManager.ShowSmsSettings();
-            Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog("content", "title");
-            await md.ShowAsync();
-            System.Diagnostics.Debug.WriteLine("Shown");
+            var p = await Windows.Storage.ApplicationData.Current.LocalFolder.GetBasicPropertiesAsync();
+            
         }
 
         // Sample code for building a localized ApplicationBar

@@ -10,6 +10,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage.FileProperties;
 
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 [assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageFolder))]
@@ -215,6 +216,15 @@ namespace Windows.Storage
 #else
             throw new PlatformNotSupportedException();
 #endif
+        }
+
+        /// <summary>
+        /// Gets the basic properties of the current folder.
+        /// </summary>
+        /// <returns></returns>
+        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
+        {
+            return Task.FromResult<BasicProperties>(new BasicProperties(this)).AsAsyncOperation<BasicProperties>();
         }
 
         /// <summary>

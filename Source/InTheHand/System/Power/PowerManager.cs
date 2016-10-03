@@ -73,7 +73,9 @@ namespace Windows.System.Power
         {
             get
             {
-#if __IOS__
+#if __ANDROID__
+                return _batteryManager.IsCharging ? BatteryStatus.Charging : BatteryStatus.Discharging;
+#elif __IOS__
                 switch(_device.BatteryState)
                 {
                     case UIKit.UIDeviceBatteryState.Charging:
@@ -88,6 +90,15 @@ namespace Windows.System.Power
                     default:
                         return BatteryStatus.NotPresent;
                         
+                }
+#elif WINDOWS_PHONE
+                switch (Microsoft.Phone.Info.DeviceStatus.PowerSource)
+                {
+                    case Microsoft.Phone.Info.PowerSource.External:
+                        return BatteryStatus.Charging;
+
+                    default:
+                        return BatteryStatus.Discharging;
                 }
 #elif WIN32
                 GetStatus();
@@ -112,7 +123,7 @@ namespace Windows.System.Power
 #endif
             }
         }
-        
+
         /// <summary>
         /// Gets battery saver status, indicating when to save energy.
         /// </summary>
@@ -137,6 +148,25 @@ namespace Windows.System.Power
             }
         }
 
+        /// <summary>
+        /// Gets the device's power supply status.
+        /// </summary>
+        public static PowerSupplyStatus PowerSupplyStatus
+        {
+            get
+            {
+#if __IOS__
+                if (_device.BatteryState == UIKit.UIDeviceBatteryState.Charging)
+                    return PowerSupplyStatus.Adequate;
+#elif WINDOWS_PHONE
+                if (Microsoft.Phone.Info.DeviceStatus.PowerSource == Microsoft.Phone.Info.PowerSource.External)
+                    return PowerSupplyStatus.Adequate;
+#endif
+                return PowerSupplyStatus.NotPresent;
+            }
+        }
+
+ 
         /// <summary>
         /// Gets the total percentage of charge remaining from all batteries connected to the device.
         /// <para>Not supported for Windows 8.1 apps deployed via the public Windows Store.</para>
@@ -213,7 +243,7 @@ namespace Windows.System.Power
             {
                 _remainingChargePercentChanged -= value;
 
-                if(_remainingChargePercentChanged == null)
+                if (_remainingChargePercentChanged == null)
                 {
 #if __IOS__
                     //_device.BatteryMonitoringEnabled = false;
@@ -234,7 +264,7 @@ namespace Windows.System.Power
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
         private static void _battery_RemainingChargePercentChanged(object sender, object e)
         {
-            if(_remainingChargePercentChanged != null)
+            if (_remainingChargePercentChanged != null)
             {
                 _remainingChargePercentChanged(null, e);
             }
@@ -242,7 +272,6 @@ namespace Windows.System.Power
 #endif
 
 
-#if WINDOWS_APP || WIN32
         /// <summary>
         /// Gets a value that estimates how long is left until the device's battery is fully discharged.
         /// <para>Not supported for apps deployed on Windows 8.1 from the public Windows Store.</para>
@@ -251,11 +280,14 @@ namespace Windows.System.Power
         {
             get
             {
+               
 #if WINDOWS_APP
                 if (_on10)
                 {
                     return (TimeSpan)_type10.GetRuntimeProperty("RemainingDischargeTime").GetValue(null);
                 }
+#elif WINDOWS_PHONE
+                return _battery.RemainingDischargeTime;
 #elif WIN32
                 GetStatus();
                 if(_status.BatteryLifeTime != -1)
@@ -267,8 +299,7 @@ namespace Windows.System.Power
                 return TimeSpan.Zero;
             }
         }
-#endif
-            }
+    }
 
     /// <summary>
     /// Indicates the status of the battery.

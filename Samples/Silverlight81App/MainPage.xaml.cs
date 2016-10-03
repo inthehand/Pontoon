@@ -31,6 +31,13 @@ namespace Silverlight81App
 
 
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
+            this.Loaded += MainPage_Loaded;
+        }
+
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            var p = await Windows.Storage.ApplicationData.Current.LocalFolder.GetBasicPropertiesAsync();
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

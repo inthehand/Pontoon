@@ -48,8 +48,6 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return new StorageFolder(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new StorageFolder(Windows.Storage.ApplicationData.Current.LocalFolder);
 #elif WIN32
                 return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), InTheHand.ApplicationModel.Package.Current.Id.Publisher, InTheHand.ApplicationModel.Package.Current.Id.Name));
 #else
@@ -69,11 +67,7 @@ namespace Windows.Storage
             {
                 if(localSettings == null)
                 {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                    localSettings = new ApplicationDataContainer(Windows.Storage.ApplicationData.Current.LocalSettings);
-#else
                     localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local);
-#endif
                 }
 
                 return localSettings;
@@ -105,11 +99,7 @@ namespace Windows.Storage
             {
                 if (roamingSettings == null)
                 {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                    roamingSettings = new ApplicationDataContainer(Windows.Storage.ApplicationData.Current.RoamingSettings);
-#elif WIN32
-                    // no concept of roaming on Win32
-#else
+#if __IOS__
                     roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming);
 #endif
                 }

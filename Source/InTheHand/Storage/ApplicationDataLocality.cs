@@ -7,6 +7,7 @@
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataLocality))]
 #else
+
 namespace Windows.Storage
 {
     /// <summary>
