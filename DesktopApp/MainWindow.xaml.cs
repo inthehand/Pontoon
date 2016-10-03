@@ -30,7 +30,8 @@ namespace DesktopApp
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(Windows.System.Power.PowerManager.BatteryStatus);
+            System.Diagnostics.Debug.WriteLine(InTheHand.Environment.OSVersion.VersionString);
+
             MessageDialog md = new MessageDialog("Content goes here", "Title goes here");
             md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }, "one"));
             md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }, "two"));

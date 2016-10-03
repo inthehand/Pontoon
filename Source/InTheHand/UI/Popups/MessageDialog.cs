@@ -58,7 +58,7 @@ namespace Windows.UI.Popups
             {
                 if(uac.Actions[i] == action)
                 {
-                    if (commands.Count > i)
+                    if (Commands.Count > i)
                     {
                         _selectedCommand = Commands[i];
 
@@ -144,7 +144,7 @@ namespace Windows.UI.Popups
             {
                 for (int i = 0; i < this.Commands.Count; i++)
                 {
-                    UIAlertAction action = UIAlertAction.Create(this.Commands[i].Label, UIAlertActionStyle.Default, ActionClicked);
+                    UIAlertAction action = UIAlertAction.Create(this.Commands[i].Label, CancelCommandIndex == i ? UIAlertActionStyle.Cancel : UIAlertActionStyle.Default, ActionClicked);
                     uac.AddAction(action);
                 }
             }
