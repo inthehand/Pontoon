@@ -162,6 +162,12 @@
     <Compile Include="..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\OperatingSystem.cs">
+      <Link>OperatingSystem.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\PlatformID.cs">
+      <Link>PlatformID.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>
     </Compile>

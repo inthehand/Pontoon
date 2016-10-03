@@ -19,6 +19,9 @@ namespace Silverlight81App
         {
             InitializeComponent();
 
+
+            System.Diagnostics.Debug.WriteLine(InTheHand.Environment.OSVersion.Version);
+
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);

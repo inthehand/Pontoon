@@ -183,11 +183,17 @@
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
       <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\OperatingSystem.cs">
+      <Link>OperatingSystem.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
       <Link>Phone\Devices\Notification\VibrationDevice.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Phone\System\SystemProtection.cs">
       <Link>Phone\System\SystemProtection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\PlatformID.cs">
+      <Link>PlatformID.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>

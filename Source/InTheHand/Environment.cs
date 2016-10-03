@@ -15,7 +15,7 @@ namespace InTheHand
     /// <seealso cref="System.Environment"/>
     public static class Environment
     {
-        private static OperatingSystem _operatingSystem = new OperatingSystem();
+        private static OperatingSystem _operatingSystem;
         /// <summary>
         /// Gets an OperatingSystem object that contains the current platform identifier and version number.
         /// </summary>
@@ -23,35 +23,17 @@ namespace InTheHand
         {
             get
             {
-                return _operatingSystem;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Represents information about an operating system, such as the version and platform identifier.
-    /// </summary>
-    public sealed class OperatingSystem
-    {
-        private Version _version;
-        /// <summary>
-        /// Gets a System.Version object that identifies the operating system.
-        /// </summary>
-        public Version Version
-        {
-            get
-            {
-
-                if (_version == null)
+                if(_operatingSystem == null)
                 {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE || WIN32
-                    _version = global::System.Environment.OSVersion.Version;
-#else
+#if __ANDROID__ || __IOS__ || WIN32 || WINDOWS_PHONE
+                    _operatingSystem = System.Environment.OSVersion;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                    Version version;
                     string rawString = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
                     if (string.IsNullOrEmpty(rawString))
                     {
                         //default value
-                        _version = new Version(8, 1, 0, 0);
+                        version = new Version(8, 1, 0, 0);
                     }
                     else
                     {
@@ -60,20 +42,13 @@ namespace InTheHand
                         int minor = (int)(raw & 0x0000FFFF00000000L) >> 32;
                         int build = (int)(raw & 0x00000000FFFF0000L) >> 16;
                         int revision = (int)(raw & 0x000000000000FFFFL);
-                        _version = new Version(10 + major, minor, build, revision);
+                        version = new Version(10 + major, minor, build, revision);
                     }
+                    _operatingSystem = new OperatingSystem(PlatformID.Win32NT, version);
 #endif
                 }
 
-                return _version;
-            }
-        }
-
-        public string VersionString
-        {
-            get
-            {
-                return Version.ToString();
+                return _operatingSystem;
             }
         }
     }
