@@ -43,6 +43,7 @@ namespace UWPApp
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
 
+            System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagment.StatusBar"))
             {
                 StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();

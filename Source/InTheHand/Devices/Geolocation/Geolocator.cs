@@ -128,9 +128,36 @@ namespace Windows.Devices.Geolocation
                 // TODO: check that Kilometer is a suitable equivalent for cell-tower location
                 manager.DesiredAccuracy = value == PositionAccuracy.High ? CLLocation.AccuracyBest : CLLocation.AccuracyKilometer;
 #elif WIN32
+                _watcher = new GeoCoordinateWatcher(value == PositionAccuracy.High ? GeoPositionAccuracy.High : GeoPositionAccuracy.Default);
+                _watcher.MovementThreshold = _movementThreshold;
+                _watcher.StatusChanged += _watcher_StatusChanged;
 #endif
             }
         }
+
+#if WIN32
+        private void _watcher_StatusChanged(object sender, GeoPositionStatusChangedEventArgs e)
+        {
+            switch(e.Status)
+            {
+                case GeoPositionStatus.Initializing:
+                    LocationStatus = PositionStatus.Initializing;
+                    break;
+
+                case GeoPositionStatus.NoData:
+                    LocationStatus = PositionStatus.NoData;
+                    break;
+
+                case GeoPositionStatus.Ready:
+                    LocationStatus = PositionStatus.Ready;
+                    break;
+
+                case GeoPositionStatus.Disabled:
+                    LocationStatus = PositionStatus.Disabled;
+                    break;
+            }
+        }
+#endif
 
         private PositionStatus _locationStatus;
         /// <summary>
@@ -157,6 +184,7 @@ namespace Windows.Devices.Geolocation
         }
 
         private double _movementThreshold = 0.0;
+
         /// <summary>
         /// Gets and sets the distance of movement, in meters, relative to the coordinate from the last PositionChanged event, that is required for the Geolocator to raise a PositionChanged event.
         /// </summary>
@@ -164,11 +192,24 @@ namespace Windows.Devices.Geolocation
         {
             get
             {
+#if WIN32
+                if (_watcher != null)
+                {
+                    return _watcher.MovementThreshold;
+                }
+#endif
                 return _movementThreshold;
             }
 
             set
             {
+
+#if WIN32
+                if (_watcher != null)
+                {
+                    _watcher.MovementThreshold = value;
+                }
+#endif
                 if(_movementThreshold != value)
                 {
                     _movementThreshold = value;
@@ -245,6 +286,16 @@ namespace Windows.Devices.Geolocation
                     Debug.WriteLine("StartUpdatingLocation");
                     manager.StartUpdatingLocation();
                     manager.StartMonitoringSignificantLocationChanges();
+#elif WIN32
+                    if (_watcher == null)
+                    {
+                        _watcher = new GeoCoordinateWatcher(DesiredAccuracy == PositionAccuracy.High ? GeoPositionAccuracy.High : GeoPositionAccuracy.Default);
+                        _watcher.StatusChanged += _watcher_StatusChanged;
+                        _watcher.MovementThreshold = _movementThreshold;
+                    }
+
+                    _watcher.PositionChanged += _watcher_PositionChanged;
+                    _watcher.Start();
 #endif
                 }
             }
@@ -253,18 +304,22 @@ namespace Windows.Devices.Geolocation
             {
                 _positionChanged -= value;
 
-                if(_positionChanged!= null && _positionChanged.GetInvocationList().Length == 0)
+                if(_positionChanged == null || _positionChanged.GetInvocationList().Length == 0)
                 {
-#if __IOS__
                     isUpdating = false;
+#if __IOS__
                     manager.LocationsUpdated -= manager_LocationsUpdated;
                     Debug.WriteLine("StopUpdatingLocation");      
                     manager.StopUpdatingLocation();
                     manager.StopMonitoringSignificantLocationChanges();
+#elif WIN32
+                    _watcher.PositionChanged -= _watcher_PositionChanged;
+                    _watcher.Stop();
 #endif
                 }
             }
         }
+
 
 #if __IOS__
 
@@ -303,6 +358,17 @@ namespace Windows.Devices.Geolocation
 
             SetDeferrment();
         }
+
+#elif WIN32
+        private void _watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            Geoposition p = new Geoposition(e.Position);
+            if (_positionChanged != null)
+            {
+                _positionChanged(this, new PositionChangedEventArgs(p));
+            }
+        }
+
 #endif
 
     }

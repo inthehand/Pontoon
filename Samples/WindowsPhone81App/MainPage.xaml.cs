@@ -38,6 +38,7 @@ namespace WindowsPhone81App
 
             Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
             System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
+            System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
         }
 
         /// <summary>

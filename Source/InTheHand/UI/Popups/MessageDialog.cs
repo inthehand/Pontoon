@@ -190,7 +190,7 @@ namespace Windows.UI.Popups
                         string.IsNullOrEmpty(this.Title) ? " " : this.Title,
                         contentText,
                         buttons,
-                        this.DefaultCommandIndex, // can choose which button has the focus
+                        (int)this.DefaultCommandIndex, // can choose which button has the focus
                         Microsoft.Xna.Framework.GamerServices.MessageBoxIcon.None, // can play sounds
                         result =>
                         {

@@ -28,6 +28,9 @@ namespace Silverlight80App
 
             Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
             System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
+
+
+            System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

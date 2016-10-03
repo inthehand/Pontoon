@@ -34,6 +34,7 @@ namespace Windows81App
             System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
 
+            System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)

@@ -239,7 +239,9 @@ namespace InTheHand.ApplicationModel
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if __ANDROID__
+                return new StorageFolder(Application.Context.PackageCodePath);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _package.InstalledLocation;
 #elif WIN32
                 return new StorageFolder(_manifest.InstalledLocation);
