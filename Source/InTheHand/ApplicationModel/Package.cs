@@ -6,6 +6,10 @@
 //   Provides information about an app package.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Package))]
+#else
 
 using System;
 using System.Collections.Generic;
@@ -14,10 +18,12 @@ using System.Text;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using InTheHand.ApplicationModel;
 
 #if __ANDROID__
 using Android.App;
 using Android.Content.PM;
+using InTheHand;
 #elif __IOS__
 using Foundation;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
@@ -28,7 +34,7 @@ using Windows.Storage;
 using Windows.ApplicationModel.Core;
 #endif
 
-namespace InTheHand.ApplicationModel
+namespace Windows.ApplicationModel
 {
     /// <summary>
     /// Provides information about a package.
@@ -57,14 +63,6 @@ namespace InTheHand.ApplicationModel
         PackageInfo _packageInfo;
 #elif __IOS__
         NSBundle _mainBundle;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
-        private Windows.ApplicationModel.Package _package;
-
-        [CLSCompliant(false)]
-        public static implicit operator Windows.ApplicationModel.Package(Package p)
-        {
-            return p._package;
-        }
 #elif WIN32
         internal AssemblyManifest _manifest= new AssemblyManifest();
 #endif
@@ -81,11 +79,8 @@ namespace InTheHand.ApplicationModel
         {
 #if __ANDROID__
             _packageInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.MetaData);
-
 #elif __IOS__
             _mainBundle = NSBundle.MainBundle;
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE || WINDOWS_UWP
-            _package = Windows.ApplicationModel.Package.Current;
 #endif
 
 #if WINDOWS_PHONE
@@ -110,41 +105,10 @@ namespace InTheHand.ApplicationModel
 #endif
         }
 
-#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
-        /// <summary>
-        /// Returns the background color of the application's primary tile.
-        /// </summary>
-        public Windows.UI.Color BackgroundColor
-        {
-            get;
-            private set;
-        }
-#endif
-
-        /// <summary>
-        /// Application capabilities requested by the package.
-        /// </summary>
-        [CLSCompliant(false)]
-        public Capability Capabilities
-        {
-            get;
-            private set;
-        }
-
         /// <summary>
         /// Gets the description of the package.
         /// </summary>
         public string Description
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Device capabilities requested by the package.
-        /// </summary>
-        [CLSCompliant(false)]
-        public DeviceCapability DeviceCapabilities
         {
             get;
             private set;
@@ -163,8 +127,6 @@ namespace InTheHand.ApplicationModel
                 //return _packageInfo.PackageName;
 #elif __IOS__
                 return _mainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
-#elif WINDOWS_APP || WINDOWS_UWP
-                return _package.DisplayName;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _appxManifest.DisplayName;
 #elif WINDOWS_PHONE
@@ -177,8 +139,7 @@ namespace InTheHand.ApplicationModel
             }
 
         }
-
-
+        
         private PackageId _id;
         /// <summary>
         /// Gets the package identity of the current package.
@@ -220,8 +181,6 @@ namespace InTheHand.ApplicationModel
 #elif WINDOWS_PHONE || WINDOWS_PHONE_APP
                 // using the date the folder was created (on initial install)
                 return _package.InstalledLocation.DateCreated;
-#elif WINDOWS_UWP
-                return _package.InstalledDate;
 #elif WIN32
                 return _manifest.InstalledDate;
 #else
@@ -234,15 +193,12 @@ namespace InTheHand.ApplicationModel
         /// <summary>
         /// Gets the location of the installed package.
         /// </summary>
-        [CLSCompliant(false)]
         public StorageFolder InstalledLocation
         {
             get
             {
 #if __ANDROID__
                 return new StorageFolder(Application.Context.PackageCodePath);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _package.InstalledLocation;
 #elif WIN32
                 return new StorageFolder(_manifest.InstalledLocation);
 #else
@@ -267,8 +223,6 @@ namespace InTheHand.ApplicationModel
                 return Android.App.Application.Context.PackageManager.GetInstallerPackageName(_packageInfo.PackageName) == null;
 #elif __IOS__
                 return !File.Exists(_mainBundle.AppStoreReceiptUrl.Path);
-#elif WINDOWS_APP || WINDOWS_UWP
-                return _package.IsDevelopmentMode;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 if (!_isDevelopmentMode.HasValue)
                 {
@@ -306,15 +260,8 @@ namespace InTheHand.ApplicationModel
         /// </summary>
         public Uri Logo
         {
-#if WINDOWS_UWP || WINDOWS_APP
-            get
-            {
-                return _package.Logo;
-            }
-#else
             get;
             private set;
-#endif
         }
 
         /// <summary>
@@ -326,8 +273,6 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__ || __IOS__
                 return string.Empty;
-#elif WINDOWS_APP || WINDOWS_UWP
-                return _package.PublisherDisplayName;
 #elif WINDOWS_PHONE_APP
                 return _appxManifest.PublisherDisplayName;
 #elif WINDOWS_PHONE
@@ -341,3 +286,4 @@ namespace InTheHand.ApplicationModel
         }
     }
 }
+#endif

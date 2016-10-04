@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -27,11 +28,11 @@ namespace Windows81App
             this.InitializeComponent();
 
            
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
+            System.Diagnostics.Debug.WriteLine(Package.Current.DisplayName);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
+            System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
             System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
 
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);

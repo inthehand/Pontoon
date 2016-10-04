@@ -20,7 +20,6 @@ using InTheHand.Storage.Streams;
 
 namespace Windows.Storage
 {
-    [CLSCompliant(false)]
     /// <summary>
     /// Provides helper methods for reading and writing a file using the absolute path or URI of the file.
     /// </summary>

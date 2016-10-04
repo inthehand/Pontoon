@@ -285,7 +285,6 @@ namespace Windows.Storage
         /// <summary>
         /// Gets the attributes of a file.
         /// </summary>
-        [CLSCompliant(false)]
         public FileAttributes Attributes
         {
             get

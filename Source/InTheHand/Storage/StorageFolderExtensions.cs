@@ -19,7 +19,6 @@ namespace InTheHand.Storage
     /// <summary>
     /// Provides additional methods for <see cref="Windows.Storage.StorageFolder"/>.
     /// </summary>
-    [CLSCompliant(false)]
     public static class StorageFolderExtensions
     {
 #if WINDOWS_PHONE
@@ -79,7 +78,6 @@ namespace InTheHand.Storage
         /// <remarks>Use the <see cref="TryGetItemAsync"/> method to try to get a file or folder by name, without the need to add error-catching logic to your code (like you would if you used <see cref="StorageFolder.GetItemAsync"/>).
         /// If the file or folder can't be found, <see cref="TryGetItemAsync"/> returns null and doesn't raise an exception.
         /// Because the method returns null, you can use it to check if the specified fie or folder exists.</remarks>
-        [CLSCompliant(false)]
         public static IAsyncOperation<IStorageItem> TryGetItemAsync(this StorageFolder folder, string name)
         {
 #if WINDOWS_PHONE_APP
@@ -161,7 +159,6 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="folder">The folder to measure</param>
         /// <returns>The size, in bytes, of the folder and all of its contents.</returns>
-        [CLSCompliant(false)]
         public static async Task<ulong> GetFolderSizeAsync(this Windows.Storage.IStorageFolder folder)
         {
             ulong size = 0;

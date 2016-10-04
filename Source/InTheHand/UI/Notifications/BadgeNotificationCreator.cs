@@ -13,7 +13,6 @@ using Windows.UI.Notifications;
 
 namespace InTheHand.UI.Notifications
 {
-    [CLSCompliant(false)]
     /// <summary>
     /// Simplifies creation of badges without the need to build XML documents.
     /// </summary>

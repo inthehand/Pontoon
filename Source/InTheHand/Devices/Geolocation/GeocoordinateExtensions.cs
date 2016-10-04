@@ -20,7 +20,6 @@ namespace InTheHand.Devices.Geolocation
         /// <param name="g"></param>
         /// <param name="other">The <see cref="Geocoordinate"/> for the location to calculate the distance to.</param>
         /// <returns>The distance between the two coordinates, in meters.</returns>
-        [CLSCompliant(false)]
         public static double GetDistanceTo(this Geocoordinate g, Geocoordinate other)
         {
             if (g == null)

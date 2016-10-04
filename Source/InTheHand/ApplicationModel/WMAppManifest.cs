@@ -17,6 +17,20 @@ namespace InTheHand.ApplicationModel
 {
     internal sealed class WMAppManifest
     {
+        private static WMAppManifest _current;
+        internal static WMAppManifest Current
+        {
+            get
+            {
+                if(_current == null)
+                {
+                    _current = new WMAppManifest();
+                }
+
+                return _current;
+            }
+        }
+
         public WMAppManifest()
         {
             // parse the xml manifest once

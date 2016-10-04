@@ -31,7 +31,7 @@ namespace Windows.ApplicationModel.Calls
     /// </summary>
     public static class PhoneCallManager
     {
-#if WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_APP
         private static Type _type10;
 
         static PhoneCallManager()
@@ -89,31 +89,7 @@ namespace Windows.ApplicationModel.Calls
             Type genericType = template.MakeGenericType(storeType);
             var nativeStore = genericType.GetRuntimeMethod("GetResults", new Type[0]).Invoke(operation, new object[0]);
         }
-
-        public static Task<object> AsTask(Type type, object operation)
-        {
-            var tcs = new TaskCompletionSource<object>();
-            Type tch = typeof(AsyncOperationCompletedHandler<>).MakeGenericType(type);
-            
-            var handler = Activator.CreateInstance(tch, (IAsyncOperation<T> i, AsyncStatus s) =>
-            {
-                switch (i.Status)
-                {
-                    case AsyncStatus.Completed:
-                        tcs.SetResult(i.GetResults());
-                        break;
-                    case AsyncStatus.Error:
-                        tcs.SetException(i.ErrorCode);
-                        break;
-                    case AsyncStatus.Canceled:
-                        tcs.SetCanceled();
-                        break;
-                }
-            });
-
-            typeof(IAsyncOperation<>).MakeGenericType(type).GetRuntimeProperty("Completed").SetValue(operation,null);
-            return tcs.Task;
-        }*/
+*/
 
     /// <summary>
     /// Launches the built-in phone call UI with the specified phone number and display name.

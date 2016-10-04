@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Silverlight81App.Resources;
 using Windows.UI.Popups;
+using Windows.ApplicationModel;
 
 namespace Silverlight81App
 {
@@ -24,11 +25,11 @@ namespace Silverlight81App
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.DisplayName);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
             Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
             System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
 

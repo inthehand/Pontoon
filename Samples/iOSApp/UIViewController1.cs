@@ -12,6 +12,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Popups;
 using InTheHand.ApplicationModel;
+using Windows.ApplicationModel;
 
 namespace ApplicationModel.iOS
 {
@@ -37,6 +38,10 @@ namespace ApplicationModel.iOS
                 await Task.Delay(3000);
                 BeginInvokeOnMainThread(async () =>
                 {
+                    var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
+                    await FileIO.WriteTextAsync(file, "Here is a small amount of text.");
+                    var bp = await file.GetBasicPropertiesAsync();
+                    System.Diagnostics.Debug.WriteLine(bp.Size);
                     ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
                     ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
                     ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
@@ -117,11 +122,11 @@ namespace ApplicationModel.iOS
             //md.Commands.Add(new UICommand("Three", (c) => { System.Diagnostics.Debug.WriteLine("Three"); }));
             await md.ShowAsync();*/
 
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4));
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
+            System.Diagnostics.Debug.WriteLine(Package.Current.DisplayName);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version.ToString(4));
+            System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
+            System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
 
             /*var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();

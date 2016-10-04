@@ -32,7 +32,7 @@ namespace InTheHand.UI.ApplicationSettings
             if(HasHeaders)
             {
                 TextView tv = new TextView(this);
-                tv.Text = "Version " + InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4);
+                tv.Text = "Version " + Windows.ApplicationModel.Package.Current.Id.Version.ToString(4);
                 SetListFooter(tv);
             }
         }

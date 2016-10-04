@@ -22,6 +22,7 @@ using Windows.ApplicationModel.Chat;
 using InTheHand.UI.ApplicationSettings;
 using InTheHand.Storage;
 using Windows.Networking.Connectivity;
+using Windows.ApplicationModel;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App
@@ -55,12 +56,12 @@ namespace WindowsPhone81App
             {
                 System.Diagnostics.Debug.WriteLine(prof.GetSignalBars());
             }
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.DisplayName);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.PublisherDisplayName);
 
             System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
             // TODO: If your application contains multiple pages, ensure that you are

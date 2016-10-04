@@ -14,7 +14,6 @@ namespace Windows.ApplicationModel
     /// <summary>
     /// Represents the package version info.
     /// </summary>
-    [CLSCompliant(false)]
     public struct PackageVersion
     {
         /// <summary>

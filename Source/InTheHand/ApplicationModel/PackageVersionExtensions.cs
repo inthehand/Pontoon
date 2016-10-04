@@ -11,7 +11,6 @@ namespace InTheHand.ApplicationModel
     /// <summary>
     /// Provides interoperability between Windows Runtime <see cref="PackageVersion"/> and .NET <see cref="Version"/> types.
     /// </summary>
-    [CLSCompliant(false)]
     public static class PackageVersionExtensions
     {
         internal static PackageVersion ToPackageVersion(this global::System.Version version)

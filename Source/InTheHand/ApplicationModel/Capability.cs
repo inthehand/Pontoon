@@ -14,7 +14,6 @@ namespace InTheHand.ApplicationModel
     /// <summary>
     /// Application Capabilities
     /// </summary>
-    [Flags(), CLSCompliant(false)]
     public enum Capability : uint
     {
         /// <summary>
@@ -105,7 +104,7 @@ namespace InTheHand.ApplicationModel
     /// Device capabilities allow your app to access peripheral and internal devices. Device capabilities are specified with the DeviceCapability element in your app package manifest.
     /// This element may require additional child elements and some device capabilities need to be added to the package manifest manually
     /// </summary>
-    [Flags, CLSCompliant(false)]
+    [Flags]
     public enum DeviceCapability : uint
     {
         /// <summary>

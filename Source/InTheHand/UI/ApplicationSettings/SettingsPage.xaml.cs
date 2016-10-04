@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Core;
 using Windows.UI;
 using Windows.UI.ApplicationSettings;
+using Windows.ApplicationModel;
+using InTheHand.ApplicationModel;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -38,21 +40,21 @@ namespace InTheHand.UI.ApplicationSettings
             }*/
 #if WINDOWS_UWP
             SystemNavigationManager.GetForCurrentView().BackRequested += SettingsPage_BackRequested;
-            Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            /*Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if(sb != null)
             {
                 previousBackground = sb.BackgroundColor;
                 previousForeground = sb.ForegroundColor;
                 previousBackgroundOpacity = sb.BackgroundOpacity;
-                sb.BackgroundColor = InTheHand.ApplicationModel.Package.Current.BackgroundColor;
+                sb.BackgroundColor = Windows.ApplicationModel.Package.Current.BackgroundColor;
                 sb.BackgroundOpacity = 1.0;
                 sb.ForegroundColor = Colors.White;
-            }
+            }*/
 
 #elif WINDOWS_PHONE_APP
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-            AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName;
-            Version.Text = string.Format("Version {0}", InTheHand.ApplicationModel.Package.Current.Id.Version);
+            AppNameText.Text = AppxManifest.Current.DisplayName;
+            Version.Text = string.Format("Version {0}", Package.Current.Id.Version.ToString(4));
 #endif
             this.Unloaded += SettingsPage_Unloaded;
         }

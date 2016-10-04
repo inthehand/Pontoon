@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 
 using System;
 using System.IO;
+using Windows.ApplicationModel;
 
 namespace Windows.Storage
 {
@@ -49,7 +50,7 @@ namespace Windows.Storage
 #if __ANDROID__ || __IOS__
                 return new StorageFolder(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal));
 #elif WIN32
-                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), InTheHand.ApplicationModel.Package.Current.Id.Publisher, InTheHand.ApplicationModel.Package.Current.Id.Name));
+                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -82,7 +83,7 @@ namespace Windows.Storage
             get
             {
 #if WIN32
-                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), InTheHand.ApplicationModel.Package.Current.Id.Publisher, InTheHand.ApplicationModel.Package.Current.Id.Name));
+                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
 #else
                 throw new PlatformNotSupportedException();
 #endif

@@ -222,8 +222,9 @@ namespace Windows.Devices.Geolocation
         /// The requested minimum time interval between location updates, in milliseconds.
         /// If your application requires updates infrequently, set this value so that you only receive location updates when needed.
         /// </summary>
-        [CLSCompliant(false)]
-        public uint ReportInterval { get
+        public uint ReportInterval
+        {
+            get
             {
                 return _reportInterval;
             }
@@ -236,7 +237,6 @@ namespace Windows.Devices.Geolocation
                 }
             }
         }
-
 
         /// <summary>
         /// Starts an asynchronous operation to retrieve the current location of the device.

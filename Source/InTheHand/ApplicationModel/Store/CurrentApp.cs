@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CurrentApp.cs" company="In The Hand Ltd">
-//   Copyright (c) 2014-15 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2014-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Launch Store UI for the current app.
@@ -10,6 +10,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Reflection;
+using Windows.ApplicationModel;
 #if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
 using Windows.System;
 #endif
@@ -43,7 +44,7 @@ namespace InTheHand.ApplicationModel.Store
 //                return new Guid(InTheHand.ApplicationModel.Package.Current.Id.ProductId);
 #elif WINDOWS_PHONE
                 // for Silverlight the FullName is a guid
-                return new Guid(Package.Current._appManifest.ProductID);
+                return new Guid(WMAppManifest.Current.ProductID);
 #else
                 return Guid.Empty;
 #endif
@@ -63,7 +64,7 @@ namespace InTheHand.ApplicationModel.Store
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://pdp/?PhoneAppId=" + InTheHand.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://pdp/?PhoneAppId=" + Package.Current.Id.ProductId)).AsTask<bool>();
             }
             else
             {
@@ -89,7 +90,7 @@ namespace InTheHand.ApplicationModel.Store
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://reviewapp/?AppId=" + InTheHand.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://reviewapp/?AppId=" + Package.Current.Id.ProductId)).AsTask<bool>();
             }
             else
             {

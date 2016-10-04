@@ -18,7 +18,6 @@ namespace System
     /// <summary>
     /// Provides extension methods for converting between tasks and Windows Runtime asynchronous actions and operations.
     /// </summary>
-    [CLSCompliantAttribute(false)]
     public static class WindowsRuntimeSystemExtensions
     {
         /// <summary>
@@ -86,7 +85,7 @@ namespace System
         }
     }
     
-    internal sealed class RuntimeAction : global::Windows.Foundation.IAsyncAction
+    internal sealed class RuntimeAction : IAsyncAction, IAsyncInfo
     {
         internal Task task;
 
@@ -109,12 +108,68 @@ namespace System
             }
         }
 
+        public Exception ErrorCode
+        {
+            get
+            {
+                return task.Exception;
+            }
+        }
+
+        public uint Id
+        {
+            get
+            {
+                return (uint)task.Id;
+            }
+        }
+
+        public AsyncStatus Status
+        {
+            get
+            {
+                return ToAsyncStatus(task.Status);
+            }
+        }
+
         public void GetResults()
         { 
         }
+
+        /*public void Cancel()
+        {
+        }*/
+
+        public void Close()
+        {
+#if __ANDROID__ || __IOS__ || WIN32
+            task.Dispose();
+#endif
+        }
+
+        internal static AsyncStatus ToAsyncStatus(TaskStatus status)
+        {
+            switch(status)
+            {
+                case TaskStatus.Canceled:
+                    return AsyncStatus.Canceled;
+                case TaskStatus.Created:
+                case TaskStatus.Running:
+                case TaskStatus.WaitingForActivation:
+                case TaskStatus.WaitingForChildrenToComplete:
+                case TaskStatus.WaitingToRun:
+                    return AsyncStatus.Started;
+                case TaskStatus.Faulted:
+                    return AsyncStatus.Error;
+                case TaskStatus.RanToCompletion:
+                    return AsyncStatus.Completed;
+                default:
+                    return AsyncStatus.Started;
+            }
+        }
     }
 
-    internal sealed class RuntimeOperation<TResult> : global::Windows.Foundation.IAsyncOperation<TResult>
+    internal sealed class RuntimeOperation<TResult> : IAsyncOperation<TResult>, IAsyncInfo
     {
         internal Task<TResult> task;
 
@@ -137,9 +192,40 @@ namespace System
             }
         }
 
+        public Exception ErrorCode
+        {
+            get
+            {
+                return task.Exception;
+            }
+        }
+
+        public uint Id
+        {
+            get
+            {
+                return (uint)task.Id;
+            }
+        }
+
+        public AsyncStatus Status
+        {
+            get
+            {
+                return RuntimeAction.ToAsyncStatus(task.Status);
+            }
+        }
+
         public TResult GetResults()
         {
             return task.Result;
+        }
+
+        public void Close()
+        {
+#if __ANDROID__ || __IOS__ || WIN32
+            task.Dispose();
+#endif
         }
     }
 }

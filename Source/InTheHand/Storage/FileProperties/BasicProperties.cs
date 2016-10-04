@@ -58,6 +58,13 @@ namespace Windows.Storage.FileProperties
         {
             get
             {
+#if __ANDROID__ || __IOS__ || WIN32
+                if (_item.IsOfType(StorageItemTypes.File))
+                {
+                    FileInfo fi = new FileInfo(_item.Path);
+                    return (ulong)fi.Length;
+                }
+#endif
                 return 0;
             }
         }

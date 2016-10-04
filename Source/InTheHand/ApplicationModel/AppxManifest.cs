@@ -12,8 +12,21 @@ namespace InTheHand.ApplicationModel
 {
     internal sealed class AppxManifest
     {
+        private static AppxManifest _current;
 
-        public AppxManifest()
+        internal static AppxManifest Current
+        {
+            get
+            {
+                if(_current == null)
+                {
+                    _current = new AppxManifest();
+                }
+
+                return _current;
+            }
+        }
+        private AppxManifest()
         {
             Task t = Task.Run(async () =>
             {

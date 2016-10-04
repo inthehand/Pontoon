@@ -21,7 +21,6 @@ using InTheHand.Storage.Streams;
 
 namespace Windows.Storage
 {
-    [CLSCompliant(false)]
     /// <summary>
     /// Provides helper methods for reading and writing files that are represented by objects of type <see cref="IStorageFile"/>.
     /// </summary>

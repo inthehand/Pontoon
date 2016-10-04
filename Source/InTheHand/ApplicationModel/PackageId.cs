@@ -6,14 +6,18 @@
 //   Provides package identification info, such as name, version, and publisher.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.PackageId))]
+#else
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
+using InTheHand.ApplicationModel;
+using Windows.System;
 
 #if __ANDROID__
 using Android.App;
@@ -21,7 +25,8 @@ using Android.Content.PM;
 #elif __IOS__
 using Foundation;
 #endif
-namespace InTheHand.ApplicationModel
+
+namespace Windows.ApplicationModel
 {
     /// <summary>
     /// Provides package identification info, such as name, version, and publisher.
@@ -30,43 +35,27 @@ namespace InTheHand.ApplicationModel
     {
 #if __ANDROID__
         PackageInfo _packageInfo;
-#elif __IOS__
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-        private Windows.ApplicationModel.PackageId _packageId;
-
-        [CLSCompliant(false)]
-        public static implicit operator Windows.ApplicationModel.PackageId(PackageId p)
-        {
-            return p._packageId;
-        }
 #endif
         internal PackageId()
         {
 #if __ANDROID__
             _packageInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.MetaData);
-#elif __IOS__
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP
-            _packageId = Windows.ApplicationModel.Package.Current.Id;
 #endif
         }
 
-
         /// <summary>
-        /// Gets the family name of the package.
+        /// Gets the processor architecture for which the package was created.
         /// </summary>
-        /// <value>The package family name.</value>
-        public string FamilyName
+        public ProcessorArchitecture Architecture
         {
             get
             {
-#if WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP || WINDOWS_UWP
-                return _packageId.FamilyName;
-#else
-                throw new PlatformNotSupportedException();
+#if __ANDROID__ || __IOS__ || WIN32
+                return (ProcessorArchitecture)((int)global::System.Reflection.Assembly.GetEntryAssembly().GetName().ProcessorArchitecture);
 #endif
+                return ProcessorArchitecture.Unknown;
             }
         }
-
 
         /// <summary>
         /// Gets the name of the package.
@@ -80,10 +69,6 @@ namespace InTheHand.ApplicationModel
                 return Android.App.Application.Context.PackageName;
 #elif __IOS__
                 return NSBundle.MainBundle.InfoDictionary["CFBundleIdentifier"].ToString();
-#elif WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP || WINDOWS_UWP
-                return _packageId.FullName;
-#elif WINDOWS_PHONE
-                return Package.Current._appManifest.ProductID;
 #elif WIN32
                 return Package.Current._manifest.Guid.ToString();
 #else
@@ -117,7 +102,7 @@ namespace InTheHand.ApplicationModel
             }
         }
 
-        public string ProductId
+        /*public string ProductId
         {
             get
             {
@@ -131,7 +116,7 @@ namespace InTheHand.ApplicationModel
                 throw new PlatformNotSupportedException();
 #endif
             }
-        }
+        }*/
 
         /// <summary>
         /// Gets the publisher of the package.
@@ -156,23 +141,20 @@ namespace InTheHand.ApplicationModel
         /// Gets the package version info.
         /// </summary>
         /// <value>The package version information.</value>
-        [CLSCompliant(false)]
         public PackageVersion Version
         {
 
             get
             {
 #if __ANDROID__
-                return System.Version.Parse(_packageInfo.VersionName).ToPackageVersion();
+                return global::System.Version.Parse(_packageInfo.VersionName).ToPackageVersion();
 #elif __IOS__
                 if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("CFBundleShortVersionString")))
                 {
-                    return System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString()).ToPackageVersion();
+                    return global::System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString()).ToPackageVersion();
                 }
 
-                return System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()).ToPackageVersion();
-#elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP
-                return _packageId.Version;
+                return global::System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()).ToPackageVersion();
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.Version;
 #elif WIN32
@@ -184,3 +166,4 @@ namespace InTheHand.ApplicationModel
         }
     }
 }
+#endif

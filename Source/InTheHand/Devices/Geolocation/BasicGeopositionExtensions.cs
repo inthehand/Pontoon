@@ -20,7 +20,6 @@ namespace InTheHand.Devices.Geolocation
         /// <param name="b"></param>
         /// <param name="other">The <see cref="BasicGeoposition"/> for the location to calculate the distance to.</param>
         /// <returns>The distance between the two coordinates, in meters.</returns>
-        [CLSCompliant(false)]
         public static double GetDistanceTo(this BasicGeoposition b, BasicGeoposition other)
         {
             return GetDistance(b.Latitude, b.Longitude, other.Latitude, other.Longitude);

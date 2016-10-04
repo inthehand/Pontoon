@@ -43,7 +43,6 @@ namespace Windows.Graphics.Display
 #elif __IOS__
         private UIScreen _screen;
         
-        [CLSCompliant(false)]
         public static implicit operator UIScreen(DisplayInformation d)
         {
             return d._screen;

@@ -132,7 +132,6 @@ namespace InTheHand.UI.ApplicationSettings
         /// Listening for this event lets the app initialize the setting commands and pause its UI until the user closes the pane.
         /// During this event, append your SettingsCommand objects to the available ApplicationCommands vector to make them available to the SettingsPane UI.
         /// </summary>
-        [CLSCompliant(false)]
         public event TypedEventHandler<SettingsPane, SettingsPaneCommandsRequestedEventArgs> CommandsRequested
         {
             add

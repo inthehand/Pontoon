@@ -384,7 +384,6 @@ namespace Windows.UI.Popups
         /// This is the command that fires when users press the ESC key.
         /// <para>Add the commands before you set the index.</para>
         /// </summary>
-        [CLSCompliant(false)]
         public uint CancelCommandIndex
         {
             get
@@ -410,7 +409,6 @@ namespace Windows.UI.Popups
         /// </summary>
         /// <remarks>Add the commands before you set the index.</remarks>
         /// <value>The index of the default command.</value>
-        [CLSCompliant(false)]
         public uint DefaultCommandIndex
         {
             get

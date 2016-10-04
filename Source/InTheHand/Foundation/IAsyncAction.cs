@@ -16,7 +16,7 @@ namespace Windows.Foundation
     /// Represents an asynchronous action.
     /// This is the return type for many Windows Runtime asynchronous methods that don't have a result object, and don't report ongoing progress.
     /// </summary>
-    public interface IAsyncAction
+    public interface IAsyncAction : IAsyncInfo
     {
         /// <summary>
         /// Returns the results of the action.

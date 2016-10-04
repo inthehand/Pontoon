@@ -186,6 +186,9 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
       <Link>Foundation\IAsyncAction.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncInfo.cs">
+      <Link>Foundation\IAsyncInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
       <Link>Foundation\IAsyncOperation.cs</Link>
     </Compile>
@@ -311,6 +314,9 @@
     </Compile>
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\ProcessorArchitecture.cs">
+      <Link>System\ProcessorArchitecture.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsInfo.cs">
       <Link>System\Profile\AnalyticsInfo.cs</Link>

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
@@ -36,12 +37,12 @@ namespace UWPApp
             this.InitializeComponent();
 
             DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.DisplayName);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.Id.Version);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.InstalledDate);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode);
-            System.Diagnostics.Debug.WriteLine(InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+            System.Diagnostics.Debug.WriteLine(Package.Current.DisplayName);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version);
+            System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
+            System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
+            System.Diagnostics.Debug.WriteLine(Package.Current.PublisherDisplayName);
 
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
             if (ApiInformation.IsTypePresent("Windows.UI.ViewManagment.StatusBar"))

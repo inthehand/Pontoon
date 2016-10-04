@@ -13,22 +13,25 @@ using System.Resources;
 #elif WINDOWS_PHONE_APP
 [assembly: AssemblyConfiguration("Windows Phone 8.1")]
 #elif __IOS__
-[assembly: AssemblyConfiguration("Apple iOS")]
+[assembly: AssemblyConfiguration("iOS")]
 #elif __ANDROID__
 [assembly: AssemblyConfiguration("Android")]
+#elif __MAC__
+[assembly: AssemblyConfiguration("macOS")]
 #elif WINDOWS_APP
 [assembly: AssemblyConfiguration("Windows 8.1")]
 #elif WINDOWS_UWP
 [assembly: AssemblyConfiguration("Windows Universal")]
+#elif WIN32
+[assembly: AssemblyConfiguration("Windows")]
 #else
 [assembly: AssemblyConfiguration("Portable")]
 #endif
-[assembly: AssemblyProduct("UWP/e")]
+[assembly: AssemblyProduct("Pontoon")]
 [assembly: AssemblyCompany("In The Hand Ltd")]
 [assembly: AssemblyCopyright("Copyright © In The Hand Ltd 2013-16. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: System.CLSCompliant(true)]
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version
@@ -39,7 +42,7 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("9.0.0.0")]
-[assembly: AssemblyFileVersion("9.2016.9.22")]
+[assembly: AssemblyFileVersion("9.2016.10.4")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 #if SIGNED
 [assembly: AssemblyKeyFile("C:\\InTheHand.snk")]

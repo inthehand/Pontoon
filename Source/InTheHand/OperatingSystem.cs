@@ -17,6 +17,7 @@ namespace System
     {
         public OperatingSystem(PlatformID platform, Version version)
         {
+            _platform = platform;
             _version = version;
         }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿extern alias InTheHand;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -20,8 +22,14 @@ namespace Silverlight80App
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
-            
+            InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
+            InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
+        }
+
+        private void MainPage_DataRequested(InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager sender, InTheHand::Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs args)
+        {
+            args.Request.Data.SetText("Hello world");
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

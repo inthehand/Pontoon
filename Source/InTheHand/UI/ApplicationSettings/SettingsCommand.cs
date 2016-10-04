@@ -24,7 +24,6 @@ namespace Windows.UI.ApplicationSettings
         /// <param name="settingsCommandId">The ID of the command.</param>
         /// <param name="label">The label for the command, which is displayed in the settings pane.</param>
         /// <param name="handler">The event handler that is called when the user selects this command in the settings pane.</param>
-        [CLSCompliant(false)]
         public SettingsCommand(object settingsCommandId, string label, UICommandInvokedHandler handler)
         {
             this.Id = settingsCommandId;
@@ -40,7 +39,6 @@ namespace Windows.UI.ApplicationSettings
         /// <summary>
         /// Gets or sets the handler for the event that is raised when the user selects the command.
         /// </summary>
-        [CLSCompliant(false)]
         public UICommandInvokedHandler Invoked { set; get; }
 
         /// <summary>

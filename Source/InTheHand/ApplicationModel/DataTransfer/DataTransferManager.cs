@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using global::System;
 using global::System.Collections.Generic;
 using global::System.Diagnostics;
+using Windows.Foundation;
 
 #if __ANDROID__
 using Android.Content;
@@ -62,20 +63,19 @@ namespace Windows.ApplicationModel.DataTransfer
         /// </summary>
         public async static void ShowShareUI()
         {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
-            
-                DataRequestedEventArgs e = new DataRequestedEventArgs();
-                instance.OnDataRequested(e);
+            DataRequestedEventArgs e = new DataRequestedEventArgs();
+            instance.OnDataRequested(e);
+            instance.currentDataPackage = e.Request.Data;
+            DataPackageView view = instance.currentDataPackage.GetView();
 
-                if (e.Request.Data.data.Count > 0)
+            if (view.AvailableFormats.Count > 0)
+            {
+
+
+                foreach (string format in view.AvailableFormats)
                 {
-                    instance.currentDataPackage = e.Request.Data;
-                    DataPackageView view = instance.currentDataPackage.GetView();
-
-                    foreach (string format in view.AvailableFormats)
-                    {
-                        Debug.WriteLine(format);
-                    }
+                    Debug.WriteLine(format);
+                }
 #if __ANDROID__
                     string text = null;
                     if(view.Contains(StandardDataFormats.Text))
@@ -96,37 +96,38 @@ namespace Windows.ApplicationModel.DataTransfer
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(shareChooserIntent);
                 //Platform.Android.ContextManager.Context.ApplicationContext.StartActivity(shareChooserIntent);
 #elif __IOS__
-                    List<NSObject> values = new List<NSObject>();
-                    if (view.Contains(StandardDataFormats.WebLink))
+                List<NSObject> values = new List<NSObject>();
+                if (view.Contains(StandardDataFormats.WebLink))
+                {
+                    values.Add(new NSUrl((await view.GetWebLinkAsync()).ToString()));
+                }
+                else if (view.Contains(StandardDataFormats.Text))
+                {
+                    values.Add(new NSString(await view.GetTextAsync()));
+                }
+                else if (view.Contains(StandardDataFormats.ApplicationLink))
+                {
+                    values.Add(new NSUrl((await view.GetApplicationLinkAsync()).ToString()));
+                }
+                UIActivityViewController activity = new UIActivityViewController(values.ToArray(), null);
+                activity.CompletionWithItemsHandler = (text, success, items, error) =>
+                {
+                    if (success)
                     {
-                        values.Add(new NSUrl((await view.GetWebLinkAsync()).ToString()));
+                        instance.OnTargetApplicationChosen(text);
                     }
-                    else if (view.Contains(StandardDataFormats.Text))
+                    else
                     {
-                        values.Add(new NSString(await view.GetTextAsync()));
+                        Debug.WriteLine(error);
                     }
-                    else if (view.Contains(StandardDataFormats.ApplicationLink))
-                    {
-                        values.Add(new NSUrl((await view.GetApplicationLinkAsync()).ToString()));
-                    }
-                    UIActivityViewController activity = new UIActivityViewController(values.ToArray(), null);
-                    activity.SetCompletionHandler((text,success,items,error)=> {
-                        if(success)
-                        {
-                            instance.OnTargetApplicationChosen(text);
-                        }
-                        else
-                        {
-                            Debug.WriteLine(error);
-                        }                        
-                    });
-                    UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
-                    while (currentController.PresentedViewController != null)
-                    {
-                        currentController = currentController.PresentedViewController;
-                    }
-                    currentController.PresentModalViewController(activity, true);
-#else
+                };
+                UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+                while (currentController.PresentedViewController != null)
+                {
+                    currentController = currentController.PresentedViewController;
+                }
+                currentController.PresentModalViewController(activity, true);
+#elif WINDOWS_PHONE
                 /*if (view.Contains(StandardDataFormats.Bitmap))
                 {
                     string path = view.GetBitmapFilename();
@@ -189,18 +190,13 @@ namespace Windows.ApplicationModel.DataTransfer
 #endif
 
             }
-#else
-            throw new PlatformNotSupportedException();
-#endif
         }
 
         private DataTransferManager()
         { 
         }
 
-
-
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+        
         internal DataPackage currentDataPackage;
 
         private void OnDataRequested(DataRequestedEventArgs e)
@@ -210,9 +206,8 @@ namespace Windows.ApplicationModel.DataTransfer
                 _dataRequested(this, e);
             }
         }
-#endif
 
-        private event EventHandler<DataRequestedEventArgs> _dataRequested;
+        private event TypedEventHandler<DataTransferManager, DataRequestedEventArgs> _dataRequested;
         /// <summary>
         /// Occurs when a share operation starts.
         /// </summary>
@@ -222,7 +217,7 @@ namespace Windows.ApplicationModel.DataTransfer
         /// <para>When handling a datarequested event, the most important property you need to be aware of is its request property.
         /// This property contains a <see cref="DataRequest"/> object.
         /// Your app uses this object to provide the data that the user wants to share with a selected target app.</para></remarks>
-        public event EventHandler<DataRequestedEventArgs> DataRequested
+        public event TypedEventHandler<DataTransferManager, DataRequestedEventArgs> DataRequested
         {
             add
             {
@@ -234,14 +229,14 @@ namespace Windows.ApplicationModel.DataTransfer
             }
         }
 
-        private event EventHandler<TargetApplicationChosenEventArgs> _targetApplicationChosen;
+        private event TypedEventHandler<DataTransferManager, TargetApplicationChosenEventArgs> _targetApplicationChosen;
         /// <summary>
         /// Occurs when the user chooses a target app in a Share operation.
         /// </summary>
         /// <remarks>When the user chooses a target app to share content with, the system fires a TargetApplicationChosen event.
         /// The app receiving the event can use this event to record information about the target app for business intelligence.
         /// A common use of this event is to record which applications are used to complete different sharing actions, which in turn can help the source app create better experiences for the user.</remarks>
-        public event EventHandler<TargetApplicationChosenEventArgs> TargetApplicationChosen
+        public event TypedEventHandler<DataTransferManager, TargetApplicationChosenEventArgs> TargetApplicationChosen
         {
             add
             {

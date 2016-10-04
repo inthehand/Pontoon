@@ -16,7 +16,7 @@ namespace Windows.Foundation
     /// This is the return type for many Windows Runtime asynchronous methods that have results but don't report progress.
     /// </summary>
     /// <typeparam name="TResult">The type of the result.</typeparam>
-    public interface IAsyncOperation<TResult>
+    public interface IAsyncOperation<TResult> : IAsyncInfo
     {
         /// <summary>
         /// Returns the results of the operation. 

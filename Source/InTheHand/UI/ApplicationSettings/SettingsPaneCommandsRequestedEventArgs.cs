@@ -4,6 +4,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+
 namespace InTheHand.UI.ApplicationSettings
 {
     /// <summary>
