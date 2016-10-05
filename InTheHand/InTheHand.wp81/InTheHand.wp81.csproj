@@ -185,6 +185,9 @@
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\AsyncStatus.cs">
+      <Link>Foundation\AsyncStatus.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
