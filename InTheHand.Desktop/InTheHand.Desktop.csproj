@@ -87,6 +87,9 @@
     <Compile Include="..\Source\InTheHand\ApplicationModel\Package.cs">
       <Link>ApplicationModel\Package.cs</Link>
     </Compile>
+    <Compile Include="..\Source\InTheHand\ApplicationModel\PackageExtensions.cs">
+      <Link>ApplicationModel\PackageExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
     </Compile>
@@ -224,6 +227,9 @@
     </Compile>
     <Compile Include="..\Source\InTheHand\Storage\StorageFolder.cs">
       <Link>Storage\StorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
+      <Link>Storage\StorageFolderExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Source\InTheHand\Storage\StorageItemTypes.cs">
       <Link>Storage\StorageItemTypes.cs</Link>

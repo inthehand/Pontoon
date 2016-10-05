@@ -70,7 +70,7 @@ namespace Windows.ApplicationModel
 #elif __IOS__
                 return NSBundle.MainBundle.InfoDictionary["CFBundleIdentifier"].ToString();
 #elif WIN32
-                return Package.Current._manifest.Guid.ToString();
+                return AssemblyManifest.Current.Guid.ToString();
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -95,7 +95,7 @@ namespace Windows.ApplicationModel
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.DisplayName;
 #elif WIN32
-                return Package.Current._manifest.Title;
+                return AssemblyManifest.Current.Title;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -130,7 +130,7 @@ namespace Windows.ApplicationModel
 #elif WINDOWS_PHONE
                 return InTheHand.ApplicationModel.Package.Current._appManifest.PublisherDisplayName;
 #elif WIN32
-                return Package.Current._manifest.Company.ToString();
+                return AssemblyManifest.Current.Company;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -158,7 +158,7 @@ namespace Windows.ApplicationModel
 #elif WINDOWS_PHONE
                 return Package.Current._appManifest.Version;
 #elif WIN32
-                return Package.Current._manifest.AssemblyVersion.ToPackageVersion();
+                return AssemblyManifest.Current.AssemblyVersion.ToPackageVersion();
 #else
                 throw new PlatformNotSupportedException();
 #endif

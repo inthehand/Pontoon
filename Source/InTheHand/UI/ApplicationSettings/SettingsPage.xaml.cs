@@ -121,7 +121,7 @@ namespace InTheHand.UI.ApplicationSettings
 
             // for store distribution include rate and review
 #if !DEBUG
-            if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
+            if (!Package.Current.GetIsDevelopmentMode())
             {
 #endif
                 commands.Add(new SettingsCommand("RateAndReview", "Rate and review", async (c) =>

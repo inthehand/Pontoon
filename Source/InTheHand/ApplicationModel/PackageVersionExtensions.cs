@@ -13,7 +13,7 @@ namespace InTheHand.ApplicationModel
     /// </summary>
     public static class PackageVersionExtensions
     {
-        internal static PackageVersion ToPackageVersion(this global::System.Version version)
+        internal static PackageVersion ToPackageVersion(this Version version)
         {
             PackageVersion packageVersion = new PackageVersion();
             packageVersion.Major = (ushort)version.Major;

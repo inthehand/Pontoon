@@ -63,8 +63,6 @@ namespace Windows.ApplicationModel
         PackageInfo _packageInfo;
 #elif __IOS__
         NSBundle _mainBundle;
-#elif WIN32
-        internal AssemblyManifest _manifest= new AssemblyManifest();
 #endif
 
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
@@ -98,10 +96,10 @@ namespace Windows.ApplicationModel
             DeviceCapabilities |= _appxManifest.DeviceCapabilities;           
 #endif
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            Logo = _appxManifest.Logo;
+            Logo = AppxManifest.Current.Logo;
 #endif
 #if WIN32
-            Description = _manifest.Description;
+            Description = AssemblyManifest.Current.Description;
 #endif
         }
 
@@ -132,7 +130,7 @@ namespace Windows.ApplicationModel
 #elif WINDOWS_PHONE
                 return _appManifest.DisplayName;
 #elif WIN32
-                return _manifest.Product;
+                return AssemblyManifest.Current.Product;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -182,7 +180,7 @@ namespace Windows.ApplicationModel
                 // using the date the folder was created (on initial install)
                 return _package.InstalledLocation.DateCreated;
 #elif WIN32
-                return _manifest.InstalledDate;
+                return AssemblyManifest.Current.InstalledDate;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -200,7 +198,7 @@ namespace Windows.ApplicationModel
 #if __ANDROID__
                 return new StorageFolder(Application.Context.PackageCodePath);
 #elif WIN32
-                return new StorageFolder(_manifest.InstalledLocation);
+                return new StorageFolder(AssemblyManifest.Current.InstalledLocation);
 #else
                 return null;
 #endif
@@ -278,7 +276,7 @@ namespace Windows.ApplicationModel
 #elif WINDOWS_PHONE
                 return _appManifest.PublisherDisplayName;
 #elif WIN32
-                return _manifest.Company;
+                return AssemblyManifest.Current.Company;
 #else
                 throw new PlatformNotSupportedException();
 #endif

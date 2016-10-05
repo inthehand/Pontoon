@@ -122,6 +122,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
       <Link>ApplicationModel\Calls\PhoneLine.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageExtensions.cs">
+      <Link>ApplicationModel\PackageExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
       <Link>ApplicationModel\PackageVersion.cs</Link>
     </Compile>

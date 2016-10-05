@@ -11,8 +11,23 @@ namespace InTheHand.ApplicationModel
 {
     internal sealed class AssemblyManifest
     {
+        private static AssemblyManifest _current;
+
+        internal static AssemblyManifest Current
+        {
+            get
+            {
+                if(_current == null)
+                {
+                    _current = new AssemblyManifest();
+                }
+
+                return _current;
+            }
+        }
+
         private Assembly _launchingAssembly;
-        public AssemblyManifest()
+        private AssemblyManifest()
         {
             _launchingAssembly = Assembly.GetEntryAssembly();
         }
