@@ -51,7 +51,15 @@ namespace Windows.Devices.Geolocation
             
             if (CLLocationManager.LocationServicesEnabled)
             {
-                manager.InvokeOnMainThread(manager.RequestAlwaysAuthorization);
+                // ask for the authorization based on what is in the app manifest.
+                if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("NSLocationAlwaysUsageDescription")))
+                {
+                    manager.InvokeOnMainThread(manager.RequestAlwaysAuthorization);
+                }
+                else
+                {
+                    manager.InvokeOnMainThread(manager.RequestWhenInUseAuthorization);
+                }
             }
             else
             {

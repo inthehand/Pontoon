@@ -159,6 +159,10 @@ namespace Windows.ApplicationModel
         /// <summary>
         /// Gets the date the application package was installed on the user's phone.
         /// </summary>
+        /// <remarks>
+        /// On Windows Phone use the extension method <see cref="PackageExtensions.GetInstalledDate(Package)"/>.
+        /// </remarks>
+        /// <seealso cref="PackageExtensions.GetInstalledDate(Package)"/> 
         public DateTimeOffset InstalledDate
         {
             get
@@ -191,12 +195,15 @@ namespace Windows.ApplicationModel
         /// <summary>
         /// Gets the location of the installed package.
         /// </summary>
+        /// <remarks>This folder is read-only except for Windows Desktop applications.</remarks>
         public StorageFolder InstalledLocation
         {
             get
             {
 #if __ANDROID__
                 return new StorageFolder(Application.Context.PackageCodePath);
+#elif __IOS__
+                return new StorageFolder(NSBundle.MainBundle.BundlePath);
 #elif WIN32
                 return new StorageFolder(AssemblyManifest.Current.InstalledLocation);
 #else
@@ -265,6 +272,7 @@ namespace Windows.ApplicationModel
         /// <summary>
         /// Gets the publisher display name of the package.
         /// </summary>
+        /// <remarks>Android and iOS don't provide a way to query the publisher at runtime.</remarks>
         public string PublisherDisplayName
         {
             get

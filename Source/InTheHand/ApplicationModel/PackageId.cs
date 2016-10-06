@@ -52,8 +52,9 @@ namespace Windows.ApplicationModel
             {
 #if __ANDROID__ || __IOS__ || WIN32
                 return (ProcessorArchitecture)((int)global::System.Reflection.Assembly.GetEntryAssembly().GetName().ProcessorArchitecture);
-#endif
+#else
                 return ProcessorArchitecture.Unknown;
+#endif
             }
         }
 
@@ -121,6 +122,7 @@ namespace Windows.ApplicationModel
         /// <summary>
         /// Gets the publisher of the package.
         /// </summary>
+        /// <remarks>Not supported on iOS or Android.</remarks>
         public string Publisher
         {
             get
