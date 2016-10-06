@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 using System.Runtime.CompilerServices;
+#pragma warning disable 618
 [assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.ResolutionScale))]
 #else
 

@@ -388,7 +388,7 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
       <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
-      <DependentUpon>UI\ApplicationSettings\SettingsPage.UWP.xaml</DependentUpon>
+      <DependentUpon>SettingsPage.UWP.xaml</DependentUpon>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>

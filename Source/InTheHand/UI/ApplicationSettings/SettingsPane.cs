@@ -104,7 +104,7 @@ namespace InTheHand.UI.ApplicationSettings
                 f.Navigate(typeof(SettingsPage));
             }
 #elif WINDOWS_PHONE
-            ((Microsoft.Phone.Controls.PhoneApplicationFrame)Application.Current.RootVisual).Navigate(new Uri("/InTheHand.UI;component/UI/ApplicationSettings/SettingsPage.SL.xaml", UriKind.Relative));
+            ((Microsoft.Phone.Controls.PhoneApplicationFrame)Application.Current.RootVisual).Navigate(new Uri("/InTheHand;component/UI/ApplicationSettings/SettingsPage.SL.xaml", UriKind.Relative));
 #else
             throw new PlatformNotSupportedException();
 #endif

@@ -36,6 +36,22 @@ namespace InTheHand.ApplicationModel
         private static bool? _isDevelopmentMode;
 
         /// <summary>
+        /// Gets the display name of the package.
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public static string GetDisplayName(this Package package)
+        {
+#if WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
+            return AppxManifest.Current.DisplayName;
+#elif WINDOWS_PHONE
+            return WMAppManifest.Current.DisplayName;
+#else
+            return package.DisplayName;
+#endif
+        }
+
+        /// <summary>
         /// Gets the date on which the application package was installed or last updated.
         /// </summary>
         /// <param name="package"></param>
@@ -118,6 +134,22 @@ namespace InTheHand.ApplicationModel
             return WMAppManifest.Current.Logo;
 #else
             throw new PlatformNotSupportedException();
+#endif
+        }
+
+        /// <summary>
+        /// Gets the publisher display name of the package.
+        /// </summary>
+        /// <param name="package"></param>
+        /// <returns></returns>
+        public static string GetPublisherDisplayName(this Package package)
+        {
+#if WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
+            return AppxManifest.Current.PublisherDisplayName;
+#elif WINDOWS_PHONE
+            return WMAppManifest.Current.PublisherDisplayName;
+#else
+            return package.PublisherDisplayName;
 #endif
         }
     }

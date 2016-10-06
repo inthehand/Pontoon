@@ -22,9 +22,11 @@ namespace Silverlight80App
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
-            InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
+            System.Diagnostics.Debug.WriteLine(InTheHand::Windows.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel);
+            System.Diagnostics.Debug.WriteLine(InTheHand::Windows.Graphics.Display.DisplayInformation.GetForCurrentView().ResolutionScale);
+            /*InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
             InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
-            System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
+            System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);*/
         }
 
         private void MainPage_DataRequested(InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager sender, InTheHand::Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs args)

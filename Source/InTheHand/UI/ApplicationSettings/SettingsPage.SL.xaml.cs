@@ -7,11 +7,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Resources;
 using Microsoft.Phone.Controls;
-using InTheHand.ApplicationModel;
-using InTheHand.UI.ApplicationSettings;
 using Windows.Storage;
 using System.IO;
+using Windows.ApplicationModel;
 using Windows.UI.Popups;
+using Windows.UI.ApplicationSettings;
+using InTheHand.ApplicationModel;
+using InTheHand.UI.ApplicationSettings;
 
 namespace InTheHandUI.ApplicationSettings
 {
@@ -30,7 +32,7 @@ namespace InTheHandUI.ApplicationSettings
 
         async void SettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(Package.Current.Logo);
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(Package.Current.GetLogo());
             using (var stream = await file.OpenStreamForReadAsync())
             {
                 BitmapImage bmp = new BitmapImage();
@@ -55,20 +57,20 @@ namespace InTheHandUI.ApplicationSettings
                 Microsoft.Phone.Shell.SystemTray.BackgroundColor = c;
 
             }
-                SettingsHeader.Text = InTheHandUI.Strings.Resources.Settings.ToLower();
+                SettingsHeader.Text = "Settings".ToLower();
 
-            AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName.ToUpper();
+            AppNameText.Text = Package.Current.GetDisplayName().ToUpper();
 
             if (SettingsPane.GetForCurrentView().showPublisher)
             {
-                AuthorText.Text = string.Format(InTheHandUI.Strings.Resources.ByAuthor, InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+                AuthorText.Text = string.Format("By ", Package.Current.GetPublisherDisplayName());
             }
             else
             {
                 AuthorText.Visibility = Visibility.Collapsed;
             }
 
-            this.Version.Text = string.Format(InTheHandUI.Strings.Resources.Version, InTheHand.ApplicationModel.Package.Current.Id.Version.ToString());
+            this.Version.Text = string.Format("Version ", Package.Current.Id.Version.ToString(4));
             
         }
 
@@ -81,8 +83,6 @@ namespace InTheHandUI.ApplicationSettings
                 commands = new List<SettingsCommand>();
             }
 
-            //commands.Add(new SettingsCommand(null, InTheHand.UI.ApplicationSettings.Resources.Resources.Permissions, PermissionsSelected));
-
             // for store distribution include rate and review
 #if DEBUG
             if(true)
@@ -90,11 +90,11 @@ namespace InTheHandUI.ApplicationSettings
             if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
 #endif
             {
-                commands.Add(new SettingsCommand("RateAndReview", InTheHandUI.Strings.Resources.RateAndReview, RateAndReviewSelected));
+                commands.Add(new SettingsCommand("RateAndReview", "RateAndReview", RateAndReviewSelected));
 
                 if (SettingsPane.GetForCurrentView().showPublisher)
                 {
-                    commands.Add(new SettingsCommand("PrivacyPolicy", InTheHandUI.Strings.Resources.PrivacyPolicy, async (c) =>
+                    commands.Add(new SettingsCommand("PrivacyPolicy", "PrivacyPolicy", async (c) =>
                         {
                             await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();
                         }));
@@ -105,11 +105,6 @@ namespace InTheHandUI.ApplicationSettings
 
             base.OnNavigatedTo(e);
         }
-
-        /*void PermissionsSelected(IUICommand command)
-        {
-            NavigationService.Navigate(new Uri("/InTheHand.UI.ApplicationSettings;component/PermissionsPage.SL.xaml", UriKind.Relative));
-        }*/
 
         void RateAndReviewSelected(IUICommand command)
         {

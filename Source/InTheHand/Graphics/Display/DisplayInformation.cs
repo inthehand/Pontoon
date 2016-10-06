@@ -159,27 +159,6 @@ namespace Windows.Graphics.Display
                     _rawPixelsPerViewPixel = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Density;
 #elif __IOS__
                     _rawPixelsPerViewPixel = (float?)_screen.Scale;
-#elif WINDOWS_APP || WINDOWS_PHONE
-                    _rawPixelsPerViewPixel = ((int)ResolutionScale) / 100.0;
-#endif
-                }
-
-                return _rawPixelsPerViewPixel.Value;
-            }
-        }
-
-        private ResolutionScale? resolutionScale;
-        /// <summary>
-        /// Gets the scale factor of the immersive environment.
-        /// </summary>
-        public ResolutionScale ResolutionScale
-        {
-            get
-            {
-                if (!resolutionScale.HasValue)
-                {
-#if __ANDROID__ || __IOS__
-                    resolutionScale = (ResolutionScale)((int)(RawPixelsPerViewPixel * 100));
 #elif WINDOWS_PHONE
                     int scaleFactor = global::System.Windows.Application.Current.Host.Content.ScaleFactor;
 
@@ -187,10 +166,29 @@ namespace Windows.Graphics.Display
                     if (Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("PhysicalScreenResolution", out temp))
                     {
                         global::System.Windows.Size screenResolution = (global::System.Windows.Size)temp;
-                        scaleFactor = (int)((screenResolution.Width / 480d) * 100d);
+                        _rawPixelsPerViewPixel = screenResolution.Width / 480d;
                     }
+#endif
+                }
 
-                    resolutionScale = (ResolutionScale)scaleFactor;
+                return _rawPixelsPerViewPixel.Value;
+            }
+        }
+
+#pragma warning disable 618
+        private ResolutionScale? resolutionScale;
+        /// <summary>
+        /// Gets the scale factor of the immersive environment.
+        /// </summary>
+        [Obsolete]
+        public ResolutionScale ResolutionScale
+        {
+            get
+            {
+                if (!resolutionScale.HasValue)
+                {
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+                    resolutionScale = (ResolutionScale)((int)(RawPixelsPerViewPixel * 100));
 #else
                     resolutionScale = ResolutionScale.Invalid;
 #endif
