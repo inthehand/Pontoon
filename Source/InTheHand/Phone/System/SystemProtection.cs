@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 #else
 
 #if __ANDROID__
+using Android.App;
 using Android.Content;
 using Android.OS;
 #elif __IOS__
@@ -21,6 +22,7 @@ namespace Windows.Phone.System
 {
     /// <summary>
     /// Provides information related to system protection.
+    /// <para><b>Supported on Windows Phone, Android and iOS only.</b></para>
     /// </summary>
     public static class SystemProtection
     {
@@ -31,7 +33,10 @@ namespace Windows.Phone.System
         {
             get
             {
-#if __IOS__
+#if __ANDROID__
+                KeyguardManager km = (KeyguardManager) Application.Context.GetSystemService(Application.KeyguardService);
+                return km.InKeyguardRestrictedInputMode();
+#elif __IOS__
                 return !UIApplication.SharedApplication.ProtectedDataAvailable;
 #else
                 return false;
