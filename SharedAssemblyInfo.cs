@@ -41,8 +41,8 @@ using System.Resources;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("9.0.0.0")]
-[assembly: AssemblyFileVersion("9.2016.10.5")]
+[assembly: AssemblyVersion("10.0.0.0")]
+[assembly: AssemblyFileVersion("10.2016.10.7")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]
 #if SIGNED
 [assembly: AssemblyKeyFile("C:\\InTheHand.snk")]

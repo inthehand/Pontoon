@@ -87,7 +87,7 @@ namespace InTheHandUI.ApplicationSettings
 #if DEBUG
             if(true)
 #else
-            if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
+            if (!Package.Current.GetIsDevelopmentMode())
 #endif
             {
                 commands.Add(new SettingsCommand("RateAndReview", "RateAndReview", RateAndReviewSelected));

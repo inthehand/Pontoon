@@ -450,6 +450,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
       <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Xaml\DispatcherTimer.cs">
+      <Link>UI\Xaml\DispatcherTimer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\Resources\WindowsXamlResourceLoader.cs">
       <Link>UI\Xaml\Resources\WindowsXamlResourceLoader.cs</Link>
     </Compile>
