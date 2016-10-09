@@ -168,6 +168,8 @@ namespace Windows.Graphics.Display
                         global::System.Windows.Size screenResolution = (global::System.Windows.Size)temp;
                         _rawPixelsPerViewPixel = screenResolution.Width / 480d;
                     }
+#else
+                    _rawPixelsPerViewPixel = 1;
 #endif
                 }
 

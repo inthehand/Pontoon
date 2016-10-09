@@ -16,6 +16,9 @@ using System.Device.Location;
 
 namespace Windows.Devices.Geolocation
 {
+    /// <summary>
+    /// Represents a location that may contain latitude and longitude data or venue data.
+    /// </summary>
     public sealed class Geoposition
     {
 #if __IOS__

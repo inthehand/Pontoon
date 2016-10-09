@@ -56,6 +56,12 @@ namespace Windows.ApplicationModel.Calls
         {
         }
 #endif
+
+        /// <summary>
+        /// This static method asynchronously retrieves a PhoneLine object that represents a specific phone line on the device based on the line ID.
+        /// </summary>
+        /// <param name="lineId">The line ID of the phone line to retrieve.</param>
+        /// <returns></returns>
         public static IAsyncOperation<PhoneLine> FromIdAsync(Guid lineId)
         {
 #if __ANDROID__ || __IOS__

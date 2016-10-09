@@ -61,6 +61,10 @@ namespace Windows.Media.Capture
             _handle.Set();
         }
 #endif
+
+        /// <summary>
+        /// Create a new CameraCaptureUI object.
+        /// </summary>
         public CameraCaptureUI()
         {
 #if __IOS__

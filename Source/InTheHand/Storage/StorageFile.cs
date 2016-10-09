@@ -315,6 +315,9 @@ namespace Windows.Storage
             }
         }
 
+        /// <summary>
+        /// Gets the MIME type of the contents of the file.
+        /// </summary>
         public string ContentType
         {
             get

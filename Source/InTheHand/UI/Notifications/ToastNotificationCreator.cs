@@ -59,6 +59,7 @@ namespace InTheHand.UI.Notifications
         /// </summary>
         /// <param name="content">Text content.</param>
         /// <param name="title">Toast title.</param>
+        /// <param name="deliveryTime">When to display the toast.</param>
         /// <returns></returns>
         public static ScheduledToastNotification CreateScheduledToastNotification(string content, string title, DateTimeOffset deliveryTime)
         {

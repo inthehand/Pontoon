@@ -73,6 +73,9 @@ namespace Windows.UI.Notifications
         }
 #endif
 
+        /// <summary>
+        /// Gets or sets the group identifier for the notification.
+        /// </summary>
         public string Group
         {
 

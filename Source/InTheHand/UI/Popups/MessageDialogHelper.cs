@@ -18,7 +18,6 @@ namespace InTheHand.UI.Popups
     /// <summary>
     /// Provides helper methods for MessageDialog.
     /// </summary>
-    [CLSCompliant(false)]
     public static class MessageDialogHelper
     {
         /// <summary>

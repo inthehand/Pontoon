@@ -21,18 +21,9 @@ namespace Windows.UI.Notifications
     /// </summary>
     public sealed class ToastNotifier
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private Windows.UI.Notifications.ToastNotifier _notifier;
-
-        internal ToastNotifier(Windows.UI.Notifications.ToastNotifier notifier)
-        {
-            _notifier = notifier;
-        }
-#else
         internal ToastNotifier()
         {
         }
-#endif
 
         /// <summary>
         /// Shows a toast notification.
@@ -47,8 +38,6 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.PresentLocalNotificationNow(notification._localNotification);
             });
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            _notifier.Show(notification._notification);
 #elif WINDOWS_PHONE
             notification._shellToast.Show();
 #endif
@@ -67,13 +56,15 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.CancelLocalNotification(notification._localNotification);
             });
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            _notifier.Hide(notification._notification);
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #endif
         }
 
+        /// <summary>
+        /// Adds a <see cref="ScheduledToastNotification"/> for later display.
+        /// </summary>
+        /// <param name="scheduledToast"></param>
         public void AddToSchedule(ScheduledToastNotification scheduledToast)
         {
 #if __ANDROID__
@@ -83,13 +74,15 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.ScheduleLocalNotification(scheduledToast._localNotification);
             });
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            _notifier.AddToSchedule(scheduledToast._notification);
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #endif
         }
 
+        /// <summary>
+        /// Cancels the scheduled display of a specified <see cref="ScheduledToastNotification"/>.
+        /// </summary>
+        /// <param name="scheduledToast"></param>
         public void RemoveFromSchedule(ScheduledToastNotification scheduledToast)
         {
 #if __ANDROID__
@@ -99,8 +92,6 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.CancelLocalNotification(scheduledToast._localNotification);
             });
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            _notifier.RemoveFromSchedule(scheduledToast._notification);
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #endif

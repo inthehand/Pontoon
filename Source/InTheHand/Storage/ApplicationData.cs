@@ -10,7 +10,10 @@ using System.Runtime.CompilerServices;
 
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Foundation;
+using InTheHand.Storage;
 
 namespace Windows.Storage
 {
@@ -41,6 +44,49 @@ namespace Windows.Storage
         }
 
         /// <summary>
+        /// Removes all application data from the local, roaming, and temporary app data stores.
+        /// </summary>
+        /// <returns></returns>
+        public IAsyncAction ClearAsync()
+        {
+            return Task.Run(async () =>
+            {
+                await LocalFolder.DeleteAllItems();
+                LocalSettings.Values.Clear();
+                await RoamingFolder.DeleteAllItems();
+                RoamingSettings?.Values.Clear();
+                await TemporaryFolder.DeleteAllItems();
+            }).AsAsyncAction();
+        }
+
+        /// <summary>
+        /// Removes all application data from the specified app data store.
+        /// </summary>
+        /// <param name="locality">One of the enumeration values.</param>
+        /// <returns></returns>
+        public IAsyncAction ClearAsync(ApplicationDataLocality locality)
+        {
+            return Task.Run(async () =>
+            {
+                switch(locality)
+                {
+                    case ApplicationDataLocality.Local:
+                        await LocalFolder.DeleteAllItems();
+                        LocalSettings.Values.Clear();
+                        break;
+                    case ApplicationDataLocality.Roaming:
+                        await RoamingFolder.DeleteAllItems();
+                        RoamingSettings?.Values.Clear();
+                        break;
+                    case ApplicationDataLocality.Temporary:
+                        await TemporaryFolder.DeleteAllItems();
+                        break;
+                }
+            }).AsAsyncAction();
+        }
+
+
+        /// <summary>
         /// Gets the root folder in the local app data store.
         /// </summary>
         public StorageFolder LocalFolder
@@ -68,7 +114,9 @@ namespace Windows.Storage
             {
                 if(localSettings == null)
                 {
+#if !WIN32
                     localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local);
+#endif
                 }
 
                 return localSettings;
@@ -85,7 +133,7 @@ namespace Windows.Storage
 #if WIN32
                 return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
 #else
-                throw new PlatformNotSupportedException();
+                return null;
 #endif
             }
         }

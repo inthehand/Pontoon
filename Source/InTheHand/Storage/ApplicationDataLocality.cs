@@ -16,10 +16,30 @@ namespace Windows.Storage
     /// </summary>
     public enum ApplicationDataLocality
     {
-       Local,
-       LocalCache,
-       Roaming,
-       Temporary,
+        /// <summary>
+        /// The data resides in the local application data store.
+        /// </summary>
+        Local = 0,
+
+        /// <summary>
+        /// The data resides in the roaming application data store.
+        /// </summary>
+        Roaming = 1,
+
+        /// <summary>
+        /// The data resides in the temporary application data store.
+        /// </summary>
+        Temporary = 2,
+
+        /// <summary>
+        /// The data resides in the local cache for the application data store.
+        /// </summary>
+        LocalCache = 3,
+
+        /// <summary>
+        /// The data resides in the shared application data store.
+        /// </summary>
+        SharedLocal = 4,
     }
 }
 #endif

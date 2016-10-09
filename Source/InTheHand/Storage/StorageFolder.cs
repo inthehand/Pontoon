@@ -35,9 +35,23 @@ namespace Windows.Storage
     }
 
     /// <summary>
-    /// Manages folders and their contents and provides information about them.
+    /// Manipulates folders and their contents, and provides information about them.
     /// </summary>
-    public sealed class StorageFolder : IStorageFolder
+    public interface IStorageFolder2
+    {
+        /// <summary>
+        /// Try to get a single file or sub-folder from the current folder by using the name of the item.
+        /// </summary>
+        /// <param name="name">The name (or path relative to the current folder) of the file or sub-folder to try to retrieve.</param>
+        /// <returns>When this method completes successfully, it returns the file or folder (type <see cref="IStorageItem"/>).</returns>
+        IAsyncOperation<IStorageItem> TryGetItemAsync(string name);
+    }
+
+
+        /// <summary>
+        /// Manages folders and their contents and provides information about them.
+        /// </summary>
+        public sealed class StorageFolder : IStorageFolder, IStorageFolder2, IStorageItem, IStorageItem2
     {
         /// <summary>
         /// Gets a StorageFile object to represent the file at the specified path.
@@ -429,6 +443,16 @@ namespace Windows.Storage
                 throw new PlatformNotSupportedException();
 #endif
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public bool IsEqual(IStorageItem item)
+        {
+            return this.Path == item.Path;
         }
 
         public bool IsOfType(StorageItemTypes type)

@@ -57,9 +57,12 @@ namespace Windows.UI.Notifications
             private set;
         }
 
-        
+
 #endif
 
+        /// <summary>
+        /// Gets the time that this toast notification is scheduled to be displayed.
+        /// </summary>
         public DateTimeOffset DeliveryTime
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP

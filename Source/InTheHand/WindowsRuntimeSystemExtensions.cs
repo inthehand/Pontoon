@@ -64,6 +64,11 @@ namespace System
             return operation.task;
         }
 
+        /// <summary>
+        /// Returns an object that awaits an asynchronous action. 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static TaskAwaiter GetAwaiter(this IAsyncAction source)
         {
             if(source is RuntimeAction)
@@ -74,6 +79,12 @@ namespace System
             return new TaskAwaiter();
         }
 
+        /// <summary>
+        /// Returns an object that awaits an asynchronous operation that returns a result.
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static TaskAwaiter<TResult> GetAwaiter<TResult>(this IAsyncOperation<TResult> source)
         {
             if (source is RuntimeOperation<TResult>)

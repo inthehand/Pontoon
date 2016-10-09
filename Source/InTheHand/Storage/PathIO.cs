@@ -71,7 +71,6 @@ namespace Windows.Storage
         /// </summary>
         /// <param name="absolutePath">The path of the file that the text is appended to.</param>
         /// <param name="contents">The text to append.</param>
-        /// <param name="encoding">The character encoding of the file.</param>
         /// <returns>No object or value is returned when this method completes.</returns>
         public static IAsyncAction AppendTextAsync(string absolutePath, string contents)
         {

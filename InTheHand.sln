@@ -5,7 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3B5D8457-1D74-475B-A704-57824705A08B}"
 	ProjectSection(SolutionItems) = preProject
-		License.txt = License.txt
+		Contributing.md = Contributing.md
+		License.md = License.md
+		README.md = README.md
 		SharedAssemblyInfo.cs = SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
@@ -55,9 +57,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.Android",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.uwp10", "InTheHand.Devices.uwp10\InTheHand.Devices.uwp10.csproj", "{6654EFDC-2013-46BD-BDFE-0CDDB9A7F879}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Desktop", "InTheHand.Desktop\InTheHand.Desktop.csproj", "{05145612-63D9-455B-9329-BA0462B90903}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Win32", "InTheHand\InTheHand.Desktop\InTheHand.Win32.csproj", "{05145612-63D9-455B-9329-BA0462B90903}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopApp", "DesktopApp\DesktopApp.csproj", "{BF639C9C-55C9-44D0-B40F-144AB89146CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopApp", "Samples\DesktopApp\DesktopApp.csproj", "{BF639C9C-55C9-44D0-B40F-144AB89146CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

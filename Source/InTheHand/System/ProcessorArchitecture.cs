@@ -15,10 +15,25 @@ namespace Windows.System
     /// </summary>
     public enum ProcessorArchitecture
     {
+        /// <summary>
+        /// The x86 processor architecture.
+        /// </summary>
         X86 = 0,
+        /// <summary>
+        /// The ARM processor architecture.
+        /// </summary>
         Arm = 5,
+        /// <summary>
+        /// The x64 processor architecture.
+        /// </summary>
         X64 = 9,
+        /// <summary>
+        /// A neutral processor architecture.
+        /// </summary>
         Neutral = 11,
+        /// <summary>
+        /// An unknown processor architecture.
+        /// </summary>
         Unknown = 0xFFFF,
     }
 }

@@ -107,6 +107,10 @@ namespace Windows.Devices.Geolocation.Geofencing
         }
 
 #if __IOS__
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return _region.GetHashCode();

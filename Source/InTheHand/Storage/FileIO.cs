@@ -147,7 +147,6 @@ namespace Windows.Storage
         /// Reads the contents of the specified file and returns text.
         /// </summary>
         /// <param name="file">The file to read.</param>
-        /// <param name="encoding">The character encoding of the file.</param>
         /// <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
         public static IAsyncOperation<string> ReadTextAsync(IStorageFile file)
         {

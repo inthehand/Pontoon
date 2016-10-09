@@ -33,6 +33,10 @@ namespace Windows.System.Profile
         }
 #endif
 
+        /// <summary>
+        /// Gets the device form factor.
+        /// For example, the app could be running on a phone, tablet, desktop, and so on.
+        /// </summary>
         public static string DeviceForm
         {
             get
@@ -47,6 +51,9 @@ namespace Windows.System.Profile
             }
         }
 
+        /// <summary>
+        /// Gets version info about the device family.
+        /// </summary>
         public static AnalyticsVersionInfo VersionInfo
         {
             get

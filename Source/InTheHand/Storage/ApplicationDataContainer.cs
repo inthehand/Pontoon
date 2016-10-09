@@ -27,7 +27,9 @@ namespace Windows.Storage
             _settings = new ApplicationDataContainerSettings(locality);
         }
 
-
+        /// <summary>
+        /// Gets the type (local or roaming) of the app data store that is associated with the current settings container.
+        /// </summary>
         public ApplicationDataLocality Locality
         {
             get
@@ -36,6 +38,9 @@ namespace Windows.Storage
             }
         }
 
+        /// <summary>
+        /// Gets the name of the current settings container.
+        /// </summary>
         public string Name
         {
             get

@@ -14,6 +14,9 @@ using Windows.Storage;
 
 namespace System.IO
 {
+    /// <summary>
+    /// Contains extension methods for the IStorageFile and IStorageFolder interfaces for .NET interop.
+    /// </summary>
     public static class WindowsRuntimeStorageExtensions
     {
         /// <summary>

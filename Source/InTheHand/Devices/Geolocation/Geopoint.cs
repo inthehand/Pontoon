@@ -15,6 +15,10 @@ namespace Windows.Devices.Geolocation
     /// </summary>
     public sealed class Geopoint
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
         public Geopoint(BasicGeoposition position)
         {
             this.Position = position;

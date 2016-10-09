@@ -255,6 +255,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\StorageFolder.cs">
       <Link>Storage\StorageFolder.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
+      <Link>Storage\StorageFolderExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageItemTypes.cs">
       <Link>Storage\StorageItemTypes.cs</Link>
     </Compile>
@@ -277,6 +280,12 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs" />
+    <Compile Include="..\..\Source\InTheHand\System\LaunchQuerySupportStatus.cs">
+      <Link>System\LaunchQuerySupportStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\LaunchQuerySupportType.cs">
+      <Link>System\LaunchQuerySupportType.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
       <Link>System\Power\PowerManager.cs</Link>
     </Compile>

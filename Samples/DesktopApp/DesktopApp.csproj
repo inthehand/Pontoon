@@ -100,9 +100,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InTheHand.Desktop\InTheHand.Desktop.csproj">
+    <ProjectReference Include="..\..\InTheHand\InTheHand.Desktop\InTheHand.Win32.csproj">
       <Project>{05145612-63d9-455b-9329-ba0462b90903}</Project>
-      <Name>InTheHand.Desktop</Name>
+      <Name>InTheHand.Win32</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

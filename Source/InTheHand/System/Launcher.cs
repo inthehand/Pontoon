@@ -6,9 +6,6 @@
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.System.Launcher))]
-#if WINDOWS_UWP
-[assembly: TypeForwardedTo(typeof(Windows.System.LaunchQuerySupportStatus))]
-#endif
 #else
 
 #if __ANDROID__
@@ -84,51 +81,6 @@ namespace Windows.System
             return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.Unknown).AsAsyncOperation<LaunchQuerySupportStatus>();
 #endif
         }
-    }
-
-    /// <summary>
-    /// Specifies whether an app is available that supports activation
-    /// </summary>
-    public enum LaunchQuerySupportStatus
-    {
-        /// <summary>
-        /// An app that handles the activation is available and may be activated.
-        /// </summary>
-        Available = 0,
-
-        /// <summary>
-        /// No app is installed to handle the activation.
-        /// </summary>
-        AppNotInstalled = 1,
-
-        /// <summary>
-        /// An app that handles the activation is installed but not available because it is being updated by the store or it was installed on a removable device that is not available.
-        /// </summary>
-        AppUnavailable = 2,
-
-        /// <summary>
-        /// The app does not handle the activation.
-        /// </summary>
-        NotSupported = 3,
-
-        /// <summary>
-        /// An unknown error was encountered while determining whether an app supports the activation.
-        /// </summary>
-        Unknown = 4,
-    }
-
-    public enum LaunchQuerySupportType
-    {
-        /// <summary>
-        /// Activate by URI but do not return a result to the calling app.
-        /// This is the default.
-        /// </summary>
-        Uri = 0,
-
-        /// <summary>
-        /// Activate by URI and return a result to the calling app.
-        /// </summary>
-        UriForResults = 1,
     }
 }
 #endif

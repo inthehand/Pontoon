@@ -49,7 +49,10 @@ namespace Windows.ApplicationModel.Calls
             _type = _store.GetType();
         }
 #endif
-
+        /// <summary>
+        /// Gets the line ID for the current default phone line.
+        /// </summary>
+        /// <returns></returns>
         public IAsyncOperation<Guid> GetDefaultLineAsync()
         {
 #if WINDOWS_APP || WINDOWS_PHONE_APP

@@ -45,6 +45,26 @@ namespace InTheHand.Storage
 #endif
 
         /// <summary>
+        /// Deletes all contents of a folder without deleting the folder itself.
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        public static IAsyncAction DeleteAllItems(this StorageFolder folder)
+        {
+            return Task.Run(async () =>
+            {
+                foreach(StorageFolder subfolder in await folder.GetFoldersAsync())
+                {
+                    await subfolder.DeleteAsync();
+                }
+
+                foreach(StorageFile file in await folder.GetFilesAsync())
+                {
+                    await file.DeleteAsync();
+                }
+            }).AsAsyncAction();
+        }
+        /// <summary>
         /// Gets the parent folder of the current folder.
         /// </summary>
         /// <param name="folder">The StorageFolder.</param>
