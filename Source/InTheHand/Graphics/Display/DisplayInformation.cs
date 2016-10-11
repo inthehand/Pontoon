@@ -89,7 +89,7 @@ namespace Windows.Graphics.Display
                 if(!rawDpiX.HasValue)
                 {
 #if __ANDROID__
-                    rawDpiX = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Xdpi;
+                    rawDpiX = _metrics.Xdpi;
 #elif __IOS__
                     rawDpiX = (float?)_screen.NativeScale;
 #elif WINDOWS_PHONE
@@ -123,7 +123,7 @@ namespace Windows.Graphics.Display
                 if(!rawDpiY.HasValue)
                 {
 #if __ANDROID__
-                    rawDpiY = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Ydpi;
+                    rawDpiY = _metrics.Ydpi;
 #elif __IOS__
                     rawDpiY = (float?)_screen.NativeScale;
 #elif WINDOWS_PHONE
@@ -156,7 +156,7 @@ namespace Windows.Graphics.Display
                 if(!_rawPixelsPerViewPixel.HasValue)
                 {
 #if __ANDROID__
-                    _rawPixelsPerViewPixel = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics.Density;
+                    _rawPixelsPerViewPixel = _metrics.Density;
 #elif __IOS__
                     _rawPixelsPerViewPixel = (float?)_screen.Scale;
 #elif WINDOWS_PHONE

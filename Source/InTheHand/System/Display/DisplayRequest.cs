@@ -28,6 +28,9 @@ namespace Windows.System.Display
         private bool requested = false;
 #endif
 
+        /// <summary>
+        /// Activates a display request. 
+        /// </summary>
         public void RequestActive()
         {
 #if __ANDROID__
@@ -48,6 +51,9 @@ namespace Windows.System.Display
 
         }
 
+        /// <summary>
+        /// Deactivates a display request.
+        /// </summary>
         public void RequestRelease()
         {
 #if __ANDROID__
