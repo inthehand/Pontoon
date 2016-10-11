@@ -6,9 +6,6 @@
 #if WINDOWS_UWP
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerManager))]
-[assembly: TypeForwardedTo(typeof(Windows.System.Power.BatteryStatus))]
-[assembly: TypeForwardedTo(typeof(Windows.System.Power.EnergySaverStatus))]
-[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerSupplyStatus))]
 #else
 
 #if __ANDROID__
@@ -24,8 +21,18 @@ namespace Windows.System.Power
 {
     /// <summary>
     /// Provides information about the status of the device's battery.
-    /// <para>Only supported for Windows 8.1 apps when deployed to Windows 10 machines.</para>
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 10 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public static partial class PowerManager
     {
 
@@ -299,76 +306,6 @@ namespace Windows.System.Power
                 return TimeSpan.Zero;
             }
         }
-    }
-
-    /// <summary>
-    /// Indicates the status of the battery.
-    /// </summary>
-    public enum BatteryStatus
-    {
-        /// <summary>
-        /// The battery or battery controller is not present.
-        /// </summary>
-        NotPresent = 0,
-
-        /// <summary>
-        /// The battery is discharging. 
-        /// </summary>
-        Discharging = 1,
-
-        /// <summary>
-        /// The battery is idle.
-        /// </summary>
-        Idle = 2,
-
-        /// <summary>
-        /// The battery is charging.
-        /// </summary>
-        Charging = 3,
-    }
-
-    /// <summary>
-    /// Specifies the status of battery saver.
-    /// </summary>
-    public enum EnergySaverStatus
-    {
-        /// <summary>
-        /// Battery saver is off permanently or the device is plugged in.
-        /// </summary>
-        Disabled = 0,
-
-        /// <summary>
-        /// Battery saver is off now, but ready to turn on automatically. 
-        /// </summary>
-        Off = 1,
-
-        /// <summary>
-        /// Battery saver is on. Save energy where possible. 
-        /// </summary>
-        On = 2,
-    }
-
-    /// <summary>
-    /// Represents the device's power supply status.
-    /// </summary>
-    /// <remarks>An Inadequate status occurs when the power supply is present, but the charge rate is negative.
-    /// For example, the device is plugged in, but it’s losing charge.</remarks>
-    public enum PowerSupplyStatus
-    {
-        /// <summary>
-        /// The device has no power supply. 
-        /// </summary>
-        NotPresent = 0,
-
-        /// <summary>
-        /// The device has an inadequate power supply. 
-        /// </summary>
-        Inadequate = 1,
-
-        /// <summary>
-        /// The device has an adequate power supply. 
-        /// </summary>
-        Adequate = 2,
     }
 }
 #endif

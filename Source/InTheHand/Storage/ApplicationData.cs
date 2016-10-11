@@ -36,8 +36,8 @@ namespace Windows.Storage
             }
         }
 
-        private ApplicationDataContainer localSettings;
-        private ApplicationDataContainer roamingSettings;
+        private ApplicationDataContainer _localSettings;
+        private ApplicationDataContainer _roamingSettings;
 
         private ApplicationData()
         {
@@ -112,14 +112,14 @@ namespace Windows.Storage
         {
             get
             {
-                if(localSettings == null)
+                if(_localSettings == null)
                 {
 #if !WIN32
-                    localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local);
+                    _localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local);
 #endif
                 }
 
-                return localSettings;
+                return _localSettings;
             }
         }
 
@@ -146,14 +146,14 @@ namespace Windows.Storage
         {
             get
             {
-                if (roamingSettings == null)
+                if (_roamingSettings == null)
                 {
 #if __IOS__
-                    roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming);
+                    _roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming);
 #endif
                 }
 
-                return roamingSettings;
+                return _roamingSettings;
             }
         }
 

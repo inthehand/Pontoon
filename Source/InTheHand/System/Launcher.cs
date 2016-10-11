@@ -22,7 +22,8 @@ namespace Windows.System
     /// Starts the default app associated with the specified file or URI.
     /// </summary>
     /// <remarks>    
-    /// <list type="bullet">
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -77,7 +78,19 @@ namespace Windows.System
         /// Asynchronously query whether an app can be activated for the specified URI and launch type.
         /// </summary>
         /// <param name="uri">The URI.</param>
+        /// <param name="launchQuerySupportType">The type of launch for which to query support.</param>
         /// <returns>Returns true if the default app for the URI scheme was launched; false otherwise.</returns>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>-</description></item>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>-</description></item>
+        /// <item><term>Windows Phone Store</term><description>-</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>-</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>-</description></item></list>
+        /// </remarks>
         public static IAsyncOperation<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {
 #if __IOS__

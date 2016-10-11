@@ -286,8 +286,17 @@
     <Compile Include="..\..\Source\InTheHand\System\LaunchQuerySupportType.cs">
       <Link>System\LaunchQuerySupportType.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\BatteryStatus.cs">
+      <Link>System\Power\BatteryStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\EnergySaverStatus.cs">
+      <Link>System\Power\EnergySaverStatus.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
       <Link>System\Power\PowerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerSupplyStatus.cs">
+      <Link>System\Power\PowerSupplyStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\ProcessorArchitecture.cs">
       <Link>System\ProcessorArchitecture.cs</Link>

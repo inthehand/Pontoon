@@ -19,10 +19,8 @@ using Windows.Foundation;
 using Android.App;
 using Android.Content;
 #elif WINDOWS_APP
-using Windows.Foundation;
 using Windows.UI.Popups;
 #elif WINDOWS_PHONE_APP
-using Windows.Foundation;
 using Windows.ApplicationModel.Calls;
 #elif WINDOWS_PHONE
 using Microsoft.Phone.Tasks;

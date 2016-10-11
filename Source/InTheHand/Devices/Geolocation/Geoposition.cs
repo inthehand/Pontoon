@@ -64,6 +64,9 @@ namespace Windows.Devices.Geolocation
         }
 #endif
 
+        /// <summary>
+        /// The latitude and longitude associated with a geographic location.
+        /// </summary>
         public Geocoordinate Coordinate
         {
             get;

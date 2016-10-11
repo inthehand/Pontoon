@@ -13,6 +13,18 @@ namespace Windows.System
     /// <summary>
     /// Specifies the type of activation to query for.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>-</description></item>
+    /// <item><term>iOS</term><description>-</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>-</description></item>
+    /// <item><term>Windows Phone Store</term><description>-</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>-</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>-</description></item></list>
+    /// </remarks>
+
     public enum LaunchQuerySupportType
     {
         /// <summary>

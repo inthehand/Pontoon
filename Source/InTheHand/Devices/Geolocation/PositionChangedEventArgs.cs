@@ -10,6 +10,9 @@ using System.Runtime.CompilerServices;
 
 namespace Windows.Devices.Geolocation
 {
+    /// <summary>
+    /// Provides data for the <see cref="Geolocator.PositionChanged"/> event.
+    /// </summary>
     public sealed class PositionChangedEventArgs
     {
         internal PositionChangedEventArgs(Geoposition position)
@@ -17,6 +20,9 @@ namespace Windows.Devices.Geolocation
             this.Position = position;
         }
 
+        /// <summary>
+        /// The location data associated with the PositionChanged event.
+        /// </summary>
         public Geoposition Position
         {
             get;

@@ -25,7 +25,8 @@ namespace Windows.System.Display
     /// <remarks>
     /// To conserve power and extend battery life, the system reduces power to the computer if it does not detect any user activity for a certain amount of time.
     /// Depending on system power settings, the display may first be dimmed, a screen saver may be displayed, and eventually the display may be turned off as the system enters a low-power sleep state.
-    /// <list type="bullet">
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>

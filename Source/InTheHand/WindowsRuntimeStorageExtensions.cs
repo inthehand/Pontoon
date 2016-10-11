@@ -24,7 +24,6 @@ namespace System.IO
         /// </summary>
         /// <param name="windowsRuntimeFile"></param>
         /// <returns></returns>
-        [CLSCompliantAttribute(false)]
         public static Task<Stream> OpenStreamForReadAsync(this IStorageFile windowsRuntimeFile)
         {
             if (windowsRuntimeFile == null)
@@ -45,7 +44,6 @@ namespace System.IO
         /// <param name="rootDirectory">The Windows Runtime IStorageFolder object that contains the file to read from.</param>
         /// <param name="relativePath">The path, relative to the root folder, to the file to read from.</param>
         /// <returns></returns>
-        [CLSCompliantAttribute(false)]
         public static Task<Stream> OpenStreamForReadAsync(this IStorageFolder rootDirectory, string relativePath)
         {
 #if __ANDROID__ || __IOS__
@@ -61,7 +59,6 @@ namespace System.IO
         /// </summary>
         /// <param name="windowsRuntimeFile">The Windows Runtime IStorageFile object to write to.</param>
         /// <returns></returns>
-        [CLSCompliantAttribute(false)]
         public static Task<Stream> OpenStreamForWriteAsync(this IStorageFile windowsRuntimeFile)
         {
             if (windowsRuntimeFile == null)
@@ -82,7 +79,6 @@ namespace System.IO
         /// <param name="rootDirectory">The Windows Runtime IStorageFolder object that contains the file to write to.</param>
         /// <param name="relativePath">The path, relative to the root folder, to the file to write to.</param>
         /// <returns></returns>
-        [CLSCompliantAttribute(false)]
         public static Task<Stream> OpenStreamForWriteAsync(this IStorageFolder rootDirectory, string relativePath)
         {
 #if __ANDROID__ || __IOS__
