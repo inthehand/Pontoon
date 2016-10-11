@@ -64,57 +64,66 @@
         </component>
       </ComponentConfig>
     </ComponentConfigurations>
-    <HelpFileVersion>10.16.10.7</HelpFileVersion>
+    <HelpFileVersion>10.2016.10.11</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
-    <NamespaceGrouping>True</NamespaceGrouping>
-    <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
+    <NamespaceGrouping>False</NamespaceGrouping>
+    <SyntaxFilters>C#, Visual Basic, F#</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
     <RootNamespaceContainer>False</RootNamespaceContainer>
     <PresentationStyle>VS2013</PresentationStyle>
-    <Preliminary>True</Preliminary>
+    <Preliminary>False</Preliminary>
     <NamingMethod>MemberName</NamingMethod>
     <HelpTitle>Pontoon - In The Hand</HelpTitle>
     <FeedbackEMailLinkText>In The Hand Support</FeedbackEMailLinkText>
     <FeedbackEMailAddress>support%40inthehand.com</FeedbackEMailAddress>
     <CopyrightText>Copyright %28c%29 2002-2016 In The Hand Ltd</CopyrightText>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
-    <HeaderText>Pontoon - A Flexible Bridge to UWP by In The Hand Ltd</HeaderText>
+    <HeaderText>Pontoon - A Flexible Bridge to the Universal Windows Platform by In The Hand Ltd</HeaderText>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="Windows.ApplicationModel" isDocumented="True">Provides an app with access to core system functionality and run-time information about its app package, and handles suspend operations.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.ApplicationModel.Calls" isDocumented="True">Controls multiple aspects of how an application on the phone behaves, including lock-screen interaction, the phone call history, and various telephony options and information.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.ApplicationModel.Chat" isDocumented="True">Provides messaging functionality.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.ApplicationModel.DataTransfer" isDocumented="True">Contains classes that are used to exchange data between a source app and a target app. These classes are used in share and clipboard operations.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.ApplicationModel.Email" isDocumented="True">Supports creating and interacting with email messages, recipients, and attachments.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.ApplicationModel.Resources" isDocumented="True">Provides simplified access to application resources, such as strings, that are defined using basic naming conventions for runtime apps.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Devices.Geolocation" isDocumented="True">Provides APIs for getting the current location or tracking the device's location over time. Location information may come from estimating a position from beacons like Wi-Fi access points and cell towers, from the device's IP address, or it may come from other sources such as a GNSS or GPS device.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Devices.Geolocation.Geofencing" isDocumented="True">A geofence is a virtual area around a geographical point. The geofencing APIs enable applications to provide geographically contextual experiences in a timely manner without the need for the app to be continuously running and consuming device resources. Geofencing enables scenarios like popping up a reminder for a user when they are leaving work or home or displaying coupons when the user gets within range of a store.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Foundation" isDocumented="True">Enables fundamental Windows Runtime functionality, including managing asynchronous operations and accessing property stores. This namespace also defines common value types that represent Uniform Resource Identifiers (URIs), dates and times, 2-D measurements, and other basic values.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Foundation.Collections" isDocumented="True">Defines standard, specialized, and generic collection objects. This includes the IIterable&lt;T&gt;, IVector&lt;T&gt; and IMap&lt;K,V&gt; generic interfaces, which are used as the pattern for basic collection support throughout the Windows Runtime API.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Foundation.Metadata" isDocumented="True">Defines the attributes that indicate fundamental properties of Windows Runtime types and members.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Graphics.Display" isDocumented="True">Contains components to determine aspects of a physical display.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Media.Capture" isDocumented="True">Provides classes for the capture of photos, audio recordings, and videos.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Networking.Connectivity" isDocumented="True">Retrieves connection profiles that provide connectivity, usage, and data plan information for established network connections. This data can be used by a connected application to take appropriate action when operating in challenging network scenarios or abiding by data plan limits set by a network provider.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Phone.Devices.Notification" isDocumented="True">The Windows.Phone.Devices.Notification namespace provides a class that you can use to notify the user by vibrating the phone.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Phone.System" isDocumented="True">Provides information related to system functionality.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Storage" isDocumented="True">Provides classes for managing files, folders, and application settings.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.Storage.Streams" isDocumented="True">Provides support for reading to and writing from sequential and random access streams.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.System" isDocumented="True">Enables system functionality such as launching apps, obtaining information about a user, and memory profiling.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.System.Display" isDocumented="True">Enables an application to request that a device's display remain on even if there is no user activity for an extended period of time.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.System.Power" isDocumented="True">Provides power and energy usage APIs.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.System.Profile" isDocumented="True">Enables apps to get information about the system.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.UI.ApplicationSettings" isDocumented="True">Provides classes that allow developers to define the app settings that appear in the settings pane of the Windows shell. The settings pane provides a consistent place for users to access app settings.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.UI.Notifications" isDocumented="True">Contains classes that encapsulate toast and badge notifications.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.UI.Popups" isDocumented="True">Provides support for context menus and message dialogs.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="Windows.UI.ViewManagement" isDocumented="True">Provides support for handling and managing the various views associated with the active app.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="InTheHand" isDocumented="True">Contains helpers for fundamental .NET types.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="InTheHand.ApplicationModel" isDocumented="True">Contains helpers for the Windows.ApplicationModel namespace</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="InTheHand.ApplicationModel.Store" isDocumented="True">Contains helpers for the Windows.ApplicationModel.Store namespace</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="InTheHand.Devices.Geolocation" isDocumented="True">Contains helpers for the Windows.Devices.Geolocation namespace</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="InTheHand.UI.ApplicationSettings" isDocumented="True">Contains helpers for the Windows.UI.ApplicationSettings namespace</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="InTheHand.UI.Notifications" isDocumented="True">Contains helpers for the Windows.UI.Notifications namespace</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="System" isDocumented="True">The System namespace contains fundamental classes and base classes that define commonly-used value and reference data types, events and event handlers, interfaces, attributes, and processing exceptions.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="System.IO" isDocumented="True">The System.IO namespace contains types that allow reading and writing to files and data streams, and types that provide basic file and directory support.</NamespaceSummaryItem>
-    </NamespaceSummaries>
+<NamespaceSummaryItem name="Windows.ApplicationModel.Calls" isDocumented="True">Controls multiple aspects of how an application on the phone behaves, including lock-screen interaction, the phone call history, and various telephony options and information.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.ApplicationModel.Chat" isDocumented="True">Provides messaging functionality.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.ApplicationModel.DataTransfer" isDocumented="True">Contains classes that are used to exchange data between a source app and a target app. These classes are used in share and clipboard operations.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.ApplicationModel.Email" isDocumented="True">Supports creating and interacting with email messages, recipients, and attachments.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.ApplicationModel.Resources" isDocumented="True">Provides simplified access to application resources, such as strings, that are defined using basic naming conventions for runtime apps.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Devices.Geolocation" isDocumented="True">Provides APIs for getting the current location or tracking the device's location over time. Location information may come from estimating a position from beacons like Wi-Fi access points and cell towers, from the device's IP address, or it may come from other sources such as a GNSS or GPS device.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Devices.Geolocation.Geofencing" isDocumented="True">A geofence is a virtual area around a geographical point. The geofencing APIs enable applications to provide geographically contextual experiences in a timely manner without the need for the app to be continuously running and consuming device resources. Geofencing enables scenarios like popping up a reminder for a user when they are leaving work or home or displaying coupons when the user gets within range of a store.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Foundation" isDocumented="True">Enables fundamental Windows Runtime functionality, including managing asynchronous operations and accessing property stores. This namespace also defines common value types that represent Uniform Resource Identifiers (URIs), dates and times, 2-D measurements, and other basic values.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Foundation.Collections" isDocumented="True">Defines standard, specialized, and generic collection objects. This includes the IIterable&lt;T&gt;, IVector&lt;T&gt; and IMap&lt;K,V&gt; generic interfaces, which are used as the pattern for basic collection support throughout the Windows Runtime API.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Foundation.Metadata" isDocumented="True">Defines the attributes that indicate fundamental properties of Windows Runtime types and members.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Graphics.Display" isDocumented="True">Contains components to determine aspects of a physical display.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Media.Capture" isDocumented="True">Provides classes for the capture of photos, audio recordings, and videos.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Networking.Connectivity" isDocumented="True">Retrieves connection profiles that provide connectivity, usage, and data plan information for established network connections. This data can be used by a connected application to take appropriate action when operating in challenging network scenarios or abiding by data plan limits set by a network provider.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Phone.Devices.Notification" isDocumented="True">The Windows.Phone.Devices.Notification namespace provides a class that you can use to notify the user by vibrating the phone.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Phone.System" isDocumented="True">Provides information related to system functionality.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Storage" isDocumented="True">Provides classes for managing files, folders, and application settings.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Storage.Streams" isDocumented="True">Provides support for reading to and writing from sequential and random access streams.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.System" isDocumented="True">Enables system functionality such as launching apps, obtaining information about a user, and memory profiling.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.System.Display" isDocumented="True">Enables an application to request that a device's display remain on even if there is no user activity for an extended period of time.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.System.Power" isDocumented="True">Provides power and energy usage APIs.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.System.Profile" isDocumented="True">Enables apps to get information about the system.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.UI.ApplicationSettings" isDocumented="True">Provides classes that allow developers to define the app settings that appear in the settings pane of the Windows shell. The settings pane provides a consistent place for users to access app settings.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.UI.Notifications" isDocumented="True">Contains classes that encapsulate toast and badge notifications.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.UI.Popups" isDocumented="True">Provides support for context menus and message dialogs.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.UI.ViewManagement" isDocumented="True">Provides support for handling and managing the various views associated with the active app.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand" isDocumented="True">Contains helpers for fundamental .NET types.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.ApplicationModel" isDocumented="True">Contains helpers for the Windows.ApplicationModel namespace</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.ApplicationModel.Store" isDocumented="True">Contains helpers for the Windows.ApplicationModel.Store namespace</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.Devices.Geolocation" isDocumented="True">Contains helpers for the Windows.Devices.Geolocation namespace</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.UI.ApplicationSettings" isDocumented="True">Contains helpers for the Windows.UI.ApplicationSettings namespace</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.UI.Notifications" isDocumented="True">Contains helpers for the Windows.UI.Notifications namespace</NamespaceSummaryItem>
+<NamespaceSummaryItem name="System" isDocumented="True">The System namespace contains fundamental classes and base classes that define commonly-used value and reference data types, events and event handlers, interfaces, attributes, and processing exceptions.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="System.IO" isDocumented="True">The System.IO namespace contains types that allow reading and writing to files and data streams, and types that provide basic file and directory support.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.Storage" isDocumented="True">Provides extension methods for managing files, folders, and application settings.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Storage.FileProperties" isDocumented="True">Provides access to the properties of a file.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.UI.Xaml" isDocumented="True">Provides general framework APIs and application model APIs, and a variety of support classes that are commonly used by many different feature areas.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.ApplicationModel (Group)" isGroup="True" isDocumented="True">Contains helpers for the Windows.ApplicationModel namespace</NamespaceSummaryItem>
+<NamespaceSummaryItem name="System (Group)" isGroup="True" isDocumented="True">The System namespace contains fundamental classes and base classes that define commonly-used value and reference data types, events and event handlers, interfaces, attributes, and processing exceptions.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.ApplicationModel (Group)" isGroup="True" isDocumented="True">Provides an app with access to core system functionality and run-time information about its app package, and handles suspend operations.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Foundation (Group)" isGroup="True" isDocumented="True">Enables fundamental Windows Runtime functionality, including managing asynchronous operations and accessing property stores. This namespace also defines common value types that represent Uniform Resource Identifiers (URIs), dates and times, 2-D measurements, and other basic values.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.Storage (Group)" isGroup="True" isDocumented="True">Provides classes for managing files, folders, and application settings.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Windows.System (Group)" isGroup="True" isDocumented="True">Enables system functionality such as launching apps, obtaining information about a user, and memory profiling.</NamespaceSummaryItem></NamespaceSummaries>
+    <CopyrightHref>http://inthehand.com</CopyrightHref>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->

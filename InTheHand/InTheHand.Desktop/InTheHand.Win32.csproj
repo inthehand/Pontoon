@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
+      <Link>System\Display\DisplayRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.Win32.cs">
+      <Link>System\Display\DisplayRequest.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\LaunchQuerySupportStatus.cs">
       <Link>System\LaunchQuerySupportStatus.cs</Link>
     </Compile>
