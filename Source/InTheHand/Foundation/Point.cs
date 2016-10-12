@@ -17,12 +17,12 @@ namespace Windows.Foundation
         /// <summary>
         /// The horizontal position of the point.
         /// </summary>
-        public double X
+        public float X
         { get; set; }
         /// <summary>
         /// The vertical position of the point.
         /// </summary>
-        public double Y
+        public float Y
         { get; set; }
     }
 }

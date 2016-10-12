@@ -69,7 +69,7 @@
     <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>C#, Visual Basic, F#</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
-    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
     <NamingMethod>MemberName</NamingMethod>

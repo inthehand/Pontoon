@@ -19,10 +19,11 @@ namespace XamarinFormsApp
 
             
         }
-
-        protected async override void OnStart()
+        
+        protected override void OnStart()
         {
             // Handle when your app starts
+            System.Diagnostics.Debug.WriteLine(Windows.Foundation.AsyncStatus.Error);
             /*var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("testfile.txt", CreationCollisionOption.OpenIfExists);
             using (var stream = await file.OpenStreamForWriteAsync())
             {
