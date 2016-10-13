@@ -38,6 +38,7 @@ namespace ApplicationModel.iOS
                 await Task.Delay(3000);
                 BeginInvokeOnMainThread(async () =>
                 {
+                    var l = Windows.Globalization.ApplicationLanguages.Languages;
                     var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
                     await FileIO.WriteTextAsync(file, "Here is a small amount of text.");
                     var bp = await file.GetBasicPropertiesAsync();

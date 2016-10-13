@@ -18,7 +18,7 @@ namespace Windows.Foundation.Metadata
     /// Enables you to detect whether a specified member, type, or API contract is present so that you can safely make API calls across a variety of devices.
     /// </summary>
     [ContractVersion(typeof (FoundationContract), 65536U)]
-    [MarshalingBehavior(MarshalingType.Agile)]
+    //[MarshalingBehavior(MarshalingType.Agile)]
     public static class ApiInformation
     {
         private const string assemblyQualification = ", InTheHand";
