@@ -105,7 +105,7 @@ namespace UWPApp
         {
             //Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
             //StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
-            InTheHand.UI.ApplicationSettings.SettingsPane.Show();
+           // InTheHand.UI.ApplicationSettings.SettingsPane.Show();
         }
     }
 }

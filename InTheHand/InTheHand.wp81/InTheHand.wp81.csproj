@@ -461,6 +461,12 @@
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\DispatcherTimer.cs">
       <Link>UI\Xaml\DispatcherTimer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
+      <Link>WindowsRuntimeStorageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
+      <Link>WindowsRuntimeSystemExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

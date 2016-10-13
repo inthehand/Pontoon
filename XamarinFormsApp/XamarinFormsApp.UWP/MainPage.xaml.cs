@@ -22,6 +22,7 @@ namespace XamarinFormsApp.UWP
             this.InitializeComponent();
 
             LoadApplication(new XamarinFormsApp.App());
+            System.Diagnostics.Debug.WriteLine(Windows.Storage.ApplicationData.Current.ToString());
         }
     }
 }

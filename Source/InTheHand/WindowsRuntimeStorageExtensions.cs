@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(global::System.IO.WindowsRuntimeStorageExtensions))]
+[assembly: TypeForwardedTo(typeof(System.IO.WindowsRuntimeStorageExtensions))]
 #else
 
 using System.Threading.Tasks;

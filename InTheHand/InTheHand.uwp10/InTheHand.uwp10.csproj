@@ -11,7 +11,7 @@
     <AssemblyName>InTheHand</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -263,6 +263,9 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\FoundationContract.cs">
+      <Link>Foundation\FoundationContract.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
       <Link>Foundation\IAsyncAction.cs</Link>
     </Compile>
@@ -272,8 +275,32 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
       <Link>Foundation\IAsyncOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\AllowMultipleAttribute.cs">
+      <Link>Foundation\Metadata\AllowMultipleAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiContractAttribute.cs">
+      <Link>Foundation\Metadata\ApiContractAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ContractVersionAttribute.cs">
+      <Link>Foundation\Metadata\ContractVersionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ExclusiveToAttribute.cs">
+      <Link>Foundation\Metadata\ExclusiveToAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\GuidAttribute.cs">
+      <Link>Foundation\Metadata\GuidAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\MarshallingBehaviorAttribute.cs">
+      <Link>Foundation\Metadata\MarshallingBehaviorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\OverloadAttribute.cs">
+      <Link>Foundation\Metadata\OverloadAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\StaticAttribute.cs">
+      <Link>Foundation\Metadata\StaticAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
       <Link>Foundation\Point.cs</Link>
@@ -398,22 +425,22 @@
     <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
       <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
       <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
       <DependentUpon>SettingsPage.UWP.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>
@@ -471,24 +498,27 @@
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\Resources\WindowsXamlResourceLoader.cs">
       <Link>UI\Xaml\Resources\WindowsXamlResourceLoader.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
+      <Link>WindowsRuntimeStorageExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
+      <Link>WindowsRuntimeSystemExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
-      <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml">
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.UWP.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
@@ -544,6 +574,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

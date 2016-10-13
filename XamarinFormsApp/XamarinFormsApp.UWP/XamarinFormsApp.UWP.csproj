@@ -11,8 +11,8 @@
     <AssemblyName>XamarinFormsApp.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
@@ -128,13 +128,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\InTheHand\InTheHand.uwp10\InTheHand.uwp10.csproj">
+      <Project>{c919d564-3221-4293-92f5-071571df48b9}</Project>
+      <Name>InTheHand.uwp10</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XamarinFormsApp\XamarinFormsApp.csproj">
       <Project>{e860be99-b29e-4360-a48d-a1e1f1f8b417}</Project>
       <Name>XamarinFormsApp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>

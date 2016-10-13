@@ -7,23 +7,25 @@
 [assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.Point))]
 #else
 
+using Windows.Foundation.Metadata;
+
 namespace Windows.Foundation
 {
     /// <summary>
     /// Represents x- and y-coordinate values that define a point in a two-dimensional plane.
     /// </summary>
+    [ContractVersion(typeof(FoundationContract), 65536U)]
     public struct Point
     {
         /// <summary>
         /// The horizontal position of the point.
         /// </summary>
-        public float X
-        { get; set; }
+        public float X;
+
         /// <summary>
         /// The vertical position of the point.
         /// </summary>
-        public float Y
-        { get; set; }
+        public float Y;
     }
 }
 #endif

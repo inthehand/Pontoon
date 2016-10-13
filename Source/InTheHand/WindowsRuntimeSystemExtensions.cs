@@ -6,7 +6,7 @@
 using System.Runtime.CompilerServices;
 
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly: TypeForwardedTo(typeof(global::System.WindowsRuntimeSystemExtensions))]
+[assembly: TypeForwardedTo(typeof(System.WindowsRuntimeSystemExtensions))]
 #else
 
 using System.Threading.Tasks;

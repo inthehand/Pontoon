@@ -1,6 +1,5 @@
 ﻿{
   "dependencies": {
-    "InTheHand.Pontoon": "10.2016.10.11-pre2",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Xamarin.Forms": "2.3.2.127"
   },

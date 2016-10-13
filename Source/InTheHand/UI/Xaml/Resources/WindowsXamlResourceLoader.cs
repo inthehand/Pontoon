@@ -4,15 +4,16 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace InTheHand.UI.Xaml.Resources
-{
-    using global::System;
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-    using Windows.ApplicationModel.Resources;
-    using Windows.UI.Xaml.Resources;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.Xaml.Resources;
 #endif
 
-    [CLSCompliant(false)]
+namespace InTheHand.UI.Xaml.Resources
+{
+    /// <summary>
+    /// 
+    /// </summary>
     public sealed class WindowsXamlResourceLoader : CustomXamlResourceLoader
     {
         private ResourceLoader _loader;

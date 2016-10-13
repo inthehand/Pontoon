@@ -6,6 +6,7 @@ using System.IO;
 
 using Xamarin.Forms;
 using Windows.Storage;
+using System.Threading.Tasks;
 
 namespace XamarinFormsApp
 {
@@ -23,7 +24,12 @@ namespace XamarinFormsApp
         protected override void OnStart()
         {
             // Handle when your app starts
-            System.Diagnostics.Debug.WriteLine(Windows.Foundation.AsyncStatus.Error);
+            Windows.Foundation.Point p = new Windows.Foundation.Point() { X = 10, Y = 20 };
+
+            var s = Windows.ApplicationModel.Package.Current.PublisherDisplayName;
+            //System.Diagnostics.Debug.WriteLine(Windows.Storage.ApplicationData.Current.ToString());
+
+            //InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title");
             /*var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("testfile.txt", CreationCollisionOption.OpenIfExists);
             using (var stream = await file.OpenStreamForWriteAsync())
             {
