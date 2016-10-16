@@ -168,6 +168,9 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Globalization\ApplicationLanguages.cs">
+      <Link>Globalization\ApplicationLanguages.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>

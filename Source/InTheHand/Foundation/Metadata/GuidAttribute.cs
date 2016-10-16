@@ -12,15 +12,13 @@ using System;
 
 namespace Windows.Foundation.Metadata
 {
-  [ContractVersion(typeof (FoundationContract), 65536U)]
-  [AttributeUsage(AttributeTargets.Delegate | AttributeTargets.Interface)]
-  public sealed class GuidAttribute : Attribute
-  {
-        private Guid _guid;
-    public GuidAttribute(uint a, ushort b, ushort c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k)
+    [ContractVersion(typeof(FoundationContract), 65536U)]
+    [AttributeUsage(AttributeTargets.Delegate | AttributeTargets.Interface)]
+    public sealed class GuidAttribute : Attribute
+    {
+        public GuidAttribute(uint a, ushort b, ushort c, byte d, byte e, byte f, byte g, byte h, byte i, byte j, byte k)
         {
-            _guid = new Guid(a, b, c, d, e, f, g, h, i, j, k);
         }
-  }
+    }
 }
 #endif

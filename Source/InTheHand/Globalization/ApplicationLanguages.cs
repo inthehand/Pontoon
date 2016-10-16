@@ -28,8 +28,11 @@ namespace Windows.Globalization
         {
             get
             {
-#if __IOS__
                 List<string> langs = new List<string>();
+#if __ANDROID__
+                // for now just return the single default system locale
+                langs.Add(ToNetLanguage(Java.Util.Locale.Default.ToString().Replace("_", "-")));
+#elif __IOS__
                 foreach(string preferredLang in NSLocale.PreferredLanguages)
                 {
                     foreach(string ml in ManifestLanguages)
@@ -44,11 +47,8 @@ namespace Windows.Globalization
                         }
                     }
                 }
-
-                return langs.AsReadOnly();
-#else
-                return null;
 #endif
+                return langs.AsReadOnly();
             }
         }
 
@@ -58,10 +58,13 @@ namespace Windows.Globalization
         {
             get
             {
-#if __IOS__
                 if (s_manifestLanguages == null)
                 {
                     List<string> langs = new List<string>();
+#if __ANDROID__
+
+#elif __IOS__
+                
                     var bundleLangs = NSBundle.MainBundle.InfoDictionary["CFBundleLocalizations"];
                     if (bundleLangs != null)
                     {
@@ -89,14 +92,11 @@ namespace Windows.Globalization
                             langs.Add(devRegionString);
                         }
                     }
-
+#endif
                     s_manifestLanguages = langs.AsReadOnly();
                 }
 
                 return s_manifestLanguages;
-#else
-                return null;
-#endif
             }
         }
 
@@ -106,10 +106,15 @@ namespace Windows.Globalization
             //certain languages need to be converted to CultureInfo equivalent
             switch (language)
             {
+                case "ms-BN":   // "Malaysian (Brunei)" not supported .NET culture
                 case "ms-MY":   // "Malaysian (Malaysia)" not supported .NET culture
                 case "ms-SG":   // "Malaysian (Singapore)" not supported .NET culture
                     netLanguage = "ms"; // closest supported
                     break;
+                case "in-ID":  // "Indonesian (Indonesia)" has different code in  .NET
+                    netLanguage = "id-ID"; // correct code for .NET
+                    break;
+                case "gsw":
                 case "gsw-CH":  // "Schwiizertüütsch (Swiss German)" not supported .NET culture
                     netLanguage = "de-CH"; // closest supported
                     break;

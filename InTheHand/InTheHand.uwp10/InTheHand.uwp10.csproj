@@ -122,15 +122,15 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\AppxManifest.cs">
       <Link>ApplicationModel\AppxManifest.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
+    <None Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallStore.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallStore.cs">
       <Link>ApplicationModel\Calls\PhoneCallStore.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
       <Link>ApplicationModel\Calls\PhoneLine.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
       <Link>ApplicationModel\Capability.cs</Link>
     </Compile>
@@ -338,12 +338,12 @@
     <Compile Include="..\..\Source\InTheHand\OperatingSystem.cs">
       <Link>OperatingSystem.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
+    <None Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
       <Link>Phone\Devices\Notification\VibrationDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Phone\System\SystemProtection.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Phone\System\SystemProtection.cs">
       <Link>Phone\System\SystemProtection.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\PlatformID.cs">
       <Link>PlatformID.cs</Link>
     </Compile>
@@ -486,12 +486,12 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
+    <None Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
       <Link>UI\ViewManagement\StatusBar.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
       <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\DispatcherTimer.cs">
       <Link>UI\Xaml\DispatcherTimer.cs</Link>
     </Compile>
@@ -514,11 +514,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

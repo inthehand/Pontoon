@@ -6,10 +6,10 @@
 //   Provides information about an app package.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+/*#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Package))]
-#else
+#else*/
 
 using System;
 using System.Collections.Generic;
@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using InTheHand.ApplicationModel;
 
@@ -28,13 +29,11 @@ using InTheHand;
 using Foundation;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
 using System.Reflection;
-using Windows.ApplicationModel;
 using Windows.Data.Xml.Dom;
-using Windows.Storage;
 using Windows.ApplicationModel.Core;
 #endif
 
-namespace Windows.ApplicationModel
+namespace InTheHand.ApplicationModel
 {
     /// <summary>
     /// Provides information about a package.
@@ -65,14 +64,6 @@ namespace Windows.ApplicationModel
         NSBundle _mainBundle;
 #endif
 
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
-        internal AppxManifest _appxManifest;
-#endif
-
-#if WINDOWS_PHONE
-        internal WMAppManifest _appManifest;
-#endif
-
         private Package()
         {
 #if __ANDROID__
@@ -82,18 +73,16 @@ namespace Windows.ApplicationModel
 #endif
 
 #if WINDOWS_PHONE
-            _appManifest = new WMAppManifest();
             Capabilities |= _appManifest.Capabilities;
             DeviceCapabilities |= _appManifest.DeviceCapabilities;
             Logo = _appManifest.Logo;
 #endif
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
 
-            _appxManifest = new AppxManifest();
-            BackgroundColor = _appxManifest.BackgroundColor;
-            Capabilities |= _appxManifest.Capabilities;
-            Description = _appxManifest.Description;
-            DeviceCapabilities |= _appxManifest.DeviceCapabilities;           
+            //BackgroundColor = _appxManifest.BackgroundColor;
+            //Capabilities |= _appxManifest.Capabilities;
+            Description = AppxManifest.Current.Description;
+            //DeviceCapabilities |= _appxManifest.DeviceCapabilities;           
 #endif
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             Logo = AppxManifest.Current.Logo;
@@ -125,10 +114,10 @@ namespace Windows.ApplicationModel
                 //return _packageInfo.PackageName;
 #elif __IOS__
                 return _mainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
-#elif WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _appxManifest.DisplayName;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return AppxManifest.Current.DisplayName;
 #elif WINDOWS_PHONE
-                return _appManifest.DisplayName;
+                return WMAppManifest.Current.DisplayName;
 #elif WIN32
                 return AssemblyManifest.Current.Product;
 #else
@@ -149,7 +138,11 @@ namespace Windows.ApplicationModel
             {
                 if(_id==null)
                 {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                    _id = Windows.ApplicationModel.Package.Current.Id;
+#else
                     _id = new PackageId();
+#endif
                 }
 
                 return _id;
@@ -292,4 +285,4 @@ namespace Windows.ApplicationModel
         }
     }
 }
-#endif
+//#endif

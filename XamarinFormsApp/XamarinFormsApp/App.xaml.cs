@@ -25,8 +25,8 @@ namespace XamarinFormsApp
         {
             // Handle when your app starts
             Windows.Foundation.Point p = new Windows.Foundation.Point() { X = 10, Y = 20 };
-
-            var s = Windows.ApplicationModel.Package.Current.PublisherDisplayName;
+            var id = InTheHand.ApplicationModel.Package.Current.Id;
+            //var s = Windows.ApplicationModel.Package.Current.PublisherDisplayName;
             //System.Diagnostics.Debug.WriteLine(Windows.Storage.ApplicationData.Current.ToString());
 
             //InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title");
