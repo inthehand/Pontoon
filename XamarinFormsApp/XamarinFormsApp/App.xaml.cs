@@ -21,11 +21,19 @@ namespace XamarinFormsApp
             
         }
         
-        protected override void OnStart()
+        protected async override void OnStart()
         {
             // Handle when your app starts
             Windows.Foundation.Point p = new Windows.Foundation.Point() { X = 10, Y = 20 };
-            var id = InTheHand.ApplicationModel.Package.Current.Id;
+            var id = InTheHand.ApplicationModel.Package.Current.Description;
+            //var folder = InTheHand.ApplicationModel.Package.Current.InstalledLocation;
+            //StorageFolder folder = null;
+            //IStorageFolder isf = null;
+
+            //var folder = InTheHand.ApplicationModel.Package.Current.InstalledLocation;
+            //var file = await folder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
+            //var file = await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
+            
             //var s = Windows.ApplicationModel.Package.Current.PublisherDisplayName;
             //System.Diagnostics.Debug.WriteLine(Windows.Storage.ApplicationData.Current.ToString());
 

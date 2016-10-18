@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
+using InTheHand.ApplicationModel;
 using Windows.Foundation;
 using InTheHand.Storage;
 

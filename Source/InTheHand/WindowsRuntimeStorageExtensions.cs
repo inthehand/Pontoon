@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.IO.WindowsRuntimeStorageExtensions))]
 #else
 
+using InTheHand.Storage;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -26,13 +27,15 @@ namespace System.IO
         /// <returns></returns>
         public static Task<Stream> OpenStreamForReadAsync(this IStorageFile windowsRuntimeFile)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync(windowsRuntimeFile);
+#elif __ANDROID__ || __IOS__ || WIN32
             if (windowsRuntimeFile == null)
             {
                 throw new ArgumentNullException("windowsRuntimeFile");
             }
-
-#if __ANDROID__ || __IOS__
-                return Task.FromResult<Stream>(global::System.IO.File.OpenRead(windowsRuntimeFile.Path));
+            
+            return Task.FromResult<Stream>(global::System.IO.File.OpenRead(windowsRuntimeFile.Path));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -46,9 +49,11 @@ namespace System.IO
         /// <returns></returns>
         public static Task<Stream> OpenStreamForReadAsync(this IStorageFolder rootDirectory, string relativePath)
         {
-#if __ANDROID__ || __IOS__
-                string newPath = Path.Combine(rootDirectory.Path, relativePath);
-                return Task.FromResult<Stream>(global::System.IO.File.OpenRead(newPath));
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync(rootDirectory, relativePath);
+#elif __ANDROID__ || __IOS__ || WIN32
+            string newPath = Path.Combine(rootDirectory.Path, relativePath);
+            return Task.FromResult<Stream>(global::System.IO.File.OpenRead(newPath));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -61,13 +66,15 @@ namespace System.IO
         /// <returns></returns>
         public static Task<Stream> OpenStreamForWriteAsync(this IStorageFile windowsRuntimeFile)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync(windowsRuntimeFile);
+#elif __ANDROID__ || __IOS__ || WIN32
             if (windowsRuntimeFile == null)
             {
                 throw new ArgumentNullException("windowsRuntimeFile");
             }
 
-#if __ANDROID__ || __IOS__
-                return Task.FromResult<Stream>(global::System.IO.File.OpenWrite(windowsRuntimeFile.Path));
+            return Task.FromResult<Stream>(global::System.IO.File.OpenWrite(windowsRuntimeFile.Path));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -79,11 +86,13 @@ namespace System.IO
         /// <param name="rootDirectory">The Windows Runtime IStorageFolder object that contains the file to write to.</param>
         /// <param name="relativePath">The path, relative to the root folder, to the file to write to.</param>
         /// <returns></returns>
-        public static Task<Stream> OpenStreamForWriteAsync(this IStorageFolder rootDirectory, string relativePath)
+        public static Task<Stream> OpenStreamForWriteAsync(this IStorageFolder rootDirectory, string relativePath, CreationCollisionOption creationCollisionOption)
         {
-#if __ANDROID__ || __IOS__
-                string newPath = Path.Combine(rootDirectory.Path, relativePath);
-                return Task.FromResult<Stream>(global::System.IO.File.OpenWrite(newPath));
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync(rootDirectory, relativePath, creationCollisionOption);
+#elif __ANDROID__ || __IOS__ || WIN32
+            string newPath = Path.Combine(rootDirectory.Path, relativePath);
+            return Task.FromResult<Stream>(global::System.IO.File.OpenWrite(newPath));
 #else
             throw new PlatformNotSupportedException();
 #endif

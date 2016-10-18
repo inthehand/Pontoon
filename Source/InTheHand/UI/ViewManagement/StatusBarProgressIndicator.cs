@@ -3,30 +3,31 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBarProgressIndicator))]
-#else
-
-namespace Windows.UI.ViewManagement
-{
-
-    using global::System;
-    using global::System.Collections.Generic;
-    using global::System.Threading;
-    using global::System.Threading.Tasks;
-    using Windows.Foundation;
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBarProgressIndicator))]
+//#else
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation;
 
 #if __ANDROID__
-    using Android.App;
-    using Android.Content;
+using Android.App;
+using Android.Content;
 #elif __IOS__
-    using UIKit;
+using UIKit;
 #elif WINDOWS_APP
-    using Windows.UI.Core;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 #endif
+
+namespace InTheHand.UI.ViewManagement
+{
+
+
 
     /// <summary>
     /// Provides methods and properties for interacting with the progress indicator on the status bar on a window (app view).
@@ -90,4 +91,4 @@ namespace Windows.UI.ViewManagement
             
     }
 }
-#endif
+//#endif

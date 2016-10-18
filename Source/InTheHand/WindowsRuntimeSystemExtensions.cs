@@ -11,7 +11,6 @@ using System.Runtime.CompilerServices;
 
 using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.Storage;
 
 namespace System
 {
@@ -27,7 +26,11 @@ namespace System
         /// <returns></returns>
         public static IAsyncAction AsAsyncAction(this Task source)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeSystemExtensions.AsAsyncAction(source);
+#else
             return new RuntimeAction(source);
+#endif
         }
 
         /// <summary>
@@ -38,7 +41,11 @@ namespace System
         /// <returns></returns>
         public static IAsyncOperation<TResult> AsAsyncOperation<TResult>(this Task<TResult> source)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeSystemExtensions.AsAsyncOperation<TResult>(source);
+#else
             return new RuntimeOperation<TResult>(source);
+#endif
         }
 
         /// <summary>
@@ -48,8 +55,12 @@ namespace System
         /// <returns></returns>
         public static Task AsTask(this IAsyncAction source)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeSystemExtensions.AsTask(source);
+#else
             RuntimeAction action = source as RuntimeAction;
             return action.task;
+#endif
         }
 
         /// <summary>
@@ -60,8 +71,12 @@ namespace System
         /// <returns></returns>
         public static Task<TResult> AsTask<TResult>(this IAsyncOperation<TResult> source)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeSystemExtensions.AsTask<TResult>(source);
+#else
             RuntimeOperation<TResult> operation = source as RuntimeOperation<TResult>;
             return operation.task;
+#endif
         }
 
         /// <summary>
@@ -71,12 +86,16 @@ namespace System
         /// <returns></returns>
         public static TaskAwaiter GetAwaiter(this IAsyncAction source)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeSystemExtensions.GetAwaiter(source);
+#else
             if(source is RuntimeAction)
             {
                 return ((RuntimeAction)source).task.GetAwaiter();
             }
 
             return new TaskAwaiter();
+#endif
         }
 
         /// <summary>
@@ -87,15 +106,20 @@ namespace System
         /// <returns></returns>
         public static TaskAwaiter<TResult> GetAwaiter<TResult>(this IAsyncOperation<TResult> source)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return WindowsRuntimeSystemExtensions.GetAwaiter(source);
+#else
             if (source is RuntimeOperation<TResult>)
             {
                 return ((RuntimeOperation<TResult>)source).task.GetAwaiter();
             }
 
             return new TaskAwaiter<TResult>();
+#endif
         }
     }
-    
+
+#if !WINDOWS_UWP && !WINDOWS_APP && !WINDOWS_PHONE_APP && !WINDOWS_PHONE
     internal sealed class RuntimeAction : IAsyncAction, IAsyncInfo
     {
         internal Task task;
@@ -239,5 +263,7 @@ namespace System
 #endif
         }
     }
+#endif
+
 }
 #endif

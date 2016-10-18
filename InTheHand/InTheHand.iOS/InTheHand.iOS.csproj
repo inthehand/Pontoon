@@ -237,6 +237,9 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\UniversalApiContract.cs">
+      <Link>Foundation\UniversalApiContract.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Globalization\ApplicationLanguages.cs">
       <Link>Globalization\ApplicationLanguages.cs</Link>
     </Compile>
@@ -302,6 +305,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs">
+      <Link>Storage\IStorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs">
+      <Link>Storage\IStorageFolder2.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem.cs">
       <Link>Storage\IStorageItem.cs</Link>

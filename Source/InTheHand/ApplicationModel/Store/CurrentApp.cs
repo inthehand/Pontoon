@@ -64,7 +64,7 @@ namespace InTheHand.ApplicationModel.Store
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://pdp/?PhoneAppId=" + Package.Current.Id.ProductId)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://pdp/?PhoneAppId=" + Windows.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
             }
             else
             {
@@ -90,7 +90,7 @@ namespace InTheHand.ApplicationModel.Store
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
-                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://reviewapp/?AppId=" + Package.Current.Id.ProductId)).AsTask<bool>();
+                return Launcher.LaunchUriAsync(new Uri("ms-windows-store://reviewapp/?AppId=" + Windows.ApplicationModel.Package.Current.Id.ProductId)).AsTask<bool>();
             }
             else
             {

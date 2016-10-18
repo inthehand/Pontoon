@@ -4,20 +4,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBar))]
-#else
-
-namespace Windows.UI.ViewManagement
-{
-
-    using global::System;
-    using global::System.Collections.Generic;
-    using global::System.Threading;
-    using global::System.Threading.Tasks;
-    using Windows.Foundation;
-
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBar))]
+//#else
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation;
 #if __ANDROID__
     using Android.App;
     using Android.Content;
@@ -29,6 +24,8 @@ namespace Windows.UI.ViewManagement
     using Windows.UI.Xaml.Controls;
 #endif
 
+namespace InTheHand.UI.ViewManagement
+{
     /// <summary>
     /// Provides methods and properties for interacting with the status bar on a window (app view).
     /// </summary>
@@ -90,6 +87,7 @@ namespace Windows.UI.ViewManagement
             }
         }
 #endif
+
         /// <summary>
         /// Gets the progress indicator for the status bar.
         /// </summary>
@@ -98,7 +96,9 @@ namespace Windows.UI.ViewManagement
         {
             get
             {
-#if WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+                return new StatusBarProgressIndicator(_statusBar.ProgressIndicator);
+#elif WINDOWS_PHONE
                 return new StatusBarProgressIndicator(Microsoft.Phone.Shell.SystemTray.ProgressIndicator);
 #else
                 return new StatusBarProgressIndicator();
@@ -107,4 +107,4 @@ namespace Windows.UI.ViewManagement
         }
     }
 }
-#endif
+//#endif

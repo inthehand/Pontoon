@@ -19,7 +19,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
-using InTheHand.ApplicationModel;
 
 #if __ANDROID__
 using Android.App;
@@ -62,6 +61,8 @@ namespace InTheHand.ApplicationModel
         PackageInfo _packageInfo;
 #elif __IOS__
         NSBundle _mainBundle;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        Windows.ApplicationModel.Package _package;
 #endif
 
         private Package()
@@ -70,25 +71,8 @@ namespace InTheHand.ApplicationModel
             _packageInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.MetaData);
 #elif __IOS__
             _mainBundle = NSBundle.MainBundle;
-#endif
-
-#if WINDOWS_PHONE
-            Capabilities |= _appManifest.Capabilities;
-            DeviceCapabilities |= _appManifest.DeviceCapabilities;
-            Logo = _appManifest.Logo;
-#endif
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81 || WINDOWS_UWP || WINDOWS_APP
-
-            //BackgroundColor = _appxManifest.BackgroundColor;
-            //Capabilities |= _appxManifest.Capabilities;
-            Description = AppxManifest.Current.Description;
-            //DeviceCapabilities |= _appxManifest.DeviceCapabilities;           
-#endif
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            Logo = AppxManifest.Current.Logo;
-#endif
-#if WIN32
-            Description = AssemblyManifest.Current.Description;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _package = Windows.ApplicationModel.Package.Current;
 #endif
         }
 
@@ -97,8 +81,20 @@ namespace InTheHand.ApplicationModel
         /// </summary>
         public string Description
         {
-            get;
-            private set;
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_APP
+                return _package.Description;
+#elif WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return AppxManifest.Current.Description;
+#elif WINDOWS_PHONE
+                return WMAppManifest.Current.Description;
+#elif WIN32
+                return AssemblyManifest.Current.Description;
+#else
+                return string.Empty;
+#endif
+            }
         }
 
         /// <summary>
@@ -165,6 +161,8 @@ namespace InTheHand.ApplicationModel
 #elif __IOS__
                 DateTime d = Directory.GetCreationTime(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.MyDocuments));
                 return new DateTimeOffset(d);
+#elif WINDOWS_UWP
+                return _package.InstalledDate;
 #elif WINDOWS_APP
                 PropertyInfo pi = _package.GetType().GetRuntimeProperty("InstalledDate");
                 if(pi != null)
@@ -173,7 +171,7 @@ namespace InTheHand.ApplicationModel
                     return dt;
                 }
                 return _package.InstalledLocation.DateCreated;
-#elif WINDOWS_PHONE || WINDOWS_PHONE_APP
+#elif WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 // using the date the folder was created (on initial install)
                 return _package.InstalledLocation.DateCreated;
 #elif WIN32
@@ -197,6 +195,8 @@ namespace InTheHand.ApplicationModel
                 return new StorageFolder(Application.Context.PackageCodePath);
 #elif __IOS__
                 return new StorageFolder(NSBundle.MainBundle.BundlePath);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _package.InstalledLocation;
 #elif WIN32
                 return new StorageFolder(AssemblyManifest.Current.InstalledLocation);
 #else
@@ -221,13 +221,15 @@ namespace InTheHand.ApplicationModel
                 return Android.App.Application.Context.PackageManager.GetInstallerPackageName(_packageInfo.PackageName) == null;
 #elif __IOS__
                 return !File.Exists(_mainBundle.AppStoreReceiptUrl.Path);
+#elif WINDOWS_UWP || WINDOWS_APP
+                return _package.IsDevelopmentMode;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 if (!_isDevelopmentMode.HasValue)
                 {
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     Task<bool> t = Task.Run<bool>(async () =>
                     {
-                        foreach (StorageFile file in await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFilesAsync())
+                        foreach (Windows.Storage.StorageFile file in await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFilesAsync())
                         {
                             if (file.Name == "AppxSignature.p7x")
                             {
@@ -258,8 +260,18 @@ namespace InTheHand.ApplicationModel
         /// </summary>
         public Uri Logo
         {
-            get;
-            private set;
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_APP
+                return _package.Logo;
+#elif WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return AppxManifest.Current.Logo;
+#elif WINDOWS_PHONE
+                return WMAppManifest.Current.Logo;
+#else
+                return null;
+#endif
+            }
         }
 
         /// <summary>
@@ -270,16 +282,16 @@ namespace InTheHand.ApplicationModel
         {
             get
             {
-#if __ANDROID__ || __IOS__
-                return string.Empty;
+#if WINDOWS_UWP || WINDOWS_APP
+                return _package.PublisherDisplayName;
 #elif WINDOWS_PHONE_APP
-                return _appxManifest.PublisherDisplayName;
+                return AppxManifest.Current.PublisherDisplayName;
 #elif WINDOWS_PHONE
-                return _appManifest.PublisherDisplayName;
+                return WMAppManifest.Current.PublisherDisplayName;
 #elif WIN32
                 return AssemblyManifest.Current.Company;
 #else
-                throw new PlatformNotSupportedException();
+                return string.Empty;
 #endif
             }
         }

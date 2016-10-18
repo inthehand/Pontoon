@@ -32,7 +32,7 @@ namespace InTheHandUI.ApplicationSettings
 
         async void SettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(Package.Current.GetLogo());
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(InTheHand.ApplicationModel.Package.Current.Logo);
             using (var stream = await file.OpenStreamForReadAsync())
             {
                 BitmapImage bmp = new BitmapImage();
@@ -59,18 +59,18 @@ namespace InTheHandUI.ApplicationSettings
             }
                 SettingsHeader.Text = "Settings".ToLower();
 
-            AppNameText.Text = Package.Current.GetDisplayName().ToUpper();
+            AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName.ToUpper();
 
             if (SettingsPane.GetForCurrentView().showPublisher)
             {
-                AuthorText.Text = string.Format("By ", Package.Current.GetPublisherDisplayName());
+                AuthorText.Text = string.Format("By ", InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
             }
             else
             {
                 AuthorText.Visibility = Visibility.Collapsed;
             }
 
-            this.Version.Text = string.Format("Version ", Package.Current.Id.Version.ToString(4));
+            this.Version.Text = string.Format("Version ", InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4));
             
         }
 
@@ -87,7 +87,7 @@ namespace InTheHandUI.ApplicationSettings
 #if DEBUG
             if(true)
 #else
-            if (!Package.Current.GetIsDevelopmentMode())
+            if (!InTheHand.ApplicationModel.Package.Current.GetIsDevelopmentMode())
 #endif
             {
                 commands.Add(new SettingsCommand("RateAndReview", "RateAndReview", RateAndReviewSelected));

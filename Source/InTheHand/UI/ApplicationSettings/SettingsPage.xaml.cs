@@ -54,7 +54,7 @@ namespace InTheHand.UI.ApplicationSettings
 #elif WINDOWS_PHONE_APP
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             AppNameText.Text = AppxManifest.Current.DisplayName;
-            Version.Text = string.Format("Version {0}", Package.Current.Id.Version.ToString(4));
+            Version.Text = string.Format("Version {0}", InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4));
 #endif
             this.Unloaded += SettingsPage_Unloaded;
         }
@@ -121,7 +121,7 @@ namespace InTheHand.UI.ApplicationSettings
 
             // for store distribution include rate and review
 #if !DEBUG
-            if (!Package.Current.GetIsDevelopmentMode())
+            if (!InTheHand.ApplicationModel.Package.Current.GetIsDevelopmentMode())
             {
 #endif
                 commands.Add(new SettingsCommand("RateAndReview", "Rate and review", async (c) =>

@@ -13,45 +13,15 @@ using Windows.Foundation;
 using Windows.Storage.FileProperties;
 
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageFolder))]
 [assembly: TypeForwardedTo(typeof(Windows.Storage.StorageFolder))]
 #else
 
 namespace Windows.Storage
 {
     /// <summary>
-    /// Manipulates folders and their contents, and provides information about them.
+    /// Manages folders and their contents and provides information about them.
     /// </summary>
-    public interface IStorageFolder : IStorageItem
-    {
-        IAsyncOperation<StorageFile> CreateFileAsync(string desiredName);
-        IAsyncOperation<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options);
-        IAsyncOperation<StorageFolder> CreateFolderAsync(string desiredName);
-        IAsyncOperation<StorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options);
-        IAsyncOperation<StorageFile> GetFileAsync(string filename);
-        IAsyncOperation<IReadOnlyList<StorageFile>> GetFilesAsync();
-        IAsyncOperation<StorageFolder> GetFolderAsync(string name);
-        IAsyncOperation<IReadOnlyList<StorageFolder>> GetFoldersAsync();
-    }
-
-    /// <summary>
-    /// Manipulates folders and their contents, and provides information about them.
-    /// </summary>
-    public interface IStorageFolder2
-    {
-        /// <summary>
-        /// Try to get a single file or sub-folder from the current folder by using the name of the item.
-        /// </summary>
-        /// <param name="name">The name (or path relative to the current folder) of the file or sub-folder to try to retrieve.</param>
-        /// <returns>When this method completes successfully, it returns the file or folder (type <see cref="IStorageItem"/>).</returns>
-        IAsyncOperation<IStorageItem> TryGetItemAsync(string name);
-    }
-
-
-        /// <summary>
-        /// Manages folders and their contents and provides information about them.
-        /// </summary>
-        public sealed class StorageFolder : IStorageFolder, IStorageFolder2, IStorageItem, IStorageItem2
+    public sealed class StorageFolder : IStorageFolder, IStorageFolder2, IStorageItem, IStorageItem2
     {
         /// <summary>
         /// Gets a StorageFile object to represent the file at the specified path.
@@ -73,7 +43,7 @@ namespace Windows.Storage
             throw new PlatformNotSupportedException();
 #endif
         }
-        
+
         private string _path;
 
         internal StorageFolder(string path)
@@ -100,7 +70,8 @@ namespace Windows.Storage
         public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options)
         {
 #if __ANDROID__ || __IOS__
-            return Task.Run<StorageFile>(() => {
+            return Task.Run<StorageFile>(() =>
+            {
                 string filepath = global::System.IO.Path.Combine(Path, desiredName);
 
                 if (global::System.IO.File.Exists(filepath))
@@ -139,7 +110,7 @@ namespace Windows.Storage
 #else
             throw new PlatformNotSupportedException();
 #endif
-            }
+        }
 
         /// <summary>
         /// Creates a new subfolder with the specified name in the current folder.
@@ -225,7 +196,7 @@ namespace Windows.Storage
             }
             return Task.Run(() =>
             {
-                global::System.IO.Directory.Delete(Path,true);
+                global::System.IO.Directory.Delete(Path, true);
             }).AsAsyncAction();
 #else
             throw new PlatformNotSupportedException();
@@ -329,6 +300,33 @@ namespace Windows.Storage
 
                 return folders;
             }).AsAsyncOperation<IReadOnlyList<StorageFolder>>();
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
+        /// <summary>
+        /// Gets the items in the current folder.
+        /// </summary>
+        /// <returns></returns>
+        public IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
+        {
+            List<IStorageItem> items = new List<IStorageItem>();
+#if __ANDROID__ || __IOS__
+            return Task.Run<IReadOnlyList<IStorageItem>>(() =>
+            {
+                foreach (string foldername in global::System.IO.Directory.GetDirectories(Path))
+                {
+                    items.Add(new StorageFolder(global::System.IO.Path.Combine(Path, foldername)));
+                }
+
+                foreach (string filename in global::System.IO.Directory.GetFiles(Path))
+                {
+                    items.Add(new StorageFolder(global::System.IO.Path.Combine(Path, filename)));
+                }
+
+                return items;
+            }).AsAsyncOperation<IReadOnlyList<IStorageItem>>();
 #else
             throw new PlatformNotSupportedException();
 #endif

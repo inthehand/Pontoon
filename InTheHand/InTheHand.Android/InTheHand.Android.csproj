@@ -147,6 +147,9 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\FoundationContract.cs">
+      <Link>Foundation\FoundationContract.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
       <Link>Foundation\IAsyncAction.cs</Link>
     </Compile>
@@ -156,8 +159,32 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
       <Link>Foundation\IAsyncOperation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\AllowMultipleAttribute.cs">
+      <Link>Foundation\Metadata\AllowMultipleAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiContractAttribute.cs">
+      <Link>Foundation\Metadata\ApiContractAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ContractVersionAttribute.cs">
+      <Link>Foundation\Metadata\ContractVersionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ExclusiveToAttribute.cs">
+      <Link>Foundation\Metadata\ExclusiveToAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\GuidAttribute.cs">
+      <Link>Foundation\Metadata\GuidAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\MarshallingBehaviorAttribute.cs">
+      <Link>Foundation\Metadata\MarshallingBehaviorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\OverloadAttribute.cs">
+      <Link>Foundation\Metadata\OverloadAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\StaticAttribute.cs">
+      <Link>Foundation\Metadata\StaticAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
       <Link>Foundation\Point.cs</Link>
@@ -167,6 +194,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\UniversalApiContract.cs">
+      <Link>Foundation\UniversalApiContract.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Globalization\ApplicationLanguages.cs">
       <Link>Globalization\ApplicationLanguages.cs</Link>
@@ -233,6 +263,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs">
+      <Link>Storage\IStorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs">
+      <Link>Storage\IStorageFolder2.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem.cs">
       <Link>Storage\IStorageItem.cs</Link>

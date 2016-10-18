@@ -3,7 +3,7 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageItem2))]
 #else
