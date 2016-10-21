@@ -3,13 +3,13 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkStatusChangedEventHandler))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkStatusChangedEventHandler))]
+//#else
 using System;
 
-namespace Windows.Networking.Connectivity
+namespace InTheHand.Networking.Connectivity
 {
     /// <summary>
     /// Represents the method that handles network status change notifications.
@@ -18,4 +18,4 @@ namespace Windows.Networking.Connectivity
     /// <param name="sender"></param>
     public delegate void NetworkStatusChangedEventHandler(object sender);
 }
-#endif
+//#endif

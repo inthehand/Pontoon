@@ -5,9 +5,9 @@
 //-----------------------------------------------------------------------
 
 using System;
-using Windows.UI.Notifications;
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 #elif __ANDROID__
 using Android.Widget;
 #elif __IOS__
@@ -30,11 +30,11 @@ namespace InTheHand.UI.Notifications
         public static ToastNotification CreateToastNotification(string content, string title)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            XmlDocument doc = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
+            XmlDocument doc = Windows.UI.Notifications.ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
             var textElements = doc.GetElementsByTagName("text");
             textElements[0].InnerText = title;
             textElements[1].InnerText = content;
-            return new ToastNotification(doc);
+            return new ToastNotification(new Windows.UI.Notifications.ToastNotification(doc));
 #elif WINDOWS_PHONE
             return new ToastNotification(new Microsoft.Phone.Shell.ShellToast() { Title = title, Content = content });
 #elif __ANDROID__
@@ -64,11 +64,11 @@ namespace InTheHand.UI.Notifications
         public static ScheduledToastNotification CreateScheduledToastNotification(string content, string title, DateTimeOffset deliveryTime)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            XmlDocument doc = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
+            XmlDocument doc = Windows.UI.Notifications.ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastText02);
             var textElements = doc.GetElementsByTagName("text");
             textElements[0].InnerText = title;
             textElements[1].InnerText = content;
-            return new ScheduledToastNotification(doc, deliveryTime);
+            return new ScheduledToastNotification(new Windows.UI.Notifications.ScheduledToastNotification(doc, deliveryTime));
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #elif __ANDROID__

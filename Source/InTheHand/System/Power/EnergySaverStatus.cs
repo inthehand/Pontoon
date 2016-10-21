@@ -3,12 +3,12 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Power.EnergySaverStatus))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Power.EnergySaverStatus))]
+//#else
 
-namespace Windows.System.Power
+namespace InTheHand.System.Power
 {
     /// <summary>
     /// Specifies the status of battery saver.
@@ -31,4 +31,4 @@ namespace Windows.System.Power
         On = 2,
     }
 }
-#endif
+//#endif

@@ -17,8 +17,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.Storage;
+using InTheHand.Storage;
 
 #if __ANDROID__
 using Android.App;
@@ -135,7 +134,7 @@ namespace InTheHand.ApplicationModel
                 if(_id==null)
                 {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                    _id = Windows.ApplicationModel.Package.Current.Id;
+                    _id = new PackageId(Windows.ApplicationModel.Package.Current.Id);
 #else
                     _id = new PackageId();
 #endif
@@ -196,7 +195,7 @@ namespace InTheHand.ApplicationModel
 #elif __IOS__
                 return new StorageFolder(NSBundle.MainBundle.BundlePath);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _package.InstalledLocation;
+                return new StorageFolder(_package.InstalledLocation);
 #elif WIN32
                 return new StorageFolder(AssemblyManifest.Current.InstalledLocation);
 #else

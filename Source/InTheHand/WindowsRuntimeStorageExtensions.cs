@@ -3,22 +3,20 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.IO.WindowsRuntimeStorageExtensions))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(System.IO.WindowsRuntimeStorageExtensions))]
+//#else
 
 using InTheHand.Storage;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Storage;
 
 namespace System.IO
 {
     /// <summary>
     /// Contains extension methods for the IStorageFile and IStorageFolder interfaces for .NET interop.
     /// </summary>
-    public static class WindowsRuntimeStorageExtensions
+    public static class InTheHandRuntimeStorageExtensions
     {
         /// <summary>
         /// Retrieves a stream for reading from a specified file.
@@ -28,7 +26,7 @@ namespace System.IO
         public static Task<Stream> OpenStreamForReadAsync(this IStorageFile windowsRuntimeFile)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync(windowsRuntimeFile);
+            return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync((global::Windows.Storage.StorageFile)((StorageFile)windowsRuntimeFile));
 #elif __ANDROID__ || __IOS__ || WIN32
             if (windowsRuntimeFile == null)
             {
@@ -50,7 +48,7 @@ namespace System.IO
         public static Task<Stream> OpenStreamForReadAsync(this IStorageFolder rootDirectory, string relativePath)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync(rootDirectory, relativePath);
+            return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync((global::Windows.Storage.StorageFolder)((StorageFolder)rootDirectory), relativePath);
 #elif __ANDROID__ || __IOS__ || WIN32
             string newPath = Path.Combine(rootDirectory.Path, relativePath);
             return Task.FromResult<Stream>(global::System.IO.File.OpenRead(newPath));
@@ -67,7 +65,7 @@ namespace System.IO
         public static Task<Stream> OpenStreamForWriteAsync(this IStorageFile windowsRuntimeFile)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync(windowsRuntimeFile);
+            return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync((global::Windows.Storage.StorageFile)((StorageFile)windowsRuntimeFile));
 #elif __ANDROID__ || __IOS__ || WIN32
             if (windowsRuntimeFile == null)
             {
@@ -89,7 +87,7 @@ namespace System.IO
         public static Task<Stream> OpenStreamForWriteAsync(this IStorageFolder rootDirectory, string relativePath, CreationCollisionOption creationCollisionOption)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync(rootDirectory, relativePath, creationCollisionOption);
+            return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync((global::Windows.Storage.StorageFolder)((StorageFolder)rootDirectory), relativePath, (global::Windows.Storage.CreationCollisionOption)((int)creationCollisionOption));
 #elif __ANDROID__ || __IOS__ || WIN32
             string newPath = Path.Combine(rootDirectory.Path, relativePath);
             return Task.FromResult<Stream>(global::System.IO.File.OpenWrite(newPath));
@@ -99,4 +97,4 @@ namespace System.IO
         }
     }
 }
-#endif
+//#endif

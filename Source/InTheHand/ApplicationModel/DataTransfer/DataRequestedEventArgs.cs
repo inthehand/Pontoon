@@ -3,12 +3,12 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs))]
+//#else
 
-namespace Windows.ApplicationModel.DataTransfer
+namespace InTheHand.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Contains information about the DataRequested event.
@@ -43,4 +43,4 @@ namespace Windows.ApplicationModel.DataTransfer
         public DataPackage Data { get; set; }
     }
 }
-#endif
+//#endif

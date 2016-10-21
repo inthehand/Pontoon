@@ -3,12 +3,12 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.PositionAccuracy))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.PositionAccuracy))]
+//#else
 
-namespace Windows.Devices.Geolocation
+namespace InTheHand.Devices.Geolocation
 {
     /// <summary>
     /// Indicates the requested accuracy level for the location data that the application uses.
@@ -28,4 +28,4 @@ namespace Windows.Devices.Geolocation
         High = 1,
     }
 }
-#endif
+//#endif

@@ -3,10 +3,10 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Phone.Devices.Notification.VibrationDevice))]
-#else
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Phone.Devices.Notification.VibrationDevice))]
+//#else
 
 #if __ANDROID__
 using Android.Content;
@@ -18,7 +18,7 @@ using Foundation;
 
 using System;
 
-namespace Windows.Phone.Devices.Notification
+namespace InTheHand.Phone.Devices.Notification
 {
     /// <summary>
     /// Vibrates the phone.
@@ -44,8 +44,13 @@ namespace Windows.Phone.Devices.Notification
         {
             if(_default == null)
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 _default = new VibrationDevice();
+#elif WINDOWS_UWP
+                if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
+                {
+                    _default = new Notification.VibrationDevice();
+                }
 #endif
             }
 
@@ -54,11 +59,15 @@ namespace Windows.Phone.Devices.Notification
 
 #if __ANDROID__
         private Vibrator _vibrator;
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Phone.Devices.Notification.VibrationDevice _device;
 #endif
         private VibrationDevice()
         {
 #if __ANDROID__
             _vibrator = (Vibrator)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Context.VibratorService);
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _device = Windows.Phone.Devices.Notification.VibrationDevice.GetDefault();
 #endif
         }
 
@@ -80,6 +89,8 @@ namespace Windows.Phone.Devices.Notification
             }
 #elif __IOS__
             SystemSound.Vibrate.PlaySystemSound();
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _device.Vibrate(duration);
 #elif WINDOWS_PHONE
             Microsoft.Devices.VibrateController.Default.Start(duration);
 #else
@@ -95,10 +106,12 @@ namespace Windows.Phone.Devices.Notification
             _vibrator.Cancel();
 #elif __IOS__
             SystemSound.Vibrate.Close();
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _device.Cancel();
 #elif WINDOWS_PHONE
             Microsoft.Devices.VibrateController.Default.Stop();
 #endif
         }
     }
 }
-#endif
+//#endif

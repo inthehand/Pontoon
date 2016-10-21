@@ -8,10 +8,9 @@
 //[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageFolder2))]
 //#else
 
-using Windows.Foundation;
-using Windows.Foundation.Metadata;
+using System.Threading.Tasks;
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Manipulates folders and their contents, and provides information about them.
@@ -25,7 +24,7 @@ namespace Windows.Storage
         /// </summary>
         /// <param name="name">The name (or path relative to the current folder) of the file or sub-folder to try to retrieve.</param>
         /// <returns>When this method completes successfully, it returns the file or folder (type <see cref="IStorageItem"/>).</returns>
-        IAsyncOperation<IStorageItem> TryGetItemAsync(string name);
+        Task<IStorageItem> TryGetItemAsync(string name);
     }
 }
 //#endif

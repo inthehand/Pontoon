@@ -10,7 +10,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Reflection;
-using Windows.ApplicationModel;
+using InTheHand.ApplicationModel;
 #if WINDOWS_APP || WINDOWS_UWP || WINDOWS_PHONE_APP
 using Windows.System;
 #endif

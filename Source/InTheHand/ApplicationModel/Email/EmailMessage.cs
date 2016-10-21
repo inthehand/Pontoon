@@ -3,13 +3,13 @@
 //     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailMessage))]
-#else
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailMessage))]
+//#else
 using System.Collections.Generic;
 
-namespace Windows.ApplicationModel.Email
+namespace InTheHand.ApplicationModel.Email
 {
     /// <summary>
     /// Represents an email message.
@@ -52,4 +52,4 @@ namespace Windows.ApplicationModel.Email
         public IList<EmailRecipient> Bcc { get; private set; }
     }
 }
-#endif
+//#endif

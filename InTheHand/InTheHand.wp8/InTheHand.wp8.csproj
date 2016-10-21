@@ -317,6 +317,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
       <Link>Storage\FileIO.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
+      <Link>Storage\FileProperties\BasicProperties.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>
     </Compile>
@@ -404,15 +407,15 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>
@@ -469,9 +472,6 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
-      <Link>WindowsRuntimeSystemExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

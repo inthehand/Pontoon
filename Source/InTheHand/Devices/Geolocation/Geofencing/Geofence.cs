@@ -3,11 +3,11 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.Geofence))]
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.MonitoredGeofenceStates))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.Geofence))]
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.MonitoredGeofenceStates))]
+//#else
 
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ using UIKit;
 using CoreLocation;
 #endif
 
-namespace Windows.Devices.Geolocation.Geofencing
+namespace InTheHand.Devices.Geolocation.Geofencing
 {
     /// <summary>
     /// Contains the information to define a geofence, an area of interest, to monitor.
@@ -127,4 +127,4 @@ namespace Windows.Devices.Geolocation.Geofencing
         Removed,
     }
 }
-#endif
+//#endif

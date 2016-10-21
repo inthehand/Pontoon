@@ -3,10 +3,10 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Resources.ResourceLoader))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Resources.ResourceLoader))]
+//#else
 
 using System.Reflection;
 using System.Resources;
@@ -15,7 +15,7 @@ using System.Threading;
 using System.Windows;
 #endif
 
-namespace Windows.ApplicationModel.Resources
+namespace InTheHand.ApplicationModel.Resources
 {
     /// <summary>
     /// Provides simplified access to app resources such as app UI strings.
@@ -79,4 +79,4 @@ namespace Windows.ApplicationModel.Resources
         }
     }
 }
-#endif
+//#endif

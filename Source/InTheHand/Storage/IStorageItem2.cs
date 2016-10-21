@@ -3,17 +3,16 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageItem2))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageItem2))]
+//#else
 
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.Foundation;
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Manipulates storage items (files and folders) and their contents, and provides information about them.
@@ -24,7 +23,7 @@ namespace Windows.Storage
         /// Gets the parent folder of the current storage item.
         /// </summary>
         /// <returns></returns>
-        IAsyncOperation<StorageFolder> GetParentAsync();
+        Task<StorageFolder> GetParentAsync();
 
         /// <summary>
         /// Indicates whether the current item is the same as the specified item.
@@ -34,4 +33,4 @@ namespace Windows.Storage
         bool IsEqual(IStorageItem item);
     }
 }
-#endif
+//#endif

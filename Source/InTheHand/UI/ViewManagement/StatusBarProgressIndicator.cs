@@ -11,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
@@ -26,15 +25,33 @@ using Windows.UI.Xaml.Controls;
 
 namespace InTheHand.UI.ViewManagement
 {
-
-
-
     /// <summary>
     /// Provides methods and properties for interacting with the progress indicator on the status bar on a window (app view).
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     public sealed class StatusBarProgressIndicator
     {
-#if WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+        private Windows.UI.ViewManagement.StatusBarProgressIndicator _indicator;
+
+        internal StatusBarProgressIndicator(Windows.UI.ViewManagement.StatusBarProgressIndicator indicator)
+        {
+            _indicator = indicator;
+        }
+
+        public static implicit operator Windows.UI.ViewManagement.StatusBarProgressIndicator(StatusBarProgressIndicator pi)
+        {
+            return pi._indicator;
+        }
+
+#elif WINDOWS_PHONE
         private Microsoft.Phone.Shell.ProgressIndicator _progressIndicator;
 
         internal StatusBarProgressIndicator(Microsoft.Phone.Shell.ProgressIndicator progressIndicator)
@@ -50,7 +67,7 @@ namespace InTheHand.UI.ViewManagement
         /// Hides the progress indicator.
         /// </summary>
         /// <returns></returns>
-        public IAsyncAction HideAsync()
+        public Task HideAsync()
         {
             return Task.Run(()=>{
 #if __ANDROID__
@@ -61,17 +78,19 @@ namespace InTheHand.UI.ViewManagement
                 }         
 #elif __IOS__
                 UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
+                return _indicator.HideAsync().AsTask();
 #elif WINDOWS_PHONE
                 _progressIndicator.IsVisible = false;
 #endif
-            }).AsAsyncAction();
+            });
         }
 
         /// <summary>
         /// Shows the progress indicator.
         /// </summary>
         /// <returns></returns>
-        public IAsyncAction ShowAsync()
+        public Task ShowAsync()
         {
             return Task.Run(() =>
             {
@@ -83,10 +102,12 @@ namespace InTheHand.UI.ViewManagement
                 }         
 #elif __IOS__
                 UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
+                return _indicator.ShowAsync().AsTask();
 #elif WINDOWS_PHONE
                 _progressIndicator.IsVisible = true;
 #endif
-            }).AsAsyncAction();
+            });
         }
             
     }

@@ -3,14 +3,14 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Foundation.IAsyncInfo))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Foundation.IAsyncInfo))]
+//#else
 
 using System;
 
-namespace Windows.Foundation
+namespace InTheHand.Foundation
 {
     /// <summary>
     /// Supports asynchronous actions and operations.
@@ -42,7 +42,6 @@ namespace Windows.Foundation
         /// Gets a value that indicates the status of the asynchronous operation.
         /// </summary>
         AsyncStatus Status { get; }
-
     }
 }
-#endif
+//#endif

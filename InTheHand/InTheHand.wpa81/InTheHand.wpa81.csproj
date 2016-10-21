@@ -84,11 +84,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
@@ -168,6 +168,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
       <Link>ApplicationModel\Store\CurrentApp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
+      <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
@@ -337,6 +340,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
       <Link>Storage\FileIO.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
+      <Link>Storage\FileProperties\BasicProperties.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>
     </Compile>
@@ -375,6 +381,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageItemTypes.cs">
       <Link>Storage\StorageItemTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs">
+      <Link>Storage\Streams\UnicodeEncoding.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
@@ -418,18 +427,18 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
       <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>
@@ -472,20 +481,17 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
       <Link>UI\ViewManagement\StatusBar.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
       <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
-    </None>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\DispatcherTimer.cs">
       <Link>UI\Xaml\DispatcherTimer.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
-      <Link>WindowsRuntimeSystemExtensions.cs</Link>
     </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

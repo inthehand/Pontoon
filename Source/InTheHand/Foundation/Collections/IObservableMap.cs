@@ -3,13 +3,13 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Foundation.Collections.IObservableMap<,>))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Foundation.Collections.IObservableMap<,>))]
+//#else
 using System.Collections.Generic;
 
-namespace Windows.Foundation.Collections
+namespace InTheHand.Foundation.Collections
 {
     /// <summary>
     /// Notifies listeners of dynamic changes to a map, such as when items are added or removed.
@@ -84,4 +84,4 @@ namespace Windows.Foundation.Collections
         ItemChanged = 3,
     }
 }
-#endif
+//#endif

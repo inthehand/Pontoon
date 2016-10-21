@@ -6,14 +6,13 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallManager))]
-#else
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallManager))]
+//#else
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
@@ -24,7 +23,7 @@ using Windows.UI.Popups;
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace Windows.ApplicationModel.Calls
+namespace InTheHand.ApplicationModel.Calls
 {
     /// <summary>
     /// Provides methods for launching the built-in phone call UI.
@@ -44,10 +43,10 @@ namespace Windows.ApplicationModel.Calls
         /// 
         /// </summary>
         /// <returns></returns>
-        public static IAsyncOperation<PhoneCallStore> RequestStoreAsync()
+        public static Task<PhoneCallStore> RequestStoreAsync()
         {
 #if __ANDROID__
-            return Task.FromResult<PhoneCallStore>(new PhoneCallStore()).AsAsyncOperation<PhoneCallStore>();
+            return Task.FromResult<PhoneCallStore>(new PhoneCallStore());
 #elif __IOS__
             return Task.Run<PhoneCallStore>(()=>
             {
@@ -56,9 +55,9 @@ namespace Windows.ApplicationModel.Calls
                     return new PhoneCallStore();
                 }
                 return null;
-            }).AsAsyncOperation<PhoneCallStore>();
-            /*#elif WINDOWS_PHONE_APP
-                        if (_type10 != null)
+            });
+#elif WINDOWS_PHONE_APP
+                        /*if (_type10 != null)
                         {
                             Type storeType = Type.GetType("Windows.ApplicationModel.Calls.PhoneCallStore, Windows, ContentType=WindowsRuntime");
                             object act = _type10.GetRuntimeProperty("IsCallActive").GetValue(null);
@@ -77,7 +76,7 @@ namespace Windows.ApplicationModel.Calls
                             //return new PhoneCallStore(await (Windows.Foundation.IAsyncOperation<object>)nativeStoreTask);
                         }*/
 #endif
-            return Task.FromResult<PhoneCallStore>(null).AsAsyncOperation<PhoneCallStore>();
+            return Task.FromResult<PhoneCallStore>(null);
         }
 
         /*internal static void CompletionHandler(IAsyncInfo operation, AsyncStatus status)
@@ -116,6 +115,19 @@ namespace Windows.ApplicationModel.Calls
                 global::Foundation.NSUrl url = new global::Foundation.NSUrl("telprompt:" + CleanPhoneNumber(phoneNumber));        
                 UIKit.UIApplication.SharedApplication.OpenUrl(url);
             } 
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.ApplicationModel.Calls.PhoneCallManager"))
+            {
+#endif
+                Windows.ApplicationModel.Calls.PhoneCallManager.ShowPhoneCallUI(phoneNumber, displayName);
+#if WINDOWS_UWP
+            }
+            else
+            {
+                Windows.System.Launcher.LaunchUriAsync(new Uri("tel:" + phoneNumber));
+            }
+#endif
 #elif WINDOWS_APP
             MessageDialog prompt = new MessageDialog(string.Format("Dial {0} at {1}?", displayName, phoneNumber), "Phone");
             prompt.Commands.Add(new UICommand("Call", async (c) =>
@@ -142,4 +154,4 @@ namespace Windows.ApplicationModel.Calls
         }
     }
 }
-#endif
+//#endif

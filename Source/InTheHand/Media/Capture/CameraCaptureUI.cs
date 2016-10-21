@@ -3,11 +3,11 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Media.Capture.CameraCaptureUI))]
-[assembly: TypeForwardedTo(typeof(Windows.Media.Capture.CameraCaptureUIMode))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Media.Capture.CameraCaptureUI))]
+//[assembly: TypeForwardedTo(typeof(Windows.Media.Capture.CameraCaptureUIMode))]
+//#else
 
 #if __ANDROID__
 using Android.App;
@@ -26,13 +26,11 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Threading;
 using System.IO;
-using Windows.Foundation;
-using Windows.Storage;
 
 using System.Collections.Generic;
+using InTheHand.Storage;
 
-
-namespace Windows.Media.Capture
+namespace InTheHand.Media.Capture
 {
     /// <summary>
     /// Provides a full window UI for capturing audio, video, and photos from a camera. 
@@ -44,6 +42,8 @@ namespace Windows.Media.Capture
         private EventWaitHandle _handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         private string _filename;
 
+#elif WINDOWS_UWP || WINDOWS_APP
+        private Windows.Media.Capture.CameraCaptureUI _cc;
 #elif WINDOWS_PHONE_APP
         private static Type _type10;
         private object ccu = null;
@@ -71,6 +71,8 @@ namespace Windows.Media.Capture
             _pc.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
             _pc.FinishedPickingMedia += Pc_FinishedPickingMedia;
             _pc.Canceled += Pc_Canceled;
+#elif WINDOWS_UWP || WINDOWS_APP
+            _cc = new Windows.Media.Capture.CameraCaptureUI();
 #elif WINDOWS_PHONE_APP
             if (_type10 != null)
             {
@@ -168,7 +170,7 @@ namespace Windows.Media.Capture
         /// </summary>
         /// <param name="mode">Specifies whether the user interface that will be shown allows the user to capture a photo, capture a video, or capture both photos and videos.</param>
         /// <returns>When this operation completes, a StorageFile object is returned.</returns>
-        public IAsyncOperation<StorageFile> CaptureFileAsync(CameraCaptureUIMode mode)
+        public Task<StorageFile> CaptureFileAsync(CameraCaptureUIMode mode)
         {
 #if __ANDROID__
             
@@ -185,9 +187,9 @@ namespace Windows.Media.Capture
                     }
 
                     return null;
-                }).AsAsyncOperation<StorageFile>();
+                });
             }
-            return Task.FromResult<StorageFile>(null).AsAsyncOperation<StorageFile>();
+            return Task.FromResult<StorageFile>(null);
 
 #elif __IOS__
             return Task.Run<StorageFile>(async () =>
@@ -216,25 +218,34 @@ namespace Windows.Media.Capture
                                 return await StorageFile.GetFileFromPathAsync(_filename);
                             }
                             return null;
-                        }).AsAsyncOperation<StorageFile>();
+                        });
+#elif WINDOWS_UWP || WINDOWS_APP
+            return Task.Run<StorageFile>(async ()=>{
+                var f = await _cc.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((int)mode));
+                return f == null ? null : new StorageFile(f);
+            });
 #elif WINDOWS_PHONE_APP
-                if (_type10 != null)
+            if (_type10 != null)
+            {
+                return Task.Run<StorageFile>(async () =>
                 {
                     Type modeType = Type.GetType("Windows.Media.Capture.CameraCaptureUIMode, Windows, ContentType=WindowsRuntime");
                     object modeVal = Enum.ToObject(modeType, mode);
-                    return (IAsyncOperation<StorageFile>)_type10.GetRuntimeMethod("CaptureFileAsync", new Type[] { modeType }).Invoke(ccu, new object[] { modeVal });
-                }
+                    var f = await (Windows.Foundation.IAsyncOperation<Windows.Storage.StorageFile>)_type10.GetRuntimeMethod("CaptureFileAsync", new Type[] { modeType }).Invoke(ccu, new object[] { modeVal });
+                    return f == null ? null : new StorageFile(f);
+                });
+            }
 
-                return Task.FromResult<StorageFile>(null).AsAsyncOperation<StorageFile>();
+                return Task.FromResult<StorageFile>(null);
 #elif WINDOWS_PHONE
             _task.Show();
             return Task.Run<StorageFile>(() =>
             {
                 _handle.WaitOne();
                 return (StorageFile)null;
-            }).AsAsyncOperation<StorageFile>();
+            });
 #else
-            return Task.FromResult<StorageFile>(null).AsAsyncOperation<StorageFile>();
+            return Task.FromResult<StorageFile>(null);
 #endif
         }
     }
@@ -260,4 +271,4 @@ namespace Windows.Media.Capture
         Video = 2,
     }
 }
-#endif
+//#endif

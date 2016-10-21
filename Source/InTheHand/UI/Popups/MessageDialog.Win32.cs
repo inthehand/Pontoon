@@ -6,9 +6,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Windows.Foundation;
 
-namespace Windows.UI.Popups
+namespace InTheHand.UI.Popups
 {
     public sealed partial class MessageDialog
     {

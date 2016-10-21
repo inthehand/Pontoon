@@ -3,19 +3,17 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationData))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationData))]
+//#else
 
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using InTheHand.ApplicationModel;
-using Windows.Foundation;
-using InTheHand.Storage;
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Provides access to the application data store.
@@ -36,19 +34,32 @@ namespace Windows.Storage
             }
         }
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private Windows.Storage.ApplicationData _applicationData;
+#else
+#if WINDOWS_PHONE
+        private Windows.Storage.ApplicationData _applicationData;
+#endif
         private ApplicationDataContainer _localSettings;
         private ApplicationDataContainer _roamingSettings;
+#endif
 
         private ApplicationData()
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _applicationData = Windows.Storage.ApplicationData.Current;
+#endif
         }
 
         /// <summary>
         /// Removes all application data from the local, roaming, and temporary app data stores.
         /// </summary>
         /// <returns></returns>
-        public IAsyncAction ClearAsync()
+        public Task ClearAsync()
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return _applicationData.ClearAsync().AsTask();
+#else
             return Task.Run(async () =>
             {
                 await LocalFolder.DeleteAllItems();
@@ -56,15 +67,16 @@ namespace Windows.Storage
                 await RoamingFolder.DeleteAllItems();
                 RoamingSettings?.Values.Clear();
                 await TemporaryFolder.DeleteAllItems();
-            }).AsAsyncAction();
+            });
+#endif
         }
-
+        
         /// <summary>
         /// Removes all application data from the specified app data store.
         /// </summary>
         /// <param name="locality">One of the enumeration values.</param>
         /// <returns></returns>
-        public IAsyncAction ClearAsync(ApplicationDataLocality locality)
+        public Task ClearAsync(ApplicationDataLocality locality)
         {
             return Task.Run(async () =>
             {
@@ -82,7 +94,7 @@ namespace Windows.Storage
                         await TemporaryFolder.DeleteAllItems();
                         break;
                 }
-            }).AsAsyncAction();
+            });
         }
 
 
@@ -95,8 +107,10 @@ namespace Windows.Storage
             {
 #if __ANDROID__ || __IOS__
                 return new StorageFolder(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal));
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(_applicationData.LocalFolder);
 #elif WIN32
-                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
+                return new StorageFolder(Path.Combine(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.LocalApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -112,7 +126,10 @@ namespace Windows.Storage
         {
             get
             {
-                if(_localSettings == null)
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return new ApplicationDataContainer(_applicationData.LocalSettings);
+#else
+                if (_localSettings == null)
                 {
 #if !WIN32
                     _localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local);
@@ -120,6 +137,7 @@ namespace Windows.Storage
                 }
 
                 return _localSettings;
+#endif
             }
         }
 
@@ -130,8 +148,10 @@ namespace Windows.Storage
         {
             get
             {
-#if WIN32
-                return new StorageFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(_applicationData.RoamingFolder);
+#elif WIN32
+                return new StorageFolder(Path.Combine(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.ApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
 #else
                 return null;
 #endif
@@ -146,6 +166,9 @@ namespace Windows.Storage
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return new ApplicationDataContainer(_applicationData.RoamingSettings);
+#else
                 if (_roamingSettings == null)
                 {
 #if __IOS__
@@ -154,6 +177,7 @@ namespace Windows.Storage
                 }
 
                 return _roamingSettings;
+#endif
             }
         }
 
@@ -168,6 +192,8 @@ namespace Windows.Storage
                 return new StorageFolder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.CacheDir.AbsolutePath);
 #elif __IOS__
                 return new StorageFolder("tmp/");
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(_applicationData.TemporaryFolder);
 #elif WIN32
                 return new StorageFolder(Path.GetTempPath());
 #else
@@ -177,4 +203,4 @@ namespace Windows.Storage
         }
     }
 }
-#endif
+//#endif

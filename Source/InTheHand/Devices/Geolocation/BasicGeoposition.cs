@@ -3,14 +3,14 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.BasicGeoposition))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.BasicGeoposition))]
+//#else
 
 using System;
 
-namespace Windows.Devices.Geolocation
+namespace InTheHand.Devices.Geolocation
 {
     /// <summary>
     /// The basic information to describe a geographic position.
@@ -37,4 +37,4 @@ namespace Windows.Devices.Geolocation
         public double Longitude;
     }
 }
-#endif
+//#endif

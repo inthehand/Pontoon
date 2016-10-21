@@ -4,17 +4,16 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.UI.Core;
+using Windows.UI.Popups;
+using Windows.UI.Xaml.Controls;
+
 namespace InTheHand.UI.Popups
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Windows.Foundation;
-
-    using Windows.UI.Core;
-    using Windows.UI.Popups;
-    using Windows.UI.Xaml.Controls;
-
     /// <summary>
     /// Provides helper methods for MessageDialog.
     /// </summary>

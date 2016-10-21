@@ -57,7 +57,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         /// <summary>
         /// Gets the GATT Characteristic UUID for this GattCharacteristic.
         /// </summary>
-        public System.Guid Uuid
+        public Guid Uuid
         {
             get
             {

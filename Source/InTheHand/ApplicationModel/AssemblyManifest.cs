@@ -50,7 +50,7 @@ namespace InTheHand.ApplicationModel
         {
             get
             {
-                return new DateTimeOffset(System.IO.File.GetCreationTime(_launchingAssembly.Location));
+                return new DateTimeOffset(File.GetCreationTime(_launchingAssembly.Location));
             }
         }
 

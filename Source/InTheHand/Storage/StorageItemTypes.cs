@@ -3,12 +3,12 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageItemTypes))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageItemTypes))]
+//#else
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Describes whether an item that implements the <see cref="IStorageItem"/> interface is a file or a folder.
@@ -31,4 +31,4 @@ namespace Windows.Storage
         Folder = 2,
     }
 }
-#endif
+//#endif

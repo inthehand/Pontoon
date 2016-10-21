@@ -1,15 +1,13 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="Launcher.Win32.cs" company="In The Hand Ltd">
-//     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 using System;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Windows.Foundation;
 
-namespace Windows.System
+namespace InTheHand.System
 {
     /// <summary>
     /// Starts the default app associated with the specified file or URI.

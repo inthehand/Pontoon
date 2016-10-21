@@ -3,12 +3,12 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotificationManager))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotificationManager))]
+//#else
 
-namespace Windows.UI.Notifications
+namespace InTheHand.UI.Notifications
 {
     /// <summary>
     /// Creates ToastNotifier objects which let you display toast notifications.
@@ -36,4 +36,4 @@ namespace Windows.UI.Notifications
         }
     }
 }
-#endif
+//#endif

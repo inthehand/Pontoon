@@ -3,14 +3,14 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsCommand))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsCommand))]
+//#else
 using System;
-using Windows.UI.Popups;
+using InTheHand.UI.Popups;
 
-namespace Windows.UI.ApplicationSettings
+namespace InTheHand.UI.ApplicationSettings
 {
     /// <summary>
     /// Creates a settings command object that represents a settings entry.
@@ -47,4 +47,4 @@ namespace Windows.UI.ApplicationSettings
         public string Label { set; get; }
     }
 }
-#endif
+//#endif

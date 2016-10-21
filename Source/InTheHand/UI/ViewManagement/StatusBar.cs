@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
 #if __ANDROID__
     using Android.App;
     using Android.Content;
@@ -29,64 +28,60 @@ namespace InTheHand.UI.ViewManagement
     /// <summary>
     /// Provides methods and properties for interacting with the status bar on a window (app view).
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     public sealed class StatusBar
     {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+        private Windows.UI.ViewManagement.StatusBar _statusBar;
+
+        internal StatusBar(Windows.UI.ViewManagement.StatusBar statusBar)
+        {
+            _statusBar = statusBar;
+        }
+
+        public static implicit operator Windows.UI.ViewManagement.StatusBar(StatusBar sb)
+        {
+            return sb._statusBar;
+        }
+#else
+        private static StatusBar _statusBar;
+
+        private StatusBar()
+        {
+        }
+#endif
+
         /// <summary>
         /// Gets the status bar for the current window (app view).
         /// </summary>
         /// <returns></returns>
         public static StatusBar GetForCurrentView()
         {
+#if WINDOWS_UWP
+            if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
+            }
+
+            return null;
+#elif WINDOWS_PHONE_APP
+            return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
+#else
             if (_statusBar == null)
             {
                 _statusBar = new StatusBar();
             }
 
             return _statusBar;
-        }
-
-        private static StatusBar _statusBar;
-
-        private StatusBar()
-        {
-        }
-
-#if WINDOWS_PHONE_APP || WINDOWS_UWP
-        public Windows.UI.Color? BackgroundColor {
-            get
-            {
-                return ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundColor;
-            }
-            set
-            {
-                ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundColor = value;
-            }
-        }
-
-        public double BackgroundOpacity
-        {
-            get
-            {
-                return ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundOpacity;
-            }
-            set
-            {
-                ((Windows.UI.ViewManagement.StatusBar)_statusBar).BackgroundOpacity = value;
-            }
-        }
-
-        public Windows.UI.Color? ForegroundColor
-        {
-            get
-            {
-                return ((Windows.UI.ViewManagement.StatusBar)_statusBar).ForegroundColor;
-            }
-            set
-            {
-                ((Windows.UI.ViewManagement.StatusBar)_statusBar).ForegroundColor = value;
-            }
-        }
 #endif
+        }
 
         /// <summary>
         /// Gets the progress indicator for the status bar.

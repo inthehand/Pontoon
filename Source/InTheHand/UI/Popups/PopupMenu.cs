@@ -3,17 +3,16 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP 
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.PopupMenu))]
-#else
-namespace Windows.UI.Popups
-{
-    using global::System;
-    using global::System.Collections.Generic;
-    using global::System.Threading;
-    using global::System.Threading.Tasks;
-    using Windows.Foundation;
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP 
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.PopupMenu))]
+//#else
+
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using InTheHand.Foundation;
 #if __ANDROID__
     using Android.App;
     using Android.Content;
@@ -25,6 +24,9 @@ namespace Windows.UI.Popups
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls; 
 #endif
+
+namespace InTheHand.UI.Popups
+{
     /// <summary>
     /// Represents a context menu.
     /// </summary>
@@ -84,7 +86,7 @@ namespace Windows.UI.Popups
         /// The menu is placed above and centered on this point.</param>
         /// <returns>An object that represents the asynchronous operation.
         /// For more on the async pattern, see Asynchronous programming in the Windows Runtime.</returns>
-        public IAsyncOperation<IUICommand> ShowAsync(Point invocationPoint)
+        public Task<IUICommand> ShowAsync(Point invocationPoint)
         {
             return ShowForSelectionAsync(new Rect(invocationPoint.X, invocationPoint.Y,0,0), Placement.Default);
         }
@@ -94,7 +96,7 @@ namespace Windows.UI.Popups
         /// </summary>
         /// <param name="selection">The coordinates (in DIPs) of the selected rectangle, relative to the window.</param>
         /// <returns></returns>
-        public IAsyncOperation<IUICommand> ShowForSelectionAsync(Rect selection)
+        public Task<IUICommand> ShowForSelectionAsync(Rect selection)
         {
             return ShowForSelectionAsync(selection, Placement.Default);
         }
@@ -105,7 +107,7 @@ namespace Windows.UI.Popups
         /// <param name="selection">The coordinates (in DIPs) of the selected rectangle, relative to the window.</param>
         /// <param name="preferredPlacement">The preferred placement of the context menu relative to the selection rectangle.</param>
         /// <returns></returns>
-        public IAsyncOperation<IUICommand> ShowForSelectionAsync(Rect selection, Placement preferredPlacement)
+        public Task<IUICommand> ShowForSelectionAsync(Rect selection, Placement preferredPlacement)
         { 
             if (this.Commands.Count > MaxCommands)
             {
@@ -134,7 +136,7 @@ namespace Windows.UI.Popups
             {
                 handle.WaitOne();
                 return _selectedCommand;
-            }).AsAsyncOperation<IUICommand>();
+            });
 
 #elif __IOS__
             uac = UIAlertController.Create("", "", UIAlertControllerStyle.ActionSheet);
@@ -172,117 +174,7 @@ namespace Windows.UI.Popups
             {
                 handle.WaitOne();
                 return _selectedCommand;
-            }).AsAsyncOperation<IUICommand>();
-
-#elif WINDOWS_PHONE
-            // use toolkit contextmenu?
-            return Task.FromResult<IUICommand>(null).AsAsyncOperation<IUICommand>();
-#elif WINDOWS_UWP
-            if (Commands.Count < 3 && Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract", 1))
-            {
-                Windows.UI.Xaml.Controls.ContentDialog cd = new Windows.UI.Xaml.Controls.ContentDialog();
-                cd.Title = this.Title;
-                cd.Content = this.Content;
-                if(Commands.Count == 0)
-                {
-                    cd.PrimaryButtonText = "Close";
-                }
-                else
-                {
-                    cd.PrimaryButtonText = Commands[0].Label;
-                    cd.PrimaryButtonClick += Cd_PrimaryButtonClick;
-                    if(Commands.Count > 1)
-                    {
-                        cd.SecondaryButtonText = Commands[1].Label;
-                        cd.SecondaryButtonClick += Cd_SecondaryButtonClick;
-                    }
-                }
-                
-                return Task.Run<IUICommand>(async () => 
-                {
-                    ManualResetEvent mre = new ManualResetEvent(false);
-                    IUICommand command = null;
-
-                    await cd.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        ContentDialogResult dr = await cd.ShowAsync();
-                        if (Commands.Count > 0)
-                        {
-                            switch (dr)
-                            {
-                                case ContentDialogResult.Primary:
-                                    command = Commands[0];
-                                    if(Commands[0].Invoked != null)
-                                    {
-                                        Commands[0].Invoked.Invoke(Commands[0]);
-                                    }
-                                    break;
-
-                                case ContentDialogResult.Secondary:
-                                    command = commands[1];
-                                    if (Commands[1].Invoked != null)
-                                    {
-                                        Commands[1].Invoked.Invoke(Commands[1]);
-                                    }
-                                    break;
-                            }
-                        }
-                    });
-
-                    mre.WaitOne();
-
-                    return command;
-                });
-            }
-            else
-            {
-                Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog(this.Content, this.Title);
-                foreach (IUICommand command in this.Commands)
-                {
-                    dialog.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, (c)=> { command.Invoked(command); }, command.Id));
-                }
-                return Task.Run<IUICommand>(async () => {
-                    Windows.UI.Popups.IUICommand command = await dialog.ShowAsync();
-                    if (command != null)
-                    {
-                        int i = 0;
-                        foreach(Windows.UI.Popups.IUICommand c in dialog.Commands)
-                        {
-                            if(command == c)
-                            {
-                                break;
-                            }
-
-                            i++;
-                        }
-
-                        return this.Commands[i];
-                    }
-                    return null;
-                });
-            }
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
-            Windows.UI.Popups.MessageDialog dialog = new Windows.UI.Popups.MessageDialog(this.Content, this.Title);
-            foreach(IUICommand command in this.Commands)
-            {
-                dialog.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, null, command.Id));
-            }
-            Task<Windows.UI.Popups.IUICommand> t = dialog.ShowAsync().AsTask<Windows.UI.Popups.IUICommand>();
-            
-            return Task.Run<IUICommand>(() => {
-                t.Wait();
-                Windows.UI.Popups.IUICommand command = t.Result;
-               
-                if (command != null)
-                {
-                    if (command.Invoked != null)
-                    {
-                        command.Invoked.Invoke(command);
-                    }
-                    return new UICommand(command.Label, null, command.Id);
-                }
-                return null;
-            }).AsAsyncOperation<IUICommand>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -320,4 +212,4 @@ namespace Windows.UI.Popups
         }
     }
 }
-#endif
+//#endif

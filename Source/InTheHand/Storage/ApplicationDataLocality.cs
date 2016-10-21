@@ -3,12 +3,12 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataLocality))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataLocality))]
+//#else
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Provides access to the application data store.
@@ -42,4 +42,4 @@ namespace Windows.Storage
         SharedLocal = 4,
     }
 }
-#endif
+//#endif

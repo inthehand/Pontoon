@@ -6,14 +6,13 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallStore))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallStore))]
+//#else
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
@@ -26,7 +25,7 @@ using Windows.ApplicationModel.Calls;
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace Windows.ApplicationModel.Calls
+namespace InTheHand.ApplicationModel.Calls
 {
     /// <summary>
     /// Represents a collection of information about the phone lines available on a device.
@@ -51,14 +50,14 @@ namespace Windows.ApplicationModel.Calls
         /// Gets the line ID for the current default phone line.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<Guid> GetDefaultLineAsync()
+        public Task<Guid> GetDefaultLineAsync()
         {
 #if WINDOWS_APP || WINDOWS_PHONE_APP
-            return _type.GetRuntimeMethod("GetDefaultLineAsync", new Type[0]).Invoke(_store, new object[0]) as IAsyncOperation<Guid>;
+            return (_type.GetRuntimeMethod("GetDefaultLineAsync", new Type[0]).Invoke(_store, new object[0]) as Windows.Foundation.IAsyncOperation<Guid>).AsTask<Guid>();
 #else
-            return Task.FromResult<Guid>(Guid.Empty).AsAsyncOperation<Guid>();
+            return Task.FromResult<Guid>(Guid.Empty);
 #endif
         }
     }
 }
-#endif
+//#endif

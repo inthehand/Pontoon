@@ -3,12 +3,12 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceMonitorStatus))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceMonitorStatus))]
+//#else
 
-namespace Windows.Devices.Geolocation.Geofencing
+namespace InTheHand.Devices.Geolocation.Geofencing
 {
     /// <summary>
     /// Indicates the current state of a <see cref="GeofenceMonitor"/>.
@@ -46,4 +46,4 @@ namespace Windows.Devices.Geolocation.Geofencing
         Ready,
     }
 }
-#endif
+//#endif

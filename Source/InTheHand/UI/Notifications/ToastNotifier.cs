@@ -3,10 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotifier))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotifier))]
+//#else
 
 #if __IOS__
 using UIKit;
@@ -14,17 +14,30 @@ using UIKit;
 
 using System;
 
-namespace Windows.UI.Notifications
+namespace InTheHand.UI.Notifications
 {
     /// <summary>
     /// Updates a badge overlay on the specific tile that the updater is bound to.
     /// </summary>
     public sealed class ToastNotifier
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private Windows.UI.Notifications.ToastNotifier _notifier;
+
+        internal ToastNotifier(Windows.UI.Notifications.ToastNotifier notifier)
+        {
+            _notifier = notifier;
+        }
+
+        public static implicit operator Windows.UI.Notifications.ToastNotifier(ToastNotifier tn)
+        {
+            return tn._notifier;
+        }
+#else
         internal ToastNotifier()
         {
         }
-
+#endif
         /// <summary>
         /// Shows a toast notification.
         /// </summary>
@@ -38,6 +51,8 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.PresentLocalNotificationNow(notification._localNotification);
             });
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _notifier.Show(notification._notification);
 #elif WINDOWS_PHONE
             notification._shellToast.Show();
 #endif
@@ -56,6 +71,8 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.CancelLocalNotification(notification._localNotification);
             });
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _notifier.Hide(notification._notification);
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #endif
@@ -74,6 +91,8 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.ScheduleLocalNotification(scheduledToast._localNotification);
             });
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _notifier.AddToSchedule(scheduledToast._notification);
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #endif
@@ -92,10 +111,12 @@ namespace Windows.UI.Notifications
             {
                 UIApplication.SharedApplication.CancelLocalNotification(scheduledToast._localNotification);
             });
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _notifier.RemoveFromSchedule(scheduledToast._notification);
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #endif
         }
     }
 }
-#endif
+//#endif

@@ -3,12 +3,12 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Power.BatteryStatus))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Power.BatteryStatus))]
+//#else
 
-namespace Windows.System.Power
+namespace InTheHand.System.Power
 {
     /// <summary>
     /// Indicates the status of the battery.
@@ -36,4 +36,4 @@ namespace Windows.System.Power
         Charging = 3,
     }
 }
-#endif
+//#endif

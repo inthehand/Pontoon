@@ -4,7 +4,6 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 using System;
-using Windows.ApplicationModel;
 
 namespace InTheHand.ApplicationModel
 {

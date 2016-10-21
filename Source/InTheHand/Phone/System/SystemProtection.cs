@@ -3,10 +3,10 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Phone.System.SystemProtection))]
-#else
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Phone.System.SystemProtection))]
+//#else
 
 #if __ANDROID__
 using Android.App;
@@ -18,7 +18,7 @@ using UIKit;
 
 using System;
 
-namespace Windows.Phone.System
+namespace InTheHand.Phone.System
 {
     /// <summary>
     /// Provides information related to system protection.
@@ -38,6 +38,19 @@ namespace Windows.Phone.System
                 return km.InKeyguardRestrictedInputMode();
 #elif __IOS__
                 return !UIApplication.SharedApplication.ProtectedDataAvailable;
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.System.SystemProtection"))
+                {
+#endif
+                    return Windows.Phone.System.SystemProtection.ScreenLocked;
+#if WINDOWS_UWP
+                }
+                else
+                {
+                    return false;
+                }
+#endif
 #else
                 return false;
 #endif
@@ -45,4 +58,4 @@ namespace Windows.Phone.System
         }
     }
 }
-#endif
+//#endif

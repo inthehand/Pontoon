@@ -3,12 +3,12 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.LaunchQuerySupportStatus))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.LaunchQuerySupportStatus))]
+//#else
 
-namespace Windows.System
+namespace InTheHand.System
 {
     /// <summary>
     /// Specifies whether an app is available that supports activation
@@ -52,4 +52,4 @@ namespace Windows.System
         Unknown = 4,
     }
 }
-#endif
+//#endif

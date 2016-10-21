@@ -6,15 +6,14 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneLine))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneLine))]
+//#else
 
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Windows.Foundation;
 
 #if __ANDROID__
 using Android.App;
@@ -27,7 +26,7 @@ using Windows.ApplicationModel.Calls;
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace Windows.ApplicationModel.Calls
+namespace InTheHand.ApplicationModel.Calls
 {
     /// <summary>
     /// Provides methods for launching the built-in phone call UI.
@@ -62,17 +61,17 @@ namespace Windows.ApplicationModel.Calls
         /// </summary>
         /// <param name="lineId">The line ID of the phone line to retrieve.</param>
         /// <returns></returns>
-        public static IAsyncOperation<PhoneLine> FromIdAsync(Guid lineId)
+        public static Task<PhoneLine> FromIdAsync(Guid lineId)
         {
 #if __ANDROID__ || __IOS__
-            return Task.FromResult<PhoneLine>(new PhoneLine()).AsAsyncOperation<PhoneLine>();
+            return Task.FromResult<PhoneLine>(new PhoneLine());
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
             if(_type10 != null)
             {
                 return Task.Run<PhoneLine>(async () =>
                 {
-                    return new PhoneLine(await ((IAsyncOperation<object>)_type10.GetRuntimeMethod("FromIdAsync", new Type[] { typeof(Guid) }).Invoke(null, new object[] { lineId })));
-                }).AsAsyncOperation<PhoneLine>();
+                    return new PhoneLine(await ((Windows.Foundation.IAsyncOperation<object>)_type10.GetRuntimeMethod("FromIdAsync", new Type[] { typeof(Guid) }).Invoke(null, new object[] { lineId })));
+                });
             }
 
             return null;
@@ -102,4 +101,4 @@ namespace Windows.ApplicationModel.Calls
         }
     }
 }
-#endif
+//#endif

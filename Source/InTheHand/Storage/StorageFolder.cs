@@ -3,20 +3,23 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageFolder))]
+//#else
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
-using System.Runtime.CompilerServices;
+
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Storage.FileProperties;
+using InTheHand.Storage.FileProperties;
+#if WINDOWS_PHONE
+using System.IO.IsolatedStorage;
+#endif
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageFolder))]
-#else
-
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Manages folders and their contents and provides information about them.
@@ -30,35 +33,63 @@ namespace Windows.Storage
         /// If your path uses slashes, make sure you use backslashes(\).
         /// Forward slashes(/) are not accepted by this method.</param>
         /// <returns>When this method completes, it returns the file as a StorageFile.</returns>
-        public static IAsyncOperation<StorageFolder> GetFolderFromPathAsync(string path)
+        public static Task<StorageFolder> GetFolderFromPathAsync(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
                 throw new ArgumentNullException("path");
             }
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFolder>(async () =>
+            {
+                var f = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(path);
 
-#if __ANDROID__ || __IOS__
-            return Task.FromResult<StorageFolder>(new StorageFolder(path)).AsAsyncOperation<StorageFolder>();
+                return f == null ? null : new StorageFolder(f);
+            });
 #else
-            throw new PlatformNotSupportedException();
+            return Task.FromResult<StorageFolder>(new StorageFolder(path));
 #endif
         }
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Storage.StorageFolder _folder;
+
+        internal StorageFolder(Windows.Storage.StorageFolder folder)
+        {
+            _folder = folder;
+        }
+
+        public static implicit operator Windows.Storage.StorageFolder(StorageFolder f)
+        {
+            return f._folder;
+        }
+#else
         private string _path;
 
         internal StorageFolder(string path)
         {
             _path = path;
         }
+#endif
 
         /// <summary>
         /// Creates a new file with the specified name in the current folder.
         /// </summary>
         /// <param name="desiredName">The name of the new file to create in the current folder.</param>
         /// <returns>When this method completes, it returns a StorageFile that represents the new file.</returns>
-        public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName)
+        public Task<StorageFile> CreateFileAsync(string desiredName)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFile>(async () =>
+            {
+                var f = await _folder.CreateFileAsync(desiredName);
+                return f == null ? null : new StorageFile(f);
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
+#else
+            throw new PlatformNotSupportedException();
+#endif
         }
 
         /// <summary>
@@ -67,9 +98,15 @@ namespace Windows.Storage
         /// <param name="desiredName">The name of the new file to create in the current folder.</param>
         /// <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
         /// <returns>When this method completes, it returns a StorageFile that represents the new file.</returns>
-        public IAsyncOperation<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options)
+        public Task<StorageFile> CreateFileAsync(string desiredName, CreationCollisionOption options)
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFile>(async () =>
+            {
+                var f = await _folder.CreateFileAsync(desiredName, (Windows.Storage.CreationCollisionOption)((int)options));
+                return f == null ? null : new StorageFile(f);
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<StorageFile>(() =>
             {
                 string filepath = global::System.IO.Path.Combine(Path, desiredName);
@@ -106,7 +143,7 @@ namespace Windows.Storage
 
                 return new StorageFile(filepath);
 
-            }).AsAsyncOperation<StorageFile>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -117,9 +154,17 @@ namespace Windows.Storage
         /// </summary>
         /// <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
         /// <returns>When this method completes, it returns a StorageFolder that represents the new subfolder.</returns>
-        public IAsyncOperation<StorageFolder> CreateFolderAsync(string desiredName)
+        public Task<StorageFolder> CreateFolderAsync(string desiredName)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFolder>(async () =>
+            {
+                var f = await _folder.CreateFolderAsync(desiredName);
+                return f == null ? null : new StorageFolder(f);
+            });
+#else
             return CreateFolderAsync(desiredName);
+#endif
         }
 
         /// <summary>
@@ -129,9 +174,15 @@ namespace Windows.Storage
         /// <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
         /// <param name="options">One of the enumeration values that determines how to handle the collision if a subfolder with the specified desiredName already exists in the current folder.</param>
         /// <returns>When this method completes, it returns a StorageFolder that represents the new subfolder.</returns>
-        public IAsyncOperation<StorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options)
+        public Task<StorageFolder> CreateFolderAsync(string desiredName, CreationCollisionOption options)
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFolder>(async () =>
+            {
+                var f = await _folder.CreateFolderAsync(desiredName, (Windows.Storage.CreationCollisionOption)((int)options));
+                return f == null ? null : new StorageFolder(f);
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run(() =>
             {
                 string newpath = global::System.IO.Path.Combine(Path, desiredName);
@@ -167,7 +218,7 @@ namespace Windows.Storage
                 Directory.CreateDirectory(newpath);
 
                 return new Storage.StorageFolder(newpath);
-            }).AsAsyncOperation<StorageFolder>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -177,9 +228,15 @@ namespace Windows.Storage
         /// Deletes the current folder.
         /// </summary>
         /// <returns></returns>
-        public IAsyncAction DeleteAsync()
+        public Task DeleteAsync()
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return _folder.DeleteAsync().AsTask();
+#elif __ANDROID__ || __IOS__ || WIN32
             return DeleteAsync(StorageDeleteOption.Default);
+#else
+            throw new PlatformNotSupportedException();
+#endif
         }
 
         /// <summary>
@@ -187,9 +244,11 @@ namespace Windows.Storage
         /// This method also specifies whether to delete the folder permanently.
         /// </summary>
         /// <returns></returns>
-        public IAsyncAction DeleteAsync(StorageDeleteOption option)
+        public Task DeleteAsync(StorageDeleteOption option)
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return _folder.DeleteAsync((Windows.Storage.StorageDeleteOption)((int)option)).AsTask();
+#elif __ANDROID__ || __IOS__ || WIN32
             if (!Directory.Exists(Path))
             {
                 throw new FileNotFoundException();
@@ -197,7 +256,7 @@ namespace Windows.Storage
             return Task.Run(() =>
             {
                 global::System.IO.Directory.Delete(Path, true);
-            }).AsAsyncAction();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -207,9 +266,19 @@ namespace Windows.Storage
         /// Gets the basic properties of the current folder.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<BasicProperties> GetBasicPropertiesAsync()
+        public Task<BasicProperties> GetBasicPropertiesAsync()
         {
-            return Task.FromResult<BasicProperties>(new BasicProperties(this)).AsAsyncOperation<BasicProperties>();
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<BasicProperties>(async () =>
+            {
+                var p  = await _folder.GetBasicPropertiesAsync();
+                return new BasicProperties(p);
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
+            return Task.FromResult<BasicProperties>(new BasicProperties(this));
+#else
+            throw new PlatformNotSupportedException();
+#endif
         }
 
         /// <summary>
@@ -217,9 +286,15 @@ namespace Windows.Storage
         /// </summary>
         /// <param name="filename"></param>
         /// <returns></returns>
-        public IAsyncOperation<StorageFile> GetFileAsync(string filename)
+        public Task<StorageFile> GetFileAsync(string filename)
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFile>(async () =>
+            {
+                var f = await _folder.GetFileAsync(filename);
+                return f == null ? null : new StorageFile(f);
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<StorageFile>(() =>
             {
                 string filepath = global::System.IO.Path.Combine(Path, filename);
@@ -230,7 +305,7 @@ namespace Windows.Storage
                 }
 
                 return new StorageFile(filepath);
-            }).AsAsyncOperation<StorageFile>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -240,9 +315,21 @@ namespace Windows.Storage
         /// Gets the files in the current folder.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<IReadOnlyList<StorageFile>> GetFilesAsync()
+        public Task<IReadOnlyList<StorageFile>> GetFilesAsync()
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<IReadOnlyList<StorageFile>>(async () =>
+            {
+                List<StorageFile> files = new List<StorageFile>();
+                var found = await _folder.GetFilesAsync();
+                foreach(var file in found)
+                {
+                    files.Add(new StorageFile(file));
+                }
+
+                return files.AsReadOnly();
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<IReadOnlyList<StorageFile>>(() =>
             {
                 List<StorageFile> files = new List<StorageFile>();
@@ -253,7 +340,7 @@ namespace Windows.Storage
                 }
 
                 return files;
-            }).AsAsyncOperation<IReadOnlyList<StorageFile>>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -264,9 +351,15 @@ namespace Windows.Storage
         /// </summary>
         /// <param name="name">The name of the child folder to retrieve.</param>
         /// <returns>When this method completes successfully, it returns a StorageFolder that represents the child folder.</returns>
-        public IAsyncOperation<StorageFolder> GetFolderAsync(string name)
+        public Task<StorageFolder> GetFolderAsync(string name)
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<StorageFolder>(async () =>
+            {
+                var f = await _folder.GetFolderAsync(name);
+                return f == null ? null : new StorageFolder(f);
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<StorageFolder>(() =>
             {
                 string folderpath = global::System.IO.Path.Combine(Path, name);
@@ -277,7 +370,7 @@ namespace Windows.Storage
                 }
 
                 return new StorageFolder(folderpath);
-            }).AsAsyncOperation<StorageFolder>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -287,10 +380,21 @@ namespace Windows.Storage
         /// Gets the folders in the current folder.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<IReadOnlyList<StorageFolder>> GetFoldersAsync()
+        public Task<IReadOnlyList<StorageFolder>> GetFoldersAsync()
         {
             List<StorageFolder> folders = new List<StorageFolder>();
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<IReadOnlyList<StorageFolder>>(async () =>
+            {
+                var found = await _folder.GetFoldersAsync();
+                foreach (var folder in found)
+                {
+                    folders.Add(new StorageFolder(folder));
+                }
+
+                return folders.AsReadOnly();
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<IReadOnlyList<StorageFolder>>(() =>
             {
                 foreach (string foldername in global::System.IO.Directory.GetDirectories(Path))
@@ -298,8 +402,8 @@ namespace Windows.Storage
                     folders.Add(new StorageFolder(global::System.IO.Path.Combine(Path, foldername)));
                 }
 
-                return folders;
-            }).AsAsyncOperation<IReadOnlyList<StorageFolder>>();
+                return folders.AsReadOnly();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -309,10 +413,28 @@ namespace Windows.Storage
         /// Gets the items in the current folder.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<IReadOnlyList<IStorageItem>> GetItemsAsync()
+        public Task<IReadOnlyList<IStorageItem>> GetItemsAsync()
         {
             List<IStorageItem> items = new List<IStorageItem>();
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<IReadOnlyList<IStorageItem>>(async () =>
+            {
+                var found = await _folder.GetItemsAsync();
+                foreach (var item in found)
+                {
+                    if (item.IsOfType(Windows.Storage.StorageItemTypes.File))
+                    {
+                        items.Add(new StorageFile((Windows.Storage.StorageFile)item));
+                    }
+                    else
+                    {
+                        items.Add(new StorageFolder((Windows.Storage.StorageFolder)item));
+                    }
+                }
+
+                return items.AsReadOnly();
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<IReadOnlyList<IStorageItem>>(() =>
             {
                 foreach (string foldername in global::System.IO.Directory.GetDirectories(Path))
@@ -325,8 +447,8 @@ namespace Windows.Storage
                     items.Add(new StorageFolder(global::System.IO.Path.Combine(Path, filename)));
                 }
 
-                return items;
-            }).AsAsyncOperation<IReadOnlyList<IStorageItem>>();
+                return items.AsReadOnly();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -336,31 +458,139 @@ namespace Windows.Storage
         /// Gets the parent folder of the current folder.
         /// </summary>
         /// <returns>When this method completes, it returns the parent folder as a StorageFolder.</returns>
-        public IAsyncOperation<StorageFolder> GetParentAsync()
+        public Task<StorageFolder> GetParentAsync()
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP
+            return Task.Run<StorageFolder>(async () =>
+            {
+                var f = await _folder.GetParentAsync();
+                return f == null ? null : new StorageFolder(f);
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<StorageFolder>(() =>
             {
                 var parent = global::System.IO.Directory.GetParent(Path);
                 return parent == null ? null : new StorageFolder(parent.FullName);
-            }).AsAsyncOperation<StorageFolder>();
+            });
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
-            var parentPath = global::System.IO.Path.GetPathRoot(Path.TrimEnd('\\'));
-            Windows.Storage.StorageFolder parent = null;
-            if (!string.IsNullOrEmpty(parentPath))
+            return Task.Run<StorageFolder>(async () =>
             {
-                parent = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(parentPath);
-            }
+                var parentPath = global::System.IO.Path.GetPathRoot(Path.TrimEnd('\\'));
+                Windows.Storage.StorageFolder parent = null;
+                if (!string.IsNullOrEmpty(parentPath))
+                {
+                    parent = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(parentPath);
+                }
 
-            return parent == null ? null : new StorageFolder(parent);
+                return parent == null ? null : new StorageFolder(parent);
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
         }
 
-        public IAsyncOperation<IStorageItem> TryGetItemAsync(string name)
+        public Task<IStorageItem> TryGetItemAsync(string name)
         {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP
+            return Task.Run<IStorageItem>(async () =>
+            {
+                var i = await _folder.TryGetItemAsync(name);
+                if (i == null)
+                    return null;
+                if(i.IsOfType(Windows.Storage.StorageItemTypes.File))
+                {
+                    return new StorageFile((Windows.Storage.StorageFile)i);
+                }
+                else
+                {
+                    return new StorageFolder((Windows.Storage.StorageFolder)i);
+                }
+            });
+#elif WINDOWS_PHONE_APP
+            return Task.Run<IStorageItem>(async () =>
+            {
+                if (name.Contains("."))
+                {
+                    // names containing a . are files so do this faster files-only approach
+                    foreach (var file in await _folder.GetFilesAsync())
+                    {
+                        if (file.Name == name)
+                        {
+                            return new StorageFile(file);
+                        }
+                    }
+                }
+                else
+                {
+                    // items with no extension could be either file or folder so check all items
+                    foreach (Windows.Storage.IStorageItem item in await _folder.GetItemsAsync())
+                    {
+                        if (item.Name == name)
+                        {
+                            if (item.IsOfType(Windows.Storage.StorageItemTypes.File))
+                            {
+                                return new StorageFile((Windows.Storage.StorageFile)item);
+                            }
+                            else
+                            {
+                                return new StorageFolder((Windows.Storage.StorageFolder)item);
+                            }
+                        }
+                    }
+                }
+
+                return null;
+            });
+#elif WINDOWS_PHONE
+            return Task.Run<IStorageItem>(async () =>
+            {
+                string isoPath = _folder.GetIsoStorePath();
+                if (isoPath == null)
+                {
+                    // On 8.1 defer to try/catch if outside of localstate/isostore
+                    try
+                    {
+                        var i = await _folder.GetItemAsync(name);
+                        if(i.IsOfType(Windows.Storage.StorageItemTypes.File))
+                        {
+                            return new StorageFile((Windows.Storage.StorageFile)i);
+                        }
+                        else
+                        {
+                            return new StorageFolder((Windows.Storage.StorageFolder)i);
+                        }
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+
+                if (name.Contains("."))
+                {
+                    // file
+                    if (IsolatedStorageFile.GetUserStoreForApplication().FileExists(global::System.IO.Path.Combine(isoPath, name)))
+                    {
+                        return new StorageFile(await _folder.GetFileAsync(name));
+                    }
+                }
+                else
+                {
+                    // folder
+                    if (IsolatedStorageFile.GetUserStoreForApplication().DirectoryExists(global::System.IO.Path.Combine(isoPath, name)))
+                    {
+                        return new StorageFolder(await _folder.GetFolderAsync(name));
+                    }
+                    else if (IsolatedStorageFile.GetUserStoreForApplication().FileExists(global::System.IO.Path.Combine(isoPath, name)))
+                    {
+                        // file without extension
+                        return new StorageFile(await _folder.GetFileAsync(name));
+                    }
+                }
+
+                return null;
+            });
+#elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run<IStorageItem>(() =>
             {
                 string itempath = global::System.IO.Path.Combine(Path, name);
@@ -374,7 +604,7 @@ namespace Windows.Storage
                 }
 
                 return null;
-            }).AsAsyncOperation<IStorageItem>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -450,7 +680,16 @@ namespace Windows.Storage
         /// <returns></returns>
         public bool IsEqual(IStorageItem item)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                return this._folder == ((StorageFolder)item)._folder;
+            }
+
+            return false;
+#else
             return this.Path == item.Path;
+#endif
         }
 
         public bool IsOfType(StorageItemTypes type)
@@ -459,4 +698,4 @@ namespace Windows.Storage
         }
     }
 }
-#endif
+//#endif

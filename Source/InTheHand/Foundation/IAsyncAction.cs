@@ -3,13 +3,13 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Foundation.IAsyncAction))]
-[assembly: TypeForwardedTo(typeof(Windows.Foundation.AsyncActionCompletedHandler))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Foundation.IAsyncAction))]
+//[assembly: TypeForwardedTo(typeof(Windows.Foundation.AsyncActionCompletedHandler))]
+//#else
 
-namespace Windows.Foundation
+namespace InTheHand.Foundation
 {
     /// <summary>
     /// Represents an asynchronous action.
@@ -35,4 +35,4 @@ namespace Windows.Foundation
     /// <param name="asyncStatus">One of the enumeration values.</param>
     public delegate void AsyncActionCompletedHandler(IAsyncAction asyncInfo, AsyncStatus asyncStatus);
 }
-#endif
+//#endif

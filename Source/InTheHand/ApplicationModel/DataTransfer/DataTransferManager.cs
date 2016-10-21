@@ -3,15 +3,15 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataTransferManager))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataTransferManager))]
+//#else
 
 using global::System;
 using global::System.Collections.Generic;
 using global::System.Diagnostics;
-using Windows.Foundation;
+using InTheHand.Foundation;
 
 #if __ANDROID__
 using Android.Content;
@@ -23,7 +23,7 @@ using UIKit;
 using System.Windows;
 #endif
 
-namespace Windows.ApplicationModel.DataTransfer
+namespace InTheHand.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Programmatically initiates an exchange of content with other apps.
@@ -257,4 +257,4 @@ namespace Windows.ApplicationModel.DataTransfer
         }
     }
 }
-#endif
+//#endif

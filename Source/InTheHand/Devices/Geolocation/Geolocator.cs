@@ -3,15 +3,15 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geolocator))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geolocator))]
+//#else
 
 using System;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using System.Diagnostics;
+using InTheHand.Foundation;
 
 #if __IOS__
 using Foundation;
@@ -20,7 +20,7 @@ using CoreLocation;
 using System.Device.Location;
 #endif
 
-namespace Windows.Devices.Geolocation
+namespace InTheHand.Devices.Geolocation
 {
     /// <summary>
     /// Provides access to the current geographic location. 
@@ -381,4 +381,4 @@ namespace Windows.Devices.Geolocation
 
     }
 }
-#endif
+//#endif

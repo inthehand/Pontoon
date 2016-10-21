@@ -3,19 +3,18 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackageView))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackageView))]
+//#else
 
-using global::System;
-using global::System.Collections.Generic;
-using global::System.Linq;
-using global::System.Threading.Tasks;
-using global::System.Collections.ObjectModel;
-using Windows.Foundation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
-namespace Windows.ApplicationModel.DataTransfer
+namespace InTheHand.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// A read-only version of a <see cref="DataPackage"/>.
@@ -66,7 +65,7 @@ namespace Windows.ApplicationModel.DataTransfer
         /// </summary>
         /// <param name="formatId">The format of the data.</param>
         /// <returns>The data.</returns>
-        public IAsyncOperation<object> GetDataAsync(string formatId)
+        public Task<object> GetDataAsync(string formatId)
         {
             return Task.Run<object>(() => 
             {
@@ -86,14 +85,14 @@ namespace Windows.ApplicationModel.DataTransfer
                 }
 
                 return null;
-            }).AsAsyncOperation<object>();
+            });
         }
 
         /// <summary>
         /// Gets the text in the <see cref="DataPackageView"/> object.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<string> GetTextAsync()
+        public Task<string> GetTextAsync()
         {
             return Task.Run<string>(() =>
             {
@@ -111,7 +110,7 @@ namespace Windows.ApplicationModel.DataTransfer
                 }
 
                 return null;
-            }).AsAsyncOperation<string>();
+            });
         }
 
         private Uri GetUri(string format)
@@ -136,25 +135,25 @@ namespace Windows.ApplicationModel.DataTransfer
         /// Gets the application link in the <see cref="DataPackageView"/> object.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<Uri> GetApplicationLinkAsync()
+        public Task<Uri> GetApplicationLinkAsync()
         {
             return Task.Run<Uri>(() =>
             {
                 return GetUri(StandardDataFormats.ApplicationLink);
-            }).AsAsyncOperation<Uri>();
+            });
         }
 
         /// <summary>
         /// Gets the web link in the <see cref="DataPackageView"/> object.
         /// </summary>
         /// <returns></returns>
-        public IAsyncOperation<Uri> GetWebLinkAsync()
+        public Task<Uri> GetWebLinkAsync()
         {
             return Task.Run<Uri>(() =>
             {
                 return GetUri(StandardDataFormats.WebLink);
-            }).AsAsyncOperation<Uri>();
+            });
         }
     }
 }
-#endif
+//#endif

@@ -25,7 +25,11 @@ namespace XamarinFormsApp
         {
             // Handle when your app starts
             Windows.Foundation.Point p = new Windows.Foundation.Point() { X = 10, Y = 20 };
-            var id = InTheHand.ApplicationModel.Package.Current.Description;
+            var t = typeof(Windows.Foundation.Metadata.ApiInformation);
+
+            //var t = typeof(Windows.System.LauncherOptions);
+
+            //Windows.System.Launcher.LaunchUriAsync(new Uri("http://bing.com"));
             //var folder = InTheHand.ApplicationModel.Package.Current.InstalledLocation;
             //StorageFolder folder = null;
             //IStorageFolder isf = null;

@@ -127,6 +127,12 @@
       <Link>Enumeration\DeviceViewModel.cs</Link>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InTheHand\InTheHand.wpa81\InTheHand.wpa81.csproj">
+      <Project>{84860412-ac9c-4878-ac4f-d893c2b82139}</Project>
+      <Name>InTheHand.wpa81</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

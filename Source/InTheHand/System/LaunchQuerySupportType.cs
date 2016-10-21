@@ -3,12 +3,12 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.LaunchQuerySupportType))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.LaunchQuerySupportType))]
+//#else
 
-namespace Windows.System
+namespace InTheHand.System
 {
     /// <summary>
     /// Specifies the type of activation to query for.
@@ -39,4 +39,4 @@ namespace Windows.System
         UriForResults = 1,
     }
 }
-#endif
+//#endif

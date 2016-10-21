@@ -3,11 +3,11 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.TargetApplicationChosenEventArgs))]
-#else
-namespace Windows.ApplicationModel.DataTransfer
+//#if WINDOWS_UWP || WINDOWS_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.TargetApplicationChosenEventArgs))]
+//#else
+namespace InTheHand.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Contains information about the target app the user chose to share content with.
@@ -26,4 +26,4 @@ namespace Windows.ApplicationModel.DataTransfer
         public string ApplicationName { get; private set; }
     }
 }
-#endif
+//#endif

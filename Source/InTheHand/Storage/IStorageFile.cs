@@ -4,18 +4,17 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageFile))]
+//#else
+
 using System;
 using System.IO;
 
 using System.Threading.Tasks;
-using Windows.Foundation;
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageFile))]
-#else
-
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Represents a file.
@@ -28,14 +27,14 @@ namespace Windows.Storage
         /// </summary>
         /// <param name="fileToReplace">The file to replace.</param>
         /// <returns>No object or value is returned when this method completes.</returns>
-        IAsyncAction CopyAndReplaceAsync(IStorageFile fileToReplace);
+        Task CopyAndReplaceAsync(IStorageFile fileToReplace);
 
         /// <summary>
         /// Creates a copy of the file in the specified folder.
         /// </summary>
         /// <param name="destinationFolder"></param>
         /// <returns></returns>
-        IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder);
+        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder);
 
         /// <summary>
         /// Creates a copy of the file in the specified folder, using the desired name.
@@ -43,21 +42,21 @@ namespace Windows.Storage
         /// <param name="destinationFolder"></param>
         /// <param name="desiredNewName"></param>
         /// <returns></returns>
-        IAsyncOperation<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
+        Task<StorageFile> CopyAsync(IStorageFolder destinationFolder, string desiredNewName);
 
         /// <summary>
         /// Moves the current file to the location of the specified file and replaces the specified file in that location.
         /// </summary>
         /// <param name="fileToReplace"></param>
         /// <returns></returns>
-        IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace);
+        Task MoveAndReplaceAsync(IStorageFile fileToReplace);
 
         /// <summary>
         /// Moves the current file to the specified folder.
         /// </summary>
         /// <param name="destinationFolder"></param>
         /// <returns></returns>
-        IAsyncAction MoveAsync(IStorageFolder destinationFolder);
+        Task MoveAsync(IStorageFolder destinationFolder);
 
         /// <summary>
         /// Moves the current file to the specified folder and renames the file according to the desired name.
@@ -65,7 +64,7 @@ namespace Windows.Storage
         /// <param name="destinationFolder"></param>
         /// <param name="desiredNewName"></param>
         /// <returns></returns>
-        IAsyncAction MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
+        Task MoveAsync(IStorageFolder destinationFolder, string desiredNewName);
         
         /// <summary>
         /// Gets the MIME type of the contents of the file.
@@ -80,4 +79,4 @@ namespace Windows.Storage
         string FileType { get; }
     }
 }
-#endif
+//#endif

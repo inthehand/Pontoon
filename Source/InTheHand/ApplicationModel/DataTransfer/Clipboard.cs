@@ -3,14 +3,13 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.Clipboard))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.Clipboard))]
+//#else
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Windows.Foundation;
 #if __ANDROID__
 using Android.Content;
 #elif __IOS__
@@ -20,7 +19,7 @@ using UIKit;
 using System.Reflection;
 #endif
 
-namespace Windows.ApplicationModel.DataTransfer
+namespace InTheHand.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Gets and sets information from the clipboard object.
@@ -277,4 +276,4 @@ namespace System.Windows
     }
 }
 #endif
-#endif
+//#endif

@@ -6,11 +6,10 @@
 
 using System;
 using System.Collections.Generic;
-using Windows.Storage;
-#pragma warning disable 618
-using Windows.UI.ApplicationSettings;
-using Windows.Foundation;
-using Windows.ApplicationModel;
+using InTheHand.ApplicationModel;
+using InTheHand.Storage;
+using InTheHand.Foundation;
+using InTheHand.UI.Popups;
 
 #if __IOS__
 using Foundation;
@@ -181,7 +180,7 @@ namespace InTheHand.UI.ApplicationSettings
             foreach(SettingsCommand cmd in OnCommandsRequested())
             {
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.Popups.UICommandInvokedHandler((c)=> { SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.ApplicationSettings.UICommandInvokedHandler((c)=> { SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
             }
 
 #if WINDOWS_UWP
@@ -194,12 +193,12 @@ namespace InTheHand.UI.ApplicationSettings
             {
 
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new SettingsCommand("rateAndReview", "Rate and review", async (c) =>
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("rateAndReview", "Rate and review", async (c) =>
                 {
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestReviewAsync();
                 }));
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new SettingsCommand("privacyPolicy", "Privacy policy", async (c) =>
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("privacyPolicy", "Privacy policy", async (c) =>
                 {
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();
                 }));

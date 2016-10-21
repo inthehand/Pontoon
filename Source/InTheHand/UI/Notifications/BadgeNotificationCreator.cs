@@ -6,10 +6,10 @@
 
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 #endif
 
 using System;
-using Windows.UI.Notifications;
 
 namespace InTheHand.UI.Notifications
 {
@@ -26,10 +26,10 @@ namespace InTheHand.UI.Notifications
         public static BadgeNotification CreateBadgeNotification(int value)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            XmlDocument doc = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
+            XmlDocument doc = Windows.UI.Notifications.BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
             var badgeElements = doc.GetElementsByTagName("badge");
             badgeElements[0].Attributes[0].InnerText = value.ToString();
-            return new BadgeNotification(doc);
+            return new BadgeNotification(new Windows.UI.Notifications.BadgeNotification(doc));
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #else

@@ -3,11 +3,11 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackagePropertySet))]
-#else
-namespace Windows.ApplicationModel.DataTransfer
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackagePropertySet))]
+//#else
+namespace InTheHand.ApplicationModel.DataTransfer
 {
     /// <summary>
     /// Defines a set of properties to use with a <see cref="DataPackage"/> object.
@@ -32,4 +32,4 @@ namespace Windows.ApplicationModel.DataTransfer
         public string Description { get; set; }
     }
 }
-#endif
+//#endif

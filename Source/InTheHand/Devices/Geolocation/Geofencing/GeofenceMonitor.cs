@@ -3,10 +3,10 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceMonitor))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceMonitor))]
+//#else
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using UIKit;
 #endif
 
 
-namespace Windows.Devices.Geolocation.Geofencing
+namespace InTheHand.Devices.Geolocation.Geofencing
 {
     /// <summary>
     /// Contains the information about the monitored Geofence objects. 
@@ -294,4 +294,4 @@ namespace Windows.Devices.Geolocation.Geofencing
         }
     }
 }
-#endif
+//#endif

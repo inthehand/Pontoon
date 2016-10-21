@@ -3,17 +3,18 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Foundation.AsyncStatus))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Foundation.AsyncStatus))]
+//#else
 
-namespace Windows.Foundation
+namespace InTheHand.Foundation
 {
     /// <summary>
     /// Specifies the status of an asynchronous operation.
     /// </summary>
-    public enum AsyncStatus
+    //[ContractVersion(typeof(FoundationContract), 65536u)]
+	public enum AsyncStatus
     {
         /// <summary>
         /// The operation has started.
@@ -36,4 +37,4 @@ namespace Windows.Foundation
         Error = 3,
     }
 }
-#endif
+//#endif

@@ -4,12 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageDeleteOption))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageDeleteOption))]
+//#else
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Specifies whether a deleted item is moved to the Recycle Bin or permanently deleted.
@@ -27,4 +27,4 @@ namespace Windows.Storage
         PermanentDelete = 1,
     }
 }
-#endif
+//#endif

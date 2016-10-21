@@ -3,12 +3,12 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.NameCollisionOption))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.NameCollisionOption))]
+//#else
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Specifies what to do if a file or folder with the specified name already exists in the current folder when you copy, move, or rename a file or folder.
@@ -34,4 +34,4 @@ namespace Windows.Storage
         FailIfExists = 2,
     }
 }
-#endif
+//#endif

@@ -3,10 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Profile.AnalyticsInfo))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Profile.AnalyticsInfo))]
+//#else
 
 #if __ANDROID__
 using Android.App;
@@ -16,7 +16,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Windows.System.Profile
+namespace InTheHand.System.Profile
 {
     /// <summary>
     /// Provides information about the device for profiling purposes.
@@ -43,7 +43,6 @@ namespace Windows.System.Profile
             _type10 = Type.GetType("Windows.System.Profile.AnalyticsInfo, Windows, ContentType=WindowsRuntime");
         }
 #endif
-
         /// <summary>
         /// Gets the device form factor.
         /// For example, the app could be running on a phone, tablet, desktop, and so on.
@@ -52,7 +51,9 @@ namespace Windows.System.Profile
         {
             get
             {
-#if WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+                return Windows.System.Profile.AnalyticsInfo.DeviceForm;
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
                 if(_type10 != null)
                 {
                     return _type10.GetRuntimeProperty("DeviceForm").GetValue(null).ToString();
@@ -71,7 +72,7 @@ namespace Windows.System.Profile
             {
                 if (_versionInfo == null)
                 {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE || WIN32
+#if __ANDROID__ || __IOS__ || WINDOWS_PHONE || WIN32 || WINDOWS_UWP
                     _versionInfo = new AnalyticsVersionInfo(null);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
                     if (_type10 != null)
@@ -90,4 +91,4 @@ namespace Windows.System.Profile
         }
     }
 }
-#endif
+//#endif

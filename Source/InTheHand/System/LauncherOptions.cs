@@ -3,14 +3,14 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.LauncherOptions))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.LauncherOptions))]
+//#else
 
 using System;
 
-namespace Windows.System
+namespace InTheHand.System
 {
     /// <summary>
     /// Placeholder to supply attributes for starting a task.
@@ -19,4 +19,4 @@ namespace Windows.System
     {
     }
 }
-#endif
+//#endif

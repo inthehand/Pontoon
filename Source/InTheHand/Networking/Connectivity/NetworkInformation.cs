@@ -3,10 +3,10 @@
 //     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkInformation))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkInformation))]
+//#else
 
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ using Android.Net;
 #elif __IOS__
 using SystemConfiguration;
 #endif
-namespace Windows.Networking.Connectivity
+namespace InTheHand.Networking.Connectivity
 {
     /// <summary>
     /// Provides access to network connection information for the local machine.
@@ -68,6 +68,8 @@ namespace Windows.Networking.Connectivity
                     return new ConnectionProfile(flags);
                 }
             }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return new Connectivity.ConnectionProfile(Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile());
 #endif
             return null;
         }
@@ -114,4 +116,4 @@ namespace Windows.Networking.Connectivity
         }
     }
 }
-#endif
+//#endif

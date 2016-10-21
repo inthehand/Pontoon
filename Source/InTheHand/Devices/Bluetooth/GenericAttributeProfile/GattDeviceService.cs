@@ -50,7 +50,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 #endif
         }
 
-        public static string GetDeviceSelectorFromUuid(System.Guid serviceUuid)
+        public static string GetDeviceSelectorFromUuid(Guid serviceUuid)
         {
 #if __IOS__
             return CBUUID.FromBytes(serviceUuid.ToByteArray()).ToString();
@@ -62,7 +62,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         }
 
 
-        public System.Collections.Generic.IReadOnlyList<GattCharacteristic> GetAllCharacteristics()
+        public IReadOnlyList<GattCharacteristic> GetAllCharacteristics()
         {
             List<GattCharacteristic> characteristics = new List<GattCharacteristic>();
 #if __IOS__

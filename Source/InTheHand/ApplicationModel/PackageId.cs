@@ -6,18 +6,17 @@
 //   Provides package identification info, such as name, version, and publisher.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.PackageId))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.PackageId))]
+//#else
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using InTheHand.ApplicationModel;
-using Windows.System;
+using InTheHand.System;
 
 #if __ANDROID__
 using Android.App;
@@ -26,16 +25,24 @@ using Android.Content.PM;
 using Foundation;
 #endif
 
-namespace Windows.ApplicationModel
+namespace InTheHand.ApplicationModel
 {
     /// <summary>
     /// Provides package identification info, such as name, version, and publisher.
     /// </summary>
     public sealed class PackageId
     {
-#if __ANDROID__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.ApplicationModel.PackageId _packageId;
+
+        internal PackageId(Windows.ApplicationModel.PackageId packageId)
+        {
+            _packageId = packageId;
+        }
+#elif __ANDROID__
         PackageInfo _packageInfo;
 #endif
+
         internal PackageId()
         {
 #if __ANDROID__
@@ -52,6 +59,8 @@ namespace Windows.ApplicationModel
             {
 #if __ANDROID__ || __IOS__ || WIN32
                 return (ProcessorArchitecture)((int)global::System.Reflection.Assembly.GetEntryAssembly().GetName().ProcessorArchitecture);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return (ProcessorArchitecture)((int)_packageId.Architecture);
 #else
                 return ProcessorArchitecture.Unknown;
 #endif
@@ -70,6 +79,8 @@ namespace Windows.ApplicationModel
                 return Android.App.Application.Context.PackageName;
 #elif __IOS__
                 return NSBundle.MainBundle.InfoDictionary["CFBundleIdentifier"].ToString();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _packageId.FullName;
 #elif WIN32
                 return AssemblyManifest.Current.Guid.ToString();
 #else
@@ -91,10 +102,10 @@ namespace Windows.ApplicationModel
                 return _packageInfo.PackageName;
 #elif __IOS__
                 return NSBundle.MainBundle.InfoDictionary["CFBundleExecutable"].ToString();
-#elif WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP || WINDOWS_UWP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 return _packageId.Name;
 #elif WINDOWS_PHONE
-                return Package.Current._appManifest.DisplayName;
+                return WMAppManifest.Current.DisplayName;
 #elif WIN32
                 return AssemblyManifest.Current.Title;
 #else
@@ -127,10 +138,10 @@ namespace Windows.ApplicationModel
         {
             get
             {
-#if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return InTheHand.ApplicationModel.Package.Current.Id.Publisher;
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _packageId.Publisher;
 #elif WINDOWS_PHONE
-                return InTheHand.ApplicationModel.Package.Current._appManifest.PublisherDisplayName;
+                return WMAppManifest.Current.PublisherDisplayName;
 #elif WIN32
                 return AssemblyManifest.Current.Company;
 #else
@@ -157,8 +168,10 @@ namespace Windows.ApplicationModel
                 }
 
                 return global::System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()).ToPackageVersion();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return new PackageVersion(_packageId.Version);
 #elif WINDOWS_PHONE
-                return Package.Current._appManifest.Version;
+                return WMAppManifest.Current.Version;
 #elif WIN32
                 return AssemblyManifest.Current.AssemblyVersion.ToPackageVersion();
 #else
@@ -168,4 +181,4 @@ namespace Windows.ApplicationModel
         }
     }
 }
-#endif
+//#endif

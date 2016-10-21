@@ -8,3 +8,5 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyTitle("InTheHand")]
 [assembly: AssemblyDescription("A flexible bridge to UWP!")]
+
+[assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]

@@ -3,12 +3,12 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.PositionSource))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.PositionSource))]
+//#else
 
-namespace Windows.Devices.Geolocation
+namespace InTheHand.Devices.Geolocation
 {
     public enum PositionSource
     {
@@ -19,4 +19,4 @@ namespace Windows.Devices.Geolocation
         Unknown,
     }
 }
-#endif
+//#endif

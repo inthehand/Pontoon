@@ -11,7 +11,7 @@ using System;
 using Windows.Foundation;
 using Windows.UI.Popups;
 
-namespace Windows.UI.Popups
+namespace InTheHand.UI.Popups
 {
     /// <summary>
     /// Provides information about a message dialog's asynchronous operation.

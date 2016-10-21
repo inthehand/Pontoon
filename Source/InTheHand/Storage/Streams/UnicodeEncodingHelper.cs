@@ -10,14 +10,14 @@ namespace InTheHand.Storage.Streams
 { 
     internal static class UnicodeEncodingHelper
     {
-        public static Encoding EncodingFromUnicodeEncoding(Windows.Storage.Streams.UnicodeEncoding e)
+        public static Encoding EncodingFromUnicodeEncoding(UnicodeEncoding e)
         {
             switch (e)
             {
-                case Windows.Storage.Streams.UnicodeEncoding.Utf16LE:
+                case UnicodeEncoding.Utf16LE:
                     return Encoding.Unicode;
 
-                case Windows.Storage.Streams.UnicodeEncoding.Utf16BE:
+                case UnicodeEncoding.Utf16BE:
                     return Encoding.BigEndianUnicode;
 
                 default:

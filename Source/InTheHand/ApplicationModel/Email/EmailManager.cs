@@ -3,16 +3,15 @@
 //     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailManager))]
-#else
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailManager))]
+//#else
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
 #if __ANDROID__
 using Android.Content;
 using Android.App;
@@ -25,7 +24,7 @@ using Windows.System;
 using Microsoft.Phone.Tasks;
 #endif
 
-namespace Windows.ApplicationModel.Email
+namespace InTheHand.ApplicationModel.Email
 {
     /// <summary>
     /// Allows an application to launch the email application with a new message displayed.
@@ -38,7 +37,7 @@ namespace Windows.ApplicationModel.Email
         /// </summary>
         /// <param name="message">The email message that is displayed when the email application is launched.</param>
         /// <returns>An asynchronous action used to indicate when the operation has completed.</returns>
-        public static IAsyncAction ShowComposeNewEmailAsync(EmailMessage message)
+        public static Task ShowComposeNewEmailAsync(EmailMessage message)
         {
             if (message == null)
             {
@@ -203,7 +202,7 @@ namespace Windows.ApplicationModel.Email
 #else
                 throw new PlatformNotSupportedException();
 #endif
-            }).AsAsyncAction();
+            });
         }
 
 #if __IOS__
@@ -262,4 +261,4 @@ namespace Windows.ApplicationModel.Email
 #endif
     }
 }
-#endif
+//#endif

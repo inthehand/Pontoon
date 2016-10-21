@@ -3,12 +3,12 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.Streams.UnicodeEncoding))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.Streams.UnicodeEncoding))]
+//#else
 
-namespace Windows.Storage.Streams
+namespace InTheHand.Storage.Streams
 {
     /// <summary>
     /// Specifies the type of character encoding for a stream.
@@ -31,4 +31,4 @@ namespace Windows.Storage.Streams
         Utf16BE = 2,
     }
 }
-#endif
+//#endif

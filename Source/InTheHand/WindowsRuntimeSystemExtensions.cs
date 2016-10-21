@@ -5,19 +5,19 @@
 // --------------------------------------------------------------------------------------------------------------------
 using System.Runtime.CompilerServices;
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly: TypeForwardedTo(typeof(System.WindowsRuntimeSystemExtensions))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//[assembly: TypeForwardedTo(typeof(System.WindowsRuntimeSystemExtensions))]
+//#else
 
 using System.Threading.Tasks;
-using Windows.Foundation;
+using InTheHand.Foundation;
 
 namespace System
 {
     /// <summary>
     /// Provides extension methods for converting between tasks and Windows Runtime asynchronous actions and operations.
     /// </summary>
-    public static class WindowsRuntimeSystemExtensions
+    public static class InTheHandRuntimeSystemExtensions
     {
         /// <summary>
         /// Returns a Windows Runtime asynchronous action that represents a started task. 
@@ -27,7 +27,7 @@ namespace System
         public static IAsyncAction AsAsyncAction(this Task source)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeSystemExtensions.AsAsyncAction(source);
+            return new RuntimeAction(System.WindowsRuntimeSystemExtensions.AsAsyncAction(source));
 #else
             return new RuntimeAction(source);
 #endif
@@ -42,7 +42,7 @@ namespace System
         public static IAsyncOperation<TResult> AsAsyncOperation<TResult>(this Task<TResult> source)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeSystemExtensions.AsAsyncOperation<TResult>(source);
+            return new RuntimeOperation<TResult>(null);
 #else
             return new RuntimeOperation<TResult>(source);
 #endif
@@ -55,12 +55,8 @@ namespace System
         /// <returns></returns>
         public static Task AsTask(this IAsyncAction source)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeSystemExtensions.AsTask(source);
-#else
             RuntimeAction action = source as RuntimeAction;
             return action.task;
-#endif
         }
 
         /// <summary>
@@ -71,12 +67,8 @@ namespace System
         /// <returns></returns>
         public static Task<TResult> AsTask<TResult>(this IAsyncOperation<TResult> source)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeSystemExtensions.AsTask<TResult>(source);
-#else
             RuntimeOperation<TResult> operation = source as RuntimeOperation<TResult>;
             return operation.task;
-#endif
         }
 
         /// <summary>
@@ -86,16 +78,12 @@ namespace System
         /// <returns></returns>
         public static TaskAwaiter GetAwaiter(this IAsyncAction source)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeSystemExtensions.GetAwaiter(source);
-#else
             if(source is RuntimeAction)
             {
                 return ((RuntimeAction)source).task.GetAwaiter();
             }
 
             return new TaskAwaiter();
-#endif
         }
 
         /// <summary>
@@ -106,28 +94,32 @@ namespace System
         /// <returns></returns>
         public static TaskAwaiter<TResult> GetAwaiter<TResult>(this IAsyncOperation<TResult> source)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return WindowsRuntimeSystemExtensions.GetAwaiter(source);
-#else
             if (source is RuntimeOperation<TResult>)
             {
                 return ((RuntimeOperation<TResult>)source).task.GetAwaiter();
             }
 
             return new TaskAwaiter<TResult>();
-#endif
         }
     }
-
-#if !WINDOWS_UWP && !WINDOWS_APP && !WINDOWS_PHONE_APP && !WINDOWS_PHONE
+    
     internal sealed class RuntimeAction : IAsyncAction, IAsyncInfo
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private global::Windows.Foundation.IAsyncAction _action;
+
+        public RuntimeAction(global::Windows.Foundation.IAsyncAction action)
+        {
+            _action = action;
+        }
+#else
         internal Task task;
 
         public RuntimeAction(Task t)
         {
             task = t;
         }
+#endif
 
         private AsyncActionCompletedHandler _completed;
         public AsyncActionCompletedHandler Completed
@@ -147,7 +139,11 @@ namespace System
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _action.ErrorCode;
+#else
                 return task.Exception;
+#endif
             }
         }
 
@@ -155,7 +151,11 @@ namespace System
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _action.Id;
+#else
                 return (uint)task.Id;
+#endif
             }
         }
 
@@ -163,12 +163,19 @@ namespace System
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return (AsyncStatus)((int)_action.Status);
+#else
                 return ToAsyncStatus(task.Status);
+#endif
             }
         }
 
         public void GetResults()
-        { 
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _action.GetResults();
+#endif
         }
 
         /*public void Cancel()
@@ -177,7 +184,9 @@ namespace System
 
         public void Close()
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _action.Close();
+#elif __ANDROID__ || __IOS__ || WIN32
             task.Dispose();
 #endif
         }
@@ -263,7 +272,6 @@ namespace System
 #endif
         }
     }
-#endif
 
 }
-#endif
+//#endif

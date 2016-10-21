@@ -3,10 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Display.DisplayRequest))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Display.DisplayRequest))]
+//#else
 
 #if __ANDROID__
 using Android.App;
@@ -17,7 +17,7 @@ using UIKit;
 using System;
 
 
-namespace Windows.System.Display
+namespace InTheHand.System.Display
 {
     /// <summary>
     /// Represents a display request.
@@ -39,6 +39,17 @@ namespace Windows.System.Display
     {
 #if __ANDROID__
         private bool requested = false;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+        private Windows.System.Display.DisplayRequest _request = new DisplayRequest();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        public static implicit operator Windows.System.Display.DisplayRequest(DisplayRequest r)
+        {
+            return r._request;
+        }
 #endif
 
         /// <summary>
@@ -58,6 +69,8 @@ namespace Windows.System.Display
             }
 #elif __IOS__
             UIApplication.SharedApplication.IdleTimerDisabled = true;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            _request.RequestActive();
 #elif WINDOWS_PHONE
             Microsoft.Phone.Shell.PhoneApplicationService.Current.ApplicationIdleDetectionMode = Microsoft.Phone.Shell.IdleDetectionMode.Disabled;
 #elif WIN32
@@ -83,6 +96,8 @@ namespace Windows.System.Display
             }
 #elif __IOS__
             UIApplication.SharedApplication.IdleTimerDisabled = false;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            _request.RequestRelease();
 #elif WINDOWS_PHONE
             Microsoft.Phone.Shell.PhoneApplicationService.Current.ApplicationIdleDetectionMode = Microsoft.Phone.Shell.IdleDetectionMode.Enabled;
 #elif WIN32
@@ -91,4 +106,4 @@ namespace Windows.System.Display
         }
     }
 }
-#endif
+//#endif

@@ -189,50 +189,26 @@
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\AsyncStatus.cs">
+    <None Include="..\..\Source\InTheHand\Foundation\AsyncStatus.cs">
       <Link>Foundation\AsyncStatus.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\FoundationContract.cs">
+    <None Include="..\..\Source\InTheHand\Foundation\FoundationContract.cs">
       <Link>Foundation\FoundationContract.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
       <Link>Foundation\IAsyncAction.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncInfo.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Foundation\IAsyncInfo.cs">
       <Link>Foundation\IAsyncInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
       <Link>Foundation\IAsyncOperation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\AllowMultipleAttribute.cs">
-      <Link>Foundation\Metadata\AllowMultipleAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiContractAttribute.cs">
-      <Link>Foundation\Metadata\ApiContractAttribute.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ContractVersionAttribute.cs">
-      <Link>Foundation\Metadata\ContractVersionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ExclusiveToAttribute.cs">
-      <Link>Foundation\Metadata\ExclusiveToAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\GuidAttribute.cs">
-      <Link>Foundation\Metadata\GuidAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\MarshallingBehaviorAttribute.cs">
-      <Link>Foundation\Metadata\MarshallingBehaviorAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\OverloadAttribute.cs">
-      <Link>Foundation\Metadata\OverloadAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\StaticAttribute.cs">
-      <Link>Foundation\Metadata\StaticAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
       <Link>Foundation\Point.cs</Link>
@@ -243,17 +219,14 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\UniversalApiContract.cs">
+    <None Include="..\..\Source\InTheHand\Foundation\UniversalApiContract.cs">
       <Link>Foundation\UniversalApiContract.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
       <Link>Graphics\Display\DisplayOrientations.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
-      <Link>Graphics\Display\ResolutionScale.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
       <Link>Media\Capture\CameraCaptureUI.cs</Link>
@@ -444,14 +417,16 @@
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
+    <None Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
       <Link>WindowsRuntimeSystemExtensions.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Runtime\InteropServices\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

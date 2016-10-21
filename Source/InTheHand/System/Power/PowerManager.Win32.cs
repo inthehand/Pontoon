@@ -8,7 +8,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace Windows.System.Power
+namespace InTheHand.System.Power
 {
     /// <summary>
     /// Provides information about the status of the device's battery.

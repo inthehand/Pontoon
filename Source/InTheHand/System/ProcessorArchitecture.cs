@@ -3,12 +3,12 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.ProcessorArchitecture))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.ProcessorArchitecture))]
+//#else
 
-namespace Windows.System
+namespace InTheHand.System
 {
     /// <summary>
     /// Specifies the processor architecture supported by an app.
@@ -52,4 +52,4 @@ namespace Windows.System
         Unknown = 0xFFFF,
     }
 }
-#endif
+//#endif

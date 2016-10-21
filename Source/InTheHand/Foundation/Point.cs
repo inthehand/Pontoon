@@ -3,18 +3,16 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.Point))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//[assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.Point))]
+//#else
 
-using Windows.Foundation.Metadata;
-
-namespace Windows.Foundation
+namespace InTheHand.Foundation
 {
     /// <summary>
     /// Represents x- and y-coordinate values that define a point in a two-dimensional plane.
     /// </summary>
-    [ContractVersion(typeof(FoundationContract), 65536U)]
+    //[ContractVersion(typeof(FoundationContract), 65536U)]
     public struct Point
     {
         /// <summary>
@@ -28,4 +26,4 @@ namespace Windows.Foundation
         public double Y { get; set; }
     }
 }
-#endif
+//#endif

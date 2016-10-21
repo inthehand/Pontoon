@@ -4,12 +4,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using global::System;
-using global::System.Collections;
-using global::System.Collections.Generic;
-using global::System.Collections.Specialized;
-using global::System.Collections.ObjectModel;
-using Windows.Foundation.Collections;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Collections.ObjectModel;
+using InTheHand.Foundation.Collections;
 using InTheHand;
 #if __ANDROID__
 using Android.App;
@@ -22,13 +22,13 @@ using Foundation;
 using global::System.Globalization;
 #endif
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataContainerSettings))]
-#elif WINDOWS_PHONE
-// not used in 8.0
-#else
-namespace Windows.Storage
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataContainerSettings))]
+//#elif WINDOWS_PHONE
+//// not used in 8.0
+//#else
+namespace InTheHand.Storage
 {
 
     /// <summary>
@@ -40,6 +40,19 @@ namespace Windows.Storage
 #endif
         IPropertySet, IDictionary<string, object>, IEnumerable<KeyValuePair<string, object>>, IObservableMap<string, object>
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private Windows.Storage.ApplicationDataContainerSettings _settings;
+
+        internal ApplicationDataContainerSettings(Windows.Foundation.Collections.IPropertySet settings)
+        {
+            _settings = (Windows.Storage.ApplicationDataContainerSettings)settings;
+        }
+
+        public static implicit operator Windows.Storage.ApplicationDataContainerSettings(ApplicationDataContainerSettings s)
+        {
+            return s._settings;
+        }
+#else
         private ApplicationDataLocality _locality;
 
         internal ApplicationDataContainerSettings(ApplicationDataLocality locality)
@@ -70,7 +83,7 @@ namespace Windows.Storage
                 return _locality == ApplicationDataLocality.Roaming;
             }
         }
-
+#endif
 
 
         private event MapChangedEventHandler<string, object> _mapChanged;
@@ -166,6 +179,8 @@ namespace Windows.Storage
             pkg.Add(value.ToString());
             editor.PutStringSet(key, pkg);
             editor.Commit();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _settings.Add(key,value);
 #elif WINDOWS_PHONE
             if (value is DateTimeOffset)
             {
@@ -227,6 +242,8 @@ namespace Windows.Storage
             object o = null;
             bool success = TryGetValue(key, out o);
             return success;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return _settings.ContainsKey(key);
 #elif WINDOWS_PHONE
             return applicationSettings.Contains(key);
 #elif __IOS__
@@ -257,6 +274,8 @@ namespace Windows.Storage
                 {
                     genericKeys.Add(entry.Key);
                 }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _settings.Keys;
 #elif WINDOWS_PHONE
                 foreach (string key in applicationSettings.Keys)
                 {
@@ -278,6 +297,8 @@ namespace Windows.Storage
             ISharedPreferencesEditor editor = _preferences.Edit();
             editor.Remove(key);
             bool removed = editor.Commit();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            bool removed = _settings.Remove(key);
 #elif WINDOWS_PHONE
             bool removed = applicationSettings.Remove(key);
 #elif __IOS__
@@ -354,6 +375,8 @@ namespace Windows.Storage
                     value = val;
                     return true;
             }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return _settings.TryGetValue(key, out value);
 #elif WINDOWS_PHONE
             return applicationSettings.TryGetValue<object>(key, out value);
 #elif __IOS__
@@ -426,6 +449,8 @@ namespace Windows.Storage
                         }
                     }
                 }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _settings.Values;
 #elif WINDOWS_PHONE
                 foreach (object value in applicationSettings.Values)
                 {
@@ -473,6 +498,8 @@ namespace Windows.Storage
                     default:
                         return val;
                 }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _settings[key];
 #elif WINDOWS_PHONE
                 object value = applicationSettings[key];
                 if (value is DateTime)
@@ -503,6 +530,8 @@ namespace Windows.Storage
             {
 #if __ANDROID__
                 Add(key, value);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                _settings[key] = value;
 #elif WINDOWS_PHONE
                 // temporary workaround while investigating datetimeoffset behaviour in isostore
                 if (value is DateTimeOffset)
@@ -620,7 +649,11 @@ namespace Windows.Storage
         /// <param name="item">The key-value pair to add.</param>
         public void Add(KeyValuePair<string, object> item)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _settings.Add(item);
+#else
             Add(item.Key, item.Value);
+#endif
         }
 
         /// <summary>
@@ -632,6 +665,8 @@ namespace Windows.Storage
             ISharedPreferencesEditor editor = _preferences.Edit();
             editor.Clear();
             editor.Commit();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _settings.Clear();
 #elif WINDOWS_PHONE
             applicationSettings.Clear();
 #elif __IOS__
@@ -660,6 +695,8 @@ namespace Windows.Storage
             object o = null;
             bool success = TryGetValue(item.Key, out o);
             return item.Value == o;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return _settings.Contains(item);
 #elif WINDOWS_PHONE
             if (applicationSettings.Contains(item.Key))
             {
@@ -689,7 +726,11 @@ namespace Windows.Storage
         /// <param name="arrayIndex">The zero-based index in array at which copying begins. </param>
         public void CopyTo(KeyValuePair<string, object>[] array, int arrayIndex)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _settings.CopyTo(array, arrayIndex);
+#else
             throw new NotSupportedException();
+#endif
         }
 
         /// <summary>
@@ -701,6 +742,8 @@ namespace Windows.Storage
             {
 #if __ANDROID__
                 return _preferences.All.Count;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _settings.Count;
 #elif WINDOWS_PHONE
                 return applicationSettings.Count;
 #elif __IOS__
@@ -727,7 +770,11 @@ namespace Windows.Storage
         /// <returns>true if the item was removed, otherwise false.</returns>
         public bool Remove(KeyValuePair<string, object> item)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return _settings.Remove(item);
+#else
             return Remove(item.Key);
+#endif
         }
 
 #endregion
@@ -736,7 +783,9 @@ namespace Windows.Storage
 
         IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string,object>>.GetEnumerator()
         {
-#if WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return ((IEnumerable<KeyValuePair<string,object>>)_settings).GetEnumerator();
+#elif WINDOWS_PHONE
             return new ApplicationDataContainerEnumerator();
 #else
             throw new NotSupportedException();
@@ -749,7 +798,9 @@ namespace Windows.Storage
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-#if WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return ((IEnumerable)_settings).GetEnumerator();
+#elif WINDOWS_PHONE
             return new ApplicationDataContainerEnumerator();
 #else
             throw new NotSupportedException();
@@ -966,4 +1017,4 @@ namespace Windows.Storage
         }
     }
 }
-#endif
+//#endif

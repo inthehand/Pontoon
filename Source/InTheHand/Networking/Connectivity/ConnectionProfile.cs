@@ -3,10 +3,10 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.ConnectionProfile))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.ConnectionProfile))]
+//#else
 
 using System;
 #if __ANDROID__
@@ -15,7 +15,7 @@ using Android.Net;
 using SystemConfiguration;
 #endif
 
-namespace Windows.Networking.Connectivity
+namespace InTheHand.Networking.Connectivity
 {
     /// <summary>
     /// Represents a network connection, which includes either the currently connected network or prior network connections.
@@ -34,6 +34,18 @@ namespace Windows.Networking.Connectivity
         internal ConnectionProfile(NetworkReachabilityFlags flags)
         {
             _flags = flags;
+        }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Networking.Connectivity.ConnectionProfile _profile;
+
+        internal ConnectionProfile(Windows.Networking.Connectivity.ConnectionProfile profile)
+        {
+            _profile = profile;
+        }
+
+        public static implicit operator Windows.Networking.Connectivity.ConnectionProfile(ConnectionProfile p)
+        {
+            return p._profile;
         }
 #endif
         /// <summary>
@@ -59,10 +71,12 @@ namespace Windows.Networking.Connectivity
                 default:
                     return NetworkConnectivityLevel.None;
             }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return (NetworkConnectivityLevel) ((int)_profile.GetNetworkConnectivityLevel());
 #else
             return NetworkConnectivityLevel.None;
 #endif
         }
     }
 }
-#endif
+//#endif

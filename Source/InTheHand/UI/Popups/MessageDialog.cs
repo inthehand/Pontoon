@@ -3,28 +3,30 @@
 //     Copyright © 2012-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.MessageDialog))]
-#else
-namespace Windows.UI.Popups
-{
-    using global::System;
-    using global::System.Collections.Generic;
-    using global::System.Threading;
-    using global::System.Threading.Tasks;
-    using Windows.Foundation;
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.MessageDialog))]
+//#else
+
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 #if __ANDROID__
-    using Android.App;
-    using Android.Content;
-    using Android.Content.Res;
+using Android.App;
+using Android.Content;
+using Android.Content.Res;
 #elif __IOS__
-    using UIKit;
+using UIKit;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-    using Windows.UI.Core;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls; 
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls; 
 #endif
+
+namespace InTheHand.UI.Popups
+{
+
     /// <summary>
     /// Represents a dialog.
     /// </summary>
@@ -103,7 +105,7 @@ namespace Windows.UI.Popups
         /// <remarks>In some cases, such as when the dialog is closed by the system out of your control, your result can be an empty command.
         /// <see cref="IAsyncOperation{TResult}.GetResults()"/> returns either the command selected which destroyed the dialog, or an empty command.
         /// For example, a dialog hosted in a charms window will return an empty command if the charms window has been dismissed.</remarks>
-        public IAsyncOperation<IUICommand> ShowAsync()
+        public Task<IUICommand> ShowAsync()
         {
             if (this.Commands.Count > MaxCommands)
             {
@@ -132,7 +134,7 @@ namespace Windows.UI.Popups
             {
                 handle.WaitOne();
                 return _selectedCommand;
-            }).AsAsyncOperation<IUICommand>();
+            });
 
 #elif __IOS__
             uac = UIAlertController.Create(this.Title, this.Content, UIAlertControllerStyle.Alert);
@@ -158,7 +160,7 @@ namespace Windows.UI.Popups
             {
                 handle.WaitOne();
                 return _selectedCommand;
-            }).AsAsyncOperation<IUICommand>();
+            });
 
 #elif WINDOWS_PHONE
             List<string> buttons = new List<string>();
@@ -219,7 +221,7 @@ namespace Windows.UI.Popups
                             }
                         }, null);
 
-            return asyncOperation.AsTask<IUICommand>().AsAsyncOperation<IUICommand>(); ;
+            return asyncOperation.AsTask<IUICommand>();
 #elif WINDOWS_UWP
             if (Commands.Count < 3 && Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.UI.ApplicationSettings.ApplicationsSettingsContract", 1))
             {
@@ -262,7 +264,7 @@ namespace Windows.UI.Popups
                                     break;
 
                                 case ContentDialogResult.Secondary:
-                                    command = commands[1];
+                                    command = Commands[1];
                                     if (Commands[1].Invoked != null)
                                     {
                                         Commands[1].Invoked.Invoke(Commands[1]);
@@ -314,7 +316,7 @@ namespace Windows.UI.Popups
                 }
 
                 return cmd;
-            }).AsAsyncOperation<IUICommand>();
+            });
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -439,4 +441,4 @@ namespace Windows.UI.Popups
         public string Title { get; set; }
     }
 }
-#endif
+//#endif

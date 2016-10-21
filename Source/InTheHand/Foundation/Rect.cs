@@ -3,11 +3,11 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.Rect))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//[assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.Rect))]
+//#else
 
-namespace Windows.Foundation
+namespace InTheHand.Foundation
 {
     /// <summary>
     /// Contains number values that represent the location and size of a rectangle.
@@ -52,4 +52,4 @@ namespace Windows.Foundation
         { get; set; }
     }
 }
-#endif
+//#endif

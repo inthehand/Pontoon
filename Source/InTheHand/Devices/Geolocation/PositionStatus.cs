@@ -3,12 +3,12 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.PositionStatus))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.PositionStatus))]
+//#else
 
-namespace Windows.Devices.Geolocation
+namespace InTheHand.Devices.Geolocation
 {
     /// <summary>
     /// Indicates the ability of the Geolocator object to provide location data. 
@@ -50,4 +50,4 @@ namespace Windows.Devices.Geolocation
         NotAvailable = 5,
     }
 }
-#endif
+//#endif

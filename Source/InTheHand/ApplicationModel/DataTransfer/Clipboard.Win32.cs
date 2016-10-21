@@ -7,7 +7,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Windows.ApplicationModel.DataTransfer
+namespace InTheHand.ApplicationModel.DataTransfer
 {
     public static partial class Clipboard
     {

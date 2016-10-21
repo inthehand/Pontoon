@@ -3,13 +3,13 @@
 //   Copyright (c) 2013-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.PackageVersion))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.PackageVersion))]
+//#else
 using System;
 
-namespace Windows.ApplicationModel
+namespace InTheHand.ApplicationModel
 {
     /// <summary>
     /// Represents the package version info.
@@ -32,6 +32,21 @@ namespace Windows.ApplicationModel
         /// The revision version number of the package.
         /// </summary>
         public ushort Revision;
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        public PackageVersion(Windows.ApplicationModel.PackageVersion version)
+        {
+            Major = version.Major;
+            Minor = version.Minor;
+            Build = version.Build;
+            Revision = version.Revision;
+        }
+
+        public static implicit operator Windows.ApplicationModel.PackageVersion(PackageVersion pv)
+        {
+            return new Windows.ApplicationModel.PackageVersion { Major = pv.Major, Minor = pv.Minor, Build = pv.Build, Revision = pv.Revision };
+        }
+#endif
     }
 }
-#endif
+//#endif

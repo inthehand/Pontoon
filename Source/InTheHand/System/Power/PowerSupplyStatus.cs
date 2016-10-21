@@ -3,12 +3,12 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerSupplyStatus))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerSupplyStatus))]
+//#else
 
-namespace Windows.System.Power
+namespace InTheHand.System.Power
 {
     /// <summary>
     /// Represents the device's power supply status.
@@ -33,4 +33,4 @@ namespace Windows.System.Power
         Adequate = 2,
     }
 }
-#endif
+//#endif

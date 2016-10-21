@@ -3,10 +3,10 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerManager))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerManager))]
+//#else
 
 #if __ANDROID__
 using Android.Content;
@@ -17,7 +17,7 @@ using Foundation;
 using System;
 using System.Reflection;
 
-namespace Windows.System.Power
+namespace InTheHand.System.Power
 {
     /// <summary>
     /// Provides information about the status of the device's battery.
@@ -42,7 +42,6 @@ namespace Windows.System.Power
 #elif __ANDROID__
         private static BatteryManager _batteryManager;
 #elif WINDOWS_APP
-        private static bool _on10 = false;
         private static Type _type10 = null;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
         private static Windows.Phone.Devices.Power.Battery _battery = Windows.Phone.Devices.Power.Battery.GetDefault();
@@ -65,10 +64,6 @@ namespace Windows.System.Power
 #elif WINDOWS_APP
             //check for 10
            _type10 = Type.GetType("Windows.System.Power.PowerManager, Windows, ContentType=WindowsRuntime");
-            if(_type10 != null)
-            {
-                _on10 = true;
-            }
 #endif
         }
 
@@ -98,6 +93,19 @@ namespace Windows.System.Power
                         return BatteryStatus.NotPresent;
                         
                 }
+#elif WINDOWS_UWP
+            return (BatteryStatus)((int)Windows.System.Power.PowerManager.BatteryStatus);
+#elif WINDOWS_APP
+                if(_type10 != null)
+                {
+                    object val = _type10.GetRuntimeProperty("BatteryStatus")?.GetValue(null);
+                    if(val != null)
+                    {
+                        return (BatteryStatus)((int)val);
+                    }
+                }
+
+                return BatteryStatus.NotPresent;
 #elif WINDOWS_PHONE
                 switch (Microsoft.Phone.Info.DeviceStatus.PowerSource)
                 {
@@ -140,6 +148,17 @@ namespace Windows.System.Power
             {
 #if __IOS__
                 return NSProcessInfo.ProcessInfo.LowPowerModeEnabled ? EnergySaverStatus.On : EnergySaverStatus.Off;
+#elif WINDOWS_UWP
+                return (EnergySaverStatus)((int)Windows.System.Power.PowerManager.EnergySaverStatus);
+#elif WINDOWS_APP
+                if (_type10 != null)
+                {
+                    object val = _type10.GetRuntimeProperty("EnergySaverStatus")?.GetValue(null);
+                    if (val != null)
+                    {
+                        return (EnergySaverStatus)((int)val);
+                    }
+                }
 #elif WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 bool saverEnabled = Windows.Phone.System.Power.PowerManager.PowerSavingModeEnabled;
                 if (saverEnabled)
@@ -165,6 +184,17 @@ namespace Windows.System.Power
 #if __IOS__
                 if (_device.BatteryState == UIKit.UIDeviceBatteryState.Charging)
                     return PowerSupplyStatus.Adequate;
+#elif WINDOWS_UWP
+                return (PowerSupplyStatus)((int)Windows.System.Power.PowerManager.PowerSupplyStatus);
+#elif WINDOWS_APP
+                if (_type10 != null)
+                {
+                    object val = _type10.GetRuntimeProperty("PowerSupplyStatus")?.GetValue(null);
+                    if (val != null)
+                    {
+                        return (PowerSupplyStatus)((int)val);
+                    }
+                }
 #elif WINDOWS_PHONE
                 if (Microsoft.Phone.Info.DeviceStatus.PowerSource == Microsoft.Phone.Info.PowerSource.External)
                     return PowerSupplyStatus.Adequate;
@@ -198,8 +228,10 @@ namespace Windows.System.Power
                 return Convert.ToInt32(percent * 100f);
 #elif __ANDROID__
                 return _batteryManager.GetIntProperty((int)BatteryProperty.Capacity);
+#elif WINDOWS_UWP 
+                return Windows.System.Power.PowerManager.RemainingChargePercent;
 #elif WINDOWS_APP
-                if (_on10)
+                if (_type10 != null)
                 {
                     return (int)_type10.GetRuntimeProperty("RemainingChargePercent").GetValue(null);
                 }
@@ -240,6 +272,8 @@ namespace Windows.System.Power
                     {
                         UIKit.UIDevice.Notifications.ObserveBatteryLevelDidChange(BatteryLevelDidChangeHandler);
                     }
+#elif WINDOWS_UWP
+                    Windows.System.Power.PowerManager.RemainingChargePercentChanged += PowerManager_RemainingChargePercentChanged;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged += _battery_RemainingChargePercentChanged;
 #endif
@@ -254,12 +288,21 @@ namespace Windows.System.Power
                 {
 #if __IOS__
                     //_device.BatteryMonitoringEnabled = false;
+#elif WINDOWS_UWP
+                    Windows.System.Power.PowerManager.RemainingChargePercentChanged -= PowerManager_RemainingChargePercentChanged;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged -= _battery_RemainingChargePercentChanged;
 #endif
                 }
             }
         }
+
+#if WINDOWS_UWP
+        private static void PowerManager_RemainingChargePercentChanged(object sender, object e)
+        {
+            _remainingChargePercentChanged?.Invoke(null, null);
+        }
+#endif
 #endif
 
 #if __IOS__
@@ -289,7 +332,7 @@ namespace Windows.System.Power
             {
                
 #if WINDOWS_APP
-                if (_on10)
+                if (_type10 != null)
                 {
                     return (TimeSpan)_type10.GetRuntimeProperty("RemainingDischargeTime").GetValue(null);
                 }
@@ -308,4 +351,4 @@ namespace Windows.System.Power
         }
     }
 }
-#endif
+//#endif

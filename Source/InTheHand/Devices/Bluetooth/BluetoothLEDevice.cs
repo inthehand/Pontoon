@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Windows.Foundation;
+using InTheHand.Foundation;
 using System.Threading;
 #if __IOS__
 using CoreBluetooth;

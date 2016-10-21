@@ -3,10 +3,10 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotification))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotification))]
+//#else
 
 #if __ANDROID__
 using Android.Widget;
@@ -17,7 +17,7 @@ using UIKit;
 using Microsoft.Phone.Shell;
 #endif
 
-namespace Windows.UI.Notifications
+namespace InTheHand.UI.Notifications
 {
     /// <summary>
     /// Defines the content, associated metadata and events, and expiration time of a toast notification.
@@ -30,6 +30,11 @@ namespace Windows.UI.Notifications
         internal ToastNotification(Windows.UI.Notifications.ToastNotification notification)
         {
             _notification = notification;
+        }
+
+        public static implicit operator Windows.UI.Notifications.ToastNotification(ToastNotification n)
+        {
+            return n._notification;
         }
 #elif WINDOWS_PHONE
         internal ShellToast _shellToast;
@@ -81,7 +86,7 @@ namespace Windows.UI.Notifications
 
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Group;
 #elif __IOS__
                 return _localNotification.Category;
@@ -91,7 +96,7 @@ namespace Windows.UI.Notifications
             }
             set
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.Group = value;
 #elif __IOS__
                 _localNotification.Category = value;
@@ -104,7 +109,7 @@ namespace Windows.UI.Notifications
 
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.SuppressPopup;
 #elif __IOS__
                 if (_localNotification.UserInfo.ContainsKey(new NSString("SuppressPopup")))
@@ -118,7 +123,7 @@ namespace Windows.UI.Notifications
             }
             set
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.SuppressPopup = value;
 #elif __IOS__
                 _localNotification.UserInfo.SetValueForKey(NSNumber.FromBoolean(value), new NSString("SuppressPopup"));
@@ -131,7 +136,7 @@ namespace Windows.UI.Notifications
 
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Tag;
 #elif __IOS__
                 if (_localNotification.UserInfo.ContainsKey(new NSString("Tag")))
@@ -145,7 +150,7 @@ namespace Windows.UI.Notifications
             }
             set
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.Tag = value;
 #elif __IOS__
                 _localNotification.UserInfo.SetValueForKey(new NSString(value), new NSString("Tag"));
@@ -154,4 +159,4 @@ namespace Windows.UI.Notifications
         }
     }
 }
-#endif
+//#endif

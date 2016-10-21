@@ -3,12 +3,12 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceState))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceState))]
+//#else
 
-namespace Windows.Devices.Geolocation.Geofencing
+namespace InTheHand.Devices.Geolocation.Geofencing
 {
     /// <summary>
     /// Indicates the current state of a Geofence. 
@@ -36,4 +36,4 @@ namespace Windows.Devices.Geolocation.Geofencing
         //Removed = 4,
     }
 }
-#endif
+//#endif

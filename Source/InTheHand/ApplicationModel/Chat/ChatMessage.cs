@@ -3,14 +3,14 @@
 //     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Chat.ChatMessage))]
-#else
+//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Chat.ChatMessage))]
+//#else
 
 using System.Collections.Generic;
 
-namespace Windows.ApplicationModel.Chat
+namespace InTheHand.ApplicationModel.Chat
 {
     /// <summary>
     /// Represents a chat message.
@@ -43,4 +43,4 @@ namespace Windows.ApplicationModel.Chat
         }
     }
 }
-#endif
+//#endif

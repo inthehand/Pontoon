@@ -6,12 +6,12 @@
 //   Represents a command in a context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.UICommand))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.UICommand))]
+//#else
 
-namespace Windows.UI.Popups
+namespace InTheHand.UI.Popups
 {
     /// <summary>
     /// Represents a command in a context menu.
@@ -75,4 +75,4 @@ namespace Windows.UI.Popups
         }
     }
 }
-#endif
+//#endif

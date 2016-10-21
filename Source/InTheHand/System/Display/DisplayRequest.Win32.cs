@@ -6,7 +6,7 @@
 
 using System.Runtime.InteropServices;
 
-namespace Windows.System.Display
+namespace InTheHand.System.Display
 {
     public sealed partial class DisplayRequest
     {

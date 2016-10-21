@@ -4,14 +4,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Storage.KnownFolders))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.KnownFolders))]
+//#else
 
 using System;
+using System.Threading.Tasks;
 
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
 
     /// <summary>
@@ -28,7 +29,9 @@ namespace Windows.Storage
             get
             {
 #if __ANDROID__
-                return StorageFolder.GetFolderFromPathAsync(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath).GetResults();
+                var t = StorageFolder.GetFolderFromPathAsync(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath);
+                t.Wait();
+                return t.Result;
 #else
                 return null;
 #endif
@@ -43,7 +46,7 @@ namespace Windows.Storage
             get
             {
 #if __ANDROID__ || __IOS__ || WIN32
-                return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyDocuments);
+                return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyDocuments);
 #else
                 return null;
 #endif
@@ -58,7 +61,7 @@ namespace Windows.Storage
             get
             {
 #if __ANDROID__ || __IOS__ || WIN32
-                return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyMusic);
+                return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyMusic);
 #else
                 return null;
 #endif
@@ -73,7 +76,7 @@ namespace Windows.Storage
             get
             {
 #if __ANDROID__ || __IOS__ || WIN32
-                return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyPictures);
+                return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyPictures);
 #else
                 return null;
 #endif
@@ -88,7 +91,7 @@ namespace Windows.Storage
             get
             {
 #if __ANDROID__ || __IOS__ || WIN32
-                return GetStorageFolderForSpecialFolder(Environment.SpecialFolder.MyVideos);
+                return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyVideos);
 #else
                 return null;
 #endif
@@ -99,9 +102,11 @@ namespace Windows.Storage
         private static StorageFolder GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder folder)
         {
             string path = global::System.Environment.GetFolderPath(folder);
-            return StorageFolder.GetFolderFromPathAsync(path).GetResults();
+            var t = StorageFolder.GetFolderFromPathAsync(path);
+            t.Wait();
+            return t.Result;
         }
 #endif
     }
 }
-#endif
+//#endif

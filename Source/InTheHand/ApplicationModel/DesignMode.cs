@@ -3,17 +3,17 @@
 //   Copyright (c) 2013-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DesignMode))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DesignMode))]
+//#else
 using System;
 
 #if WINDOWS_PHONE
 using System.Windows;
 #endif
 
-namespace Windows.ApplicationModel
+namespace InTheHand.ApplicationModel
 {
     /// <summary>
     /// Enables you to detect whether your app is in design mode in a visual designer.
@@ -34,6 +34,8 @@ namespace Windows.ApplicationModel
                 {
 #if __ANDROID__ || __IOS__
                     designModeEnabled = false; 
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                    designModeEnabled = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
 #elif WINDOWS_PHONE
                     designModeEnabled = (null == Application.Current) || Application.Current.GetType() == typeof(Application);
 #else
@@ -46,4 +48,4 @@ namespace Windows.ApplicationModel
         }
     }
 }
-#endif
+//#endif

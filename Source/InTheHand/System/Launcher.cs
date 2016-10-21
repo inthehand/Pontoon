@@ -3,10 +3,10 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Launcher))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Launcher))]
+//#else
 
 #if __ANDROID__
 using Android.App;
@@ -14,9 +14,8 @@ using Android.Content;
 #endif
 using System;
 using System.Threading.Tasks;
-using Windows.Foundation;
 
-namespace Windows.System
+namespace InTheHand.System
 {
     /// <summary>
     /// Starts the default app associated with the specified file or URI.
@@ -31,6 +30,7 @@ namespace Windows.System
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+    //[ContractVersion(typeof(UniversalApiContract), 65536u)]
     public static partial class Launcher
     {
         /// <summary>
@@ -39,7 +39,7 @@ namespace Windows.System
         /// <param name="uri">The URI.</param>
         /// <param name="options">Ignored on Android and iOS.</param>
         /// <returns>The launch operation.</returns>
-        public static IAsyncOperation<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
+        internal static Task<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
         {
 #if __ANDROID__
             return Task.Run<bool>(() =>
@@ -51,14 +51,16 @@ namespace Windows.System
                     return true;
                 }
                 catch { return false; }
-            }).AsAsyncOperation<bool>();
+            });
 #elif __IOS__
             return Task.Run<bool>(() =>
             {
                 return UIKit.UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
-            }).AsAsyncOperation<bool>();
+            });
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Windows.System.Launcher.LaunchUriAsync(uri).AsTask();
 #elif WIN32
-            return Task.FromResult<bool>(LaunchUri(uri)).AsAsyncOperation<bool>();
+            return Task.FromResult<bool>(LaunchUri(uri));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -69,7 +71,7 @@ namespace Windows.System
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>The launch operation.</returns>
-        public static IAsyncOperation<bool> LaunchUriAsync(Uri uri)
+        public static Task<bool> LaunchUriAsync(Uri uri)
         {
             return LaunchUriAsync(uri, new LauncherOptions());
         }
@@ -91,18 +93,20 @@ namespace Windows.System
         /// <item><term>Windows Phone Silverlight</term><description>-</description></item>
         /// <item><term>Windows (Desktop Apps)</term><description>-</description></item></list>
         /// </remarks>
-        public static IAsyncOperation<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
+        public static Task<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {
 #if __IOS__
             if(launchQuerySupportType == LaunchQuerySupportType.UriForResults)
             {
-                return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.AppNotInstalled).AsAsyncOperation<LaunchQuerySupportStatus>();
+                return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.AppNotInstalled);
             }
-            return Task.FromResult<LaunchQuerySupportStatus>(UIKit.UIApplication.SharedApplication.CanOpenUrl(uri) ? LaunchQuerySupportStatus.Available : LaunchQuerySupportStatus.AppNotInstalled).AsAsyncOperation<LaunchQuerySupportStatus>();
+            return Task.FromResult<LaunchQuerySupportStatus>(UIKit.UIApplication.SharedApplication.CanOpenUrl(uri) ? LaunchQuerySupportStatus.Available : LaunchQuerySupportStatus.AppNotInstalled);
+#elif WINDOWS_UWP
+            return Windows.System.Launcher.QueryUriSupportAsync(uri, launchQuerySupportType).AsTask();
 #else
-            return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.Unknown).AsAsyncOperation<LaunchQuerySupportStatus>();
+            return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.Unknown);
 #endif
         }
     }
 }
-#endif
+//#endif

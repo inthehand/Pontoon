@@ -5,7 +5,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using Windows.Devices.Geolocation;
 
 namespace InTheHand.Devices.Geolocation
 {

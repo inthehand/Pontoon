@@ -4,9 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using Windows.UI.ApplicationSettings;
 
 namespace InTheHand.UI.ApplicationSettings
 {

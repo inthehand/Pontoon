@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Windows.System.Profile;
+using InTheHand.System.Profile;
 using System;
 
 namespace InTheHand
@@ -37,7 +37,7 @@ namespace InTheHand
                 if(_operatingSystem == null)
                 {
 #if __ANDROID__ || __IOS__ || WIN32 || WINDOWS_PHONE
-                    _operatingSystem = System.Environment.OSVersion;
+                    _operatingSystem = global::System.Environment.OSVersion;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     Version version;
                     string rawString = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;

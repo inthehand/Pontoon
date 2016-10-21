@@ -3,15 +3,14 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.System.Profile.AnalyticsVersionInfo))]
-#else
+//#if WINDOWS_UWP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.System.Profile.AnalyticsVersionInfo))]
+//#else
 
-using System;
 using System.Reflection;
 
-namespace Windows.System.Profile
+namespace InTheHand.System.Profile
 {
     /// <summary>
     /// Provides version information about the device family.
@@ -54,6 +53,8 @@ namespace Windows.System.Profile
                 return "Apple.Mobile";
 #elif __MAC__
                 return "Apple.Desktop";
+#elif WINDOWS_UWP
+                return Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
 #elif WINDOWS_APP || WIN32
                 return "Windows.Desktop";
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -73,6 +74,8 @@ namespace Windows.System.Profile
             {
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE || WIN32
                 return global::System.Environment.OSVersion.Version.ToString();
+#elif WINDOWS_UWP
+                return Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
 #else
                 if (_native != null)
                 {
@@ -85,4 +88,4 @@ namespace Windows.System.Profile
         }
     }
 }
-#endif
+//#endif

@@ -3,10 +3,10 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.DisplayInformation))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.DisplayInformation))]
+//#else
 #if __IOS__
 using UIKit;
 #endif
@@ -14,7 +14,7 @@ using UIKit;
 using System;
 using System.Windows;
 
-namespace Windows.Graphics.Display
+namespace InTheHand.Graphics.Display
 {
     /// <summary>
     /// Monitors and controls physical display information.
@@ -30,12 +30,16 @@ namespace Windows.Graphics.Display
         /// <returns></returns>
         public static DisplayInformation GetForCurrentView()
         {
-            if(current == null)
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            return new Display.DisplayInformation(Windows.Graphics.Display.DisplayInformation.GetForCurrentView());
+#else
+            if (current == null)
             {
                 current = new DisplayInformation();
             }
 
             return current;
+#endif
         }
 
 #if __ANDROID__
@@ -46,6 +50,18 @@ namespace Windows.Graphics.Display
         public static implicit operator UIScreen(DisplayInformation d)
         {
             return d._screen;
+        }
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+        private Windows.Graphics.Display.DisplayInformation _information;
+
+        private DisplayInformation(Windows.Graphics.Display.DisplayInformation information)
+        {
+            _information = information;
+        }
+
+        public static implicit operator Windows.Graphics.Display.DisplayInformation(DisplayInformation d)
+        {
+            return d._information;
         }
 #endif
 
@@ -69,6 +85,8 @@ namespace Windows.Graphics.Display
                 return _metrics.WidthPixels > _metrics.HeightPixels ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 #elif __IOS__
                 return _screen.Bounds.Width > _screen.Bounds.Height ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return (DisplayOrientations)((int)_information.CurrentOrientation);
 #elif WINDOWS_PHONE
                 return Application.Current.Host.Content.ActualWidth > Application.Current.Host.Content.ActualHeight ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 #else
@@ -92,6 +110,8 @@ namespace Windows.Graphics.Display
                     rawDpiX = _metrics.Xdpi;
 #elif __IOS__
                     rawDpiX = (float?)_screen.NativeScale;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                    return _information.RawDpiX;
 #elif WINDOWS_PHONE
                     object temp;
                     if(Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiX", out temp))
@@ -126,6 +146,8 @@ namespace Windows.Graphics.Display
                     rawDpiY = _metrics.Ydpi;
 #elif __IOS__
                     rawDpiY = (float?)_screen.NativeScale;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                    return _information.RawDpiY;
 #elif WINDOWS_PHONE
                     object temp;
                     if (Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiY", out temp))
@@ -159,6 +181,10 @@ namespace Windows.Graphics.Display
                     _rawPixelsPerViewPixel = _metrics.Density;
 #elif __IOS__
                     _rawPixelsPerViewPixel = (float?)_screen.Scale;
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
+                    return _information.RawPixelsPerViewPixel;
+#elif WINDOWS_APP
+                    return (int)_information.ResolutionScale / 100;
 #elif WINDOWS_PHONE
                     int scaleFactor = global::System.Windows.Application.Current.Host.Content.ScaleFactor;
 
@@ -176,29 +202,6 @@ namespace Windows.Graphics.Display
                 return _rawPixelsPerViewPixel.Value;
             }
         }
-
-#pragma warning disable 618
-        private ResolutionScale? resolutionScale;
-        /// <summary>
-        /// Gets the scale factor of the immersive environment.
-        /// </summary>
-        [Obsolete]
-        public ResolutionScale ResolutionScale
-        {
-            get
-            {
-                if (!resolutionScale.HasValue)
-                {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
-                    resolutionScale = (ResolutionScale)((int)(RawPixelsPerViewPixel * 100));
-#else
-                    resolutionScale = ResolutionScale.Invalid;
-#endif
-                }
-
-                return resolutionScale.Value;
-            }
-        }
     }
 }
-#endif
+//#endif

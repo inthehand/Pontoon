@@ -4,14 +4,14 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Storage.FileAttributes))]
+//#else
+
 using System;
-using System.Runtime.CompilerServices;
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-[assembly: TypeForwardedTo(typeof(Windows.Storage.FileAttributes))]
-#else
-
-namespace Windows.Storage
+namespace InTheHand.Storage
 {
     /// <summary>
     /// Describes the attributes of a file or folder.
@@ -45,7 +45,7 @@ namespace Windows.Storage
         Temporary = 256,
     }
 
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || WIN32
     internal static class FileAttributesHelper
     {
         public static FileAttributes FromIOFileAttributes(global::System.IO.FileAttributes attrs)
@@ -75,4 +75,4 @@ namespace Windows.Storage
     }
 #endif
 }
-#endif
+//#endif

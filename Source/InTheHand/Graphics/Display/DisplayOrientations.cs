@@ -3,12 +3,12 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.DisplayOrientations))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.DisplayOrientations))]
+//#else
 
-namespace Windows.Graphics.Display
+namespace InTheHand.Graphics.Display
 {
     /// <summary>
     /// Describes the orientation of a rectangular monitor.    
@@ -41,4 +41,4 @@ namespace Windows.Graphics.Display
         PortraitFlipped = 8,
     }
 }
-#endif
+//#endif

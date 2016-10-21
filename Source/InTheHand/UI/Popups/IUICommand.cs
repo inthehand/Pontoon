@@ -6,13 +6,13 @@
 //   Represents a command in a context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.IUICommand))]
-[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.UICommandInvokedHandler))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.IUICommand))]
+//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.UICommandInvokedHandler))]
+//#else
 
-namespace Windows.UI.Popups
+namespace InTheHand.UI.Popups
 {
     /// <summary>
     /// Represents a command in a context menu or message dialog box.
@@ -41,4 +41,4 @@ namespace Windows.UI.Popups
     /// <param name="command">Represents the invoked command.</param>
     public delegate void UICommandInvokedHandler(IUICommand command);
 }
-#endif
+//#endif

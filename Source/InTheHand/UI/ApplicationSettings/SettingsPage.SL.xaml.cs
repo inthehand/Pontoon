@@ -9,9 +9,7 @@ using System.Windows.Resources;
 using Microsoft.Phone.Controls;
 using Windows.Storage;
 using System.IO;
-using Windows.ApplicationModel;
-using Windows.UI.Popups;
-using Windows.UI.ApplicationSettings;
+using InTheHand.UI.Popups;
 using InTheHand.ApplicationModel;
 using InTheHand.UI.ApplicationSettings;
 
