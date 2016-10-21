@@ -21,7 +21,7 @@ namespace InTheHand.Foundation.Metadata
     public static class ApiInformation
     {
         private const string assemblyQualification = ", InTheHand";
-#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_APP
+#if WINDOWS_PHONE_APP || WINDOWS_APP
         private static Type _type10;
         static ApiInformation()
         {
@@ -37,7 +37,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified API contract is present; otherwise, false.</returns>
         public static bool IsApiContractPresent(string contractName, ushort majorVersion)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent(contractName, majorVersion);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsApiContractPresent", new Type[] { typeof(string), typeof(ushort) }).Invoke(null, new object[] { contractName, majorVersion });
@@ -55,7 +57,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified API contract is present; otherwise, false.</returns>
         public static bool IsApiContractPresent(string contractName, ushort majorVersion, ushort minorVersion)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent(contractName, majorVersion, minorVersion);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsApiContractPresent", new Type[] { typeof(string), typeof(ushort), typeof(ushort) }).Invoke(null, new object[] { contractName, majorVersion, minorVersion });
@@ -72,7 +76,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified constant is present; otherwise, false.</returns>
         public static bool IsEnumNamedValuePresent(string enumTypeName, string valueName)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsEnumNamedValuePresent(enumTypeName, valueName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsEnumNamedValuePresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { enumTypeName, valueName });
@@ -120,7 +126,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified event is present for the type; otherwise, false.</returns>
         public static bool IsEventPresent(string typeName, string eventName)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsEventPresent(typeName, eventName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsEventPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, eventName });
@@ -143,7 +151,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified method is present for the type; otherwise, false.</returns>
         public static bool IsMethodPresent(string typeName, string methodName)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeName, methodName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string)}).Invoke(null, new object[] { typeName, methodName});
@@ -171,7 +181,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified method is present for the type; otherwise, false.</returns>
         public static bool IsMethodPresent(string typeName, string methodName, uint inputParameterCount)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeName, methodName, inputParameterCount);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string), typeof(uint) }).Invoke(null, new object[] { typeName, methodName, inputParameterCount });
@@ -198,7 +210,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified property is present for the type; otherwise, false.</returns>
         public static bool IsPropertyPresent(string typeName, string propertyName)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(typeName, propertyName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
@@ -221,7 +235,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified property is present for the type; otherwise, false.</returns>
         public static bool IsReadOnlyPropertyPresent(string typeName, string propertyName)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsReadOnlyPropertyPresent(typeName, propertyName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsReadOnlyPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
@@ -246,7 +262,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified property is present for the type; otherwise, false.</returns>
         public static bool IsWriteablePropertyPresent(string typeName, string propertyName)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsWriteablePropertyPresent(typeName, propertyName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if (_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsWriteablePropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
@@ -270,7 +288,9 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified type is present; otherwise, false.</returns>
         public static bool IsTypePresent(string typeName)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             if(_type10 != null)
             {
                 return (bool)_type10.GetRuntimeMethod("IsTypePresent", new Type[] { typeof(string) }).Invoke(null, new object[] { typeName });

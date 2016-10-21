@@ -41,6 +41,8 @@ namespace InTheHand.UI.Popups
 #if __ANDROID__ || __IOS__
         EventWaitHandle handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         IUICommand _selectedCommand;
+#elif WINDOWS_UWP
+        private Windows.UI.Popups.PopupMenu _menu;
 #endif
 
 #if __IOS__
@@ -77,6 +79,9 @@ namespace InTheHand.UI.Popups
         /// </summary>
         public PopupMenu()
         {
+#if WINDOWS_UWP
+            _menu = new Windows.UI.Popups.PopupMenu();
+#endif
         }
 
         /// <summary>
@@ -88,7 +93,20 @@ namespace InTheHand.UI.Popups
         /// For more on the async pattern, see Asynchronous programming in the Windows Runtime.</returns>
         public Task<IUICommand> ShowAsync(Point invocationPoint)
         {
+#if WINDOWS_UWP
+            return Task.Run<IUICommand>(async () =>
+            {
+                foreach(IUICommand command in Commands)
+                {
+                    _menu.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, new Windows.UI.Popups.UICommandInvokedHandler((c2) => { command.Invoked?.Invoke(command); }), command.Id));
+                }
+                Windows.Foundation.Point p = new Windows.Foundation.Point(invocationPoint.X, invocationPoint.Y);
+                var c = await _menu.ShowAsync(p);
+                return c == null ? null : new UICommand(c.Label, new UICommandInvokedHandler((c2) => { c2.Invoked?.Invoke(c2); }), c.Id);
+            });
+#else
             return ShowForSelectionAsync(new Rect(invocationPoint.X, invocationPoint.Y,0,0), Placement.Default);
+#endif
         }
 
         /// <summary>
@@ -98,7 +116,20 @@ namespace InTheHand.UI.Popups
         /// <returns></returns>
         public Task<IUICommand> ShowForSelectionAsync(Rect selection)
         {
+#if WINDOWS_UWP
+            return Task.Run<IUICommand>(async () =>
+            {
+                foreach (IUICommand command in Commands)
+                {
+                    _menu.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, new Windows.UI.Popups.UICommandInvokedHandler((c2) => { command.Invoked?.Invoke(command); }), command.Id));
+                }
+                Windows.Foundation.Rect r = new Windows.Foundation.Rect(selection.X, selection.Y, selection.Width, selection.Height);
+                var c = await _menu.ShowForSelectionAsync(r);
+                return c == null ? null : new UICommand(c.Label, new UICommandInvokedHandler((c2) => { c2.Invoked?.Invoke(c2); }), c.Id);
+            });
+#else
             return ShowForSelectionAsync(selection, Placement.Default);
+#endif
         }
 
         /// <summary>
@@ -114,7 +145,18 @@ namespace InTheHand.UI.Popups
                 throw new InvalidOperationException();
             }
 
-#if __ANDROID__
+#if WINDOWS_UWP
+            return Task.Run<IUICommand>(async () =>
+            {
+                foreach (IUICommand command in Commands)
+                {
+                    _menu.Commands.Add(new Windows.UI.Popups.UICommand(command.Label, new Windows.UI.Popups.UICommandInvokedHandler((c2) => { command.Invoked?.Invoke(command); }), command.Id));
+                }
+                Windows.Foundation.Rect r = new Windows.Foundation.Rect(selection.X, selection.Y, selection.Width, selection.Height);
+                var c = await _menu.ShowForSelectionAsync(r, (Windows.UI.Popups.Placement)((int)preferredPlacement));
+                return c == null ? null : new UICommand(c.Label, new UICommandInvokedHandler((c2) => { c2.Invoked?.Invoke(c2); }), c.Id);
+            });
+#elif __ANDROID__
             Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             Android.App.AlertDialog dialog = builder.Create();
             dialog.SetTitle(this.Title);

@@ -489,6 +489,13 @@ namespace InTheHand.Storage
 #endif
         }
 
+        /// <summary>
+        /// Tries to get the file or folder with the specified name from the current folder.
+        /// Returns null instead of raising a FileNotFoundException if the specified file or folder is not found.
+        /// </summary>
+        /// <param name="name">The name (or path relative to the current folder) of the file or folder to get.</param>
+        /// <returns>When this method completes successfully, it returns an IStorageItem that represents the specified file or folder.
+        /// If the specified file or folder is not found, this method returns null instead of raising an exception.</returns>
         public Task<IStorageItem> TryGetItemAsync(string name)
         {
 #if WINDOWS_UWP || WINDOWS_APP
@@ -674,10 +681,10 @@ namespace InTheHand.Storage
         }
 
         /// <summary>
-        /// 
+        /// Indicates whether the current folder is equal to the specified folder.
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="item">The <see cref="IStorageItem"/> object that represents the folder to compare against.</param>
+        /// <returns>Returns true if the current folder is equal to the specified folder; otherwise false.</returns>
         public bool IsEqual(IStorageItem item)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -692,6 +699,11 @@ namespace InTheHand.Storage
 #endif
         }
 
+        /// <summary>
+        /// Indicates whether the current <see cref="StorageFolder"/> matches the specified <see cref="StorageItemTypes"/> value.
+        /// </summary>
+        /// <param name="type">The enum value that determines the object type to match against.</param>
+        /// <returns>True if the <see cref="StorageFolder"/> matches the specified <see cref="StorageItemTypes"/> value; otherwise false.</returns>
         public bool IsOfType(StorageItemTypes type)
         {
             return type == StorageItemTypes.Folder;

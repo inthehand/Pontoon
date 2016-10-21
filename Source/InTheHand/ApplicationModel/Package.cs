@@ -147,10 +147,6 @@ namespace InTheHand.ApplicationModel
         /// <summary>
         /// Gets the date the application package was installed on the user's phone.
         /// </summary>
-        /// <remarks>
-        /// On Windows Phone use the extension method <see cref="PackageExtensions.GetInstalledDate(Package)"/>.
-        /// </remarks>
-        /// <seealso cref="PackageExtensions.GetInstalledDate(Package)"/> 
         public DateTimeOffset InstalledDate
         {
             get
