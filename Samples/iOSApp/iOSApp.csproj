@@ -137,7 +137,7 @@
     <Content Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\InTheHand.Devices.iOS\InTheHand.Devices.iOS.csproj">
+    <ProjectReference Include="..\..\InTheHand.Devices\InTheHand.Devices.iOS\InTheHand.Devices.iOS.csproj">
       <Project>{843b28fe-c18f-44ca-9799-3d8537ac46f6}</Project>
       <Name>InTheHand.Devices.iOS</Name>
       <IsAppExtension>false</IsAppExtension>

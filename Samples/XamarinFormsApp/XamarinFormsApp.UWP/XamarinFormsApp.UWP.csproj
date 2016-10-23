@@ -128,7 +128,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\InTheHand\InTheHand.uwp10\InTheHand.uwp10.csproj">
+    <ProjectReference Include="..\..\..\InTheHand\InTheHand.uwp10\InTheHand.uwp10.csproj">
       <Project>{c919d564-3221-4293-92f5-071571df48b9}</Project>
       <Name>InTheHand.uwp10</Name>
     </ProjectReference>

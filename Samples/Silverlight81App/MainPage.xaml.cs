@@ -35,14 +35,14 @@ namespace Silverlight81App
 
 
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
-            InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().CommandsRequested += MainPage_CommandsRequested;
+            //InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().CommandsRequested += MainPage_CommandsRequested;
             this.Loaded += MainPage_Loaded;
         }
 
-        private void MainPage_CommandsRequested(InTheHand.UI.ApplicationSettings.SettingsPane sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
+        /*private void MainPage_CommandsRequested(InTheHand.UI.ApplicationSettings.SettingsPane sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {
             args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand("one", "One", (c) => { System.Diagnostics.Debug.WriteLine("s"); }));
-        }
+        }*/
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
@@ -53,7 +53,7 @@ namespace Silverlight81App
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            InTheHand.UI.ApplicationSettings.SettingsPane.Show();
+            //InTheHand.UI.ApplicationSettings.SettingsPane.Show();
            /* MessageDialog md1 = new MessageDialog("hello1");
             md1.Commands.Add(new Windows.UI.Popups.UICommand("one", async (c) =>
             {

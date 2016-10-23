@@ -704,6 +704,7 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="type">The enum value that determines the object type to match against.</param>
         /// <returns>True if the <see cref="StorageFolder"/> matches the specified <see cref="StorageItemTypes"/> value; otherwise false.</returns>
+        /// <seealso cref="StorageItemTypes"/>
         public bool IsOfType(StorageItemTypes type)
         {
             return type == StorageItemTypes.Folder;

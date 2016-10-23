@@ -43,6 +43,7 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="type">The value to match against.</param>
         /// <returns></returns>
+        /// <seealso cref="StorageItemTypes"/>
         bool IsOfType(StorageItemTypes type);
 
         /// <summary>

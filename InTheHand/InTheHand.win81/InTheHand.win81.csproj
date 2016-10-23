@@ -308,14 +308,14 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\UniversalApiContract.cs">
       <Link>Foundation\UniversalApiContract.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Globalization\ApplicationLanguages.cs">
+      <Link>Globalization\ApplicationLanguages.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
       <Link>Graphics\Display\DisplayOrientations.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Graphics\Display\ResolutionScale.cs">
-      <Link>Graphics\Display\ResolutionScale.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
       <Link>Media\Capture\CameraCaptureUI.cs</Link>

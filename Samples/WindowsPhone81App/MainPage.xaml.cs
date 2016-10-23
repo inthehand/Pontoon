@@ -104,7 +104,7 @@ namespace WindowsPhone81App
             //Windows.Storage.StorageFile sf = await CaptureFileAsync();
 
             //System.Diagnostics.Debug.WriteLine(sf);
-            SettingsPane.Show();
+            //SettingsPane.Show();
         }
 
         public Task<Windows.Storage.StorageFile> CaptureFileAsync()

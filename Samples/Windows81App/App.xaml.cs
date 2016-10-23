@@ -36,14 +36,14 @@ namespace Windows81App
             this.Suspending += OnSuspending;
         }
 
-        private void App_CommandsRequested(InTheHand.UI.ApplicationSettings.SettingsPane sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
+        /*private void App_CommandsRequested(InTheHand.UI.ApplicationSettings.SettingsPane sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {
             args.Request.ApplicationCommands.Add(new SettingsCommand("test", "Testing", async (c) =>
             {
                 MessageDialog md = new MessageDialog("Testing", "Woo title");
                 await md.ShowAsync();
             }));
-        }
+        }*/
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -93,7 +93,7 @@ namespace Windows81App
             Window.Current.Activate();
 
 
-            InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().CommandsRequested += App_CommandsRequested;
+            //InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().CommandsRequested += App_CommandsRequested;
         }
 
         /// <summary>

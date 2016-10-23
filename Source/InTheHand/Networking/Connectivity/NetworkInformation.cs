@@ -22,6 +22,16 @@ namespace InTheHand.Networking.Connectivity
     /// <summary>
     /// Provides access to network connection information for the local machine.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+    /// </remarks>
     public static class NetworkInformation
     {
 #if __ANDROID__
@@ -69,7 +79,7 @@ namespace InTheHand.Networking.Connectivity
                 }
             }
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            return new Connectivity.ConnectionProfile(Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile());
+            return new ConnectionProfile(Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile());
 #endif
             return null;
         }
@@ -89,6 +99,8 @@ namespace InTheHand.Networking.Connectivity
 #elif __IOS__
                     _reachability.SetNotification(new NetworkReachability.Notification(ReachabilityNotification));
                     _reachability.Schedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                    Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
 #endif
                 }
                 networkStatusChanged += value;
@@ -102,10 +114,19 @@ namespace InTheHand.Networking.Connectivity
                     _manager.DefaultNetworkActive -= _manager_DefaultNetworkActive;
 #elif __IOS__
                     _reachability.Unschedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                    Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged -= NetworkInformation_NetworkStatusChanged;
 #endif
                 }
             }
         }
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private static void NetworkInformation_NetworkStatusChanged(object sender)
+        {
+            OnNetworkStatusChanged();
+        }
+#endif
 
         private static void OnNetworkStatusChanged()
         {

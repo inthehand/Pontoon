@@ -20,6 +20,16 @@ namespace InTheHand.Graphics.Display
     /// Monitors and controls physical display information.
     /// The class provides events to allow clients to monitor for changes in the display.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+    /// </remarks>
     public sealed class DisplayInformation
     {
         private static DisplayInformation current;

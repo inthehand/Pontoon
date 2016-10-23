@@ -132,6 +132,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
       <Link>ApplicationModel\Store\CurrentApp.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
+      <Link>Collections\Generic\ListExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
@@ -203,6 +206,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Globalization\ApplicationLanguages.cs">
+      <Link>Globalization\ApplicationLanguages.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>

@@ -47,28 +47,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\InTheHand.Devices\Properties\AssemblyInfo.cs">
+    <Compile Include="..\..\InTheHand.Devices\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\SharedAssemblyInfo.cs">
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Bluetooth\BluetoothLEDevice.cs</Link>
     </Compile>
-    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
       <Link>Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
     </Compile>
-    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
       <Link>Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
     </Compile>
-    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
       <Link>Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
     </Compile>
-    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Enumeration\DeviceInformation.cs</Link>
     </Compile>
-    <Compile Include="MainApplication.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +78,7 @@
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InTheHand\InTheHand.Android\InTheHand.Android.csproj">
+    <ProjectReference Include="..\..\InTheHand\InTheHand.Android\InTheHand.Android.csproj">
       <Project>{238fe401-b123-4ada-af12-bbf148e34288}</Project>
       <Name>InTheHand.Android</Name>
     </ProjectReference>

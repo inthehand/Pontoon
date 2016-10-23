@@ -19,6 +19,17 @@ namespace InTheHand.Storage
     /// Provides access to common locations that contain user content.
     /// This includes content from a user's local libraries (such as Documents, Pictures, Music, and Videos).
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public static class KnownFolders
     {
         /// <summary>
@@ -32,6 +43,8 @@ namespace InTheHand.Storage
                 var t = StorageFolder.GetFolderFromPathAsync(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath);
                 t.Wait();
                 return t.Result;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(Windows.Storage.KnownFolders.CameraRoll);
 #else
                 return null;
 #endif
@@ -47,6 +60,8 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyDocuments);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(Windows.Storage.KnownFolders.DocumentsLibrary);
 #else
                 return null;
 #endif
@@ -62,6 +77,8 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyMusic);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(Windows.Storage.KnownFolders.MusicLibrary);
 #else
                 return null;
 #endif
@@ -77,6 +94,8 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyPictures);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(Windows.Storage.KnownFolders.PicturesLibrary);
 #else
                 return null;
 #endif
@@ -92,6 +111,8 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __IOS__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyVideos);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new StorageFolder(Windows.Storage.KnownFolders.VideosLibrary);
 #else
                 return null;
 #endif

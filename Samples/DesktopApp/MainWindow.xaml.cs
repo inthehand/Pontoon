@@ -12,8 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Popups;
+using InTheHand.ApplicationModel.DataTransfer;
+using InTheHand.UI.Popups;
 
 namespace DesktopApp
 {

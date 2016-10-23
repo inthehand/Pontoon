@@ -17,17 +17,21 @@ using Foundation;
 namespace Windows.Globalization
 {
     /// <summary>
-    /// Identifies the operating system, or platform, supported by an assembly.
+    /// Specifies the language-related preferences that the app can use and maintain.
     /// </summary>
     public static class ApplicationLanguages
     {
         /// <summary>
         /// Gets the ranked list of current runtime language values preferred by the user.
         /// </summary>
+        /// <value>A computed list of languages that merges the app's declared supported languages (<see cref="ManifestLanguages"/>) with the user's ranked list of preferred languages.</value>
         public static IReadOnlyList<string> Languages
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return Windows.Globalization.ApplicationLanguages.Languages;
+#else
                 List<string> langs = new List<string>();
 #if __ANDROID__
                 // for now just return the single default system locale
@@ -47,17 +51,26 @@ namespace Windows.Globalization
                         }
                     }
                 }
+
 #endif
                 return langs.AsReadOnly();
+#endif
             }
         }
 
         private static IReadOnlyList<string> s_manifestLanguages;
 
+        /// <summary>
+        /// Gets the app's declared list of supported languages.
+        /// </summary>
+        /// <value>The list of supported languages declared in the app's manifest.</value>
         public static IReadOnlyList<string> ManifestLanguages
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return Windows.Globalization.ApplicationLanguages.ManifestLanguages;
+#else
                 if (s_manifestLanguages == null)
                 {
                     List<string> langs = new List<string>();
@@ -92,11 +105,14 @@ namespace Windows.Globalization
                             langs.Add(devRegionString);
                         }
                     }
+
 #endif
                     s_manifestLanguages = langs.AsReadOnly();
                 }
 
                 return s_manifestLanguages;
+
+#endif
             }
         }
 

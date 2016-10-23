@@ -32,6 +32,15 @@ namespace InTheHand.Phone.Devices.Notification
     /// <para>An app that is running in the background cannot vibrate the phone.</para>
     /// If your code tries to use vibration while the app is running in the background, nothing happens, but no exception is raised.
     /// If you want to vibrate the phone while your app is running in the background, you have to implement a toast notification.</para></remarks>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+    /// </remarks>
     public sealed class VibrationDevice
     {
         private static VibrationDevice  _default;

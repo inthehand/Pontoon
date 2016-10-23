@@ -16,6 +16,7 @@ namespace InTheHand.Storage.FileProperties
     /// <summary>
     /// Provides access to the basic properties, like the size of the item or the date the item was last modified, of the item (like a file or folder).
     /// </summary>
+    /// <seealso cref="IStorageItem.GetBasicPropertiesAsync"/>
     public sealed class BasicProperties
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE

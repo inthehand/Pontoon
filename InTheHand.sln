@@ -47,15 +47,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InTheHand", "InTheHand", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InTheHand.Devices", "InTheHand.Devices", "{85EC85B4-E769-4498-B0C6-E5E176829542}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices", "InTheHand.Devices\InTheHand.Devices.csproj", "{94E89F9E-DAB8-471A-9AE7-396B0D00EBE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices", "InTheHand.Devices\InTheHand.Devices\InTheHand.Devices.csproj", "{94E89F9E-DAB8-471A-9AE7-396B0D00EBE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.wpa81", "InTheHand.Devices.wpa81\InTheHand.Devices.wpa81.csproj", "{1084D5E7-E4EE-410F-B6EC-FD614F8508FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.wpa81", "InTheHand.Devices\InTheHand.Devices.wpa81\InTheHand.Devices.wpa81.csproj", "{1084D5E7-E4EE-410F-B6EC-FD614F8508FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.iOS", "InTheHand.Devices.iOS\InTheHand.Devices.iOS.csproj", "{843B28FE-C18F-44CA-9799-3D8537AC46F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.iOS", "InTheHand.Devices\InTheHand.Devices.iOS\InTheHand.Devices.iOS.csproj", "{843B28FE-C18F-44CA-9799-3D8537AC46F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.Android", "InTheHand.Devices.Android\InTheHand.Devices.Android.csproj", "{BEB01150-C754-450B-9BF8-ECEEFCEA1831}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.Android", "InTheHand.Devices\InTheHand.Devices.Android\InTheHand.Devices.Android.csproj", "{BEB01150-C754-450B-9BF8-ECEEFCEA1831}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.uwp10", "InTheHand.Devices.uwp10\InTheHand.Devices.uwp10.csproj", "{6654EFDC-2013-46BD-BDFE-0CDDB9A7F879}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Devices.uwp10", "InTheHand.Devices\InTheHand.Devices.uwp10\InTheHand.Devices.uwp10.csproj", "{6654EFDC-2013-46BD-BDFE-0CDDB9A7F879}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InTheHand.Win32", "InTheHand\InTheHand.Desktop\InTheHand.Win32.csproj", "{05145612-63D9-455B-9329-BA0462B90903}"
 EndProject
@@ -63,15 +63,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopApp", "Samples\Deskt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XamarinForms", "XamarinForms", "{A7C19FE9-FA80-486B-9398-027C16925382}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp", "XamarinFormsApp\XamarinFormsApp\XamarinFormsApp.csproj", "{032D8E27-9496-4C77-A32F-A3EBFBFCCC3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp", "Samples\XamarinFormsApp\XamarinFormsApp\XamarinFormsApp.csproj", "{032D8E27-9496-4C77-A32F-A3EBFBFCCC3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.Droid", "XamarinFormsApp\XamarinFormsApp.Droid\XamarinFormsApp.Droid.csproj", "{FBF8557B-EADA-4592-AF45-0CBCE5FCC2FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.Droid", "Samples\XamarinFormsApp\XamarinFormsApp.Droid\XamarinFormsApp.Droid.csproj", "{FBF8557B-EADA-4592-AF45-0CBCE5FCC2FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.WinPhone", "XamarinFormsApp\XamarinFormsApp.WinPhone\XamarinFormsApp.WinPhone.csproj", "{8FF534FC-43CE-4744-9A1B-1BDC44A831FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.WinPhone", "Samples\XamarinFormsApp\XamarinFormsApp.WinPhone\XamarinFormsApp.WinPhone.csproj", "{8FF534FC-43CE-4744-9A1B-1BDC44A831FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.UWP", "XamarinFormsApp\XamarinFormsApp.UWP\XamarinFormsApp.UWP.csproj", "{F00381D1-77B1-4CF9-A514-A6EC5C160E59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.UWP", "Samples\XamarinFormsApp\XamarinFormsApp.UWP\XamarinFormsApp.UWP.csproj", "{F00381D1-77B1-4CF9-A514-A6EC5C160E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.Windows", "XamarinFormsApp\XamarinFormsApp.Windows\XamarinFormsApp.Windows.csproj", "{6B3949AA-5B27-466B-BECD-7368EF98408D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinFormsApp.Windows", "Samples\XamarinFormsApp\XamarinFormsApp.Windows\XamarinFormsApp.Windows.csproj", "{6B3949AA-5B27-466B-BECD-7368EF98408D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

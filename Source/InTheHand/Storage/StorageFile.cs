@@ -486,6 +486,7 @@ namespace InTheHand.Storage
         /// </summary>
         /// <param name="type">The value to match against.</param>
         /// <returns>True if the <see cref="StorageFile"/> matches the specified value; otherwise false.</returns>
+        /// <seealso cref="StorageItemTypes"/>
         public bool IsOfType(StorageItemTypes type)
         {
             return type == StorageItemTypes.File;

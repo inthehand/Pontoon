@@ -6,6 +6,7 @@ This library provides a common API across Windows and Xamarin platforms allowing
 - https://www.nuget.org/packages/InTheHand.Pontoon/ - Contains shared APIs
 
 ## Platforms
+- Windows Phone 8.0 (Silverlight)
 - Windows Phone 8.1 (Silverlight)
 - Windows Phone 8.1
 - Windows 8.1 (Store Apps)
@@ -15,13 +16,13 @@ This library provides a common API across Windows and Xamarin platforms allowing
 - Xamarin Mac (Coming soon)
 
 ## Key Functionality
-- Windows.ApplicationModel
-- Windows.Devices.Geolocation
-- Windows.Foundation
-- Windows.Networking.Connectivity
-- Windows.Storage
-- Windows.System
-- Windows.UI
+- InTheHand.ApplicationModel
+- InTheHand.Devices.Geolocation
+- InTheHand.Media.Capture
+- InTheHand.Networking.Connectivity
+- InTheHand.Storage
+- InTheHand.System
+- InTheHand.UI
 
 ## Feedback and Requests
 Please use [GitHub issues](https://github.com/inthehand/Pontoon/issues) for questions or comments.

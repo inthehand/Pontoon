@@ -13,6 +13,7 @@ namespace InTheHand.Storage
     /// <summary>
     /// Describes whether an item that implements the <see cref="IStorageItem"/> interface is a file or a folder.
     /// </summary>
+    /// <seealso cref="IStorageItem.IsOfType(StorageItemTypes)"/>
     public enum StorageItemTypes
     {
         /// <summary>

@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Silverlight80App.Resources;
+using InTheHand.ApplicationModel.DataTransfer;
 
 namespace Silverlight80App
 {
@@ -21,7 +22,6 @@ namespace Silverlight80App
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
             System.Diagnostics.Debug.WriteLine(InTheHand.Graphics.Display.DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel);
-            System.Diagnostics.Debug.WriteLine(InTheHand.Graphics.Display.DisplayInformation.GetForCurrentView().ResolutionScale);
             /*InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
             InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);*/

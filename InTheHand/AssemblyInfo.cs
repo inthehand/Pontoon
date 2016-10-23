@@ -7,6 +7,6 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Pontoon")]
-[assembly: AssemblyDescription("A flexible bridge to UWP!")]
+[assembly: AssemblyDescription("A flexible bridge to the Universal Windows Platform")]
 
 [assembly: RuntimeCompatibility(WrapNonExceptionThrows = true)]
