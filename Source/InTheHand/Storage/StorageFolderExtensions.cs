@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace InTheHand.Storage
 {
     /// <summary>
-    /// Provides additional methods for <see cref="Windows.Storage.StorageFolder"/>.
+    /// Provides additional methods for <see cref="StorageFolder"/>.
     /// </summary>
     public static class StorageFolderExtensions
     {

@@ -48,6 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs">
       <Link>Storage\IStorageFolder.cs</Link>
     </Compile>
@@ -171,20 +174,8 @@
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\AsyncStatus.cs">
-      <Link>Foundation\AsyncStatus.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
-      <Link>Foundation\IAsyncAction.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncInfo.cs">
-      <Link>Foundation\IAsyncInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
-      <Link>Foundation\IAsyncOperation.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>

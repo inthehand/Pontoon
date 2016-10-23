@@ -17,6 +17,14 @@ namespace InTheHand.Devices.Geolocation
     /// <summary>
     /// Interface to define a geographic shape.
     /// </summary>
+    /// <remarks>
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     public interface IGeoshape
     {
         /// <summary>
@@ -41,9 +49,22 @@ namespace InTheHand.Devices.Geolocation
     /// </summary>
     public sealed class Geocircle : IGeoshape
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Devices.Geolocation.Geocircle _circle;
+
+        internal Geocircle(Windows.Devices.Geolocation.Geocircle circle)
+        {
+            _circle = circle;
+        }
+
+        public static implicit operator Windows.Devices.Geolocation.Geocircle(Geocircle gc)
+        {
+            return gc._circle;
+        }
+#else 
         private BasicGeoposition _position;
         private double _radius;
-
+#endif
         /// <summary>
         /// Create a geographic circle object for the given position and radius.
         /// </summary>
@@ -51,8 +72,12 @@ namespace InTheHand.Devices.Geolocation
         /// <param name="radius"></param>
         public Geocircle(BasicGeoposition position, double radius)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _circle = new Windows.Devices.Geolocation.Geocircle(position, radius);
+#else
             _position = position;
             _radius = radius;
+#endif
         }
 
         /// <summary>
@@ -62,7 +87,11 @@ namespace InTheHand.Devices.Geolocation
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new BasicGeoposition(_circle.Center);
+#else
                 return _position;
+#endif
             }
         }
 
@@ -73,7 +102,11 @@ namespace InTheHand.Devices.Geolocation
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return (GeoshapeType)((int)_circle.GeoshapeType);
+#else
                 return GeoshapeType.Geocircle;
+#endif
             }
         }
 
@@ -84,7 +117,11 @@ namespace InTheHand.Devices.Geolocation
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _circle.Radius;
+#else
                 return _radius;
+#endif
             }
         }
 

@@ -25,11 +25,32 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     /// <summary>
     /// Contains the information to define a geofence, an area of interest, to monitor.
     /// </summary>
+    /// <remarks>
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     public sealed class Geofence
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Devices.Geolocation.Geofencing.Geofence _fence;
+
+        internal Geofence(Windows.Devices.Geolocation.Geofencing.Geofence fence)
+        {
+            _fence = fence;
+        }
+
+        public static implicit operator Windows.Devices.Geolocation.Geofencing.Geofence(Geofence f)
+        {
+            return f._fence;
+        }
+#elif __IOS__
         private Geocircle _shape;
 
-#if __IOS__
+
         internal CLRegion _region;
 
         internal Geofence(CLRegion region)
@@ -50,15 +71,20 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         /// <param name="id"></param>
         /// <param name="geoshape"></param>
         public Geofence(string id, IGeoshape geoshape)
-        { 
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _fence = new Windows.Devices.Geolocation.Geofencing.Geofence(id, (Windows.Devices.Geolocation.Geocircle)((Geocircle)geoshape));
+#elif __IOS__
             _shape = (Geocircle)geoshape;
-#if __IOS__
+
             if(_shape.Radius > GeofenceMonitor.Current.maxRegion)
             {
                 throw new PlatformNotSupportedException("Geofence Radius is greater than the maximum supported on this platform");
             }
 
             _region = new CLCircularRegion(new CLLocationCoordinate2D(_shape.Center.Latitude, _shape.Center.Longitude), _shape.Radius, id);
+#else
+                throw new PlatformNotSupportedException();
 #endif
         }
 
@@ -70,14 +96,18 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             get
             {
-#if __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new Geocircle((Windows.Devices.Geolocation.Geocircle)_fence.Geoshape);
+#elif __IOS__
                 if(_shape == null)
                 {
                     _shape = new Geocircle(new BasicGeoposition() { Latitude= _region.Center.Latitude, Longitude = _region.Center.Longitude }, _region.Radius);
                 }
-#endif
 
                 return _shape;
+#else
+                throw new PlatformNotSupportedException();
+#endif
             }
         }
 
@@ -88,10 +118,12 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             get
             {
-#if __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _fence.Id;
+#elif __IOS__
                 return _region.Identifier;
 #else
-                return string.Empty;
+                throw new PlatformNotSupportedException();
 #endif
             }
         }
@@ -118,13 +150,37 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #endif
     }
 
+    /// <summary>
+    /// Indicates the state or states of the Geofences that are currently being monitored by the system.
+    /// </summary>
+    /// <remarks>
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     [Flags]
     public enum MonitoredGeofenceStates : uint
     {
-        Entered,
-        Exited,
-        None,
-        Removed,
+        /// <summary>
+        /// No flag is set.
+        /// </summary>
+        None = 0,
+        /// <summary>
+        /// The device has entered a geofence area.
+        /// </summary>
+        Entered = 1,
+        /// <summary>
+        /// The device has left a geofence area.
+        /// </summary>
+        Exited = 2,
+        /// <summary>
+        /// The geofence has been removed.
+        /// <para>Not supported on iOS.</para>
+        /// </summary>
+        Removed = 4,
     }
 }
 //#endif

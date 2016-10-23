@@ -8,6 +8,7 @@
 //[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceMonitor))]
 //#else
 
+using InTheHand.Foundation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,14 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     /// <summary>
     /// Contains the information about the monitored Geofence objects. 
     /// </summary>
+    /// <remarks>
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     public sealed class GeofenceMonitor
     {
 
@@ -46,6 +55,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
 #if __IOS__
         private CLLocationManager _locationManager;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Devices.Geolocation.Geofencing.GeofenceMonitor _monitor;
 #endif
         private Queue<GeofenceStateChangeReport> _reports = new Queue<GeofenceStateChangeReport>();
 
@@ -73,6 +84,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
             _locationManager.RegionEntered += _locationManager_RegionEntered;
             _locationManager.RegionLeft += _locationManager_RegionLeft;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            _monitor = Windows.Devices.Geolocation.Geofencing.GeofenceMonitor.Current;
 #endif
         }
 
@@ -106,13 +119,18 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         public IReadOnlyList<GeofenceStateChangeReport> ReadReports()
         {
             List<GeofenceStateChangeReport> reportSnapshot = new List<Geofencing.GeofenceStateChangeReport>();
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            foreach(Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport r in _monitor.ReadReports())
+            {
+                reportSnapshot.Add(new GeofenceStateChangeReport(r));
+            }
+#else
             lock (_reports)
             {
                 reportSnapshot.AddRange(_reports.ToArray());
                 _reports.Clear();
             }
-
+#endif
             return reportSnapshot;
         }
 
@@ -154,6 +172,14 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                 }
 
                 return fences;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                List<Geofence> fences = new List<Geofence>();
+                foreach(Windows.Devices.Geolocation.Geofencing.Geofence f in _monitor.Geofences)
+                {
+                    fences.Add(new Geofence(f));
+                }
+
+                return fences;
 #else
                 return null;
 #endif
@@ -183,6 +209,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #if __IOS__
                 _locationManager.RequestLocation();
                 return new Geoposition(_locationManager.Location);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new Geoposition(_monitor.LastKnownGeoposition);
 #else
                 return new Geoposition();
 #endif
@@ -196,6 +224,12 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         /// </summary>
         public GeofenceMonitorStatus Status
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return (GeofenceMonitorStatus)((int)_monitor.Status);
+            }
+#else
             get
             {
                 return _status;
@@ -205,25 +239,88 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                 if(_status != value)
                 {
                     _status = value;
-                    StatusChanged?.Invoke(this, EventArgs.Empty);
+                    StatusChanged?.Invoke(this, null);
+                }
+            }
+#endif
+        }
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private event TypedEventHandler<GeofenceMonitor, object> _geofenceStateChanged;
+#endif
+        /// <summary>
+        /// Raised when the state of one or more <see cref="Geofence"/> objects in the Geofences collection of the GeofenceMonitor has changed.
+        /// </summary>
+        public event TypedEventHandler<GeofenceMonitor, object> GeofenceStateChanged
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        {
+            add
+            {
+                if(_geofenceStateChanged == null)
+                {
+                    _monitor.GeofenceStateChanged += _monitor_GeofenceStateChanged;
+                }
+                _geofenceStateChanged += value;
+            }
+            remove
+            {
+                _geofenceStateChanged -= value;
+
+                if(_geofenceStateChanged == null)
+                {
+                    _monitor.GeofenceStateChanged -= _monitor_GeofenceStateChanged;
                 }
             }
         }
 
-        /// <summary>
-        /// Raised when the state of one or more <see cref="Geofence"/> objects in the Geofences collection of the GeofenceMonitor has changed.
-        /// </summary>
-        public event EventHandler GeofenceStateChanged;
+        private void _monitor_GeofenceStateChanged(Windows.Devices.Geolocation.Geofencing.GeofenceMonitor sender, object args)
+        {
+            _geofenceStateChanged?.Invoke(this, EventArgs.Empty);
+        }
+#else
+        ;
 
         private void OnGeofenceStateChanged()
         {
-            GeofenceStateChanged?.Invoke(this, EventArgs.Empty);
+            GeofenceStateChanged?.Invoke(this, null);
         }
+#endif
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private event TypedEventHandler<GeofenceMonitor, object> _statusChanged;
+#endif
         /// <summary>
         /// Raised when the status of the GeofenceMonitor has changed.
         /// </summary>
-        public event EventHandler StatusChanged;
+        public event TypedEventHandler<GeofenceMonitor, object> StatusChanged
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        {
+            add
+            {
+                if (_statusChanged == null)
+                {
+                    _monitor.StatusChanged += _monitor_StatusChanged;
+                }
+                _statusChanged += value;
+            }
+            remove
+            {
+                _statusChanged -= value;
+
+                if (_geofenceStateChanged == null)
+                {
+                    _monitor.StatusChanged -= _monitor_StatusChanged;
+                }
+            }
+        }
+
+        private void _monitor_StatusChanged(Windows.Devices.Geolocation.Geofencing.GeofenceMonitor sender, object args)
+        {
+            _statusChanged?.Invoke(this, EventArgs.Empty);
+        }
+#else
+        ;
+#endif
 
     }
 
@@ -258,6 +355,19 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
     public sealed class GeofenceStateChangeReport
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport _report;
+
+        internal GeofenceStateChangeReport(Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport report)
+        {
+            _report = report;
+        }
+
+        public static implicit operator Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport(GeofenceStateChangeReport gscr)
+        {
+            return gscr._report;
+        }
+#else
         private Geofence _geofence;
         private Geoposition _geoposition;
         private GeofenceState _newState;
@@ -268,12 +378,16 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             _geoposition = geoposition;
             _newState = newstate;
         }
-
+#endif
         public Geofence Geofence
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new Geofence(_report.Geofence);
+#else
                 return _geofence;
+#endif
             }
         }
 
@@ -281,7 +395,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return new Geoposition(_report.Geoposition);
+#else
                 return _geoposition;
+#endif
             }
         }
 
@@ -289,7 +407,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return (GeofenceState)((int)_report.NewState);
+#else
                 return _newState;
+#endif
             }
         }
     }

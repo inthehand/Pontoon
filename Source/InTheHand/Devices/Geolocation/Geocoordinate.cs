@@ -17,6 +17,19 @@ namespace InTheHand.Devices.Geolocation
     /// </summary>
     public sealed class Geocoordinate
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        private Windows.Devices.Geolocation.Geocoordinate _coordinate;
+
+        internal Geocoordinate(Windows.Devices.Geolocation.Geocoordinate coordinate)
+        {
+            _coordinate = coordinate;
+        }
+
+        public static implicit operator Windows.Devices.Geolocation.Geocoordinate(Geocoordinate gc)
+        {
+            return gc._coordinate;
+        }
+#endif
         /// <summary>
         /// The accuracy of the location in meters.
         /// </summary>
@@ -29,8 +42,15 @@ namespace InTheHand.Devices.Geolocation
         /// GNSS data may not be available at all within a building.</remarks>
         public double Accuracy
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return _coordinate.Accuracy;
+            }
+#else
             get;
             internal set;
+#endif
         }
 
         /// <summary>
@@ -42,8 +62,15 @@ namespace InTheHand.Devices.Geolocation
         /// The Windows Location Provider and the Windows Phone Location Services do not set this property.</remarks>
         public double? AltitudeAccuracy
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return _coordinate.AltitudeAccuracy;
+            }
+#else
             get;
             internal set;
+#endif
         }
 
         /// <summary>
@@ -55,8 +82,15 @@ namespace InTheHand.Devices.Geolocation
         /// The Windows Location Provider does not set this property.</remarks>
         public double? Heading
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return _coordinate.Heading;
+            }
+#else
             get;
             internal set;
+#endif
         }
 
         /// <summary>
@@ -65,8 +99,15 @@ namespace InTheHand.Devices.Geolocation
         /// <value>The location of the Geocoordinate.</value>
         public Geopoint Point
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return new Geopoint(_coordinate.Point);
+            }
+#else
             get;
             internal set;
+#endif
         }
 
         /// <summary>
@@ -75,8 +116,15 @@ namespace InTheHand.Devices.Geolocation
         /// <value>The source used to obtain a Geocoordinate.</value>
         public PositionSource PositionSource
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return (PositionSource)((int)_coordinate.PositionSource);
+            }
+#else
             get;
             internal set;
+#endif
         }
 
         /// <summary>
@@ -90,8 +138,15 @@ namespace InTheHand.Devices.Geolocation
         /// This means that the timestamps obtained from these services will be precise and, most importantly, consistent across all devices regardless of whether the system time on the devices is set correctly.</para></remarks>
         public DateTimeOffset? PositionSourceTimestamp
         {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return _coordinate.PositionSourceTimestamp;
+            }
+#else
             get;
             internal set;
+#endif
         }
 
         /// <summary>
@@ -103,8 +158,15 @@ namespace InTheHand.Devices.Geolocation
         /// The Windows Location Provider does not set this property.</remarks>
         public double? Speed
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return _coordinate.Speed;
+            }
+#else
             get;
             internal set;
+#endif
         }
 
         /// <summary>
@@ -113,8 +175,15 @@ namespace InTheHand.Devices.Geolocation
         /// <value>The system time at which the location was determined.</value>
         public DateTimeOffset Timestamp
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            get
+            {
+                return _coordinate.Timestamp;
+            }
+#else
             get;
             internal set;
+#endif
         }
     }
 }

@@ -25,10 +25,22 @@ namespace InTheHand.Devices.Geolocation
     /// <summary>
     /// Provides access to the current geographic location. 
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public sealed class Geolocator
     {
 #if __IOS__
         CLLocationManager manager = new CLLocationManager();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private Windows.Devices.Geolocation.Geolocator _locator = new Windows.Devices.Geolocation.Geolocator();
 #elif WIN32
         GeoCoordinateWatcher _watcher;
 #endif
@@ -123,6 +135,8 @@ namespace InTheHand.Devices.Geolocation
             {
 #if __IOS__
                 return manager.DesiredAccuracy == CLLocation.AccuracyBest ? PositionAccuracy.High : PositionAccuracy.Default;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return (PositionAccuracy)((int)_locator.DesiredAccuracy);
 #elif WIN32
                 return _watcher.DesiredAccuracy == GeoPositionAccuracy.High ? PositionAccuracy.High : PositionAccuracy.Default;
 #else
@@ -135,6 +149,8 @@ namespace InTheHand.Devices.Geolocation
 #if __IOS__
                 // TODO: check that Kilometer is a suitable equivalent for cell-tower location
                 manager.DesiredAccuracy = value == PositionAccuracy.High ? CLLocation.AccuracyBest : CLLocation.AccuracyKilometer;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                _locator.DesiredAccuracy = (Windows.Devices.Geolocation.PositionAccuracy)((int)value);
 #elif WIN32
                 _watcher = new GeoCoordinateWatcher(value == PositionAccuracy.High ? GeoPositionAccuracy.High : GeoPositionAccuracy.Default);
                 _watcher.MovementThreshold = _movementThreshold;
@@ -175,7 +191,11 @@ namespace InTheHand.Devices.Geolocation
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return (PositionStatus)((int)_locator.LocationStatus);
+#else
                 return _locationStatus;
+#endif
             }
 
             internal set
@@ -200,6 +220,9 @@ namespace InTheHand.Devices.Geolocation
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _locator.MovementThreshold;
+#else
 #if WIN32
                 if (_watcher != null)
                 {
@@ -207,21 +230,25 @@ namespace InTheHand.Devices.Geolocation
                 }
 #endif
                 return _movementThreshold;
+#endif
             }
 
             set
             {
-
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                _locator.MovementThreshold = value;
+#else
 #if WIN32
                 if (_watcher != null)
                 {
                     _watcher.MovementThreshold = value;
                 }
 #endif
-                if(_movementThreshold != value)
+                if (_movementThreshold != value)
                 {
                     _movementThreshold = value;
                 }
+#endif
             }
         }
 
@@ -234,15 +261,23 @@ namespace InTheHand.Devices.Geolocation
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _locator.ReportInterval;
+#else
                 return _reportInterval;
+#endif
             }
 
             set
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                _locator.ReportInterval = value;
+#else
                 if(_reportInterval != value)
                 {
                     _reportInterval = value;
                 }
+#endif
             }
         }
 
@@ -252,7 +287,10 @@ namespace InTheHand.Devices.Geolocation
         /// <returns></returns>
         public async Task<Geoposition> GetGeopositionAsync()
         {
-#if __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            var g = await _locator.GetGeopositionAsync();
+            return g == null ? null : new Geoposition(g);
+#elif __IOS__
             manager.RequestLocation();
             CLLocation current = manager.Location;
 
@@ -265,7 +303,7 @@ namespace InTheHand.Devices.Geolocation
             var pos = _watcher.Position;
             return new Geoposition(pos);
 #else
-            return new Geoposition();
+            throw new PlatformNotSupportedException();
 #endif
         }
 

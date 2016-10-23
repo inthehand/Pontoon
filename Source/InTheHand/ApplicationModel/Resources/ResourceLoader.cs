@@ -8,6 +8,7 @@
 //[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Resources.ResourceLoader))]
 //#else
 
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Threading;
@@ -20,6 +21,14 @@ namespace InTheHand.ApplicationModel.Resources
     /// <summary>
     /// Provides simplified access to app resources such as app UI strings.
     /// </summary>
+    /// <remarks>
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+    /// </remarks>
     public sealed class ResourceLoader
     {
         private static ResourceLoader instance;
@@ -42,6 +51,8 @@ namespace InTheHand.ApplicationModel.Resources
             }
 
             return instance;
+#else
+            throw new PlatformNotSupportedException();
 #endif
         }
 

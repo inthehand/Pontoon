@@ -23,7 +23,7 @@ namespace InTheHand
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
     /// </remarks>
-    /// <seealso cref="System.Environment"/>
+    /// <seealso cref="global::System.Environment"/>
     public static class Environment
     {
         private static OperatingSystem _operatingSystem;

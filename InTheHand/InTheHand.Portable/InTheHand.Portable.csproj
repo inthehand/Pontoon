@@ -189,24 +189,9 @@
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\Foundation\AsyncStatus.cs">
-      <Link>Foundation\AsyncStatus.cs</Link>
-    </None>
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\Foundation\FoundationContract.cs">
-      <Link>Foundation\FoundationContract.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
-      <Link>Foundation\IAsyncAction.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\Foundation\IAsyncInfo.cs">
-      <Link>Foundation\IAsyncInfo.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
-      <Link>Foundation\IAsyncOperation.cs</Link>
-    </None>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
     </Compile>
@@ -219,9 +204,6 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\Foundation\UniversalApiContract.cs">
-      <Link>Foundation\UniversalApiContract.cs</Link>
-    </None>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>
