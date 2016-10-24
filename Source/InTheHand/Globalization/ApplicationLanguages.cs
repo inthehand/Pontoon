@@ -3,10 +3,10 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.Globalization.ApplicationLanguages))]
-#else
+//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+//using System.Runtime.CompilerServices;
+//[assembly: TypeForwardedTo(typeof(Windows.Globalization.ApplicationLanguages))]
+//#else
 
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,7 @@ using System.Collections.ObjectModel;
 using Foundation;
 #endif
 
-namespace Windows.Globalization
+namespace InTheHand.Globalization
 {
     /// <summary>
     /// Specifies the language-related preferences that the app can use and maintain.
@@ -144,4 +144,4 @@ namespace Windows.Globalization
 
     }
 }
-#endif
+//#endif
