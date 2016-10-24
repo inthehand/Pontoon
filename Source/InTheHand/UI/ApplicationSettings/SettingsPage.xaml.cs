@@ -8,6 +8,9 @@ using Windows.UI.Core;
 using Windows.UI;
 using Windows.ApplicationModel;
 using InTheHand.ApplicationModel;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Shapes;
+using Windows.UI.Xaml.Media;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -24,13 +27,14 @@ namespace InTheHand.UI.ApplicationSettings
         private Windows.UI.Color? previousBackground;
         private Windows.UI.Color? previousForeground;
         private double previousBackgroundOpacity;
+        private ListView SettingsList;
 #endif
 
         public SettingsPage()
         {
-            this.InitializeComponent();
+            //this.InitializeComponent();
 
-            
+
             /*Color bgColor = InTheHand.ApplicationModel.Package.Current.BackgroundColor;
             if (bgColor != Colors.Transparent)
             {
@@ -38,6 +42,19 @@ namespace InTheHand.UI.ApplicationSettings
                 this.Background = new SolidColorBrush(modColor);
             }*/
 #if WINDOWS_UWP
+            this.Transitions.Add(new NavigationThemeTransition() { DefaultNavigationTransitionInfo = new CommonNavigationTransitionInfo() { IsStaggeringEnabled = true } });
+            Grid LayoutRoot = new Grid();
+            LayoutRoot.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(48) });
+            LayoutRoot.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(1, GridUnitType.Star) });
+            Rectangle r = new Rectangle() { Stroke = new SolidColorBrush(Color.FromArgb(0xff, 0x80, 0x80, 0x80)), StrokeThickness = 0.5, Margin = new Windows.UI.Xaml.Thickness(-4, 0, -4, 0), Fill= new SolidColorBrush(Color.FromArgb(0xff,0xf1,0xf1,0xf1)), HorizontalAlignment = HorizontalAlignment.Stretch };
+            Grid.SetRow(r, 0);
+            LayoutRoot.Children.Add(r);
+
+            SettingsList = new ListView();
+            Grid.SetRow(SettingsList, 1);
+            LayoutRoot.Children.Add(SettingsList);
+            this.Content = LayoutRoot;
+
             SystemNavigationManager.GetForCurrentView().BackRequested += SettingsPage_BackRequested;
             /*Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if(sb != null)
@@ -120,7 +137,7 @@ namespace InTheHand.UI.ApplicationSettings
 
             // for store distribution include rate and review
 #if !DEBUG
-            if (!InTheHand.ApplicationModel.Package.Current.GetIsDevelopmentMode())
+            if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
             {
 #endif
                 commands.Add(new SettingsCommand("RateAndReview", "Rate and review", async (c) =>

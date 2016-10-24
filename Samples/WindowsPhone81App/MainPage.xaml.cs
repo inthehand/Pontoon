@@ -23,6 +23,7 @@ using InTheHand.UI.ApplicationSettings;
 using InTheHand.Storage;
 using Windows.Networking.Connectivity;
 using Windows.ApplicationModel;
+using InTheHand.Media.Capture;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
 namespace WindowsPhone81App
@@ -63,14 +64,14 @@ namespace WindowsPhone81App
             //System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
             //System.Diagnostics.Debug.WriteLine(Package.Current.PublisherDisplayName);
 
-            System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+            System.Diagnostics.Debug.WriteLine(InTheHand.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
             // TODO: If your application contains multiple pages, ensure that you are
             // handling the hardware Back button by registering for the
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
 
-            var folder = await Windows.Storage.ApplicationData.Current.LocalFolder.CreateFolderAsync("Test1", CreationCollisionOption.OpenIfExists);
+            var folder = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFolderAsync("Test1", InTheHand.Storage.CreationCollisionOption.OpenIfExists);
             var parent = await folder.GetParentAsync();
 
            ToastNotificationManager.CreateToastNotifier().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
@@ -83,7 +84,7 @@ namespace WindowsPhone81App
             return;
 
             CameraCaptureUI ccu = new CameraCaptureUI();
-            StorageFile sf = await ccu.CaptureFileAsync(CameraCaptureUIMode.Photo);
+            InTheHand.Storage.StorageFile sf = await ccu.CaptureFileAsync(CameraCaptureUIMode.Photo);
             System.Diagnostics.Debug.WriteLine(sf.Path);
             /*
             var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();

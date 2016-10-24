@@ -419,19 +419,19 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
       <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
       <DependentUpon>SettingsPage.UWP.xaml</DependentUpon>
-    </None>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </None>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>
@@ -504,12 +504,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
-    </SDKReference>
+    <Folder Include="Runtime\InteropServices\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Runtime\InteropServices\" />
+    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

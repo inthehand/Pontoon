@@ -180,7 +180,7 @@ namespace InTheHand.UI.ApplicationSettings
             foreach(SettingsCommand cmd in OnCommandsRequested())
             {
 #pragma warning disable 618
-                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.ApplicationSettings.UICommandInvokedHandler((c)=> { SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
+                args.Request.ApplicationCommands.Add(new Windows.UI.ApplicationSettings.SettingsCommand(cmd.Id, cmd.Label, new Windows.UI.Popups.UICommandInvokedHandler((c)=> { SettingsCommand sc = new SettingsCommand(c.Id, c.Label, cmd.Invoked ); sc.Invoked.Invoke(sc); })));
             }
 
 #if WINDOWS_UWP

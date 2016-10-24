@@ -16,7 +16,10 @@ using System.Text;
 using Android.Net;
 #elif __IOS__
 using SystemConfiguration;
+#elif WIN32
+using System.Net.NetworkInformation;
 #endif
+
 namespace InTheHand.Networking.Connectivity
 {
     /// <summary>
@@ -30,7 +33,8 @@ namespace InTheHand.Networking.Connectivity
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
-    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
     /// </remarks>
     public static class NetworkInformation
     {
@@ -47,6 +51,7 @@ namespace InTheHand.Networking.Connectivity
         {
             OnNetworkStatusChanged();
         }
+
 #endif
 
         static NetworkInformation()
@@ -80,6 +85,14 @@ namespace InTheHand.Networking.Connectivity
             }
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return new ConnectionProfile(Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile());
+#elif WIN32
+            foreach(var i in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if(i.OperationalStatus == OperationalStatus.Up && i.NetworkInterfaceType != NetworkInterfaceType.Tunnel && i.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                {
+                    return new ConnectionProfile(i);
+                }
+            }
 #endif
             return null;
         }
@@ -101,6 +114,8 @@ namespace InTheHand.Networking.Connectivity
                     _reachability.Schedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                     Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged += NetworkInformation_NetworkStatusChanged;
+#elif WIN32
+                    NetworkChange.NetworkAvailabilityChanged += NetworkChange_NetworkAvailabilityChanged;
 #endif
                 }
                 networkStatusChanged += value;
@@ -116,13 +131,22 @@ namespace InTheHand.Networking.Connectivity
                     _reachability.Unschedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                     Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged -= NetworkInformation_NetworkStatusChanged;
+#elif WIN32
+                    NetworkChange.NetworkAvailabilityChanged -= NetworkChange_NetworkAvailabilityChanged;
 #endif
                 }
             }
         }
 
+
+
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private static void NetworkInformation_NetworkStatusChanged(object sender)
+        {
+            OnNetworkStatusChanged();
+        }
+#elif WIN32
+        private static void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
         {
             OnNetworkStatusChanged();
         }

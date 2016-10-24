@@ -13,6 +13,8 @@ using System;
 using Android.Net;
 #elif __IOS__
 using SystemConfiguration;
+#elif WIN32
+using System.Net.NetworkInformation;
 #endif
 
 namespace InTheHand.Networking.Connectivity
@@ -20,6 +22,17 @@ namespace InTheHand.Networking.Connectivity
     /// <summary>
     /// Represents a network connection, which includes either the currently connected network or prior network connections.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public sealed class ConnectionProfile
     {
 #if __ANDROID__
@@ -47,6 +60,18 @@ namespace InTheHand.Networking.Connectivity
         {
             return p._profile;
         }
+#elif WIN32
+        private NetworkInterface _interface;
+
+        internal ConnectionProfile(NetworkInterface networkInterface)
+        {
+            _interface = networkInterface;
+        }
+
+        public static implicit operator NetworkInterface(ConnectionProfile p)
+        {
+            return p._interface;
+        }
 #endif
         /// <summary>
         /// Gets the network connectivity level for this connection.
@@ -73,6 +98,8 @@ namespace InTheHand.Networking.Connectivity
             }
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return (NetworkConnectivityLevel) ((int)_profile.GetNetworkConnectivityLevel());
+#elif WIN32
+            return _interface.OperationalStatus == OperationalStatus.Up ? NetworkConnectivityLevel.InternetAccess : NetworkConnectivityLevel.None;
 #else
             return NetworkConnectivityLevel.None;
 #endif

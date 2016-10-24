@@ -33,7 +33,7 @@ namespace Windows81App
             System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version);
             //System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
-            System.Diagnostics.Debug.WriteLine(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+            System.Diagnostics.Debug.WriteLine(InTheHand.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
 
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
         }
