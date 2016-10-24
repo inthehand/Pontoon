@@ -66,9 +66,6 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
       <Link>ApplicationModel\Calls\PhoneLine.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
-      <Link>ApplicationModel\Capability.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
       <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
     </Compile>
@@ -137,6 +134,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs">
       <Link>ApplicationModel\Store\CurrentApp.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
+      <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>

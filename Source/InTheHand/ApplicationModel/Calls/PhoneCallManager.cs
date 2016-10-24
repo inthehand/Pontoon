@@ -68,6 +68,16 @@ namespace InTheHand.ApplicationModel.Calls
                 }
                 return null;
             });
+#elif WINDOWS_UWP
+            return Task.Run<PhoneCallStore>(async () => {
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.ApplicationModel.Calls.PhoneCallStore"))
+                {
+                    var store = await Windows.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
+                    return new PhoneCallStore(store);
+                }
+
+                return null;
+            });
 #elif WINDOWS_PHONE_APP
                         /*if (_type10 != null)
                         {

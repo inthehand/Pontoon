@@ -39,6 +39,11 @@ namespace InTheHand.ApplicationModel
         {
             _packageId = packageId;
         }
+
+        public static implicit operator Windows.ApplicationModel.PackageId(PackageId id)
+        {
+            return id._packageId;
+        }
 #elif __ANDROID__
         PackageInfo _packageInfo;
 #endif

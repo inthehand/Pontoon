@@ -88,6 +88,22 @@ namespace InTheHand.ApplicationModel.Email
                 {
                     throw new PlatformNotSupportedException();
                 }
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
+                Windows.ApplicationModel.Email.EmailMessage em = new Windows.ApplicationModel.Email.EmailMessage() { Subject = message.Subject, Body = message.Body };
+                foreach(EmailRecipient r in message.To)
+                {
+                    em.To.Add(new Windows.ApplicationModel.Email.EmailRecipient(r.Address, r.Name));
+                }
+                foreach(EmailRecipient r in message.CC)
+                {
+                    em.CC.Add(new Windows.ApplicationModel.Email.EmailRecipient(r.Address, r.Name));
+                }
+                foreach (EmailRecipient r in message.Bcc)
+                {
+                    em.Bcc.Add(new Windows.ApplicationModel.Email.EmailRecipient(r.Address, r.Name));
+                }
+
+                return Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(em).AsTask();
 #elif WINDOWS_APP
             // build URI for Windows Store platform
 

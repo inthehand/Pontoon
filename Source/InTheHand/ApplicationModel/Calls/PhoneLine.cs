@@ -33,7 +33,19 @@ namespace InTheHand.ApplicationModel.Calls
     /// </summary>
     public sealed class PhoneLine
     {
-#if WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+        private Windows.ApplicationModel.Calls.PhoneLine _line;
+
+        internal PhoneLine(Windows.ApplicationModel.Calls.PhoneLine line)
+        {
+            _line = line;
+        }
+
+        public static implicit operator Windows.ApplicationModel.Calls.PhoneLine(PhoneLine l)
+        {
+            return l._line;
+        }
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
         
         internal static Type _type10;
 
@@ -65,6 +77,12 @@ namespace InTheHand.ApplicationModel.Calls
         {
 #if __ANDROID__ || __IOS__
             return Task.FromResult<PhoneLine>(new PhoneLine());
+#elif WINDOWS_UWP
+            return Task.Run<PhoneLine>(async () =>
+            {
+                var l = await Windows.ApplicationModel.Calls.PhoneLine.FromIdAsync(lineId);
+                return l == null ? null : new PhoneLine(l);
+            });
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
             if(_type10 != null)
             {
@@ -97,6 +115,8 @@ namespace InTheHand.ApplicationModel.Calls
 #elif __IOS__
             global::Foundation.NSUrl url = new global::Foundation.NSUrl("tel:" + PhoneCallManager.CleanPhoneNumber(number));
             UIKit.UIApplication.SharedApplication.OpenUrl(url);
+#elif WINDOWS_UWP
+            _line.Dial(number, displayName);
 #endif
         }
     }

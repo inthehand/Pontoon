@@ -73,6 +73,11 @@ namespace InTheHand.ApplicationModel
         NSBundle _mainBundle;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         Windows.ApplicationModel.Package _package;
+
+        public static implicit operator Windows.ApplicationModel.Package(Package p)
+        {
+            return p._package;
+        }
 #endif
 
         private Package()

@@ -36,6 +36,18 @@ namespace InTheHand.ApplicationModel.Calls
         internal PhoneCallStore()
         {
         }
+#elif WINDOWS_UWP
+        private Windows.ApplicationModel.Calls.PhoneCallStore _store;
+
+        internal PhoneCallStore(Windows.ApplicationModel.Calls.PhoneCallStore store)
+        {
+            _store = store;
+        }
+
+        public static implicit operator Windows.ApplicationModel.Calls.PhoneCallStore(PhoneCallStore s)
+        {
+            return s._store;
+        }
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
         private object _store;
         private Type _type;
@@ -52,7 +64,9 @@ namespace InTheHand.ApplicationModel.Calls
         /// <returns></returns>
         public Task<Guid> GetDefaultLineAsync()
         {
-#if WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return _store.GetDefaultLineAsync().AsTask();
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
             return (_type.GetRuntimeMethod("GetDefaultLineAsync", new Type[0]).Invoke(_store, new object[0]) as Windows.Foundation.IAsyncOperation<Guid>).AsTask<Guid>();
 #else
             return Task.FromResult<Guid>(Guid.Empty);
