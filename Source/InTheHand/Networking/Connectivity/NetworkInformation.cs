@@ -68,7 +68,7 @@ namespace InTheHand.Networking.Connectivity
         /// <summary>
         /// Gets the connection profile associated with the internet connection currently used by the local machine.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The profile for the connection currently used to connect the machine to the Internet, or null if there is no connection profile with a suitable connection.</returns>
         public static ConnectionProfile GetInternetConnectionProfile()
         {
 #if __ANDROID__

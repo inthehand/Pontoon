@@ -60,9 +60,6 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
       <Link>ApplicationModel\Calls\PhoneLine.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
-      <Link>ApplicationModel\Capability.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
       <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
     </Compile>
@@ -113,9 +110,6 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
       <Link>ApplicationModel\Package.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageExtensions.cs">
-      <Link>ApplicationModel\PackageExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
@@ -405,9 +399,6 @@
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\WindowsRuntimeSystemExtensions.cs">
-      <Link>WindowsRuntimeSystemExtensions.cs</Link>
-    </None>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
