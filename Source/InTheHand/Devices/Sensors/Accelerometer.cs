@@ -28,6 +28,10 @@ namespace InTheHand.Devices.Sensors
     /// </remarks>
     public sealed class Accelerometer
     {
+        /// <summary>
+        /// Returns the default accelerometer.
+        /// </summary>
+        /// <returns></returns>
         public static Accelerometer GetDefault()
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
@@ -120,6 +124,10 @@ namespace InTheHand.Devices.Sensors
             }
         }
 
+        /// <summary>
+        /// Gets the current accelerometer reading.
+        /// </summary>
+        /// <returns></returns>
         public AccelerometerReading GetCurrentReading()
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
@@ -134,7 +142,7 @@ namespace InTheHand.Devices.Sensors
         private event TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs> _readingChanged;
 
         /// <summary>
-        /// 
+        /// Occurs each time the accelerometer reports a new sensor reading.
         /// </summary>
         public event TypedEventHandler<Accelerometer, AccelerometerReadingChangedEventArgs> ReadingChanged
         {
