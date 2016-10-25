@@ -206,6 +206,9 @@
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
+      <Link>Devices\Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>
@@ -233,6 +236,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
       <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
       <Link>Devices\Geolocation\Geolocator.cs</Link>
     </Compile>
@@ -259,6 +265,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Accelerometer.cs">
+      <Link>Devices\Sensors\Accelerometer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReading.cs">
+      <Link>Devices\Sensors\AccelerometerReading.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>

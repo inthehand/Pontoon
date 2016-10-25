@@ -122,7 +122,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             foreach(Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport r in _monitor.ReadReports())
             {
-                reportSnapshot.Add(new GeofenceStateChangeReport(r));
+                reportSnapshot.Add(r);
             }
 #else
             lock (_reports)
@@ -176,7 +176,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                 List<Geofence> fences = new List<Geofence>();
                 foreach(Windows.Devices.Geolocation.Geofencing.Geofence f in _monitor.Geofences)
                 {
-                    fences.Add(new Geofence(f));
+                    fences.Add(f);
                 }
 
                 return fences;
@@ -210,7 +210,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                 _locationManager.RequestLocation();
                 return new Geoposition(_locationManager.Location);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new Geoposition(_monitor.LastKnownGeoposition);
+                return _monitor.LastKnownGeoposition;
 #else
                 return new Geoposition();
 #endif
@@ -352,68 +352,5 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         }
     }
 #endif
-
-    public sealed class GeofenceStateChangeReport
-    {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-        private Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport _report;
-
-        internal GeofenceStateChangeReport(Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport report)
-        {
-            _report = report;
-        }
-
-        public static implicit operator Windows.Devices.Geolocation.Geofencing.GeofenceStateChangeReport(GeofenceStateChangeReport gscr)
-        {
-            return gscr._report;
-        }
-#else
-        private Geofence _geofence;
-        private Geoposition _geoposition;
-        private GeofenceState _newState;
-
-        internal GeofenceStateChangeReport(Geofence geofence, Geoposition geoposition, GeofenceState newstate)
-        {
-            _geofence = geofence;
-            _geoposition = geoposition;
-            _newState = newstate;
-        }
-#endif
-        public Geofence Geofence
-        {
-            get
-            {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new Geofence(_report.Geofence);
-#else
-                return _geofence;
-#endif
-            }
-        }
-
-        public Geoposition Geoposition
-        {
-            get
-            {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new Geoposition(_report.Geoposition);
-#else
-                return _geoposition;
-#endif
-            }
-        }
-
-        public GeofenceState NewState
-        {
-            get
-            {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return (GeofenceState)((int)_report.NewState);
-#else
-                return _newState;
-#endif
-            }
-        }
-    }
 }
 //#endif

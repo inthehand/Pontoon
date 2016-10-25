@@ -25,6 +25,7 @@ namespace Silverlight80App
             /*InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += MainPage_DataRequested;
             InTheHand::Windows.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);*/
+            
         }
 
         private void MainPage_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -35,7 +36,10 @@ namespace Silverlight80App
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             var p = await Windows.Storage.ApplicationData.Current.LocalFolder.GetBasicPropertiesAsync();
-            
+
+            Windows.Devices.Geolocation.Geolocator l = new Windows.Devices.Geolocation.Geolocator();
+            var loc = await l.GetGeopositionAsync();
+
         }
 
         // Sample code for building a localized ApplicationBar

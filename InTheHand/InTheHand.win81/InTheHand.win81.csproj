@@ -221,6 +221,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
       <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
       <Link>Devices\Geolocation\Geolocator.cs</Link>
     </Compile>

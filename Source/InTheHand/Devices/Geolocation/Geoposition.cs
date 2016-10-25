@@ -21,10 +21,10 @@ namespace InTheHand.Devices.Geolocation
     /// </summary>
     public sealed class Geoposition
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geoposition _position;
 
-        internal Geoposition(Windows.Devices.Geolocation.Geoposition position)
+        private Geoposition(Windows.Devices.Geolocation.Geoposition position)
         {
             _position = position;
         }
@@ -32,6 +32,11 @@ namespace InTheHand.Devices.Geolocation
         public static implicit operator Windows.Devices.Geolocation.Geoposition(Geoposition gp)
         {
             return gp._position;
+        }
+
+        public static implicit operator Geoposition(Windows.Devices.Geolocation.Geoposition gp)
+        {
+            return new Geoposition(gp);
         }
 #elif __IOS__
         // constructor from CoreLocation location
@@ -81,10 +86,10 @@ namespace InTheHand.Devices.Geolocation
         /// </summary>
         public Geocoordinate Coordinate
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             get
             {
-                return new Geocoordinate(_position.Coordinate);
+                return _position.Coordinate;
             }
 #else
             get;

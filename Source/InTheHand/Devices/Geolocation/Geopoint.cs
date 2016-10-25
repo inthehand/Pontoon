@@ -15,10 +15,10 @@ namespace InTheHand.Devices.Geolocation
     /// </summary>
     public sealed class Geopoint
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.Devices.Geolocation.Geopoint _point;
 
-        internal Geopoint(Windows.Devices.Geolocation.Geopoint point)
+        private Geopoint(Windows.Devices.Geolocation.Geopoint point)
         {
             _point = point;
         }
@@ -27,6 +27,11 @@ namespace InTheHand.Devices.Geolocation
         {
             return gp._point;
         }
+
+        public static implicit operator Geopoint(Windows.Devices.Geolocation.Geopoint gp)
+        {
+            return new Geopoint(gp);
+        }
 #endif
         /// <summary>
         /// 
@@ -34,7 +39,7 @@ namespace InTheHand.Devices.Geolocation
         /// <param name="position"></param>
         public Geopoint(BasicGeoposition position)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             this._point = new Windows.Devices.Geolocation.Geopoint(position);
 #else
             this.Position = position;
@@ -46,10 +51,10 @@ namespace InTheHand.Devices.Geolocation
         /// </summary>
         public BasicGeoposition Position
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             get
             {
-                return new BasicGeoposition(_point.Position);
+                return _point.Position;
             }
 #else
 

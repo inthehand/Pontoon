@@ -39,7 +39,7 @@ namespace InTheHand.Devices.Geolocation
     {
 #if __IOS__
         CLLocationManager manager = new CLLocationManager();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geolocator _locator = new Windows.Devices.Geolocation.Geolocator();
 #elif WIN32
         GeoCoordinateWatcher _watcher;
@@ -289,7 +289,7 @@ namespace InTheHand.Devices.Geolocation
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             var g = await _locator.GetGeopositionAsync();
-            return g == null ? null : new Geoposition(g);
+            return g == null ? null : g;
 #elif __IOS__
             manager.RequestLocation();
             CLLocation current = manager.Location;

@@ -25,17 +25,15 @@ namespace InTheHand.Devices.Geolocation
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     public struct BasicGeoposition
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         public static implicit operator Windows.Devices.Geolocation.BasicGeoposition(BasicGeoposition bg)
         {
             return new Windows.Devices.Geolocation.BasicGeoposition { Altitude = bg.Altitude, Latitude = bg.Latitude, Longitude = bg.Longitude };
         }
-        
-        internal BasicGeoposition(Windows.Devices.Geolocation.BasicGeoposition position)
+
+        public static implicit operator BasicGeoposition(Windows.Devices.Geolocation.BasicGeoposition bg)
         {
-            this.Altitude = position.Altitude;
-            this.Latitude = position.Latitude;
-            this.Longitude = position.Longitude;
+            return new BasicGeoposition { Altitude = bg.Altitude, Latitude = bg.Latitude, Longitude = bg.Longitude };
         }
 #endif
         /// <summary>

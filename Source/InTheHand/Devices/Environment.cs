@@ -1,4 +1,11 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Environment.cs" company="In The Hand Ltd">
+//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
+
 namespace InTheHand.Devices
 {
     /// <summary>
@@ -21,9 +28,11 @@ namespace InTheHand.Devices
                 {
 #if __IOS__
                     _deviceType = UIKit.UIDevice.CurrentDevice.Name.IndexOf("Simulator") > -1 ? DeviceType.Emulator : DeviceType.Device;
-#elif WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
                     Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation di = new Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation();
                     _deviceType = (di.SystemSku == "Microsoft Virtual") ? DeviceType.Emulator : Devices.DeviceType.Device;
+#else
+                    throw new PlatformNotSupportedException();
 #endif
                 }
 

@@ -132,6 +132,9 @@
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
+      <Link>Devices\Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>
@@ -159,6 +162,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
       <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
       <Link>Devices\Geolocation\Geolocator.cs</Link>
     </Compile>
@@ -182,6 +188,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
       <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Accelerometer.cs">
+      <Link>Devices\Sensors\Accelerometer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReading.cs">
+      <Link>Devices\Sensors\AccelerometerReading.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>

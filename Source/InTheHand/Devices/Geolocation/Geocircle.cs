@@ -52,7 +52,7 @@ namespace InTheHand.Devices.Geolocation
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geocircle _circle;
 
-        internal Geocircle(Windows.Devices.Geolocation.Geocircle circle)
+        private Geocircle(Windows.Devices.Geolocation.Geocircle circle)
         {
             _circle = circle;
         }
@@ -60,6 +60,11 @@ namespace InTheHand.Devices.Geolocation
         public static implicit operator Windows.Devices.Geolocation.Geocircle(Geocircle gc)
         {
             return gc._circle;
+        }
+
+        public static implicit operator Geocircle(Windows.Devices.Geolocation.Geocircle gc)
+        {
+            return new Geolocation.Geocircle(gc);
         }
 #else 
         private BasicGeoposition _position;
@@ -88,7 +93,7 @@ namespace InTheHand.Devices.Geolocation
             get
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new BasicGeoposition(_circle.Center);
+                return _circle.Center;
 #else
                 return _position;
 #endif

@@ -20,7 +20,7 @@ namespace InTheHand.Devices.Geolocation
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geocoordinate _coordinate;
 
-        internal Geocoordinate(Windows.Devices.Geolocation.Geocoordinate coordinate)
+        private Geocoordinate(Windows.Devices.Geolocation.Geocoordinate coordinate)
         {
             _coordinate = coordinate;
         }
@@ -28,6 +28,11 @@ namespace InTheHand.Devices.Geolocation
         public static implicit operator Windows.Devices.Geolocation.Geocoordinate(Geocoordinate gc)
         {
             return gc._coordinate;
+        }
+
+        public static implicit operator Geocoordinate(Windows.Devices.Geolocation.Geocoordinate gc)
+        {
+            return new Geolocation.Geocoordinate(gc);
         }
 #endif
         /// <summary>
@@ -99,10 +104,15 @@ namespace InTheHand.Devices.Geolocation
         /// <value>The location of the Geocoordinate.</value>
         public Geopoint Point
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             get
             {
-                return new Geopoint(_coordinate.Point);
+                return _coordinate.Point;
+            }
+#elif WINDOWS_PHONE
+            get
+            {
+                return new Geopoint(new BasicGeoposition() { Altitude = _coordinate.Altitude.HasValue ? _coordinate.Altitude.Value : double.NaN, Latitude = _coordinate.Latitude, Longitude = _coordinate.Longitude });
             }
 #else
             get;
@@ -138,7 +148,7 @@ namespace InTheHand.Devices.Geolocation
         /// This means that the timestamps obtained from these services will be precise and, most importantly, consistent across all devices regardless of whether the system time on the devices is set correctly.</para></remarks>
         public DateTimeOffset? PositionSourceTimestamp
         {
-#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             get
             {
                 return _coordinate.PositionSourceTimestamp;

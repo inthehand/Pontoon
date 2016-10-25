@@ -38,7 +38,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geofencing.Geofence _fence;
 
-        internal Geofence(Windows.Devices.Geolocation.Geofencing.Geofence fence)
+        private Geofence(Windows.Devices.Geolocation.Geofencing.Geofence fence)
         {
             _fence = fence;
         }
@@ -46,6 +46,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         public static implicit operator Windows.Devices.Geolocation.Geofencing.Geofence(Geofence f)
         {
             return f._fence;
+        }
+
+        public static implicit operator Geofence(Windows.Devices.Geolocation.Geofencing.Geofence f)
+        {
+            return new Geofence(f);
         }
 #elif __IOS__
         private Geocircle _shape;
@@ -97,7 +102,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             get
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new Geocircle((Windows.Devices.Geolocation.Geocircle)_fence.Geoshape);
+                return (Geocircle)(Windows.Devices.Geolocation.Geocircle)_fence.Geoshape;
 #elif __IOS__
                 if(_shape == null)
                 {

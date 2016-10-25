@@ -172,6 +172,9 @@
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
+      <Link>Devices\Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>
@@ -198,6 +201,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
       <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
       <Link>Devices\Geolocation\Geolocator.cs</Link>
