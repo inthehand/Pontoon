@@ -6,13 +6,10 @@ using UIKit;
 using Foundation;
 using InTheHand.UI.Popups;
 using System.Threading.Tasks;
-using InTheHand.Devices.Enumeration;
-using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.UI.Popups;
 using InTheHand.ApplicationModel;
-using Windows.ApplicationModel;
+using InTheHand.Storage;
+using InTheHand.Foundation.Collections;
+using InTheHand.Devices.Sensors;
 
 namespace ApplicationModel.iOS
 {
@@ -38,7 +35,7 @@ namespace ApplicationModel.iOS
                 await Task.Delay(3000);
                 BeginInvokeOnMainThread(async () =>
                 {
-                    var l = Windows.Globalization.ApplicationLanguages.Languages;
+                    var l = InTheHand.Globalization.ApplicationLanguages.Languages;
                     var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
                     await FileIO.WriteTextAsync(file, "Here is a small amount of text.");
                     var bp = await file.GetBasicPropertiesAsync();
@@ -74,10 +71,10 @@ namespace ApplicationModel.iOS
     {
         public UIViewController1()
         {
-            Windows.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
+            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
         }
 
-        private void UIViewController1_DataRequested(object sender, Windows.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
+        private void UIViewController1_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
         {
             e.Request.Data.SetText("Hello World!");
             e.Request.Data.Properties.Title = "New Share";
@@ -93,15 +90,19 @@ namespace ApplicationModel.iOS
 
         private async void B_TouchUpInside(object sender, EventArgs e)
         {
-            Windows.Media.Capture.CameraCaptureUI ccu = new Windows.Media.Capture.CameraCaptureUI();
-            StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
+            InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
+            StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
             var p = await sf.GetBasicPropertiesAsync();
         }
+
+        private Accelerometer a;
 
         public override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
 
+            a = Accelerometer.GetDefault();
+            a.ReadingChanged += A_ReadingChanged;
             //var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
             //System.Diagnostics.Debug.WriteLine(file.ContentType);
 
@@ -139,6 +140,16 @@ namespace ApplicationModel.iOS
             }*/
         }
 
+        private void A_ReadingChanged(Accelerometer sender, AccelerometerReadingChangedEventArgs args)
+        {
+            UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+            {
+                t.Text = args.Reading.AccelerationX + " " + args.Reading.AccelerationY + " " + args.Reading.AccelerationZ + " " + args.Reading.Timestamp + " " + DateTimeOffset.Now;
+            });
+            System.Diagnostics.Debug.WriteLine(args.Reading.AccelerationX + " " + args.Reading.AccelerationY + " " + args.Reading.AccelerationZ + " " + args.Reading.Timestamp + " " + DateTimeOffset.Now);
+        }
+
+        internal UILabel t;
         public override void ViewDidLoad()
         {
             View = new UniversalView();
@@ -148,6 +159,11 @@ namespace ApplicationModel.iOS
             b.SetTitle("Camera", UIControlState.Normal);
             b.TouchUpInside += B_TouchUpInside;
             View.Add(b);
+
+            t = new UILabel();
+            t.Center = new CoreGraphics.CGPoint(200, 400);
+            t.Bounds = new CoreGraphics.CGRect(0, 0, 400, 400);
+            View.Add(t);
 
             base.ViewDidLoad();
 

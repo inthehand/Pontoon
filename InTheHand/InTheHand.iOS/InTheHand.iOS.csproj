@@ -195,6 +195,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReading.cs">
       <Link>Devices\Sensors\AccelerometerReading.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReadingChangedEventArgs.cs">
+      <Link>Devices\Sensors\AccelerometerReadingChangedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>

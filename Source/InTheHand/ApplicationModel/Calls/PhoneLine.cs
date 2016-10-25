@@ -36,7 +36,7 @@ namespace InTheHand.ApplicationModel.Calls
 #if WINDOWS_UWP
         private Windows.ApplicationModel.Calls.PhoneLine _line;
 
-        internal PhoneLine(Windows.ApplicationModel.Calls.PhoneLine line)
+        private PhoneLine(Windows.ApplicationModel.Calls.PhoneLine line)
         {
             _line = line;
         }
@@ -44,6 +44,11 @@ namespace InTheHand.ApplicationModel.Calls
         public static implicit operator Windows.ApplicationModel.Calls.PhoneLine(PhoneLine l)
         {
             return l._line;
+        }
+
+        public static implicit operator PhoneLine(Windows.ApplicationModel.Calls.PhoneLine l)
+        {
+            return new PhoneLine(l);
         }
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
         
@@ -81,7 +86,7 @@ namespace InTheHand.ApplicationModel.Calls
             return Task.Run<PhoneLine>(async () =>
             {
                 var l = await Windows.ApplicationModel.Calls.PhoneLine.FromIdAsync(lineId);
-                return l == null ? null : new PhoneLine(l);
+                return l == null ? null : l;
             });
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
             if(_type10 != null)

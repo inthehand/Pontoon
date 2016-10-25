@@ -35,7 +35,7 @@ namespace InTheHand.ApplicationModel
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.ApplicationModel.PackageId _packageId;
 
-        internal PackageId(Windows.ApplicationModel.PackageId packageId)
+        private PackageId(Windows.ApplicationModel.PackageId packageId)
         {
             _packageId = packageId;
         }
@@ -43,6 +43,11 @@ namespace InTheHand.ApplicationModel
         public static implicit operator Windows.ApplicationModel.PackageId(PackageId id)
         {
             return id._packageId;
+        }
+
+        public static implicit operator PackageId(Windows.ApplicationModel.PackageId id)
+        {
+            return new PackageId(id);
         }
 #elif __ANDROID__
         PackageInfo _packageInfo;
@@ -174,7 +179,7 @@ namespace InTheHand.ApplicationModel
 
                 return global::System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()).ToPackageVersion();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return new PackageVersion(_packageId.Version);
+                return _packageId.Version;
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.Version;
 #elif WIN32

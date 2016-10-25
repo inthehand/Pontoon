@@ -56,9 +56,9 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         private Geocircle _shape;
 
 
-        internal CLRegion _region;
+        private CLRegion _region;
 
-        internal Geofence(CLRegion region)
+        private Geofence(CLRegion region)
         {
             _region = region;
         }
@@ -66,6 +66,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         public static implicit operator CLRegion(Geofence g)
         {
             return g._region;
+        }
+
+        public static implicit operator Geofence(CLRegion r)
+        {
+            return new Geofence(r);
         }
 #endif
 

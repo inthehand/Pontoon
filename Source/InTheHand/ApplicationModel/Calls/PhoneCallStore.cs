@@ -39,7 +39,7 @@ namespace InTheHand.ApplicationModel.Calls
 #elif WINDOWS_UWP
         private Windows.ApplicationModel.Calls.PhoneCallStore _store;
 
-        internal PhoneCallStore(Windows.ApplicationModel.Calls.PhoneCallStore store)
+        private PhoneCallStore(Windows.ApplicationModel.Calls.PhoneCallStore store)
         {
             _store = store;
         }
@@ -47,6 +47,11 @@ namespace InTheHand.ApplicationModel.Calls
         public static implicit operator Windows.ApplicationModel.Calls.PhoneCallStore(PhoneCallStore s)
         {
             return s._store;
+        }
+
+        public static implicit operator PhoneCallStore(Windows.ApplicationModel.Calls.PhoneCallStore s)
+        {
+            return new PhoneCallStore(s);
         }
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
         private object _store;

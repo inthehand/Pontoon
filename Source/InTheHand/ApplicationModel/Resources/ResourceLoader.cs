@@ -83,6 +83,11 @@ namespace InTheHand.ApplicationModel.Resources
         {
             return rl._loader;
         }
+
+        public static implicit operator ResourceLoader(Windows.ApplicationModel.Resources.ResourceLoader rl)
+        {
+            return new Resources.ResourceLoader(rl);
+        }
 #else
         private ResourceManager resourceManager;
 

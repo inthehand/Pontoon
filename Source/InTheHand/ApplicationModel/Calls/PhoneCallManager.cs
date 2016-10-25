@@ -72,8 +72,7 @@ namespace InTheHand.ApplicationModel.Calls
             return Task.Run<PhoneCallStore>(async () => {
                 if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.ApplicationModel.Calls.PhoneCallStore"))
                 {
-                    var store = await Windows.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
-                    return new PhoneCallStore(store);
+                    return await Windows.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
                 }
 
                 return null;

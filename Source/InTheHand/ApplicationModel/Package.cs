@@ -78,6 +78,11 @@ namespace InTheHand.ApplicationModel
         {
             return p._package;
         }
+
+        public static implicit operator Package(Windows.ApplicationModel.Package p)
+        {
+            return new Package();
+        }
 #endif
 
         private Package()
@@ -147,10 +152,10 @@ namespace InTheHand.ApplicationModel
         {
             get
             {
-                if(_id==null)
+                if(_id == null)
                 {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                    _id = new PackageId(Windows.ApplicationModel.Package.Current.Id);
+                    _id = Windows.ApplicationModel.Package.Current.Id;
 #else
                     _id = new PackageId();
 #endif

@@ -137,12 +137,6 @@
     <Content Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\InTheHand.Devices\InTheHand.Devices.iOS\InTheHand.Devices.iOS.csproj">
-      <Project>{843b28fe-c18f-44ca-9799-3d8537ac46f6}</Project>
-      <Name>InTheHand.Devices.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
-    </ProjectReference>
     <ProjectReference Include="..\..\InTheHand\InTheHand.iOS\InTheHand.iOS.csproj">
       <Project>{f7248464-786e-44a5-a7c7-6f9dcab9f947}</Project>
       <Name>InTheHand.iOS</Name>

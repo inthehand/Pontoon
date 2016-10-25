@@ -139,7 +139,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             lock (_reports)
             {
-                _reports.Enqueue(new Geofencing.GeofenceStateChangeReport(new Geofencing.Geofence(e.Region), LastKnownGeoposition, GeofenceState.Exited));
+                _reports.Enqueue(new Geofencing.GeofenceStateChangeReport(e.Region, LastKnownGeoposition, GeofenceState.Exited));
             }
 
             OnGeofenceStateChanged();
@@ -149,7 +149,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             lock (_reports)
             {
-                _reports.Enqueue(new Geofencing.GeofenceStateChangeReport(new Geofencing.Geofence(e.Region), LastKnownGeoposition, GeofenceState.Entered));
+                _reports.Enqueue(new Geofencing.GeofenceStateChangeReport(e.Region, LastKnownGeoposition, GeofenceState.Entered));
             }
 
             OnGeofenceStateChanged();
@@ -168,7 +168,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
                 foreach (CLRegion region in _locationManager.MonitoredRegions)
                 {
-                    fences.Add(new Geofence(region));
+                    fences.Add(region);
                 }
 
                 return fences;
@@ -337,7 +337,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
         protected override void InsertItem(int index, Geofence item)
         {
-            _monitor.AddRegion(item._region);
+            _monitor.AddRegion(item);
             base.InsertItem(index, item);
         }
 
@@ -345,7 +345,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             try
             {
-                _monitor.RemoveRegion(this[index]._region);
+                _monitor.RemoveRegion(this[index]);
             }
             catch { }
             base.RemoveItem(index);
