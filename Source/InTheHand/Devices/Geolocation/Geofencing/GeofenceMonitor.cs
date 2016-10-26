@@ -54,9 +54,14 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         }
 
 #if __IOS__
-        private CLLocationManager _locationManager;
+        internal CLLocationManager _locationManager;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geofencing.GeofenceMonitor _monitor;
+
+        public static implicit operator Windows.Devices.Geolocation.Geofencing.GeofenceMonitor(GeofenceMonitor m)
+        {
+            return m._monitor;
+        }
 #endif
         private Queue<GeofenceStateChangeReport> _reports = new Queue<GeofenceStateChangeReport>();
 
@@ -164,14 +169,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             get
             {
 #if __IOS__
-                GeofenceList fences = new GeofenceList(this);
-
-                foreach (CLRegion region in _locationManager.MonitoredRegions)
-                {
-                    fences.Add(region);
-                }
-
-                return fences;
+                return new GeofenceList(this);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 List<Geofence> fences = new List<Geofence>();
                 foreach(Windows.Devices.Geolocation.Geofencing.Geofence f in _monitor.Geofences)
@@ -333,6 +331,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         internal GeofenceList(GeofenceMonitor monitor)
         {
             _monitor = monitor;
+            foreach(CLRegion r in _monitor._locationManager.MonitoredRegions)
+            {
+                // add all the currently monitored regions as geofences
+                base.InsertItem(base.Count, r);
+            }
         }
 
         protected override void InsertItem(int index, Geofence item)

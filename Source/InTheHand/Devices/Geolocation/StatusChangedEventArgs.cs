@@ -11,7 +11,7 @@
 namespace InTheHand.Devices.Geolocation
 {
     /// <summary>
-    /// Provides information for the StatusChanged event.
+    /// Provides information for the <see cref="Geolocator.StatusChanged"/> event.
     /// </summary>
     public sealed class StatusChangedEventArgs
     {
@@ -21,7 +21,7 @@ namespace InTheHand.Devices.Geolocation
         }
 
         /// <summary>
-        /// The updated status of the Geolocator object.
+        /// The updated status of the <see cref="Geolocator"/> object.
         /// </summary>
         public PositionStatus Status
         {

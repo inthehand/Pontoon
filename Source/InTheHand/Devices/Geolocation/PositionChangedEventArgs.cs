@@ -21,7 +21,7 @@ namespace InTheHand.Devices.Geolocation
         }
 
         /// <summary>
-        /// The location data associated with the PositionChanged event.
+        /// The location data associated with the <see cref="Geolocator.PositionChanged"/> event.
         /// </summary>
         public Geoposition Position
         {
