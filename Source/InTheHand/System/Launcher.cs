@@ -12,6 +12,7 @@
 using Android.App;
 using Android.Content;
 #endif
+using InTheHand.Storage;
 using System;
 using System.Threading.Tasks;
 
@@ -33,6 +34,54 @@ namespace InTheHand.System
     //[ContractVersion(typeof(UniversalApiContract), 65536u)]
     public static partial class Launcher
     {
+        /// <summary>
+        /// Starts the app associated with the specified file.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <returns></returns>
+        /// <remarks>    
+        /// <list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+        public static Task<bool> LaunchFileAsync(IStorageFile file)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Windows.System.Launcher.LaunchFileAsync((Windows.Storage.StorageFile)((StorageFile)file)).AsTask();
+#elif WIN32
+            return Task.FromResult<bool>(Launch(file.Path, null));
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
+        /// <summary>
+        /// Launches File Explorer and displays the contents of the specified folder.
+        /// </summary>
+        /// <param name="folder">The folder to display in File Explorer.</param>
+        /// <returns></returns>
+        /// <remarks>    
+        /// <list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+        public static Task<bool> LaunchFolderAsync(IStorageFolder folder)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Windows.System.Launcher.LaunchFolderAsync((Windows.Storage.StorageFolder)((StorageFolder)folder)).AsTask();
+#elif WIN32
+            return Task.FromResult<bool>(Launch("explorer.exe", folder.Path));
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
         /// <summary>
         /// Starts the default app associated with the URI scheme name for the specified URI.
         /// </summary>
@@ -60,7 +109,7 @@ namespace InTheHand.System
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(uri).AsTask();
 #elif WIN32
-            return Task.FromResult<bool>(LaunchUri(uri));
+            return Task.FromResult<bool>(Launch(uri.ToString(), null));
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -102,7 +151,11 @@ namespace InTheHand.System
             }
             return Task.FromResult<LaunchQuerySupportStatus>(UIKit.UIApplication.SharedApplication.CanOpenUrl(uri) ? LaunchQuerySupportStatus.Available : LaunchQuerySupportStatus.AppNotInstalled);
 #elif WINDOWS_UWP
-            return Windows.System.Launcher.QueryUriSupportAsync(uri, launchQuerySupportType).AsTask();
+            return Task.Run<LaunchQuerySupportStatus>(async () =>
+            {
+                var s = await Windows.System.Launcher.QueryUriSupportAsync(uri, (Windows.System.LaunchQuerySupportType)((int)launchQuerySupportType)).AsTask();
+                return (LaunchQuerySupportStatus)((int)s);
+            });
 #else
             return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.Unknown);
 #endif

@@ -23,6 +23,7 @@ namespace InTheHand.Foundation.Metadata
         private const string assemblyQualification = ", InTheHand";
 #if WINDOWS_PHONE_APP || WINDOWS_APP
         private static Type _type10;
+
         static ApiInformation()
         {
             //check for 10
@@ -76,32 +77,37 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified constant is present; otherwise, false.</returns>
         public static bool IsEnumNamedValuePresent(string enumTypeName, string valueName)
         {
+            if (enumTypeName.StartsWith("Windows."))
+            {
 #if WINDOWS_UWP
-            return Windows.Foundation.Metadata.ApiInformation.IsEnumNamedValuePresent(enumTypeName, valueName);
+                return Windows.Foundation.Metadata.ApiInformation.IsEnumNamedValuePresent(enumTypeName, valueName);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if (_type10 != null)
-            {
-                return (bool)_type10.GetRuntimeMethod("IsEnumNamedValuePresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { enumTypeName, valueName });
-            }
-            else
-            {
-                var wenumType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", enumTypeName));
-                if (wenumType != null)
+                if (_type10 != null)
                 {
-                    try
+                    return (bool)_type10.GetRuntimeMethod("IsEnumNamedValuePresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { enumTypeName, valueName });
+                }
+                else
+                {
+                    var wenumType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", enumTypeName));
+                    if (wenumType != null)
                     {
-                        object val = global::System.Enum.Parse(wenumType, valueName, false);
-                        if (val != null)
+                        try
                         {
-                            return true;
+                            object val = global::System.Enum.Parse(wenumType, valueName, false);
+                            if (val != null)
+                            {
+                                return true;
+                            }
+                        }
+                        catch
+                        {
+                            return false;
                         }
                     }
-                    catch
-                    {
-                    }
                 }
-            }
 #endif
+            }
+
             var enumType = Type.GetType(enumTypeName + assemblyQualification, false);
             if (enumType != null)
             {
@@ -126,14 +132,34 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified event is present for the type; otherwise, false.</returns>
         public static bool IsEventPresent(string typeName, string eventName)
         {
-#if WINDOWS_UWP
-            return Windows.Foundation.Metadata.ApiInformation.IsEventPresent(typeName, eventName);
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if (_type10 != null)
+            if (typeName.StartsWith("Windows."))
             {
-                return (bool)_type10.GetRuntimeMethod("IsEventPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, eventName });
-            }
+#if WINDOWS_UWP
+                return Windows.Foundation.Metadata.ApiInformation.IsEventPresent(typeName, eventName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
+                if (_type10 != null)
+                {
+                    return (bool)_type10.GetRuntimeMethod("IsEventPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, eventName });
+                }
+                else
+                {
+                    var wType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName));
+                    if (wType != null)
+                    {
+                        try
+                        {
+                            var eventInfo = wType.GetRuntimeEvent(eventName);
+                            return eventInfo != null;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                }
 #endif
+            }
+
             Type t = Type.GetType(typeName + assemblyQualification, false);
             if(t != null)
             {
@@ -151,14 +177,34 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified method is present for the type; otherwise, false.</returns>
         public static bool IsMethodPresent(string typeName, string methodName)
         {
-#if WINDOWS_UWP
-            return Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeName, methodName);
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if (_type10 != null)
+            if (typeName.StartsWith("Windows."))
             {
-                return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string)}).Invoke(null, new object[] { typeName, methodName});
-            }
+#if WINDOWS_UWP
+                return Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeName, methodName);
+#elif WINDOWS_APP || WINDOWS_PHONE_APP
+                if (_type10 != null)
+                {
+                    return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, methodName });
+                }
+                else
+                {
+                    var wType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName));
+                    if (wType != null)
+                    {
+                        foreach (var method in wType.GetRuntimeMethods())
+                        {
+                            if (method.Name == methodName)
+                            {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+                }
 #endif
+            }
+
             Type t = Type.GetType(typeName + assemblyQualification, false);
             if (t != null)
             {
@@ -181,14 +227,34 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified method is present for the type; otherwise, false.</returns>
         public static bool IsMethodPresent(string typeName, string methodName, uint inputParameterCount)
         {
+            if (typeName.StartsWith("Windows."))
+            {
 #if WINDOWS_UWP
             return Windows.Foundation.Metadata.ApiInformation.IsMethodPresent(typeName, methodName, inputParameterCount);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if (_type10 != null)
-            {
-                return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string), typeof(uint) }).Invoke(null, new object[] { typeName, methodName, inputParameterCount });
-            }
+                if (_type10 != null)
+                {
+                    return (bool)_type10.GetRuntimeMethod("IsMethodPresent", new Type[] { typeof(string), typeof(string), typeof(uint) }).Invoke(null, new object[] { typeName, methodName, inputParameterCount });
+                }
+                else
+                {
+                    var wType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName));
+                    if (wType != null)
+                    {
+                        foreach (var method in wType.GetRuntimeMethods())
+                        {
+                            if (method.Name == methodName && method.GetParameters().Length == inputParameterCount)
+                            {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    }
+                }
 #endif
+            }
+
             Type t = Type.GetType(typeName + assemblyQualification, false);
             if (t != null)
             {
@@ -210,14 +276,34 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified property is present for the type; otherwise, false.</returns>
         public static bool IsPropertyPresent(string typeName, string propertyName)
         {
+            if (typeName.StartsWith("Windows."))
+            {
 #if WINDOWS_UWP
             return Windows.Foundation.Metadata.ApiInformation.IsPropertyPresent(typeName, propertyName);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if (_type10 != null)
-            {
-                return (bool)_type10.GetRuntimeMethod("IsPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
-            }
+                if (_type10 != null)
+                {
+                    return (bool)_type10.GetRuntimeMethod("IsPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
+                }
+                else
+                {
+                    var wType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName));
+                    if (wType != null)
+                    {
+                        try
+                        {
+                            var prop = wType.GetRuntimeProperty(propertyName);
+                            return prop != null;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                }
 #endif
+            }
+
             Type t = Type.GetType(typeName + assemblyQualification, false);
             if (t != null)
             {
@@ -235,14 +321,34 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified property is present for the type; otherwise, false.</returns>
         public static bool IsReadOnlyPropertyPresent(string typeName, string propertyName)
         {
+            if (typeName.StartsWith("Windows."))
+            {
 #if WINDOWS_UWP
             return Windows.Foundation.Metadata.ApiInformation.IsReadOnlyPropertyPresent(typeName, propertyName);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if (_type10 != null)
-            {
-                return (bool)_type10.GetRuntimeMethod("IsReadOnlyPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
-            }
+                if (_type10 != null)
+                {
+                    return (bool)_type10.GetRuntimeMethod("IsReadOnlyPropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
+                }
+                else
+                {
+                    var wType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName));
+                    if (wType != null)
+                    {
+                        try
+                        {
+                            var prop = wType.GetRuntimeProperty(propertyName);
+                            return prop != null && prop.CanWrite == false;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                }
 #endif
+            }
+
             Type t = Type.GetType(typeName + assemblyQualification, false);
             if (t != null)
             {
@@ -262,14 +368,34 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified property is present for the type; otherwise, false.</returns>
         public static bool IsWriteablePropertyPresent(string typeName, string propertyName)
         {
+            if (typeName.StartsWith("Windows."))
+            {
 #if WINDOWS_UWP
             return Windows.Foundation.Metadata.ApiInformation.IsWriteablePropertyPresent(typeName, propertyName);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if (_type10 != null)
-            {
-                return (bool)_type10.GetRuntimeMethod("IsWriteablePropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
-            }
+                if (_type10 != null)
+                {
+                    return (bool)_type10.GetRuntimeMethod("IsWriteablePropertyPresent", new Type[] { typeof(string), typeof(string) }).Invoke(null, new object[] { typeName, propertyName });
+                }
+                else
+                {
+                    var wType = Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName));
+                    if (wType != null)
+                    {
+                        try
+                        {
+                            var prop = wType.GetRuntimeProperty(propertyName);
+                            return prop != null && prop.CanWrite == true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                }
 #endif
+            }
+
             Type t = Type.GetType(typeName + assemblyQualification, false);
             if (t != null)
             {
@@ -288,18 +414,22 @@ namespace InTheHand.Foundation.Metadata
         /// <returns>True if the specified type is present; otherwise, false.</returns>
         public static bool IsTypePresent(string typeName)
         {
+            if (typeName.StartsWith("Windows."))
+            {
 #if WINDOWS_UWP
             return Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeName);
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
-            if(_type10 != null)
-            {
-                return (bool)_type10.GetRuntimeMethod("IsTypePresent", new Type[] { typeof(string) }).Invoke(null, new object[] { typeName });
-            }
-            else
-            {
-                return Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName)) != null;
-            }
+                if (_type10 != null)
+                {
+                    return (bool)_type10.GetRuntimeMethod("IsTypePresent", new Type[] { typeof(string) }).Invoke(null, new object[] { typeName });
+                }
+                else
+                {
+                    return Type.GetType(string.Format("{0}, Windows, ContentType=WindowsRuntime", typeName)) != null;
+                }
 #endif
+            }
+
             Type t = Type.GetType(typeName + assemblyQualification, false);
             return t != null;
         }

@@ -398,9 +398,9 @@
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\System\Launcher.cs">
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
       <Link>System\Launcher.cs</Link>
-    </None>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\LauncherOptions.cs">
       <Link>System\LauncherOptions.cs</Link>
     </Compile>

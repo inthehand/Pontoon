@@ -14,9 +14,9 @@ namespace InTheHand.System
     /// </summary>
     public static partial class Launcher
     {
-        private static bool LaunchUri(Uri uri)
+        private static bool Launch(string applicationName, string commandLine)
         {
-            return NativeMethods.CreateProcess(uri.ToString(), null, IntPtr.Zero, IntPtr.Zero, false, 0, IntPtr.Zero, null, IntPtr.Zero, IntPtr.Zero);
+            return NativeMethods.CreateProcess(applicationName, commandLine, IntPtr.Zero, IntPtr.Zero, false, 0, IntPtr.Zero, null, IntPtr.Zero, IntPtr.Zero);
         }
 
         private static class NativeMethods
