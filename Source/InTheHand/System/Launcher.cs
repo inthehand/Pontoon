@@ -38,10 +38,11 @@ namespace InTheHand.System
         /// Starts the app associated with the specified file.
         /// </summary>
         /// <param name="file">The file.</param>
-        /// <returns></returns>
+        /// <returns>The launch operation.</returns>
         /// <remarks>    
         /// <list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -49,7 +50,12 @@ namespace InTheHand.System
         /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         public static Task<bool> LaunchFileAsync(IStorageFile file)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if __IOS__
+            return Task.Run<bool>(() =>
+            {
+                return UIKit.UIApplication.SharedApplication.OpenUrl(global::Foundation.NSUrl.FromFilename(file.Path));
+            });
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchFileAsync((Windows.Storage.StorageFile)((StorageFile)file)).AsTask();
 #elif WIN32
             return Task.FromResult<bool>(Launch(file.Path, null));
@@ -62,7 +68,7 @@ namespace InTheHand.System
         /// Launches File Explorer and displays the contents of the specified folder.
         /// </summary>
         /// <param name="folder">The folder to display in File Explorer.</param>
-        /// <returns></returns>
+        /// <returns>The result of the operation.</returns>
         /// <remarks>    
         /// <list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
