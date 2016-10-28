@@ -14,9 +14,8 @@ using Foundation;
 namespace InTheHand.Devices.Sensors
 {
     /// <summary>
-    /// Gives applications access to information about the environment in which they are running.
-    /// The only supported property of this class is <see cref="DeviceType"/>, which is used to determine if an application is running on an actual Windows Phone device or on the device emulator on a PC.
-    /// </summary>
+    /// Represents an accelerometer sensor.
+    /// <para>This sensor returns G-force values with respect to the x, y, and z axes.</para></summary>
     /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>

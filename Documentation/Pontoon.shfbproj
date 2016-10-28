@@ -64,7 +64,7 @@
         </component>
       </ComponentConfig>
     </ComponentConfigurations>
-    <HelpFileVersion>10.2016.10.25</HelpFileVersion>
+    <HelpFileVersion>10.2016.10.28</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>C#, Visual Basic, F#</SyntaxFilters>
@@ -117,7 +117,8 @@
 <NamespaceSummaryItem name="InTheHand.Foundation (Group)" isGroup="True" isDocumented="True">Enables fundamental Windows Runtime functionality, including managing asynchronous operations and accessing property stores. This namespace also defines common value types that represent Uniform Resource Identifiers (URIs), dates and times, 2-D measurements, and other basic values.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="InTheHand.Storage (Group)" isGroup="True" isDocumented="True">Provides classes for managing files, folders, and application settings.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="InTheHand.System (Group)" isGroup="True" isDocumented="True">Enables system functionality such as launching apps, obtaining information about a user, and memory profiling.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="InTheHand.Devices.Sensors" isDocumented="True">Provides access to the supported types of sensors and related motion data.</NamespaceSummaryItem></NamespaceSummaries>
+<NamespaceSummaryItem name="InTheHand.Devices.Sensors" isDocumented="True">Provides access to the supported types of sensors and related motion data.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="InTheHand.Globalization" isDocumented="True">Provides globalization support for language profiles.</NamespaceSummaryItem></NamespaceSummaries>
     <CopyrightHref>http://inthehand.com</CopyrightHref>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
