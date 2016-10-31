@@ -50,7 +50,21 @@ namespace InTheHand.System.Profile
 #if __ANDROID__
                 return "Android";
 #elif __IOS__
-                return "Apple.Mobile";
+                switch(UIKit.UIDevice.CurrentDevice.UserInterfaceIdiom)
+                {
+                    case UIKit.UIUserInterfaceIdiom.Phone:
+                        return "Apple.Phone";
+
+                    case UIKit.UIUserInterfaceIdiom.Pad:
+                        return "Apple.Tablet";
+
+                    case UIKit.UIUserInterfaceIdiom.TV:
+                        return "Apple.TV";
+
+                    default:
+                        return "Apple.Mobile";
+                }
+                
 #elif __MAC__
                 return "Apple.Desktop";
 #elif WINDOWS_UWP

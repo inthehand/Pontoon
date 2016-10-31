@@ -338,6 +338,9 @@
     <Compile Include="..\..\Source\InTheHand\PlatformID.cs">
       <Link>PlatformID.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Security\ExchangeActiveSyncProvisioning\EasClientDeviceInformation.cs">
+      <Link>Security\ExchangeActivesyncProvisioning\EasClientDeviceInformation.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>
     </Compile>

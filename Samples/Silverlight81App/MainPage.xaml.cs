@@ -33,8 +33,9 @@ namespace Silverlight81App
             Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
             System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
 
+            InTheHand.Security.ExchangeActivesyncProvisioning.EasClientDeviceInformation di = new InTheHand.Security.ExchangeActivesyncProvisioning.EasClientDeviceInformation();
 
-            System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
+            System.Diagnostics.Debug.WriteLine(di.Id);
             //InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().CommandsRequested += MainPage_CommandsRequested;
             this.Loaded += MainPage_Loaded;
         }
