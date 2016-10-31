@@ -54,6 +54,9 @@
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
+      <Link>Data\Html\HtmlUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
     </Compile>

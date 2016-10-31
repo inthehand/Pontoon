@@ -10,6 +10,9 @@ using InTheHand.ApplicationModel;
 using InTheHand.Storage;
 using InTheHand.Foundation;
 using InTheHand.UI.Popups;
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+using InTheHandUI.ApplicationSettings;
+#endif
 
 #if __IOS__
 using Foundation;

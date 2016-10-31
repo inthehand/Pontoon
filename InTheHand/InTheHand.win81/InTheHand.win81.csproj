@@ -194,6 +194,9 @@
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
+      <Link>Data\Html\HtmlUtilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>

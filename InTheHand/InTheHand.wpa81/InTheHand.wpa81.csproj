@@ -9,7 +9,7 @@
     <ProjectGuid>{84860412-AC9C-4878-AC4F-D893C2B82139}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InTheHand</RootNamespace>
+    <RootNamespace>InTheHandUI</RootNamespace>
     <AssemblyName>InTheHand</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
@@ -84,11 +84,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </None>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
@@ -171,6 +171,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
+      <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
       <Link>Devices\Environment.cs</Link>
@@ -406,18 +409,18 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsCommand.cs">
       <Link>UI\ApplicationSettings\SettingsCommand.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml.cs">
       <Link>UI\ApplicationSettings\SettingsPage.xaml.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
-    </None>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>

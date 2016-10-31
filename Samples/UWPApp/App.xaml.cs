@@ -40,17 +40,17 @@ namespace UWPApp
 
         private void App_CommandsRequested(InTheHand.UI.ApplicationSettings.SettingsPane sender, InTheHand.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {
-            args.Request.ApplicationCommands.Add(new SettingsCommand("test", "Testing", async (c) =>
+            args.Request.ApplicationCommands.Add(new InTheHand.UI.ApplicationSettings.SettingsCommand("test", "Testing", async (c) =>
             {
-                MessageDialog md = new MessageDialog("Testing", "Woohoo title");
-                await md.ShowAsync2();
+                InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Testing", "Woohoo title");
+                await md.ShowAsync();
             }));
-            args.Request.ApplicationCommands.Add(new SettingsCommand("system", "System", async (c) =>
+            args.Request.ApplicationCommands.Add(new InTheHand.UI.ApplicationSettings.SettingsCommand("system", "System", async (c) =>
             {
-                Windows.UI.Popups.MessageDialog md = new Windows.UI.Popups.MessageDialog("Testing", "Woohoo title");
-                md.Commands.Add(new UICommand("one", (c2) => { System.Diagnostics.Debug.WriteLine("One"); }, "1"));
-                md.Commands.Add(new UICommand("two", (c2) => { System.Diagnostics.Debug.WriteLine("Two"); }, "2"));
-                await md.ShowAsync2();
+                InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Testing", "Woohoo title");
+                md.Commands.Add(new InTheHand.UI.Popups.UICommand("one", (c2) => { System.Diagnostics.Debug.WriteLine("One"); }, "1"));
+                md.Commands.Add(new InTheHand.UI.Popups.UICommand("two", (c2) => { System.Diagnostics.Debug.WriteLine("Two"); }, "2"));
+                await md.ShowAsync();
             }));
         }
 

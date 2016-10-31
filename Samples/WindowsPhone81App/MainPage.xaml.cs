@@ -70,12 +70,12 @@ namespace WindowsPhone81App
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
-
+            /*
             var folder = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFolderAsync("Test1", InTheHand.Storage.CreationCollisionOption.OpenIfExists);
             var parent = await folder.GetParentAsync();
 
            ToastNotificationManager.CreateToastNotifier().Show(InTheHand.UI.Notifications.ToastNotificationCreator.CreateToastNotification("content", "title"));
-
+            */
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
@@ -105,7 +105,7 @@ namespace WindowsPhone81App
             //Windows.Storage.StorageFile sf = await CaptureFileAsync();
 
             //System.Diagnostics.Debug.WriteLine(sf);
-            //SettingsPane.Show();
+            SettingsPane.Show();
         }
 
         public Task<Windows.Storage.StorageFile> CaptureFileAsync()

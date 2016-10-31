@@ -7,7 +7,7 @@
     <ProjectGuid>{C919D564-3221-4293-92F5-071571DF48B9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InTheHand</RootNamespace>
+    <RootNamespace>InTheHandUI</RootNamespace>
     <AssemblyName>InTheHand</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
@@ -205,6 +205,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
+      <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
       <Link>Devices\Environment.cs</Link>
@@ -527,11 +530,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml">
+    <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.UWP.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </None>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Runtime\InteropServices\" />

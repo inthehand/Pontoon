@@ -11,10 +11,11 @@ using InTheHand.ApplicationModel;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI.Xaml.Media;
+using InTheHand.UI.ApplicationSettings;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
-namespace InTheHand.UI.ApplicationSettings
+namespace InTheHandUI.ApplicationSettings
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -27,12 +28,12 @@ namespace InTheHand.UI.ApplicationSettings
         private Windows.UI.Color? previousBackground;
         private Windows.UI.Color? previousForeground;
         private double previousBackgroundOpacity;
-        private ListView SettingsList;
+        
 #endif
-
+        
         public SettingsPage()
         {
-            //this.InitializeComponent();
+            this.InitializeComponent();
 
 
             /*Color bgColor = InTheHand.ApplicationModel.Package.Current.BackgroundColor;
@@ -41,8 +42,11 @@ namespace InTheHand.UI.ApplicationSettings
                 Color modColor = Color.FromArgb((byte)0xff, (byte)(bgColor.R / 3), (byte)(bgColor.G / 3), (byte)(bgColor.B / 3));
                 this.Background = new SolidColorBrush(modColor);
             }*/
+
 #if WINDOWS_UWP
+
             this.Transitions.Add(new NavigationThemeTransition() { DefaultNavigationTransitionInfo = new CommonNavigationTransitionInfo() { IsStaggeringEnabled = true } });
+
             Grid LayoutRoot = new Grid();
             LayoutRoot.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(48) });
             LayoutRoot.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(1, GridUnitType.Star) });
@@ -68,9 +72,12 @@ namespace InTheHand.UI.ApplicationSettings
             }*/
 
 #elif WINDOWS_PHONE_APP
+
+            AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName;
+            PublisherText.Text = InTheHand.ApplicationModel.Package.Current.PublisherDisplayName;
+            VersionText.Text = "Version " + InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4);
+
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-            AppNameText.Text = AppxManifest.Current.DisplayName;
-            Version.Text = string.Format("Version {0}", InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4));
 #endif
             this.Unloaded += SettingsPage_Unloaded;
         }
