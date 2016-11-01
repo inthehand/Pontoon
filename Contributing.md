@@ -7,11 +7,10 @@ Any additions to the library must match the UWP equivalent API or in exceptional
 Every contribution has to come with:
 
 * Before starting coding, **you should open an issue** and start discussing with the community to see if your idea/feature is interesting enough
-* A documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/dev/docs). Once valdied your documentation will be visible [here](http://docs.uwpcommunitytoolkit.com/en/dev/)
+* Detailed XML documentation which will be built into the [API documentation library](https://inthehand.github.io).
 * A sample for the Sample apps (If applicable)
 * Unit tests (If applicable)
 * You tested your code with each of the supported platform versions.
-* PR has to target dev branch
 
 PR has to be validated by the project co-ordinator before being merged.
 
