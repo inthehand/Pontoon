@@ -121,7 +121,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
                 if (handler != null)
                 {
-                    DataProviderRequest request = new DataProviderRequest(package, format);
+                    DataProviderRequest request = new DataProviderRequest(_package, format);
                     handler.Invoke(request);
                 }
 

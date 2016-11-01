@@ -83,6 +83,7 @@ namespace System.IO
         /// </summary>
         /// <param name="rootDirectory">The Windows Runtime IStorageFolder object that contains the file to write to.</param>
         /// <param name="relativePath">The path, relative to the root folder, to the file to write to.</param>
+        /// <param name="creationCollisionOption"></param>
         /// <returns></returns>
         public static Task<Stream> OpenStreamForWriteAsync(this IStorageFolder rootDirectory, string relativePath, CreationCollisionOption creationCollisionOption)
         {

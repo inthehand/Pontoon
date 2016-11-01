@@ -35,7 +35,7 @@ namespace InTheHand.Devices.Geolocation
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
     /// </remarks>
-    public sealed class Geolocator
+    public sealed partial class Geolocator
     {
 #if __IOS__
         CLLocationManager manager = new CLLocationManager();
