@@ -285,6 +285,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
+      <Link>Storage\FileIO.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
       <Link>Storage\FileProperties\BasicProperties.cs</Link>
     </Compile>
@@ -374,6 +377,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs">
       <Link>UI\ApplicationSettings\SettingsPane.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
+      <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>

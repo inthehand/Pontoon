@@ -58,8 +58,7 @@ namespace InTheHand.UI.ApplicationSettings
         internal bool showAbout = false;
 
         private SettingsPane()
-        {
-            
+        {         
         }
 
         /// <summary>
@@ -79,6 +78,7 @@ namespace InTheHand.UI.ApplicationSettings
             {
                 GetForCurrentView().showAbout = (bool)objAbout;
             }
+
 #if __ANDROID__
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(typeof(SettingsActivity));
 #elif __IOS__
@@ -128,7 +128,7 @@ namespace InTheHand.UI.ApplicationSettings
 
             return null;
         }
-
+#endif
         private event TypedEventHandler<SettingsPane, SettingsPaneCommandsRequestedEventArgs> _commandsRequested;
         /// <summary>
         /// Occurs when the user opens the settings pane.
@@ -173,7 +173,6 @@ namespace InTheHand.UI.ApplicationSettings
 #endif
             }
         }
-#endif
 
 #if WINDOWS_UWP || WINDOWS_APP
 

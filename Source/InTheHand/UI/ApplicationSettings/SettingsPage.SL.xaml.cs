@@ -74,7 +74,7 @@ namespace InTheHandUI.ApplicationSettings
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            commands = InTheHand.UI.ApplicationSettings.SettingsPane.GetForCurrentView().OnCommandsRequested();
+            commands = SettingsPane.GetForCurrentView().OnCommandsRequested();
 
             if (commands == null)
             {
@@ -85,7 +85,7 @@ namespace InTheHandUI.ApplicationSettings
 #if DEBUG
             if(true)
 #else
-            if (!InTheHand.ApplicationModel.Package.Current.GetIsDevelopmentMode())
+            if (!Package.Current.IsDevelopmentMode)
 #endif
             {
                 commands.Add(new SettingsCommand("RateAndReview", "RateAndReview", RateAndReviewSelected));
