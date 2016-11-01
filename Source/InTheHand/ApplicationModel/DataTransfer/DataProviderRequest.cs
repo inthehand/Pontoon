@@ -16,12 +16,12 @@ namespace InTheHand.ApplicationModel.DataTransfer
     /// </summary>
     public sealed class DataProviderRequest
     {
-        private DataPackage package;
+        private DataPackage _package;
 
         internal DataProviderRequest(DataPackage package, string formatId)
         {
-            this.package = package;
-            this.FormatId = formatId;
+            _package = package;
+            FormatId = formatId;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <param name="value">The object associated with a particular format in the DataPackage.</param>
         public void SetData(object value)
         {
-            package.SetData(FormatId, value);
+            _package.SetData(FormatId, value);
         }
     }
 

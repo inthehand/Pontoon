@@ -19,7 +19,7 @@ namespace InTheHand.UI.Popups
             tdc.pszWindowTitle = " ";
             tdc.pszMainInstruction = Title;
             tdc.dwFlags = NativeMethods.TASKDIALOG_FLAGS.SIZE_TO_CONTENT;
-            tdc.pszContent = this.Content;
+            tdc.pszContent = Content;
             if (this.Commands.Count == 0)
             {
                 tdc.dwCommonButtons = NativeMethods.TASKDIALOG_COMMON_BUTTON_FLAGS.CLOSE_BUTTON;
@@ -32,31 +32,31 @@ namespace InTheHand.UI.Popups
                 }
             }
 
-            IntPtr bptr = Marshal.AllocHGlobal(this.Commands.Count * 8);
-            for(int ibut = 0; ibut < this.Commands.Count; ibut++)
+            IntPtr bptr = Marshal.AllocHGlobal(Commands.Count * 8);
+            for(int ibut = 0; ibut < Commands.Count; ibut++)
             {
-                var but = new NativeMethods.TASKDIALOG_BUTTON { nButtonID = ibut+11, pszButtonText = this.Commands[ibut].Label };
+                var but = new NativeMethods.TASKDIALOG_BUTTON { nButtonID = ibut+11, pszButtonText = Commands[ibut].Label };
                 Marshal.StructureToPtr(but, IntPtr.Add(bptr, ibut * 8), false);
             }
 
             if (DefaultCommandIndex != uint.MaxValue)
             {
-                tdc.nDefaultButton = (uint)DefaultCommandIndex + 11;
+                tdc.nDefaultButton = DefaultCommandIndex + 11;
             }
 
             tdc.pButtons = bptr;
-            tdc.cButtons = this.Commands.Count;
+            tdc.cButtons = Commands.Count;
             int ibtn;
             int hresult = NativeMethods.TaskDialogIndirect(ref tdc, out ibtn, IntPtr.Zero, IntPtr.Zero);
             Marshal.FreeHGlobal(bptr);
 
             if(ibtn > 10)
             {
-                return this.Commands[ibtn - 11];
+                return Commands[ibtn - 11];
             }
             if(ibtn == 2 && CancelCommandIndex != uint.MaxValue)
             {
-                return this.Commands[(int)CancelCommandIndex];
+                return Commands[(int)CancelCommandIndex];
             }
 
             return null;

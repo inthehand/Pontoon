@@ -89,11 +89,11 @@ namespace InTheHand.ApplicationModel.Resources
             return new Resources.ResourceLoader(rl);
         }
 #else
-        private ResourceManager resourceManager;
+        private ResourceManager _resourceManager;
 
         private ResourceLoader(ResourceManager manager)
         {
-            this.resourceManager = manager;
+            _resourceManager = manager;
         }
 #endif
 
@@ -110,7 +110,7 @@ namespace InTheHand.ApplicationModel.Resources
                 Thread.CurrentThread.CurrentCulture = global::System.Globalization.CultureInfo.DefaultThreadCurrentCulture;
             }
 
-            return this.resourceManager.GetString(resource);
+            return _resourceManager.GetString(resource);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             return _loader.GetString(resource);
 #else

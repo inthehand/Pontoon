@@ -250,10 +250,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
         internal void OnTargetApplicationChosen(string applicationName)
         {
-            if (this._targetApplicationChosen != null)
-            {
-                this._targetApplicationChosen(this, new TargetApplicationChosenEventArgs(applicationName));
-            }
+            _targetApplicationChosen?.Invoke(this, new TargetApplicationChosenEventArgs(applicationName));
         }
     }
 }

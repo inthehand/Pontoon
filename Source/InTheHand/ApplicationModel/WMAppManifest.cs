@@ -42,17 +42,6 @@ namespace InTheHand.ApplicationModel
                 // if built as an 8.1 app defer to platform for most properties
                 IsSilverlight81 = new Version(xr["AppPlatformVersion"]) > new Version(8, 0);
 
-
-                /*if (isEightPointOne)
-                {
-                    this.Id = new PackageId(nativeCurrent.Id);
-                }
-                else
-                {
-                    this.Id = new PackageId();
-                }*/
-
-
                 if (xr.ReadToDescendant("App"))
                 {
                     ProductID = xr["ProductID"];

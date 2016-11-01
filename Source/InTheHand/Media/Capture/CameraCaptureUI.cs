@@ -132,7 +132,7 @@ namespace InTheHand.Media.Capture
             protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
             {
                 base.OnActivityResult(requestCode, resultCode, data);
-                this.Finish();
+                Finish();
 
                 if(resultCode == Result.Ok)
                 {

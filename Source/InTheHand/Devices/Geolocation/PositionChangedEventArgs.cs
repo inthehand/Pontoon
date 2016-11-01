@@ -17,7 +17,7 @@ namespace InTheHand.Devices.Geolocation
     {
         internal PositionChangedEventArgs(Geoposition position)
         {
-            this.Position = position;
+            Position = position;
         }
 
         /// <summary>

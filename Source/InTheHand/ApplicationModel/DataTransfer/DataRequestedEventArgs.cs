@@ -18,7 +18,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
     {
         internal DataRequestedEventArgs()
         {
-            this.Request = new DataRequest();   
+            Request = new DataRequest();   
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
     {
         internal DataRequest()
         {
-            this.Data = new DataPackage();
+            Data = new DataPackage();
         }
 
         /// <summary>

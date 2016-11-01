@@ -80,7 +80,7 @@ namespace InTheHand.Storage
 #elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run(() =>
             {
-                File.Replace(this.Path, fileToReplace.Path, null);
+                File.Replace(Path, fileToReplace.Path, null);
             });
 #else
                 throw new PlatformNotSupportedException();
@@ -247,7 +247,7 @@ namespace InTheHand.Storage
             {
                 string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
                 global::System.IO.File.Move(Path, newPath);
-                this._path = newPath;
+                _path = newPath;
             });
 #else
             throw new PlatformNotSupportedException();
@@ -273,7 +273,7 @@ namespace InTheHand.Storage
                 string fileName = fileToReplace.Name;
                 string folder = global::System.IO.Path.GetDirectoryName(fileToReplace.Path);
                 await fileToReplace.DeleteAsync();
-                await this.MoveAsync(await StorageFolder.GetFolderFromPathAsync(folder), fileName);
+                await MoveAsync(await StorageFolder.GetFolderFromPathAsync(folder), fileName);
             });
 #else
             throw new PlatformNotSupportedException();
@@ -314,7 +314,7 @@ namespace InTheHand.Storage
 #elif __ANDROID__ || __IOS__ || WIN32
             return Task.Run(() =>
             {
-                string folder = global::System.IO.Path.GetDirectoryName(this.Path);
+                string folder = global::System.IO.Path.GetDirectoryName(Path);
                 string newPath = global::System.IO.Path.Combine(folder, desiredName);
                 switch(option)
                 {
@@ -472,12 +472,12 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             if (item.IsOfType(StorageItemTypes.File))
             {
-                return this._file == ((StorageFile)item)._file;
+                return _file == ((StorageFile)item)._file;
             }
 
             return false;
 #else
-            return this.Path == item.Path;
+            return Path == item.Path;
 #endif
         }
 

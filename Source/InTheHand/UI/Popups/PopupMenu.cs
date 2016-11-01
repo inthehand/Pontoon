@@ -140,7 +140,7 @@ namespace InTheHand.UI.Popups
         /// <returns></returns>
         public Task<IUICommand> ShowForSelectionAsync(Rect selection, Placement preferredPlacement)
         { 
-            if (this.Commands.Count > MaxCommands)
+            if (Commands.Count > MaxCommands)
             {
                 throw new InvalidOperationException();
             }
@@ -159,17 +159,17 @@ namespace InTheHand.UI.Popups
 #elif __ANDROID__
             Android.App.AlertDialog.Builder builder = new Android.App.AlertDialog.Builder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             Android.App.AlertDialog dialog = builder.Create();
-            dialog.SetTitle(this.Title);
-            dialog.SetMessage(this.Content);
+            dialog.SetTitle(Title);
+            dialog.SetMessage(Content);
             if (Commands.Count == 0)
             {
                 dialog.SetButton(-1, Resources.System.GetString(Android.Resource.String.Cancel), new EventHandler<Android.Content.DialogClickEventArgs>(Clicked));
             }
             else
             {
-                for (int i = 0; i < this.Commands.Count; i++)
+                for (int i = 0; i < Commands.Count; i++)
                 {
-                    dialog.SetButton(-1 - i, this.Commands[i].Label, new EventHandler<Android.Content.DialogClickEventArgs>(Clicked));
+                    dialog.SetButton(-1 - i, Commands[i].Label, new EventHandler<Android.Content.DialogClickEventArgs>(Clicked));
                 }
             }
             dialog.Show();
@@ -188,9 +188,9 @@ namespace InTheHand.UI.Popups
             }
             else
             {
-                for (int i = 0; i < this.Commands.Count; i++)
+                for (int i = 0; i < Commands.Count; i++)
                 {
-                    UIAlertAction action = UIAlertAction.Create(this.Commands[i].Label, UIAlertActionStyle.Default, ActionClicked);
+                    UIAlertAction action = UIAlertAction.Create(Commands[i].Label, UIAlertActionStyle.Default, ActionClicked);
                     uac.AddAction(action);
                 }
             }
@@ -207,7 +207,7 @@ namespace InTheHand.UI.Popups
             {
                 popoverController.SourceView = currentController.View;
                 popoverController.SourceRect = new CoreGraphics.CGRect(selection.X, selection.Y, selection.Width, selection.Height);
-                popoverController.PermittedArrowDirections = InTheHand.UI.Popups.PlacementHelper.ToArrowDirection(preferredPlacement);
+                popoverController.PermittedArrowDirections = PlacementHelper.ToArrowDirection(preferredPlacement);
             }
 
             currentController.PresentViewController(uac, true, null);

@@ -15,17 +15,8 @@ This library provides a common API across Windows and Xamarin platforms allowing
 - iOS 9+
 - Xamarin Mac (Coming soon)
 
-## Key Functionality
-- InTheHand.ApplicationModel
-- InTheHand.Devices.Geolocation
-- InTheHand.Media.Capture
-- InTheHand.Networking.Connectivity
-- InTheHand.Storage
-- InTheHand.System
-- InTheHand.UI
-
 ## Feedback and Requests
 Please use [GitHub issues](https://github.com/inthehand/Pontoon/issues) for questions or comments.
 
 ## Contributing
-Do you want to contribute? Here are our contribution guidelines.
+Do you want to contribute? Here are our [contribution guidelines](https://github.com/inthehand/Pontoon/blob/master/Contributing.md).

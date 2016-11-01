@@ -25,12 +25,12 @@ namespace InTheHandUI.ApplicationSettings
 
             
 
-            this.Loaded += SettingsPage_Loaded;
+            Loaded += SettingsPage_Loaded;
         }
 
         async void SettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(InTheHand.ApplicationModel.Package.Current.Logo);
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(Package.Current.Logo);
             using (var stream = await file.OpenStreamForReadAsync())
             {
                 BitmapImage bmp = new BitmapImage();
@@ -57,18 +57,18 @@ namespace InTheHandUI.ApplicationSettings
             }
                 SettingsHeader.Text = "Settings".ToLower();
 
-            AppNameText.Text = InTheHand.ApplicationModel.Package.Current.DisplayName.ToUpper();
+            AppNameText.Text = Package.Current.DisplayName.ToUpper();
 
             if (SettingsPane.GetForCurrentView().showPublisher)
             {
-                AuthorText.Text = string.Format("By ", InTheHand.ApplicationModel.Package.Current.PublisherDisplayName);
+                AuthorText.Text = string.Format("By ", Package.Current.PublisherDisplayName);
             }
             else
             {
                 AuthorText.Visibility = Visibility.Collapsed;
             }
 
-            this.Version.Text = string.Format("Version ", InTheHand.ApplicationModel.Package.Current.Id.Version.ToString(4));
+            Version.Text = string.Format("Version ", Package.Current.Id.Version.ToString(4));
             
         }
 

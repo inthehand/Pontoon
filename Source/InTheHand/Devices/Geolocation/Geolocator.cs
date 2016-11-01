@@ -299,7 +299,7 @@ namespace InTheHand.Devices.Geolocation
             return pos;
 #elif WIN32
             if (_watcher == null)
-                _watcher = new GeoCoordinateWatcher(this.DesiredAccuracy == PositionAccuracy.High ? GeoPositionAccuracy.High : GeoPositionAccuracy.Default);
+                _watcher = new GeoCoordinateWatcher(DesiredAccuracy == PositionAccuracy.High ? GeoPositionAccuracy.High : GeoPositionAccuracy.Default);
             var pos = _watcher.Position;
             return new Geoposition(pos);
 #else

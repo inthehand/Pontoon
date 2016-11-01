@@ -20,7 +20,7 @@ namespace InTheHand.Devices.Enumeration
         private DevicePicker _owner;
         public DevicePickerDialog(DevicePicker owner)
         {
-            this._owner = owner;
+            _owner = owner;
             this.Background = new SolidColorBrush(this._owner.Appearance.BackgroundColor);
             this.Foreground = new SolidColorBrush(this._owner.Appearance.ForegroundColor);
             this.Resources.Add("AccentBrush", new SolidColorBrush(this._owner.Appearance.AccentColor));

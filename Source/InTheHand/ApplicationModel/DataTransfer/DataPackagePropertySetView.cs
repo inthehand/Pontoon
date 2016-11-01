@@ -16,11 +16,11 @@ namespace InTheHand.ApplicationModel.DataTransfer
     /// </summary>
     public sealed class DataPackagePropertySetView
     {
-        private DataPackagePropertySet propertySet;
+        private DataPackagePropertySet _propertySet;
 
         internal DataPackagePropertySetView(DataPackagePropertySet propertySet)
         {
-            this.propertySet = propertySet;
+            _propertySet = propertySet;
         }
 
         /*
@@ -53,7 +53,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             get
             {
-                return propertySet.Title;
+                return _propertySet.Title;
             }
         }
 
@@ -64,7 +64,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             get
             {
-                return propertySet.Description;
+                return _propertySet.Description;
             }
         }
     }

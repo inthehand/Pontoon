@@ -690,12 +690,12 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             if (item.IsOfType(StorageItemTypes.Folder))
             {
-                return this._folder == ((StorageFolder)item)._folder;
+                return _folder == ((StorageFolder)item)._folder;
             }
 
             return false;
 #else
-            return this.Path == item.Path;
+            return Path == item.Path;
 #endif
         }
 

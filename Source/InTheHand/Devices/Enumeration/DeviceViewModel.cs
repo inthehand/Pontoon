@@ -65,10 +65,7 @@ namespace InTheHand.Devices.Enumeration
 
         private void OnPropertyChanged(string propertyName)
         {
-            if(this.PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -140,7 +140,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
         public override bool Equals(object obj)
         {
-            if(obj != null && ((Geofence)obj).Id == this.Id)
+            if(obj != null && ((Geofence)obj).Id == Id)
             {
                 return true;
             }

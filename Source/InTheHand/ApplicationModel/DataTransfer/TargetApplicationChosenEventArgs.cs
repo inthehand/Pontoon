@@ -17,7 +17,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
     {
         internal TargetApplicationChosenEventArgs(string applicationName)
         {
-            this.ApplicationName = applicationName;
+            ApplicationName = applicationName;
         }
 
         /// <summary>

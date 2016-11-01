@@ -22,12 +22,12 @@ namespace InTheHand.ApplicationModel.DataTransfer
     /// </summary>
     public sealed class DataPackageView
     {
-        private DataPackage package;
+        private DataPackage _package;
 
         internal DataPackageView(DataPackage package)
         {
-            this.package = package;
-            this.Properties = new DataPackagePropertySetView(package.Properties);
+            _package = package;
+            Properties = new DataPackagePropertySetView(package.Properties);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             get
             {
-                return new ReadOnlyCollection<string>(package.data.Keys.ToArray<string>());
+                return new ReadOnlyCollection<string>(_package.data.Keys.ToArray<string>());
             }
         }
 
@@ -69,18 +69,18 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             return Task.Run<object>(() => 
             {
-                if (package.data.ContainsKey(formatId))
+                if (_package.data.ContainsKey(formatId))
                 {
-                    DataProviderHandler handler = package.data[formatId] as DataProviderHandler;
+                    DataProviderHandler handler = _package.data[formatId] as DataProviderHandler;
 
                     if (handler != null)
                     {
-                        DataProviderRequest request = new DataProviderRequest(package, formatId);
+                        DataProviderRequest request = new DataProviderRequest(_package, formatId);
                         handler.Invoke(request);
                     }
                     else
                     {
-                        return package.data[formatId];
+                        return _package.data[formatId];
                     }
                 }
 
@@ -96,17 +96,17 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             return Task.Run<string>(() =>
             {
-                if (package.data.ContainsKey(StandardDataFormats.Text))
+                if (_package.data.ContainsKey(StandardDataFormats.Text))
                 {
-                    DataProviderHandler handler = package.data[StandardDataFormats.Text] as DataProviderHandler;
+                    DataProviderHandler handler = _package.data[StandardDataFormats.Text] as DataProviderHandler;
 
                     if (handler != null)
                     {
-                        DataProviderRequest request = new DataProviderRequest(package, StandardDataFormats.Text);
+                        DataProviderRequest request = new DataProviderRequest(_package, StandardDataFormats.Text);
                         handler.Invoke(request);
                     }
 
-                    return package.data[StandardDataFormats.Text].ToString();
+                    return _package.data[StandardDataFormats.Text].ToString();
                 }
 
                 return null;
@@ -115,9 +115,9 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
         private Uri GetUri(string format)
         {
-            if (package.data.ContainsKey(format))
+            if (_package.data.ContainsKey(format))
             {
-                DataProviderHandler handler = package.data[format] as DataProviderHandler;
+                DataProviderHandler handler = _package.data[format] as DataProviderHandler;
 
                 if (handler != null)
                 {
@@ -125,7 +125,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
                     handler.Invoke(request);
                 }
 
-                return (Uri)package.data[format];
+                return (Uri)_package.data[format];
             }
 
             return null;

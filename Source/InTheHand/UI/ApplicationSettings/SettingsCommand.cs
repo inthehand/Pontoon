@@ -26,9 +26,9 @@ namespace InTheHand.UI.ApplicationSettings
         /// <param name="handler">The event handler that is called when the user selects this command in the settings pane.</param>
         public SettingsCommand(object settingsCommandId, string label, UICommandInvokedHandler handler)
         {
-            this.Id = settingsCommandId;
-            this.Invoked = handler;
-            this.Label = label;
+            Id = settingsCommandId;
+            Invoked = handler;
+            Label = label;
         }
 
         /// <summary>

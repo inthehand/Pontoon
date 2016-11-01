@@ -27,7 +27,7 @@ namespace InTheHand.ApplicationModel.Email
         /// <param name="address">The address of the recipient.</param>
         public EmailRecipient(string address) 
         { 
-            this.Address = address; 
+            Address = address; 
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace InTheHand.ApplicationModel.Email
         /// <param name="name">The name of the recipient.</param>
         public EmailRecipient(string address, string name) : this(address)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>

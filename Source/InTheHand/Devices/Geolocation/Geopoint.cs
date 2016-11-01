@@ -40,9 +40,9 @@ namespace InTheHand.Devices.Geolocation
         public Geopoint(BasicGeoposition position)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            this._point = new Windows.Devices.Geolocation.Geopoint(position);
+            _point = new Windows.Devices.Geolocation.Geopoint(position);
 #else
-            this.Position = position;
+            Position = position;
 #endif
         }
 

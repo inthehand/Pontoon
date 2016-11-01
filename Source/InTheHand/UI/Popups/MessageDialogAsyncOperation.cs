@@ -21,16 +21,16 @@ namespace InTheHand.UI.Popups
     {
         private static uint s_id = 0;
 
-        private MessageDialog owner;
+        private MessageDialog _owner;
  
-        private IUICommand command;
+        private IUICommand _command;
 
-        private uint id;
+        private uint _id;
         
         internal MessageDialogAsyncOperation(MessageDialog owner)
         {
-            this.id = s_id++;
-            this.owner = owner;
+            _id = s_id++;
+            _owner = owner;
         }
 
         #region IAsyncOperation<IUICommand> Members
@@ -62,13 +62,13 @@ namespace InTheHand.UI.Popups
                 throw new InvalidOperationException();
             }
 
-            return this.command;
+            return _command;
         }
 
         internal void SetResults(IUICommand command)
         {
-            this.status = AsyncStatus.Completed;
-            this.command = command;
+            _status = AsyncStatus.Completed;
+            _command = command;
             this.OnCompleted();
         }
         #endregion
@@ -79,7 +79,7 @@ namespace InTheHand.UI.Popups
         /// </summary>
         public void Cancel()
         {
-            status = AsyncStatus.Canceled;
+            _status = AsyncStatus.Canceled;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace InTheHand.UI.Popups
         /// </summary>
         public uint Id
         {
-            get { return id; }
+            get { return _id; }
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace InTheHand.UI.Popups
             throw new NotImplementedException();
         }
 
-        private AsyncStatus status = AsyncStatus.Started;
+        private AsyncStatus _status = AsyncStatus.Started;
 
         /// <summary>
         /// Gets the status of the asynchronous operation.
@@ -122,7 +122,7 @@ namespace InTheHand.UI.Popups
         {
             get
             {
-                return status;
+                return _status;
             }
         }
         #endregion
