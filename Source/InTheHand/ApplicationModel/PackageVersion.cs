@@ -44,6 +44,15 @@ namespace InTheHand.ApplicationModel
             return new PackageVersion() { Major = pv.Major, Minor = pv.Minor, Build = pv.Build, Revision = pv.Revision };
         }
 #endif
+
+        /// <summary>
+        /// Returns a formatted string for the PackageVersion.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return this.ToVersion().ToString();
+        }
     }
 }
 //#endif

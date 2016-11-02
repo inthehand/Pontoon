@@ -23,6 +23,7 @@ using InTheHand.UI.ApplicationSettings;
 using InTheHand.Storage;
 using Windows.Networking.Connectivity;
 using Windows.ApplicationModel;
+using InTheHand.ApplicationModel;
 using InTheHand.Media.Capture;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=391641
 
@@ -39,6 +40,7 @@ namespace WindowsPhone81App
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
+            System.Diagnostics.Debug.WriteLine(Version.Parse("1.2.3").ToPackageVersion().ToString());
             Windows.Devices.Input.KeyboardCapabilities kc = new Windows.Devices.Input.KeyboardCapabilities();
             System.Diagnostics.Debug.WriteLine(kc.KeyboardPresent);
             System.Diagnostics.Debug.WriteLine(Windows.ApplicationModel.Package.Current);
@@ -58,8 +60,8 @@ namespace WindowsPhone81App
                 System.Diagnostics.Debug.WriteLine(prof.GetSignalBars());
             }
             //System.Diagnostics.Debug.WriteLine(Package.Current.DisplayName);
-            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
+            //System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version);
             //System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
             //System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
             //System.Diagnostics.Debug.WriteLine(Package.Current.PublisherDisplayName);
@@ -106,24 +108,6 @@ namespace WindowsPhone81App
 
             //System.Diagnostics.Debug.WriteLine(sf);
             SettingsPane.Show();
-        }
-
-        public Task<Windows.Storage.StorageFile> CaptureFileAsync()
-        {
-            Type t = Type.GetType("Windows.Media.Capture.CameraCaptureUI, Windows, ContentType=WindowsRuntime");
-           
-            if (t != null)
-            {
-                Type tp = Type.GetType("Windows.Media.Capture.CameraCaptureUIMode, Windows, ContentType=WindowsRuntime");
-                FieldInfo fi = tp.GetRuntimeField("Photo");
-                object parameter = fi.GetValue(null);
-                MethodInfo mi = t.GetRuntimeMethod("CaptureFileAsync", new Type[] { tp });
-                object instance = Activator.CreateInstance(t);
-                Windows.Foundation.IAsyncOperation<Windows.Storage.StorageFile> result = mi.Invoke(instance, new object[] { parameter }) as IAsyncOperation<Windows.Storage.StorageFile>;
-                return result.AsTask();
-            }
-
-            return null;
         }
     }
 }

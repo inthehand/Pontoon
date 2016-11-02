@@ -12,7 +12,7 @@ namespace InTheHand.ApplicationModel
     /// </summary>
     public static class PackageVersionExtensions
     {
-        internal static PackageVersion ToPackageVersion(this Version version)
+        public static PackageVersion ToPackageVersion(this Version version)
         {
             PackageVersion packageVersion = new PackageVersion();
             packageVersion.Major = (ushort)version.Major;
@@ -29,7 +29,22 @@ namespace InTheHand.ApplicationModel
         /// <returns></returns>
         public static Version ToVersion(this PackageVersion packageVersion)
         {
-            return new Version(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+            if (packageVersion.Revision == ushort.MaxValue)
+            {
+                if(packageVersion.Build == ushort.MaxValue)
+                {
+                    return new Version(packageVersion.Major, packageVersion.Minor);
+                }
+                else
+                {
+                    return new Version(packageVersion.Major, packageVersion.Minor, packageVersion.Build);
+                }
+            }
+            else
+            {
+                return new Version(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
+            }
+
         }
 
         /// <summary>

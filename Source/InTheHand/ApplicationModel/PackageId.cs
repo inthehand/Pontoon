@@ -172,12 +172,11 @@ namespace InTheHand.ApplicationModel
 #if __ANDROID__
                 return global::System.Version.Parse(_packageInfo.VersionName).ToPackageVersion();
 #elif __IOS__
-                if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("CFBundleShortVersionString")))
-                {
-                    return global::System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString()).ToPackageVersion();
-                }
+                string rawVersion = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
+                // TODO: use Regex to replace alpha char with period
+                string cleanVersion = rawVersion.Replace('a', '.').Replace('b','.').Replace('d','.').Replace("fc", ".");
 
-                return global::System.Version.Parse(NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString()).ToPackageVersion();
+                return global::System.Version.Parse(cleanVersion).ToPackageVersion();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _packageId.Version;
 #elif WINDOWS_PHONE
