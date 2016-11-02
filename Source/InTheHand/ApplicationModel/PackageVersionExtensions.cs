@@ -17,8 +17,14 @@ namespace InTheHand.ApplicationModel
             PackageVersion packageVersion = new PackageVersion();
             packageVersion.Major = (ushort)version.Major;
             packageVersion.Minor = (ushort)version.Minor;
-            packageVersion.Build = (ushort)version.Build;
-            packageVersion.Revision = (ushort)version.Revision;
+            if (version.Build != -1)
+            {
+                packageVersion.Build = (ushort)version.Build;
+            }
+            if (version.Revision != -1)
+            {
+                packageVersion.Revision = (ushort)version.Revision;
+            }
             return packageVersion;
         }
 

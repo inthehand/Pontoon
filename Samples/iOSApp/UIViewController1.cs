@@ -102,7 +102,7 @@ namespace ApplicationModel.iOS
             base.ViewDidAppear(animated);
 
             a = Accelerometer.GetDefault();
-            a.ReadingChanged += A_ReadingChanged;
+            //a.ReadingChanged += A_ReadingChanged;
             //var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
             //System.Diagnostics.Debug.WriteLine(file.ContentType);
 
@@ -126,7 +126,7 @@ namespace ApplicationModel.iOS
 
             System.Diagnostics.Debug.WriteLine(Package.Current.DisplayName);
             System.Diagnostics.Debug.WriteLine(Package.Current.Id.Name);
-            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version.ToString(4));
+            System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version.ToString());
             System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
             //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();

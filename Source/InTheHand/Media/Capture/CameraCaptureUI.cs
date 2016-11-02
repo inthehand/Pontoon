@@ -78,7 +78,7 @@ namespace InTheHand.Media.Capture
         public CameraCaptureUI()
         {
 #if __IOS__
-            _pc.ModalPresentationStyle = UIModalPresentationStyle.CurrentContext;
+            _pc.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
             _pc.FinishedPickingMedia += Pc_FinishedPickingMedia;
             _pc.Canceled += Pc_Canceled;
 #elif WINDOWS_UWP || WINDOWS_APP
@@ -165,13 +165,18 @@ namespace InTheHand.Media.Capture
             }
 
             _pc.DismissViewController(true, null);
+
             _handle.Set();
         }
 
         private void Pc_Canceled(object sender, EventArgs e)
         {
-            _pc.DismissViewController(true, null);
             _handle.Set();
+
+            UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+            {
+                _pc.DismissViewController(true, null);
+            });
         }
 #endif
 
@@ -204,22 +209,22 @@ namespace InTheHand.Media.Capture
 #elif __IOS__
             return Task.Run<StorageFile>(async () =>
                         {
-                            UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+                            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                            {
+                                _pc.SourceType = UIImagePickerControllerSourceType.Camera;
+                                switch (mode)
                                 {
-                                    _pc.SourceType = UIImagePickerControllerSourceType.Camera;
-                                    switch (mode)
-                                    {
-                                        case CameraCaptureUIMode.Photo:
-                                            _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
-                                            break;
+                                    case CameraCaptureUIMode.Photo:
+                                        _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
+                                        break;
 
-                                        case CameraCaptureUIMode.Video:
-                                            _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Video;
-                                            break;
-                                    }
-
-                                    UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pc, true, null);
-                                });
+                                    case CameraCaptureUIMode.Video:
+                                        _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Video;
+                                        break;
+                                }
+                                
+                                UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pc, true, null);
+                            });
 
                             _handle.WaitOne();
 
