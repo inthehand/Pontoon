@@ -99,6 +99,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
       <Link>ApplicationModel\DesignMode.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailAttachment.cs">
+      <Link>ApplicationModel\Email\EmailAttachment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.cs">
       <Link>ApplicationModel\Email\EmailManager.cs</Link>
     </Compile>

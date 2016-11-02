@@ -10,12 +10,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 #if __ANDROID__
 using Android.Content;
 using Android.App;
 #elif __IOS__
+using Foundation;
 using MessageUI;
 using UIKit;
 #elif WINDOWS_APP
@@ -30,6 +32,17 @@ namespace InTheHand.ApplicationModel.Email
     /// Allows an application to launch the email application with a new message displayed.
     /// Use this to allow users to send email from your application.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public static class EmailManager
     {
         /// <summary>
@@ -68,21 +81,28 @@ namespace InTheHand.ApplicationModel.Email
 #elif __IOS__
                 try
                 {
-                    MFMailComposeViewController mcontroller = new MFMailComposeViewController();
-                    mcontroller.Finished += mcontroller_Finished;
+                    UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                    {
+                        MFMailComposeViewController mcontroller = new MFMailComposeViewController();
+                        mcontroller.Finished += mcontroller_Finished;
 
-                    mcontroller.SetToRecipients(BuildRecipientArray(message.To));
-                    mcontroller.SetCcRecipients(BuildRecipientArray(message.CC));
-                    mcontroller.SetBccRecipients(BuildRecipientArray(message.Bcc));
-                    mcontroller.SetSubject(message.Subject);
-                    mcontroller.SetMessageBody(message.Body, false);
+                        mcontroller.SetToRecipients(BuildRecipientArray(message.To));
+                        mcontroller.SetCcRecipients(BuildRecipientArray(message.CC));
+                        mcontroller.SetBccRecipients(BuildRecipientArray(message.Bcc));
+                        mcontroller.SetSubject(message.Subject);
+                        mcontroller.SetMessageBody(message.Body, false);
+                        foreach (EmailAttachment a in message.Attachments)
+                        {
+                            NSData dataBuffer = NSData.FromFile(a.Data.Path);
+                            mcontroller.AddAttachmentData(dataBuffer, a.MimeType, a.FileName);
+                        }
 
-                    UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
-                    while (currentController.PresentedViewController != null)
-                        currentController = currentController.PresentedViewController;
+                        UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+                        while (currentController.PresentedViewController != null)
+                            currentController = currentController.PresentedViewController;
 
-                    currentController.PresentViewController(mcontroller, true, null);
-
+                        currentController.PresentViewController(mcontroller, true, null);
+                    });
                 }
                 catch
                 {
@@ -101,6 +121,10 @@ namespace InTheHand.ApplicationModel.Email
                 foreach (EmailRecipient r in message.Bcc)
                 {
                     em.Bcc.Add(new Windows.ApplicationModel.Email.EmailRecipient(r.Address, r.Name));
+                }
+                foreach(EmailAttachment a in message.Attachments)
+                {
+                    em.Attachments.Add(new Windows.ApplicationModel.Email.EmailAttachment(a.FileName, (Windows.Storage.StorageFile)a.Data));
                 }
 
                 return Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(em).AsTask();

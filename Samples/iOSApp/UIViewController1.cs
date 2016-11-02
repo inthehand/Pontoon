@@ -10,6 +10,7 @@ using InTheHand.ApplicationModel;
 using InTheHand.Storage;
 using InTheHand.Foundation.Collections;
 using InTheHand.Devices.Sensors;
+using System.IO;
 
 namespace ApplicationModel.iOS
 {
@@ -90,9 +91,19 @@ namespace ApplicationModel.iOS
 
         private async void B_TouchUpInside(object sender, EventArgs e)
         {
-            InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
+            var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.ReplaceExisting);
+            await FileIO.WriteTextAsync(file, "one,two,three,four,five");
+
+            InTheHand.ApplicationModel.Email.EmailMessage m = new InTheHand.ApplicationModel.Email.EmailMessage();
+            m.To.Add(new InTheHand.ApplicationModel.Email.EmailRecipient("peter@peterfoot.net"));
+            m.Subject = "Here's your file";
+            m.Body = "File attached!!!";
+            m.Attachments.Add(new InTheHand.ApplicationModel.Email.EmailAttachment("test.txt", file));
+            await InTheHand.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(m);
+
+            /*InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
             StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);
-            var p = await sf.GetBasicPropertiesAsync();
+            var p = await sf.GetBasicPropertiesAsync();*/
         }
 
         private Accelerometer a;
