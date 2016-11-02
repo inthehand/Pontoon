@@ -37,7 +37,7 @@ namespace InTheHand.ApplicationModel.Email
             Bcc = new List<EmailRecipient>();
         }
 
-#if __IOS__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if __IOS__ || WINDOWS_UWP || WINDOWS_PHONE_APP
         private List<EmailAttachment> _attachments = new List<EmailAttachment>();
         public IList<EmailAttachment> Attachments
         {

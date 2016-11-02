@@ -45,6 +45,9 @@ namespace InTheHand.ApplicationModel.Email
     /// </remarks>
     public static class EmailManager
     {
+#if WINDOWS_APP
+        private static Type _type10 = Type.GetType("Windows.ApplicationModel.Email.EmailManager, Windows, ContentType=WindowsRuntime");
+#endif
         /// <summary>
         /// Launches the email application with a new message displayed.
         /// </summary>
@@ -129,82 +132,89 @@ namespace InTheHand.ApplicationModel.Email
 
                 return Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(em).AsTask();
 #elif WINDOWS_APP
-            // build URI for Windows Store platform
-
-            // build a uri
-            StringBuilder sb = new StringBuilder();
-            bool firstParameter = true;
-
-            if (message.To.Count == 0)
-            {
-                throw new InvalidOperationException();
-            }
-            else
-            {
-                sb.Append("mailto:" + FormatRecipientCollection(message.To));
-            }
-
-            if (message.CC.Count > 0)
-            {
-                if (firstParameter)
+                /*if (_type10 != null)
                 {
-                    sb.Append("?");
-                    firstParameter = false;
+
                 }
                 else
-                {
-                    sb.Append("&");
-                }
+                {*/
+                    // build URI for Windows Store platform
 
-                sb.Append("cc=" + FormatRecipientCollection(message.CC));
-            }
+                    // build a uri
+                    StringBuilder sb = new StringBuilder();
+                    bool firstParameter = true;
 
-            if (message.Bcc.Count > 0)
-            {
-                if (firstParameter)
-                {
-                    sb.Append("?");
-                    firstParameter = false;
-                }
-                else
-                {
-                    sb.Append("&");
-                }
+                    if (message.To.Count == 0)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                    else
+                    {
+                        sb.Append("mailto:" + FormatRecipientCollection(message.To));
+                    }
 
-                sb.Append("bbc=" + FormatRecipientCollection(message.Bcc));
-            }
+                    if (message.CC.Count > 0)
+                    {
+                        if (firstParameter)
+                        {
+                            sb.Append("?");
+                            firstParameter = false;
+                        }
+                        else
+                        {
+                            sb.Append("&");
+                        }
 
-            if (!string.IsNullOrEmpty(message.Subject))
-            {
-                if (firstParameter)
-                {
-                    sb.Append("?");
-                    firstParameter = false;
-                }
-                else
-                {
-                    sb.Append("&");
-                }
+                        sb.Append("cc=" + FormatRecipientCollection(message.CC));
+                    }
 
-                sb.Append("subject=" + Uri.EscapeDataString(message.Subject));
-            }
+                    if (message.Bcc.Count > 0)
+                    {
+                        if (firstParameter)
+                        {
+                            sb.Append("?");
+                            firstParameter = false;
+                        }
+                        else
+                        {
+                            sb.Append("&");
+                        }
 
-            if (!string.IsNullOrEmpty(message.Body))
-            {
-                if (firstParameter)
-                {
-                    sb.Append("?");
-                    firstParameter = false;
-                }
-                else
-                {
-                    sb.Append("&");
-                }
+                        sb.Append("bbc=" + FormatRecipientCollection(message.Bcc));
+                    }
 
-                sb.Append("body=" + Uri.EscapeDataString(message.Body));
-            }
+                    if (!string.IsNullOrEmpty(message.Subject))
+                    {
+                        if (firstParameter)
+                        {
+                            sb.Append("?");
+                            firstParameter = false;
+                        }
+                        else
+                        {
+                            sb.Append("&");
+                        }
 
-            Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
+                        sb.Append("subject=" + Uri.EscapeDataString(message.Subject));
+                    }
+
+                    if (!string.IsNullOrEmpty(message.Body))
+                    {
+                        if (firstParameter)
+                        {
+                            sb.Append("?");
+                            firstParameter = false;
+                        }
+                        else
+                        {
+                            sb.Append("&");
+                        }
+
+                        sb.Append("body=" + Uri.EscapeDataString(message.Body));
+                    }
+
+                    Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
+                //}
 #elif WINDOWS_PHONE
                 // On Phone 8.0 use the email compose dialog
                 EmailComposeTask task = new EmailComposeTask();
