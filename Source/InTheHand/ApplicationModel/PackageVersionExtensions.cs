@@ -12,6 +12,11 @@ namespace InTheHand.ApplicationModel
     /// </summary>
     public static class PackageVersionExtensions
     {
+        /// <summary>
+        /// Converts a <see cref="Version"/> to a PackageVersion.
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
         public static PackageVersion ToPackageVersion(this Version version)
         {
             PackageVersion packageVersion = new PackageVersion();

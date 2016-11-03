@@ -22,6 +22,16 @@ namespace InTheHand.UI.Notifications
     /// <summary>
     /// Defines the content, associated metadata and events, and expiration time of a toast notification.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
+    /// </remarks>
     public sealed class ToastNotification
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -104,6 +114,9 @@ namespace InTheHand.UI.Notifications
             }
         }
 
+        /// <summary>
+        /// Gets or sets whether a toast's pop-up UI is displayed on the user's screen.
+        /// </summary>
         public bool SuppressPopup
         {
 
@@ -131,6 +144,9 @@ namespace InTheHand.UI.Notifications
             }
         }
 
+        /// <summary>
+        /// Gets or sets the unique identifier of this notification within the notification Group.
+        /// </summary>
         public string Tag
         {
 

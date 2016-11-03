@@ -13,6 +13,15 @@ namespace InTheHand.UI.Notifications
     /// <summary>
     /// Creates BadgeUpdater objects that you use to manipulate a tile's badge overlay.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
+    /// </remarks>
     public static class BadgeUpdateManager
     {
         private static BadgeUpdater _updater = null;
@@ -20,7 +29,7 @@ namespace InTheHand.UI.Notifications
         /// <summary>
         /// Creates and initializes a new instance of the BadgeUpdater, which lets you change the appearance or content of the badge on the calling app's tile.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The object you will use to send changes to the app tile's badge.</returns>
         public static BadgeUpdater CreateBadgeUpdaterForApplication()
         {
             if(_updater == null)
