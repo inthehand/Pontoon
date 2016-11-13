@@ -132,7 +132,7 @@ namespace InTheHand.Storage
                 if (_localSettings == null)
                 {
 #if !WIN32
-                    _localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local);
+                    _localSettings = new ApplicationDataContainer(ApplicationDataLocality.Local, string.Empty);
 #endif
                 }
 
@@ -172,7 +172,7 @@ namespace InTheHand.Storage
                 if (_roamingSettings == null)
                 {
 #if __IOS__
-                    _roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming);
+                    _roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming, string.Empty);
 #endif
                 }
 

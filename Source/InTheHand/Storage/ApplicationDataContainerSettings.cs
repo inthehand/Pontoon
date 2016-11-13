@@ -55,7 +55,7 @@ namespace InTheHand.Storage
 #else
         private ApplicationDataLocality _locality;
 
-        internal ApplicationDataContainerSettings(ApplicationDataLocality locality)
+        internal ApplicationDataContainerSettings(ApplicationDataLocality locality, string name)
         {
             _locality = locality;
 #if __ANDROID__
@@ -65,13 +65,23 @@ namespace InTheHand.Storage
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Deactivated += Current_Deactivated;
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Closing += Current_Closing;
 #elif __IOS__
-            if (locality == ApplicationDataLocality.Roaming)
+            switch(locality)
             {
-                _store = NSUbiquitousKeyValueStore.DefaultStore;
-            }
-            else
-            {
-                _defaults = NSUserDefaults.StandardUserDefaults;
+                case ApplicationDataLocality.Roaming:
+                    _store = NSUbiquitousKeyValueStore.DefaultStore;
+                    break;
+
+                case ApplicationDataLocality.SharedLocal:
+                    _defaults = new NSUserDefaults(sharedName, NSUserDefaultsType.SuiteName);
+                    if(_defaults == null)
+                    {
+                        throw new ArgumentException("name");
+                    }
+                    break;
+
+                default:
+                    _defaults = NSUserDefaults.StandardUserDefaults;
+                    break;
             }
 #endif
         }

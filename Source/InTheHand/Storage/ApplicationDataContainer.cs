@@ -33,13 +33,38 @@ namespace InTheHand.Storage
 #else
         private ApplicationDataContainerSettings _settings;
         private ApplicationDataLocality _locality;
+        private string _name;
 
-        internal ApplicationDataContainer(ApplicationDataLocality locality)
+        internal ApplicationDataContainer(ApplicationDataLocality locality, string name)
         {
             _locality = locality;
-            _settings = new ApplicationDataContainerSettings(locality);
+            _name = name;
+            _settings = new ApplicationDataContainerSettings(locality, name);
         }
 #endif
+
+        /// <summary>
+        /// Creates or opens the specified settings container in the current settings container.
+        /// </summary>
+        /// <param name="name">The name of the container.</param>
+        /// <param name="disposition">One of the enumeration values.</param>
+        /// <remarks>On iOS the name must be a value Shared App Group name and disposition must be Existing.</remarks>
+        /// <returns>The settings container.</returns>
+        public ApplicationDataContainer CreateContainer(string name, ApplicationDataCreateDisposition disposition)
+        {
+#if __IOS__
+            if(disposition != ApplicationDataCreateDisposition.Existing)
+            {
+                throw new ArgumentException("Only ApplicationDataCreateDisposition.Existing is supported", "disposition");
+            }
+
+            return new Storage.ApplicationDataContainer(ApplicationDataLocality.SharedLocal, name);
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            _container.CreateContainer(name, (Windows.Storage.ApplicationDataCreateDisposition)((int)disposition));
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
 
         /// <summary>
         /// Gets the type (local or roaming) of the app data store that is associated with the current settings container.
@@ -66,7 +91,7 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _container.Name;
 #else
-                return string.Empty;
+                return _name;
 #endif
             }
         }
@@ -86,6 +111,25 @@ namespace InTheHand.Storage
 #endif
             }
         }
+    }
+
+    /// <summary>
+    /// Specifies options for creating application data containers or returning existing containers.
+    /// <para>This enumeration is used by the <see cref="ApplicationDataContainer.CreateContainer"/> method.</para>
+    /// </summary>
+    public enum ApplicationDataCreateDisposition
+    {
+        /// <summary>
+        /// Always returns the specified container.
+        /// Creates the container if it does not exist.
+        /// </summary>
+        Always = 0,
+
+        /// <summary>
+        /// Returns the specified container only if it already exists.
+        /// Raises an exception of type System.Exception if the specified container does not exist.
+        /// </summary>
+        Existing = 1,
     }
 }
 //#endif
