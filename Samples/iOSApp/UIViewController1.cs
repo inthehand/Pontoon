@@ -42,9 +42,9 @@ namespace ApplicationModel.iOS
                     var bp = await file.GetBasicPropertiesAsync();
                     System.Diagnostics.Debug.WriteLine(bp.Size);
                     ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
-                    ApplicationData.Current.LocalSettings.Values.Add("MyNewTest", "cheese");
-                    ApplicationData.Current.LocalSettings.Values["MyNewTest"] = "bread";
-                    ApplicationData.Current.LocalSettings.Values.Remove("MyNewTest");
+
+                    DateTimeOffset? isThis = DateTimeOffset.Now;
+                    ApplicationData.Current.LocalSettings.Values["LastUpload"] = isThis;
                     
                     /*
                     string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery);
@@ -128,7 +128,9 @@ namespace ApplicationModel.iOS
 
 
 
-          
+            DateTimeOffset? isThis = DateTimeOffset.Now;
+            ApplicationData.Current.LocalSettings.Values["LastUpload"] = isThis;
+
             /*InTheHand.UI.Popups.MessageDialog md = new InTheHand.UI.Popups.MessageDialog("Content", "Title");
             md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }));
             md.Commands.Add(new UICommand("Two", (c) => { System.Diagnostics.Debug.WriteLine("Two"); }));
@@ -140,15 +142,7 @@ namespace ApplicationModel.iOS
             System.Diagnostics.Debug.WriteLine(Package.Current.Id.Version.ToString());
             System.Diagnostics.Debug.WriteLine(Package.Current.InstalledDate);
             System.Diagnostics.Debug.WriteLine(Package.Current.IsDevelopmentMode);
-            //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.ShowShareUI();
 
-            /*var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
-            if(store != null)
-            {
-                var g = await store.GetDefaultLineAsync();
-                var l = await InTheHand.ApplicationModel.Calls.PhoneLine.FromIdAsync(g);
-                l.Dial("07968449031", "Pete");
-            }*/
         }
 
         private void A_ReadingChanged(Accelerometer sender, AccelerometerReadingChangedEventArgs args)
