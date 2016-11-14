@@ -36,15 +36,6 @@ namespace ApplicationModel.iOS
                 await Task.Delay(3000);
                 BeginInvokeOnMainThread(async () =>
                 {
-                    var l = InTheHand.Globalization.ApplicationLanguages.Languages;
-                    var file = await ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.OpenIfExists);
-                    await FileIO.WriteTextAsync(file, "Here is a small amount of text.");
-                    var bp = await file.GetBasicPropertiesAsync();
-                    System.Diagnostics.Debug.WriteLine(bp.Size);
-                    ApplicationData.Current.LocalSettings.Values.MapChanged += Values_MapChanged;
-
-                    DateTimeOffset? isThis = DateTimeOffset.Now;
-                    ApplicationData.Current.LocalSettings.Values["LastUpload"] = isThis;
                     
                     /*
                     string q = InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery);
@@ -91,15 +82,15 @@ namespace ApplicationModel.iOS
 
         private async void B_TouchUpInside(object sender, EventArgs e)
         {
-            var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("test.txt", CreationCollisionOption.ReplaceExisting);
+            var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("newfile.html", CreationCollisionOption.ReplaceExisting);
             await FileIO.WriteTextAsync(file, "one,two,three,four,five");
-
-            InTheHand.ApplicationModel.Email.EmailMessage m = new InTheHand.ApplicationModel.Email.EmailMessage();
+            var success = await InTheHand.System.Launcher.LaunchFileAsync(file);
+            /*InTheHand.ApplicationModel.Email.EmailMessage m = new InTheHand.ApplicationModel.Email.EmailMessage();
             m.To.Add(new InTheHand.ApplicationModel.Email.EmailRecipient("peter@peterfoot.net"));
             m.Subject = "Here's your file";
             m.Body = "File attached!!!";
             m.Attachments.Add(new InTheHand.ApplicationModel.Email.EmailAttachment("test.txt", file));
-            await InTheHand.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(m);
+            await InTheHand.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(m);*/
 
             /*InTheHand.Media.Capture.CameraCaptureUI ccu = new InTheHand.Media.Capture.CameraCaptureUI();
             StorageFile sf = await ccu.CaptureFileAsync(InTheHand.Media.Capture.CameraCaptureUIMode.Photo);

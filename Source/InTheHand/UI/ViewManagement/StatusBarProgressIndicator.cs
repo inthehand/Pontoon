@@ -35,7 +35,8 @@ namespace InTheHand.UI.ViewManagement
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
-    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
     public sealed partial class StatusBarProgressIndicator
     {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
@@ -124,6 +125,16 @@ namespace InTheHand.UI.ViewManagement
             });
         }
 
+        /// <summary>
+        /// Gets or sets a value representing progress in the range 0 to 1.
+        /// </summary>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         public double? ProgressValue
         {
             get
@@ -159,10 +170,12 @@ namespace InTheHand.UI.ViewManagement
                     _progressIndicator.IsIndeterminate = true;
                 }
 #elif WIN32
+                _progressValue = value;
+
                 if (value.HasValue)
                 {
                     _taskbarList.SetProgressState(_handle, _isVisible ? TaskbarStates.Normal : TaskbarStates.NoProgress);
-                    _taskbarList.SetProgressValue(_handle, (ulong)value.Value, 100);
+                    _taskbarList.SetProgressValue(_handle, (ulong)(value.Value*100), 100);
                 }
                 else
                 {

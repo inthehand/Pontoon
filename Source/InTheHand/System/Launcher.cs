@@ -11,10 +11,13 @@
 #if __ANDROID__
 using Android.App;
 using Android.Content;
+#elif __IOS__
+using UIKit;
 #endif
 using InTheHand.Storage;
 using System;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace InTheHand.System
 {
@@ -31,7 +34,6 @@ namespace InTheHand.System
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
-    //[ContractVersion(typeof(UniversalApiContract), 65536u)]
     public static partial class Launcher
     {
         /// <summary>
@@ -53,7 +55,15 @@ namespace InTheHand.System
 #if __IOS__
             return Task.Run<bool>(() =>
             {
-                return UIKit.UIApplication.SharedApplication.OpenUrl(global::Foundation.NSUrl.FromFilename(file.Path));
+                bool success = false;
+                UIKit.UIApplication.SharedApplication.InvokeOnMainThread(() =>
+                {
+                    UIDocumentInteractionController c = UIDocumentInteractionController.FromUrl(global::Foundation.NSUrl.FromFilename(file.Path));
+                    c.ViewControllerForPreview = ViewControllerForPreview;
+                    success = c.PresentPreview(true);
+                });
+
+                return success;
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchFileAsync((Windows.Storage.StorageFile)((StorageFile)file)).AsTask();
@@ -63,6 +73,14 @@ namespace InTheHand.System
             throw new PlatformNotSupportedException();
 #endif
         }
+
+#if __IOS__
+
+        private static UIViewController ViewControllerForPreview(UIDocumentInteractionController c)
+        {
+            return UIApplication.SharedApplication.KeyWindow.RootViewController;
+        }
+#endif
 
         /// <summary>
         /// Launches File Explorer and displays the contents of the specified folder.

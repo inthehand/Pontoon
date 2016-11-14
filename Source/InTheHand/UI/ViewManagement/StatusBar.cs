@@ -35,7 +35,8 @@ namespace InTheHand.UI.ViewManagement
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
-    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
     public sealed partial class StatusBar
     {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
