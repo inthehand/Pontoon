@@ -96,6 +96,18 @@
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerSupplyStatus.cs">
       <Link>System\Power\PowerSupplyStatus.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
+      <Link>UI\ViewManagement\StatusBar.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.Win32.cs">
+      <Link>UI\ViewManagement\StatusBar.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
+      <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.Win32.cs">
+      <Link>UI\ViewManagement\StatusBarProgressIndicator.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

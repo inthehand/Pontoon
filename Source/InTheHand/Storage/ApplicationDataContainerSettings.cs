@@ -72,7 +72,7 @@ namespace InTheHand.Storage
                     break;
 
                 case ApplicationDataLocality.SharedLocal:
-                    _defaults = new NSUserDefaults(sharedName, NSUserDefaultsType.SuiteName);
+                    _defaults = new NSUserDefaults(name, NSUserDefaultsType.SuiteName);
                     if(_defaults == null)
                     {
                         throw new ArgumentException("name");

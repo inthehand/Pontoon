@@ -36,7 +36,7 @@ namespace InTheHand.UI.ViewManagement
     /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
-    public sealed class StatusBarProgressIndicator
+    public sealed partial class StatusBarProgressIndicator
     {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.UI.ViewManagement.StatusBarProgressIndicator _indicator;
@@ -57,7 +57,8 @@ namespace InTheHand.UI.ViewManagement
         internal StatusBarProgressIndicator(Microsoft.Phone.Shell.ProgressIndicator progressIndicator)
         {
             _progressIndicator = progressIndicator;
-        }
+        } 
+#elif WIN32
 #else
         internal StatusBarProgressIndicator()
         {
@@ -82,6 +83,9 @@ namespace InTheHand.UI.ViewManagement
                 return _indicator.HideAsync().AsTask();
 #elif WINDOWS_PHONE
                 _progressIndicator.IsVisible = false;
+#elif WIN32
+                _isVisible = false;
+                _taskbarList.SetProgressState(_handle, TaskbarStates.NoProgress);
 #endif
             });
         }
@@ -106,10 +110,68 @@ namespace InTheHand.UI.ViewManagement
                 return _indicator.ShowAsync().AsTask();
 #elif WINDOWS_PHONE
                 _progressIndicator.IsVisible = true;
+#elif WIN32
+                _isVisible = true;
+                if (ProgressValue.HasValue)
+                {
+                    _taskbarList.SetProgressState(_handle, TaskbarStates.Normal);
+                }
+                else
+                {
+                    _taskbarList.SetProgressState(_handle, TaskbarStates.Indeterminate);
+                }
 #endif
             });
         }
-            
+
+        public double? ProgressValue
+        {
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+                return _indicator.ProgressValue;
+#elif WINDOWS_PHONE
+                if(_progressIndicator.IsIndeterminate)
+                {
+                    return null;
+                }
+
+                return _progressIndicator.Value;
+#elif WIN32
+                return _progressValue;
+#else
+                return null;
+#endif
+            }
+
+            set
+            {
+#if WINDOWS_UWP
+                _indicator.ProgressValue = value;
+#elif WINDOWS_PHONE
+                if (value.HasValue)
+                {
+                    _progressIndicator.IsIndeterminate = false;
+                    _progressIndicator.Value = value.Value;
+                }
+                else
+                {
+                    _progressIndicator.IsIndeterminate = true;
+                }
+#elif WIN32
+                if (value.HasValue)
+                {
+                    _taskbarList.SetProgressState(_handle, _isVisible ? TaskbarStates.Normal : TaskbarStates.NoProgress);
+                    _taskbarList.SetProgressValue(_handle, (ulong)value.Value, 100);
+                }
+                else
+                {
+                    _taskbarList.SetProgressState(_handle, _isVisible ? TaskbarStates.Indeterminate : TaskbarStates.NoProgress);
+                }
+#endif
+            }
+        }
+
     }
 }
 //#endif

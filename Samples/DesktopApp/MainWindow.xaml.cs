@@ -40,6 +40,8 @@ namespace DesktopApp
             //md.CancelCommandIndex = 0;
             var cmd = await md.ShowAsync();
 
+            await InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+            //InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue = 50;
         }
     }
 }

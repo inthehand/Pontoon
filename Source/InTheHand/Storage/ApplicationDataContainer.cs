@@ -60,7 +60,7 @@ namespace InTheHand.Storage
 
             return new Storage.ApplicationDataContainer(ApplicationDataLocality.SharedLocal, name);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            _container.CreateContainer(name, (Windows.Storage.ApplicationDataCreateDisposition)((int)disposition));
+            return new ApplicationDataContainer(_container.CreateContainer(name, (Windows.Storage.ApplicationDataCreateDisposition)((int)disposition)));
 #else
             throw new PlatformNotSupportedException();
 #endif

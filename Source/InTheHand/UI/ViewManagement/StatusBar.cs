@@ -36,7 +36,7 @@ namespace InTheHand.UI.ViewManagement
     /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
-    public sealed class StatusBar
+    public sealed partial class StatusBar
     {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.UI.ViewManagement.StatusBar _statusBar;
@@ -55,6 +55,9 @@ namespace InTheHand.UI.ViewManagement
 
         private StatusBar()
         {
+#if WIN32
+            _handle = NativeMethods.GetForegroundWindow();
+#endif
         }
 #endif
 
@@ -95,6 +98,8 @@ namespace InTheHand.UI.ViewManagement
                 return new StatusBarProgressIndicator(_statusBar.ProgressIndicator);
 #elif WINDOWS_PHONE
                 return new StatusBarProgressIndicator(Microsoft.Phone.Shell.SystemTray.ProgressIndicator);
+#elif WIN32
+                return new StatusBarProgressIndicator(_handle);
 #else
                 return new StatusBarProgressIndicator();
 #endif
