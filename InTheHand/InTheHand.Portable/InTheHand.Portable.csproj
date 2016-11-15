@@ -267,6 +267,18 @@
     <Compile Include="..\..\Source\InTheHand\PlatformID.cs">
       <Link>PlatformID.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Security\Authentication\Web\WebAuthenticationBroker.cs">
+      <Link>Security\Authentication\Web\WebAuthenticationBroker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Security\Authentication\Web\WebAuthenticationOptions.cs">
+      <Link>Security\Authentication\Web\WebAuthenticationOptions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Security\Authentication\Web\WebAuthenticationResult.cs">
+      <Link>Security\Authentication\Web\WebAuthenticationResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Security\Authentication\Web\WebAuthenticationStatus.cs">
+      <Link>Security\Authentication\Web\WebAuthenticationStatus.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Security\ExchangeActiveSyncProvisioning\EasClientDeviceInformation.cs">
       <Link>Security\ExchangeActivesyncProvisioning\EasClientDeviceInformation.cs</Link>
     </Compile>

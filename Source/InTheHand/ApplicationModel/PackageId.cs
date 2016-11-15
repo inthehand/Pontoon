@@ -124,21 +124,25 @@ namespace InTheHand.ApplicationModel
             }
         }
 
-        /*public string ProductId
+        /// <summary>
+        /// Gets the value of the ProductID attribute associated with this application package.
+        /// </summary>
+        /// <value>The value of the ProductID attribute associated with this application package.</value>
+        public string ProductId
         {
             get
             {
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return InTheHand.ApplicationModel.Package.Current._appxManifest.PhoneProductId.ToString();
+                return AppxManifest.Current.PhoneProductId.ToString();
 #elif WINDOWS_PHONE
-                return InTheHand.ApplicationModel.Package.Current._appManifest.ProductID;
+                return WMAppManifest.Current.ProductID;
 #elif WIN32
-                return Package.Current._manifest.Guid.ToString();
+                return AssemblyManifest.Current.Guid.ToString();
 #else
                 throw new PlatformNotSupportedException();
 #endif
             }
-        }*/
+        }
 
         /// <summary>
         /// Gets the publisher of the package.

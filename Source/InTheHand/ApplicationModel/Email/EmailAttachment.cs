@@ -25,7 +25,7 @@ namespace InTheHand.ApplicationModel.Email
         /// <summary>
         /// Creates an instance of the <see cref="EmailAttachment"/> class with the specified data.
         /// </summary>
-        /// <param name="fileName">The filename of the attachment.</param>
+        /// <param name="filename">The filename of the attachment.</param>
         /// <param name="data">The stream to use to download the attachment.</param>
         public EmailAttachment(string filename, StorageFile data)
         {
@@ -37,10 +37,10 @@ namespace InTheHand.ApplicationModel.Email
         /// <summary>
         /// Initializes a new instance of the see cref="EmailAttachment"/> class.
         /// </summary>
-        /// <param name="fileName">The filename of the attachment.</param>
+        /// <param name="filename">The filename of the attachment.</param>
         /// <param name="data">The stream to use to download the attachment.</param>
         /// <param name="mimeType">The MIME type of the attachment.</param>
-        public EmailAttachment(string fileName, StorageFile data, string mimeType) : this(fileName, data)
+        public EmailAttachment(string filename, StorageFile data, string mimeType) : this(filename, data)
         {
             MimeType = mimeType;
         }

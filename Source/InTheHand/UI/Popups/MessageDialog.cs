@@ -114,7 +114,7 @@ namespace InTheHand.UI.Popups
         /// <returns>An object that represents the asynchronous operation.
         /// For more on the async pattern, see Asynchronous programming in the Windows Runtime.</returns>
         /// <remarks>In some cases, such as when the dialog is closed by the system out of your control, your result can be an empty command.
-        /// <see cref="IAsyncOperation{TResult}.GetResults()"/> returns either the command selected which destroyed the dialog, or an empty command.
+        /// Returns either the command selected which destroyed the dialog, or an empty command.
         /// For example, a dialog hosted in a charms window will return an empty command if the charms window has been dismissed.</remarks>
         public Task<IUICommand> ShowAsync()
         {
