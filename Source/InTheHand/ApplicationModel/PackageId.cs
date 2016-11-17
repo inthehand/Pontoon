@@ -51,12 +51,16 @@ namespace InTheHand.ApplicationModel
         }
 #elif __ANDROID__
         PackageInfo _packageInfo;
+#elif TIZEN
+        Tizen.Applications.ApplicationInfo _info;
 #endif
 
         internal PackageId()
         {
 #if __ANDROID__
             _packageInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.MetaData);
+#elif TIZEN
+            _info = Tizen.Applications.Application.Current.ApplicationInfo;
 #endif
         }
 
@@ -138,6 +142,8 @@ namespace InTheHand.ApplicationModel
                 return WMAppManifest.Current.ProductID;
 #elif WIN32
                 return AssemblyManifest.Current.Guid.ToString();
+#elif TIZEN
+                return _info.ApplicationId;
 #else
                 throw new PlatformNotSupportedException();
 #endif

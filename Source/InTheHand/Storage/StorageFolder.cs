@@ -3,10 +3,6 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.StorageFolder))]
-//#else
 
 using System;
 using System.Collections.Generic;
@@ -29,6 +25,7 @@ namespace InTheHand.Storage
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -96,10 +93,8 @@ namespace InTheHand.Storage
                 var f = await _folder.CreateFileAsync(desiredName);
                 return f == null ? null : new StorageFile(f);
             });
-#elif __ANDROID__ || __IOS__ || WIN32
-            return CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
 #else
-            throw new PlatformNotSupportedException();
+            return CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
 #endif
         }
 
@@ -117,7 +112,7 @@ namespace InTheHand.Storage
                 var f = await _folder.CreateFileAsync(desiredName, (Windows.Storage.CreationCollisionOption)((int)options));
                 return f == null ? null : new StorageFile(f);
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<StorageFile>(() =>
             {
                 string filepath = global::System.IO.Path.Combine(Path, desiredName);
@@ -150,7 +145,11 @@ namespace InTheHand.Storage
                     }
                 }
 
+#if TIZEN
+                File.Create(filepath).Dispose();
+#else
                 File.Create(filepath).Close();
+#endif
 
                 return new StorageFile(filepath);
 
@@ -158,7 +157,7 @@ namespace InTheHand.Storage
 #else
             throw new PlatformNotSupportedException();
 #endif
-        }
+            }
 
         /// <summary>
         /// Creates a new subfolder with the specified name in the current folder.
@@ -193,7 +192,7 @@ namespace InTheHand.Storage
                 var f = await _folder.CreateFolderAsync(desiredName, (Windows.Storage.CreationCollisionOption)((int)options));
                 return f == null ? null : new StorageFolder(f);
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run(() =>
             {
                 string newpath = global::System.IO.Path.Combine(Path, desiredName);
@@ -243,10 +242,8 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _folder.DeleteAsync().AsTask();
-#elif __ANDROID__ || __IOS__ || WIN32
-            return DeleteAsync(StorageDeleteOption.Default);
 #else
-            throw new PlatformNotSupportedException();
+            return DeleteAsync(StorageDeleteOption.Default);
 #endif
         }
 
@@ -259,7 +256,7 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _folder.DeleteAsync((Windows.Storage.StorageDeleteOption)((int)option)).AsTask();
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             if (!Directory.Exists(Path))
             {
                 throw new FileNotFoundException();
@@ -285,7 +282,7 @@ namespace InTheHand.Storage
                 var p  = await _folder.GetBasicPropertiesAsync();
                 return new BasicProperties(p);
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.FromResult<BasicProperties>(new BasicProperties(this));
 #else
             throw new PlatformNotSupportedException();
@@ -305,7 +302,7 @@ namespace InTheHand.Storage
                 var f = await _folder.GetFileAsync(filename);
                 return f == null ? null : new StorageFile(f);
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<StorageFile>(() =>
             {
                 string filepath = global::System.IO.Path.Combine(Path, filename);
@@ -340,7 +337,7 @@ namespace InTheHand.Storage
 
                 return files.AsReadOnly();
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<IReadOnlyList<StorageFile>>(() =>
             {
                 List<StorageFile> files = new List<StorageFile>();
@@ -370,7 +367,7 @@ namespace InTheHand.Storage
                 var f = await _folder.GetFolderAsync(name);
                 return f == null ? null : new StorageFolder(f);
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<StorageFolder>(() =>
             {
                 string folderpath = global::System.IO.Path.Combine(Path, name);
@@ -405,7 +402,7 @@ namespace InTheHand.Storage
 
                 return folders.AsReadOnly();
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<IReadOnlyList<StorageFolder>>(() =>
             {
                 foreach (string foldername in global::System.IO.Directory.GetDirectories(Path))
@@ -445,7 +442,7 @@ namespace InTheHand.Storage
 
                 return items.AsReadOnly();
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<IReadOnlyList<IStorageItem>>(() =>
             {
                 foreach (string foldername in global::System.IO.Directory.GetDirectories(Path))
@@ -477,7 +474,7 @@ namespace InTheHand.Storage
                 var f = await _folder.GetParentAsync();
                 return f == null ? null : new StorageFolder(f);
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<StorageFolder>(() =>
             {
                 var parent = global::System.IO.Directory.GetParent(Path);
@@ -608,7 +605,7 @@ namespace InTheHand.Storage
 
                 return null;
             });
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<IStorageItem>(() =>
             {
                 string itempath = global::System.IO.Path.Combine(Path, name);
@@ -635,7 +632,9 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return (FileAttributes)((int)_folder.Attributes);
+#elif __ANDROID__ || __IOS__  || WIN32 || TIZEN
                 return FileAttributesHelper.FromIOFileAttributes(global::System.IO.File.GetAttributes(Path));
 #else
                 throw new PlatformNotSupportedException();
@@ -650,7 +649,9 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _folder.DateCreated;
+#elif __ANDROID__ || __IOS__  || WIN32 || TIZEN
                 var utc = global::System.IO.Directory.GetCreationTimeUtc(Path);
                 var local = global::System.IO.Directory.GetCreationTime(Path);
                 var offset = local - utc;
@@ -668,7 +669,9 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _folder.Name;
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
                 return global::System.IO.Path.GetDirectoryName(Path);
 #else
                 throw new PlatformNotSupportedException();
@@ -683,7 +686,9 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return _folder.Path;
+#elif __ANDROID__ || __IOS__ || WIN32 || TIZEN
                 return _path;
 #else
                 throw new PlatformNotSupportedException();
@@ -722,4 +727,3 @@ namespace InTheHand.Storage
         }
     }
 }
-//#endif

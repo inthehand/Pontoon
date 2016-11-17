@@ -37,6 +37,7 @@ namespace InTheHand.Phone.Devices.Notification
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10 Mobile</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
@@ -55,6 +56,12 @@ namespace InTheHand.Phone.Devices.Notification
             {
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 _default = new VibrationDevice();
+#elif TIZEN
+                if(Tizen.System.Vibrator.Vibrators.Count > 0)
+                {
+                    _default = new VibrationDevice();
+                }
+
 #elif WINDOWS_UWP
                 if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
                 {
@@ -68,6 +75,8 @@ namespace InTheHand.Phone.Devices.Notification
 
 #if __ANDROID__
         private Vibrator _vibrator;
+#elif TIZEN
+        private Tizen.System.Vibrator _vibrator;
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Phone.Devices.Notification.VibrationDevice _device;
 #endif
@@ -75,6 +84,8 @@ namespace InTheHand.Phone.Devices.Notification
         {
 #if __ANDROID__
             _vibrator = (Vibrator)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Context.VibratorService);
+#elif TIZEN
+            _vibrator = Tizen.System.Vibrator.Vibrators[0];
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _device = Windows.Phone.Devices.Notification.VibrationDevice.GetDefault();
 #endif
@@ -98,6 +109,8 @@ namespace InTheHand.Phone.Devices.Notification
             }
 #elif __IOS__
             SystemSound.Vibrate.PlaySystemSound();
+#elif TIZEN
+            _vibrator.Vibrate(Convert.ToInt32(duration.TotalMilliseconds), 100);
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _device.Vibrate(duration);
 #elif WINDOWS_PHONE
@@ -115,6 +128,8 @@ namespace InTheHand.Phone.Devices.Notification
             _vibrator.Cancel();
 #elif __IOS__
             SystemSound.Vibrate.Close();
+#elif TIZEN
+            _vibrator.Stop();
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _device.Cancel();
 #elif WINDOWS_PHONE
@@ -123,4 +138,3 @@ namespace InTheHand.Phone.Devices.Notification
         }
     }
 }
-//#endif

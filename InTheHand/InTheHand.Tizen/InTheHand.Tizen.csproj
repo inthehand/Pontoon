@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{39C0C993-C3EF-4589-82CB-3DF51F6586DF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InTheHand</RootNamespace>
+    <AssemblyName>InTheHand</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v1.3</TargetFrameworkVersion>
+    <NuGetTargetMoniker>.NETStandard,Version=v1.3</NuGetTargetMoniker>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
+    <NoStdLib>true</NoStdLib>
+    <NoWarn>$(NoWarn);1701</NoWarn>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>portable</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;TIZEN</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="InTheHand.Tizen.project.json" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="..\..\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
+      <Link>ApplicationModel\Package.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
+      <Link>ApplicationModel\PackageId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
+      <Link>ApplicationModel\PackageVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
+      <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Accelerometer.cs">
+      <Link>Devices\Sensors\Accelerometer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReading.cs">
+      <Link>Devices\Sensors\AccelerometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReadingChangedEventArgs.cs">
+      <Link>Devices\Sensors\AccelerometerReadingChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Gyrometer.cs">
+      <Link>Devices\Sensors\Gyrometer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\GyrometerReading.cs">
+      <Link>Devices\Sensors\GyrometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\GyrometerReadingChangedEventArgs.cs">
+      <Link>Devices\Sensors\GyrometerReadingChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
+      <Link>Foundation\Metadata\ApiInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
+      <Link>Foundation\TypedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
+      <Link>Phone\Devices\Notification\VibrationDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\CreationCollisionOption.cs">
+      <Link>Storage\CreationCollisionOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
+      <Link>Storage\FileAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
+      <Link>Storage\FileIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
+      <Link>Storage\FileProperties\BasicProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
+      <Link>Storage\IStorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs">
+      <Link>Storage\IStorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs">
+      <Link>Storage\IStorageFolder2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem.cs">
+      <Link>Storage\IStorageItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem2.cs">
+      <Link>Storage\IStorageItem2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
+      <Link>Storage\KnownFolders.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\NameCollisionOption.cs">
+      <Link>Storage\NameCollisionOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
+      <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
+      <Link>Storage\StorageDeleteOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFile.cs">
+      <Link>Storage\StorageFile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFolder.cs">
+      <Link>Storage\StorageFolder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageFolderExtensions.cs">
+      <Link>Storage\StorageFolderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\StorageItemTypes.cs">
+      <Link>Storage\StorageItemTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs">
+      <Link>Storage\Streams\UnicodeEncoding.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncodingHelper.cs">
+      <Link>Storage\Streams\UnicodeEncodingHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\BatteryStatus.cs">
+      <Link>System\Power\BatteryStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\EnergySaverStatus.cs">
+      <Link>System\Power\EnergySaverStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
+      <Link>System\Power\PowerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerSupplyStatus.cs">
+      <Link>System\Power\PowerSupplyStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\ProcessorArchitecture.cs">
+      <Link>System\ProcessorArchitecture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
+      <Link>UI\Notifications\BadgeNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
+      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
+      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
+      <Link>UI\Notifications\BadgeUpdater.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotification.cs">
+      <Link>UI\Notifications\ToastNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationCreator.cs">
+      <Link>UI\Notifications\ToastNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationManager.cs">
+      <Link>UI\Notifications\ToastNotificationManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.cs">
+      <Link>UI\Notifications\ToastNotifier.cs</Link>
+    </Compile>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+		Other similar extension points exist, see Microsoft.Common.targets.
+	<Target Name="BeforeBuild">
+	</Target>
+	<Target Name="AfterBuild">
+	</Target>
+	-->
+  <PropertyGroup>
+    <!-- https://github.com/dotnet/corefxlab/tree/master/samples/NetCoreSample and
+			 https://docs.microsoft.com/en-us/dotnet/articles/core/tutorials/target-dotnetcore-with-msbuild
+		-->
+    <!-- We don't use any of MSBuild's resolution logic for resolving the framework, so just set these two
+			 properties to any folder that exists to skip the GetReferenceAssemblyPaths task (not target) and
+			 to prevent it from outputting a warning (MSB3644).
+		-->
+    <_TargetFrameworkDirectories>$(MSBuildThisFileDirectory)</_TargetFrameworkDirectories>
+    <_FullFrameworkReferenceAssemblyPaths>$(MSBuildThisFileDirectory)</_FullFrameworkReferenceAssemblyPaths>
+    <AutoUnifyAssemblyReferences>true</AutoUnifyAssemblyReferences>
+  </PropertyGroup>
+</Project>

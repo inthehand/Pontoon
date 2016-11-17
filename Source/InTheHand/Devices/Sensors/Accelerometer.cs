@@ -9,6 +9,8 @@ using InTheHand.Foundation;
 #if __IOS__
 using CoreMotion;
 using Foundation;
+#elif TIZEN
+using Tizen.Sensor;
 #endif
 
 namespace InTheHand.Devices.Sensors
@@ -20,6 +22,7 @@ namespace InTheHand.Devices.Sensors
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -41,6 +44,16 @@ namespace InTheHand.Devices.Sensors
                 if (_manager.AccelerometerAvailable)
                 {
                     _default = new Sensors.Accelerometer();
+                }
+            }
+
+            return _default;
+#elif TIZEN
+            if (_default == null)
+            {
+                if (Tizen.Sensor.Accelerometer.IsSupported)
+                {
+                    _default = new Sensors.Accelerometer(new Tizen.Sensor.Accelerometer(0));
                 }
             }
 
@@ -92,6 +105,20 @@ namespace InTheHand.Devices.Sensors
 
             _readingChanged?.Invoke(this, new Sensors.AccelerometerReadingChangedEventArgs(data));
         }
+#elif TIZEN
+        private static Accelerometer _default;
+
+        private Tizen.Sensor.Accelerometer _accelerometer;
+
+        private Accelerometer(Tizen.Sensor.Accelerometer accelerometer)
+        {
+            _accelerometer = accelerometer;
+        }
+        
+        private void _accelerometer_DataUpdated(object sender, AccelerometerDataUpdatedEventArgs e)
+        {
+            _readingChanged?.Invoke(this, new Sensors.AccelerometerReadingChangedEventArgs(new Sensors.AccelerometerReading(e.X, e.Y, e.Z, DateTimeOffset.Now)));
+        }
 #endif
 
         /// <summary>
@@ -107,6 +134,8 @@ namespace InTheHand.Devices.Sensors
                 return _accelerometer.ReportInterval;
 #elif __IOS__
                 return Convert.ToUInt32(_manager.AccelerometerUpdateInterval * 1000);
+#elif TIZEN
+                return _accelerometer.Interval;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -117,6 +146,13 @@ namespace InTheHand.Devices.Sensors
                 _accelerometer.ReportInterval = value;
 #elif __IOS__
                 _manager.AccelerometerUpdateInterval = value / 1000f;
+#elif TIZEN
+                if(value < _accelerometer.MinInterval)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _accelerometer.Interval = value;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -133,6 +169,8 @@ namespace InTheHand.Devices.Sensors
             return _accelerometer.GetCurrentReading();
 #elif __IOS__
             return _manager.AccelerometerData;
+#elif TIZEN
+            return new AccelerometerReading(_accelerometer.X, _accelerometer.Y, _accelerometer.Z, DateTimeOffset.Now);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -153,6 +191,8 @@ namespace InTheHand.Devices.Sensors
                     _accelerometer.ReadingChanged += _accelerometer_ReadingChanged;
 #elif __IOS__
                     _manager.StartAccelerometerUpdates(NSOperationQueue.CurrentQueue, AccelerometerHandler);
+#elif TIZEN
+                    _accelerometer.DataUpdated += _accelerometer_DataUpdated;
 #else
                     throw new PlatformNotSupportedException();
 #endif
@@ -170,10 +210,13 @@ namespace InTheHand.Devices.Sensors
                     _accelerometer.ReadingChanged -= _accelerometer_ReadingChanged;
 #elif __IOS__
                     _manager.StopAccelerometerUpdates();
+#elif TIZEN
+                    _accelerometer.DataUpdated -= _accelerometer_DataUpdated;
 #endif
                 }
             }
         }
+
 
 
         //public event TypedEventHandler<Accelerometer, AccelerometerShakenEventArgs> Shaken;

@@ -36,6 +36,8 @@ using System.Resources;
 [assembly: AssemblyConfiguration("Windows Universal")]
 #elif WIN32
 [assembly: AssemblyConfiguration("Windows")]
+#elif TIZEN
+[assembly: AssemblyConfiguration("Tizen")]
 #else
 [assembly: AssemblyConfiguration("Portable")]
 #endif

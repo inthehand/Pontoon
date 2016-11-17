@@ -25,6 +25,7 @@ namespace InTheHand.UI.Notifications
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -62,6 +63,8 @@ namespace InTheHand.UI.Notifications
             {
                 UIApplication.SharedApplication.PresentLocalNotificationNow(notification._localNotification);
             });
+#elif TIZEN
+            Tizen.Applications.Notifications.NotificationManager.PostToastMessage(notification.Title + "\r\n" + notification.Content);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Show(notification._notification);
 #elif WINDOWS_PHONE
@@ -75,20 +78,19 @@ namespace InTheHand.UI.Notifications
         /// <param name="notification">The object that supplies the new XML definition for the toast.</param>
         public void Hide(ToastNotification notification)
         {
-#if __ANDROID__
-            throw new PlatformNotSupportedException();
-#elif __IOS__
+#if __IOS__
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 UIApplication.SharedApplication.CancelLocalNotification(notification._localNotification);
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Hide(notification._notification);
-#elif WINDOWS_PHONE
+#else
             throw new PlatformNotSupportedException();
 #endif
         }
 
+#if !TIZEN
         /// <summary>
         /// Adds a <see cref="ScheduledToastNotification"/> for later display.
         /// </summary>
@@ -109,6 +111,7 @@ namespace InTheHand.UI.Notifications
 #endif
         }
 
+
         /// <summary>
         /// Cancels the scheduled display of a specified <see cref="ScheduledToastNotification"/>.
         /// </summary>
@@ -128,6 +131,7 @@ namespace InTheHand.UI.Notifications
             throw new PlatformNotSupportedException();
 #endif
         }
+#endif
     }
 }
 //#endif

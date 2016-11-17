@@ -15,6 +15,7 @@ namespace InTheHand.Devices.Sensors
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -56,6 +57,19 @@ namespace InTheHand.Devices.Sensors
         {
             return new GyrometerReading(gd);
         }
+#elif TIZEN
+        private float _x;
+        private float _y;
+        private float _z;
+        private DateTimeOffset _timestamp;
+
+        internal GyrometerReading(float x, float y, float z, DateTimeOffset timestamp)
+        {
+            _x = x;
+            _y = y;
+            _z = z;
+            _timestamp = timestamp;
+        }
 #endif
 
         /// <summary>
@@ -69,6 +83,8 @@ namespace InTheHand.Devices.Sensors
                 return _gyrometerReading.AngularVelocityX;
 #elif __IOS__
                 return _gyrometerData.RotationRate.x;
+#elif TIZEN
+                return _x;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -86,6 +102,8 @@ namespace InTheHand.Devices.Sensors
                 return _gyrometerReading.AngularVelocityY;
 #elif __IOS__
                 return _gyrometerData.RotationRate.y;
+#elif TIZEN
+                return _y;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -103,6 +121,8 @@ namespace InTheHand.Devices.Sensors
                 return _gyrometerReading.AngularVelocityZ;
 #elif __IOS__
                 return _gyrometerData.RotationRate.z;
+#elif TIZEN
+                return _z;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -121,6 +141,8 @@ namespace InTheHand.Devices.Sensors
 #elif __IOS__
                 //TODO: convert time since boot to actual timestamp
                 return Gyrometer._timestampOffset.AddSeconds(_gyrometerData.Timestamp);
+#elif TIZEN
+                return _timestamp;
 #else
                 throw new PlatformNotSupportedException();
 #endif

@@ -45,7 +45,7 @@ namespace InTheHand.Storage
         Temporary = 256,
     }
 
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || WIN32 || TIZEN
     internal static class FileAttributesHelper
     {
         public static FileAttributes FromIOFileAttributes(global::System.IO.FileAttributes attrs)

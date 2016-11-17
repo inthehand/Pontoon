@@ -41,6 +41,7 @@ namespace InTheHand.ApplicationModel
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -83,6 +84,8 @@ namespace InTheHand.ApplicationModel
         {
             return new Package();
         }
+#elif TIZEN
+        Tizen.Applications.ApplicationInfo _info;
 #endif
 
         private Package()
@@ -93,6 +96,8 @@ namespace InTheHand.ApplicationModel
             _mainBundle = NSBundle.MainBundle;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _package = Windows.ApplicationModel.Package.Current;
+#elif TIZEN
+            _info = Tizen.Applications.Application.Current.ApplicationInfo;
 #endif
         }
 
@@ -136,6 +141,8 @@ namespace InTheHand.ApplicationModel
                 return WMAppManifest.Current.DisplayName;
 #elif WIN32
                 return AssemblyManifest.Current.Product;
+#elif TIZEN
+                return _info.Label;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -215,6 +222,8 @@ namespace InTheHand.ApplicationModel
                 return new StorageFolder(_package.InstalledLocation);
 #elif WIN32
                 return new StorageFolder(AssemblyManifest.Current.InstalledLocation);
+#elif TIZEN
+                return new StorageFolder(Path.GetDirectoryName(_info.ExecutablePath));
 #else
                 return null;
 #endif
@@ -284,6 +293,8 @@ namespace InTheHand.ApplicationModel
                 return AppxManifest.Current.Logo;
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.Logo;
+#elif TIZEN
+                return new Uri("file:///" + _info.IconPath);
 #else
                 return null;
 #endif

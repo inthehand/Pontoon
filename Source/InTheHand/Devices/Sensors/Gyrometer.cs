@@ -21,6 +21,7 @@ namespace InTheHand.Devices.Sensors
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -42,6 +43,16 @@ namespace InTheHand.Devices.Sensors
                 if (_manager.AccelerometerAvailable)
                 {
                     _default = new Sensors.Gyrometer();
+                }
+            }
+
+            return _default;
+#elif TIZEN
+            if (_default == null)
+            {
+                if (Tizen.Sensor.Gyroscope.IsSupported)
+                {
+                    _default = new Sensors.Gyrometer(new Tizen.Sensor.Gyroscope(0));
                 }
             }
 
@@ -93,6 +104,21 @@ namespace InTheHand.Devices.Sensors
 
             _readingChanged?.Invoke(this, new Sensors.GyrometerReadingChangedEventArgs(data));
         }
+#elif TIZEN
+        private static Gyrometer _default;
+
+        private Tizen.Sensor.Gyroscope _gyroscope;
+
+        private Gyrometer(Tizen.Sensor.Gyroscope gyroscope)
+        {
+            _gyroscope = gyroscope;
+        }
+
+
+        private void _gyroscope_DataUpdated(object sender, Tizen.Sensor.GyroscopeDataUpdatedEventArgs e)
+        {
+            _readingChanged?.Invoke(this, new Sensors.GyrometerReadingChangedEventArgs(new Sensors.GyrometerReading(e.X, e.Y, e.Z, DateTimeOffset.Now)));
+        }
 #endif
 
         /// <summary>
@@ -108,6 +134,8 @@ namespace InTheHand.Devices.Sensors
                 return _gyrometer.ReportInterval;
 #elif __IOS__
                 return Convert.ToUInt32(_manager.GyroUpdateInterval * 1000);
+#elif TIZEN
+                return _gyroscope.Interval;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -118,6 +146,13 @@ namespace InTheHand.Devices.Sensors
                 _gyrometer.ReportInterval = value;
 #elif __IOS__
                 _manager.GyroUpdateInterval = value / 1000f;
+#elif TIZEN
+                if (value < _gyroscope.MinInterval)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                _gyroscope.Interval = value;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -134,6 +169,8 @@ namespace InTheHand.Devices.Sensors
             return _gyrometer.GetCurrentReading();
 #elif __IOS__
             return _manager.GyroData;
+#elif TIZEN
+            return new GyrometerReading(_gyroscope.X, _gyroscope.Y, _gyroscope.Z, DateTimeOffset.Now);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -154,6 +191,8 @@ namespace InTheHand.Devices.Sensors
                     _gyrometer.ReadingChanged += _gyrometer_ReadingChanged;
 #elif __IOS__
                     _manager.StartGyroUpdates(NSOperationQueue.CurrentQueue, GyrometerHandler);
+#elif TIZEN
+                    _gyroscope.DataUpdated += _gyroscope_DataUpdated;
 #else
                     throw new PlatformNotSupportedException();
 #endif
@@ -171,9 +210,12 @@ namespace InTheHand.Devices.Sensors
                     _gyrometer.ReadingChanged -= _gyrometer_ReadingChanged;
 #elif __IOS__
                     _manager.StopGyroUpdates();
+#elif TIZEN
+                    _gyroscope.DataUpdated -= _gyroscope_DataUpdated;
 #endif
                 }
             }
         }
+
     }
 }

@@ -26,6 +26,7 @@ namespace InTheHand.Storage
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -54,7 +55,7 @@ namespace InTheHand.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static Task AppendLinesAsync(string absolutePath, IEnumerable<string> lines, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run(() => { File.AppendAllLines(absolutePath, lines,UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.AppendLinesAsync(absolutePath, lines, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
@@ -97,7 +98,7 @@ namespace InTheHand.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static Task AppendTextAsync(string absolutePath, string contents, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run(() => { File.AppendAllText(absolutePath, contents, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.AppendTextAsync(absolutePath, contents, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
@@ -135,7 +136,7 @@ namespace InTheHand.Storage
         /// Each line of text in the list is represented by a String object.</returns>
         public static Task<IList<string>> ReadLinesAsync(string absolutePath, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<IList<string>>(() => { return File.ReadAllLines(absolutePath, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.ReadLinesAsync(absolutePath, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
@@ -175,7 +176,7 @@ namespace InTheHand.Storage
         /// <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
         public static Task<string> ReadTextAsync(string absolutePath, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run<string>(() => { return File.ReadAllText(absolutePath, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.ReadTextAsync(absolutePath, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
@@ -208,7 +209,7 @@ namespace InTheHand.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static Task WriteLinesAsync(string absolutePath, IEnumerable<string> lines, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run(() => { File.WriteAllLines(absolutePath, lines, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.WriteLinesAsync(absolutePath, lines, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
@@ -249,7 +250,7 @@ namespace InTheHand.Storage
         /// <returns>No object or value is returned when this method completes.</returns>
         public static Task WriteTextAsync(string absolutePath, string contents, UnicodeEncoding encoding)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || WIN32 || TIZEN
             return Task.Run(() => { File.WriteAllText(absolutePath, contents, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.WriteTextAsync(absolutePath, contents, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();

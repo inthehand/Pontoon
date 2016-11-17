@@ -64,6 +64,7 @@ namespace InTheHand.UI.Notifications
 #endif
         }
 
+#if !TIZEN
         /// <summary>
         /// Creates a scheduled toast notification with the required values.
         /// </summary>
@@ -97,5 +98,6 @@ namespace InTheHand.UI.Notifications
             return new ScheduledToastNotification(content, title, deliveryTime);
 #endif
         }
+#endif
     }
 }

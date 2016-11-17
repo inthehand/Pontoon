@@ -27,6 +27,7 @@ namespace InTheHand.System.Power
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 10 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -93,6 +94,8 @@ namespace InTheHand.System.Power
                         return BatteryStatus.NotPresent;
                         
                 }
+#elif TIZEN
+                return Tizen.System.Battery.IsCharging ? BatteryStatus.Charging : BatteryStatus.Discharging;
 #elif WINDOWS_UWP
             return (BatteryStatus)((int)Windows.System.Power.PowerManager.BatteryStatus);
 #elif WINDOWS_APP
@@ -184,6 +187,8 @@ namespace InTheHand.System.Power
 #if __IOS__
                 if (_device.BatteryState == UIKit.UIDeviceBatteryState.Charging)
                     return PowerSupplyStatus.Adequate;
+#elif TIZEN
+                return Tizen.System.Battery.IsCharging ? PowerSupplyStatus.Adequate : PowerSupplyStatus.NotPresent;
 #elif WINDOWS_UWP
                 return (PowerSupplyStatus)((int)Windows.System.Power.PowerManager.PowerSupplyStatus);
 #elif WINDOWS_APP
@@ -226,10 +231,16 @@ namespace InTheHand.System.Power
 
                 double percent = _device.BatteryLevel;
                 return Convert.ToInt32(percent * 100f);
+
 #elif __ANDROID__
                 return _batteryManager.GetIntProperty((int)BatteryProperty.Capacity);
-#elif WINDOWS_UWP 
+
+#elif TIZEN
+                return Tizen.System.Battery.Percent;
+
+#elif WINDOWS_UWP
                 return Windows.System.Power.PowerManager.RemainingChargePercent;
+
 #elif WINDOWS_APP
                 if (_type10 != null)
                 {
@@ -272,6 +283,8 @@ namespace InTheHand.System.Power
                     {
                         UIKit.UIDevice.Notifications.ObserveBatteryLevelDidChange(BatteryLevelDidChangeHandler);
                     }
+#elif TIZEN
+                    Tizen.System.Battery.PercentChanged += Battery_PercentChanged;
 #elif WINDOWS_UWP
                     Windows.System.Power.PowerManager.RemainingChargePercentChanged += PowerManager_RemainingChargePercentChanged;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -288,6 +301,8 @@ namespace InTheHand.System.Power
                 {
 #if __IOS__
                     //_device.BatteryMonitoringEnabled = false;
+#elif TIZEN
+                    Tizen.System.Battery.PercentChanged -= Battery_PercentChanged;
 #elif WINDOWS_UWP
                     Windows.System.Power.PowerManager.RemainingChargePercentChanged -= PowerManager_RemainingChargePercentChanged;
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -297,6 +312,8 @@ namespace InTheHand.System.Power
             }
         }
 
+
+
 #if WINDOWS_UWP
         private static void PowerManager_RemainingChargePercentChanged(object sender, object e)
         {
@@ -305,7 +322,13 @@ namespace InTheHand.System.Power
 #endif
 #endif
 
-#if __IOS__
+#if TIZEN
+        private static void Battery_PercentChanged(object sender, Tizen.System.BatteryPercentChangedEventArgs e)
+        {
+            _remainingChargePercentChanged?.Invoke(null, null);
+        }
+
+#elif __IOS__
         private static void BatteryLevelDidChangeHandler(object sender, NSNotificationEventArgs e)
         {
             _remainingChargePercentChanged?.Invoke(null, null);
