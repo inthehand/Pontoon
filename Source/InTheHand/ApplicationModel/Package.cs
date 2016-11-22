@@ -23,7 +23,7 @@ using InTheHand.Storage;
 using Android.App;
 using Android.Content.PM;
 using InTheHand;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using Foundation;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
 using System.Reflection;
@@ -70,7 +70,7 @@ namespace InTheHand.ApplicationModel
 
 #if __ANDROID__
         PackageInfo _packageInfo;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
         NSBundle _mainBundle;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         Windows.ApplicationModel.Package _package;
@@ -92,7 +92,7 @@ namespace InTheHand.ApplicationModel
         {
 #if __ANDROID__
             _packageInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.MetaData);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             _mainBundle = NSBundle.MainBundle;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _package = Windows.ApplicationModel.Package.Current;
@@ -133,7 +133,7 @@ namespace InTheHand.ApplicationModel
 #if __ANDROID__
                 return Application.Context.PackageManager.GetApplicationLabel(_packageInfo.ApplicationInfo);
                 //return _packageInfo.PackageName;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 return _mainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return AppxManifest.Current.DisplayName;
@@ -181,7 +181,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return DateTimeOffsetHelper.FromUnixTimeMilliseconds(_packageInfo.FirstInstallTime);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 DateTime d = Directory.GetCreationTime(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.MyDocuments));
                 return new DateTimeOffset(d);
 #elif WINDOWS_UWP
@@ -216,7 +216,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return new StorageFolder(Application.Context.PackageCodePath);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 return new StorageFolder(NSBundle.MainBundle.BundlePath);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return new StorageFolder(_package.InstalledLocation);
@@ -244,7 +244,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return Android.App.Application.Context.PackageManager.GetInstallerPackageName(_packageInfo.PackageName) == null;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 return !File.Exists(_mainBundle.AppStoreReceiptUrl.Path);
 #elif WINDOWS_UWP || WINDOWS_APP
                 return _package.IsDevelopmentMode;

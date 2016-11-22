@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 #if __ANDROID__
 using Android.Net;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using SystemConfiguration;
 #elif WIN32
 using System.Net.NetworkInformation;
@@ -30,6 +30,7 @@ namespace InTheHand.Networking.Connectivity
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -45,7 +46,7 @@ namespace InTheHand.Networking.Connectivity
         {
             OnNetworkStatusChanged();
         }
-#elif __IOS__
+#elif __IOS__ || __TVOS__
         private static NetworkReachability _reachability;
         private static void ReachabilityNotification(NetworkReachabilityFlags flags)
         {
@@ -59,7 +60,7 @@ namespace InTheHand.Networking.Connectivity
 #if __ANDROID__
             _manager = ConnectivityManager.FromContext(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             //_manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             _reachability = new NetworkReachability("0.0.0.0");
 #endif
         }
@@ -73,7 +74,7 @@ namespace InTheHand.Networking.Connectivity
         {
 #if __ANDROID__
             return new ConnectionProfile(_manager.ActiveNetworkInfo);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             NetworkReachabilityFlags flags;
             if(_reachability.TryGetFlags(out flags))
             {
@@ -109,7 +110,7 @@ namespace InTheHand.Networking.Connectivity
                 {
 #if __ANDROID__
                     _manager.DefaultNetworkActive += _manager_DefaultNetworkActive;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                     _reachability.SetNotification(new NetworkReachability.Notification(ReachabilityNotification));
                     _reachability.Schedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -127,7 +128,7 @@ namespace InTheHand.Networking.Connectivity
                 {
 #if __ANDROID__
                     _manager.DefaultNetworkActive -= _manager_DefaultNetworkActive;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                     _reachability.Unschedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                     Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged -= NetworkInformation_NetworkStatusChanged;

@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-#if __IOS__
+#if __IOS__ || __TVOS__
 using Foundation;
 #endif
 using System;
@@ -37,7 +37,7 @@ namespace InTheHand
         /// <returns>A date and time value that represents the same moment in time as the Unix time. </returns>
         public static DateTimeOffset FromUnixTimeSeconds(long seconds)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || __TVOS__
             return DateTimeOffset.FromUnixTimeSeconds(seconds);
 #else
             return dt.AddSeconds(seconds);
@@ -52,7 +52,7 @@ namespace InTheHand
         /// <returns>A date and time value that represents the same moment in time as the Unix time. </returns>
         public static DateTimeOffset FromUnixTimeMilliseconds(long milliseconds)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || __TVOS__
             return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
 #else
             return dt.AddSeconds(milliseconds / 1000);
@@ -70,7 +70,7 @@ namespace InTheHand
         /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.</para></remarks>
         public static long ToUnixTimeSeconds(this DateTimeOffset date)
         {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || __TVOS__
             return date.ToUnixTimeSeconds();
 #else
             return Convert.ToInt64(date.Subtract(dt).TotalSeconds);
@@ -89,14 +89,14 @@ namespace InTheHand
         /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.</para></remarks>
         public static long ToUnixTimeMilliseconds(this DateTimeOffset date)
         {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || __TVOS__ || WIN32
             return date.ToUnixTimeMilliseconds();
 #else
             return Convert.ToInt64(date.Subtract(dt).TotalMilliseconds);
 #endif
         }
 
-#if __IOS__
+#if __IOS__ || __TVOS__
         private static readonly DateTimeOffset NSDateReferenceDate = new DateTimeOffset(2001, 1, 1, 0, 0, 0, TimeSpan.Zero);
         
         public static DateTimeOffset FromNSDate(NSDate date)

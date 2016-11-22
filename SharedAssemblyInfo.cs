@@ -26,6 +26,8 @@ using System.Resources;
 [assembly: AssemblyConfiguration("Windows Phone 8.1")]
 #elif __IOS__
 [assembly: AssemblyConfiguration("iOS")]
+#elif __TVOS__
+[assembly: AssemblyConfiguration("tvOS")]
 #elif __ANDROID__
 [assembly: AssemblyConfiguration("Android")]
 #elif __MAC__
@@ -56,6 +58,6 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("10.0.0.0")]
-[assembly: AssemblyFileVersion("10.2016.11.13")]
+[assembly: AssemblyFileVersion("10.2016.11.22")]
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

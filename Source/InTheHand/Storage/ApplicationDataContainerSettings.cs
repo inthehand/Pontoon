@@ -17,9 +17,9 @@ using Android.Content;
 using Android.Preferences;
 #elif WINDOWS_PHONE
 using System.IO.IsolatedStorage;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using Foundation;
-using global::System.Globalization;
+using System.Globalization;
 #endif
 
 //#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -64,8 +64,8 @@ namespace InTheHand.Storage
             applicationSettings = global::System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Deactivated += Current_Deactivated;
             Microsoft.Phone.Shell.PhoneApplicationService.Current.Closing += Current_Closing;
-#elif __IOS__
-            switch(locality)
+#elif __IOS__ || __TVOS__
+            switch (locality)
             {
                 case ApplicationDataLocality.Roaming:
                     _store = NSUbiquitousKeyValueStore.DefaultStore;
@@ -108,7 +108,7 @@ namespace InTheHand.Storage
                 {
 #if __ANDROID__
                     _preferences.RegisterOnSharedPreferenceChangeListener(this);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                     if (!IsRoaming)
                     {
                         _observer = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
@@ -147,7 +147,7 @@ namespace InTheHand.Storage
                 _mapChanged(this, new ApplicationDataMapChangedEventArgs(key, CollectionChange.Reset));
             }
         }
-#elif __IOS__
+#elif __IOS__ || __TVOS__
         private NSUserDefaults _defaults;
         private NSUbiquitousKeyValueStore _store;
 
@@ -199,42 +199,8 @@ namespace InTheHand.Storage
             }
 
             applicationSettings.Add(key, value);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             this[key] = value;
-
-            /*if (value == null)
-            {
-                _defaults.SetNilValueForKey(new NSString(key));
-            }
-            else
-            {
-                TypeCode code = Type.GetTypeCode(value.GetType());
-                switch (code)
-                {
-                    case TypeCode.String:
-                        _defaults.SetString(value.ToString(), key);
-                        break;
-                    case TypeCode.Int32:
-                        _defaults.SetInt((int)value, key);
-                        break;
-                    case TypeCode.Double:
-                        _defaults.SetDouble((double)value, key);
-                        break;
-                    case TypeCode.Single:
-                        _defaults.SetFloat((float)value, key);
-                        break;
-                    case TypeCode.Boolean:
-                        _defaults.SetBool((bool)value, key);
-                        break;
-                    case TypeCode.DateTime:
-                        NSDate nsd = NSDate.FromTimeIntervalSince1970(((DateTime)value).Ticks);
-                        _defaults.SetValueForKey(nsd, new NSString(key));
-                        break;
-
-                    default:
-                        break;
-                }
-            }*/
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -256,7 +222,7 @@ namespace InTheHand.Storage
             return _settings.ContainsKey(key);
 #elif WINDOWS_PHONE
             return applicationSettings.Contains(key);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             if (IsRoaming)
             {
                 return _store.ValueForKey(new NSString(key)) != null;
@@ -311,7 +277,7 @@ namespace InTheHand.Storage
             bool removed = _settings.Remove(key);
 #elif WINDOWS_PHONE
             bool removed = applicationSettings.Remove(key);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             bool removed = true;
             if (IsRoaming)
             {
@@ -389,7 +355,7 @@ namespace InTheHand.Storage
             return _settings.TryGetValue(key, out value);
 #elif WINDOWS_PHONE
             return applicationSettings.TryGetValue<object>(key, out value);
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             NSObject obj = null;
             if (IsRoaming)
             {
@@ -519,7 +485,7 @@ namespace InTheHand.Storage
                 }
                 
                 return value;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 NSObject obj = null;
                 if (IsRoaming)
                 {
@@ -563,7 +529,7 @@ namespace InTheHand.Storage
                     // if not present add a new value (matches RT behaviour)
                     Add(key, value);
                 }
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 if (value == null)
                 {
                     if (IsRoaming)
@@ -679,7 +645,7 @@ namespace InTheHand.Storage
             _settings.Clear();
 #elif WINDOWS_PHONE
             applicationSettings.Clear();
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             if (IsRoaming)
             {
                 _store.Init();
@@ -756,7 +722,7 @@ namespace InTheHand.Storage
                 return _settings.Count;
 #elif WINDOWS_PHONE
                 return applicationSettings.Count;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 return -1;
 #else
                 throw new PlatformNotSupportedException();
@@ -863,7 +829,7 @@ namespace InTheHand.Storage
     }
 #endif
 
-#if __IOS__
+#if __IOS__ || __TVOS__
     internal static class IOSTypeConverter
     {
         public static object ConvertToObject(NSObject obj)

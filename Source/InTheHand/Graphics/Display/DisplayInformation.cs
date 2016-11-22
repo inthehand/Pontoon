@@ -7,7 +7,7 @@
 //using System.Runtime.CompilerServices;
 //[assembly: TypeForwardedTo(typeof(Windows.Graphics.Display.DisplayInformation))]
 //#else
-#if __IOS__
+#if __IOS__ || __TVOS__
 using UIKit;
 #endif
 
@@ -25,6 +25,7 @@ namespace InTheHand.Graphics.Display
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -54,7 +55,7 @@ namespace InTheHand.Graphics.Display
 
 #if __ANDROID__
         private Android.Util.DisplayMetrics _metrics;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
         private UIScreen _screen;
         
         public static implicit operator UIScreen(DisplayInformation d)
@@ -79,7 +80,7 @@ namespace InTheHand.Graphics.Display
         {
 #if __ANDROID__
             _metrics = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             _screen = UIApplication.SharedApplication.KeyWindow.Screen;
 #endif
         }
@@ -93,7 +94,7 @@ namespace InTheHand.Graphics.Display
             {
 #if __ANDROID__
                 return _metrics.WidthPixels > _metrics.HeightPixels ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 return _screen.Bounds.Width > _screen.Bounds.Height ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return (DisplayOrientations)((int)_information.CurrentOrientation);
@@ -118,7 +119,7 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     rawDpiX = _metrics.Xdpi;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                     rawDpiX = (float?)_screen.NativeScale;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     return _information.RawDpiX;
@@ -154,7 +155,7 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     rawDpiY = _metrics.Ydpi;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                     rawDpiY = (float?)_screen.NativeScale;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     return _information.RawDpiY;
@@ -189,7 +190,7 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     _rawPixelsPerViewPixel = _metrics.Density;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                     _rawPixelsPerViewPixel = (float?)_screen.Scale;
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
                     return _information.RawPixelsPerViewPixel;

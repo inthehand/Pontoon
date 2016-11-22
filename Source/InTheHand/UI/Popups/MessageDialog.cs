@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using UIKit;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using Windows.UI.Core;
@@ -35,12 +35,11 @@ namespace InTheHand.UI.Popups
     /// If you don't specify any commands, then a default command is added to close the dialog.
     /// <para>The dialog dims the screen behind it and blocks touch events from passing to the app's canvas until the user responds.</para>
     /// <para>Message dialogs should be used sparingly, and only for critical messages or simple questions that must block the user's flow.</para>
-    /// </remarks>
-    /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -55,12 +54,12 @@ namespace InTheHand.UI.Popups
         private const int MaxCommands = 3;
 #endif
 
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || __TVOS__
         EventWaitHandle handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         IUICommand _selectedCommand;
 #endif
 
-#if __IOS__
+#if __IOS__ || __TVOS__
         UIAlertController uac = null;
        
 
@@ -147,7 +146,7 @@ namespace InTheHand.UI.Popups
                 return _selectedCommand;
             });
 
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             uac = UIAlertController.Create(Title, Content, UIAlertControllerStyle.Alert);
             if (Commands.Count == 0)
             {

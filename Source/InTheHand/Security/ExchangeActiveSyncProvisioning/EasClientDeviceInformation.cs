@@ -6,7 +6,7 @@
 
 #if __ANDROID__
 using Android.OS;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using Foundation;
 using UIKit;
 #elif WINDOWS_PHONE
@@ -23,6 +23,7 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item></list>
@@ -30,7 +31,7 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
     /// </remarks>
     public sealed class EasClientDeviceInformation
     {
-#if __IOS__
+#if __IOS__ || __TVOS__
         private UIDevice _device;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
         private Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation _deviceInformation;
@@ -46,7 +47,7 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
         /// </summary>
         public EasClientDeviceInformation()
         {
-#if __IOS__
+#if __IOS__ || __TVOS__
             _device = UIDevice.CurrentDevice;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             _deviceInformation = new Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation();
@@ -60,7 +61,7 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
         {
             get
             {
-#if __IOS__
+#if __IOS__ || __TVOS__
                 return _device.Name;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.FriendlyName;
@@ -80,7 +81,7 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
         {
             get
             {
-#if __IOS__
+#if __IOS__ || __TVOS__
                 return new Guid(_device.IdentifierForVendor.GetBytes());
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.Id;
@@ -104,6 +105,8 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
             {
 #if __IOS__
                 return "Apple iOS";
+#elif __TVOS__
+                return "Apple tvOS";
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.OperatingSystem;
 #elif WINDOWS_PHONE
@@ -121,7 +124,7 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
         {
             get
             {
-#if __IOS__
+#if __IOS__ || __TVOS__
                 return "Apple";
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.SystemManufacturer;
@@ -141,7 +144,7 @@ namespace InTheHand.Security.ExchangeActivesyncProvisioning
         {
             get
             {
-#if __IOS__
+#if __IOS__ || __TVOS__
                 return _device.Model;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.SystemProductName;

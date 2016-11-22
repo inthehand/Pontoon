@@ -14,6 +14,7 @@ This library provides a common API across Windows and Xamarin platforms allowing
 - Windows Desktop Apps (Windows Vista+, .NET 4.5.1+)
 - Android 4.4+
 - iOS 9+
+- tvOS 9+
 - Tizen 3.0+
 - Xamarin Mac (Coming soon)
 

@@ -11,7 +11,7 @@
 using System;
 #if __ANDROID__
 using Android.Net;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using SystemConfiguration;
 #elif WIN32
 using System.Net.NetworkInformation;
@@ -27,6 +27,7 @@ namespace InTheHand.Networking.Connectivity
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -41,7 +42,7 @@ namespace InTheHand.Networking.Connectivity
         {
             _info = info;
         }
-#elif __IOS__
+#elif __IOS__ || __TVOS__
         private NetworkReachabilityFlags _flags;
 
         internal ConnectionProfile(NetworkReachabilityFlags flags)
@@ -87,8 +88,8 @@ namespace InTheHand.Networking.Connectivity
             }
 
             return NetworkConnectivityLevel.None;
-#elif __IOS__
-            switch(_flags)
+#elif __IOS__ || __TVOS__
+            switch (_flags)
             {
                 case NetworkReachabilityFlags.Reachable:
                     return NetworkConnectivityLevel.InternetAccess;

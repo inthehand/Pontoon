@@ -21,7 +21,7 @@ using InTheHand.System;
 #if __ANDROID__
 using Android.App;
 using Android.Content.PM;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using Foundation;
 #endif
 
@@ -71,7 +71,7 @@ namespace InTheHand.ApplicationModel
         {
             get
             {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || __TVOS__ || WIN32
                 return (ProcessorArchitecture)((int)global::System.Reflection.Assembly.GetEntryAssembly().GetName().ProcessorArchitecture);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (ProcessorArchitecture)((int)_packageId.Architecture);
@@ -91,7 +91,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return Android.App.Application.Context.PackageName;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 return NSBundle.MainBundle.InfoDictionary["CFBundleIdentifier"].ToString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _packageId.FullName;
@@ -114,7 +114,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return _packageInfo.PackageName;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 return NSBundle.MainBundle.InfoDictionary["CFBundleExecutable"].ToString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 return _packageId.Name;
@@ -181,7 +181,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return global::System.Version.Parse(_packageInfo.VersionName).ToPackageVersion();
-#elif __IOS__
+#elif __IOS__ || __TVOS__
                 string rawVersion = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
                 // TODO: use Regex to replace alpha char with period
                 string cleanVersion = rawVersion.Replace('a', '.').Replace('b','.').Replace('d','.').Replace("fc", ".");

@@ -105,7 +105,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || __TVOS__ 
                 return new StorageFolder(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal));
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return new StorageFolder(_applicationData.LocalFolder);
@@ -171,7 +171,7 @@ namespace InTheHand.Storage
 #else
                 if (_roamingSettings == null)
                 {
-#if __IOS__
+#if __IOS__ || __TVOS__ 
                     _roamingSettings = new ApplicationDataContainer(ApplicationDataLocality.Roaming, string.Empty);
 #endif
                 }
@@ -190,7 +190,7 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__
                 return new StorageFolder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.CacheDir.AbsolutePath);
-#elif __IOS__
+#elif __IOS__ || __TVOS__ 
                 return new StorageFolder("tmp/");
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return new StorageFolder(_applicationData.TemporaryFolder);

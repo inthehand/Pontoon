@@ -57,9 +57,12 @@ namespace InTheHand.Phone.Devices.Notification
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 _default = new VibrationDevice();
 #elif TIZEN
-                if(Tizen.System.Vibrator.Vibrators.Count > 0)
+                if (Tizen.System.RuntimeInformation.GetStatus<bool>(Tizen.System.RuntimeInformationKey.Vibration))
                 {
-                    _default = new VibrationDevice();
+                    if (Tizen.System.Vibrator.NumberOfVibrators > 0)
+                    {
+                        _default = new VibrationDevice();
+                    }
                 }
 
 #elif WINDOWS_UWP

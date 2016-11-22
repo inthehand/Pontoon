@@ -8,17 +8,31 @@
 //[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geoposition))]
 //#else
 
-#if __IOS__
+#if __IOS__ || __TVOS__
 using CoreLocation;
 #elif WIN32
 using System.Device.Location;
 #endif
+
+using System;
 
 namespace InTheHand.Devices.Geolocation
 {
     /// <summary>
     /// Represents a location that may contain latitude and longitude data or venue data.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public sealed class Geoposition
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -38,7 +52,7 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geoposition(gp);
         }
-#elif __IOS__
+#elif __IOS__ || __TVOS__
         // constructor from CoreLocation location
         internal Geoposition(CLLocation location)
         {
@@ -53,7 +67,7 @@ namespace InTheHand.Devices.Geolocation
                 {
                     Coordinate.AltitudeAccuracy = location.VerticalAccuracy;
                 }
-
+#if __IOS__
                 if (!double.IsNaN(location.Course) && location.Course != -1)
                 {
                     Coordinate.Heading = location.Course;
@@ -63,9 +77,19 @@ namespace InTheHand.Devices.Geolocation
                 {
                     Coordinate.Speed = location.Speed;
                 }
-
+#endif
                 Coordinate.Timestamp = InTheHand.DateTimeOffsetHelper.FromNSDate(location.Timestamp);
             }
+        }
+#elif TIZEN
+        internal Geoposition(Tizen.Location.Location location)
+        {
+            Coordinate = new Geolocation.Geocoordinate();
+            Coordinate.Point = new Geolocation.Geopoint(new Geolocation.BasicGeoposition() { Latitude = location.Latitude, Longitude = location.Longitude, Altitude = location.Altitude });
+            Coordinate.Accuracy = location.HorizontalAccuracy;
+            Coordinate.Timestamp = new DateTimeOffset(location.Timestamp);
+            Coordinate.Heading = location.Direction;
+            Coordinate.Speed = location.Speed;
         }
 #elif WIN32
         internal Geoposition(GeoPosition<GeoCoordinate> position)
@@ -81,9 +105,9 @@ namespace InTheHand.Devices.Geolocation
         }
 #endif
 
-        /// <summary>
-        /// The latitude and longitude associated with a geographic location.
-        /// </summary>
+                /// <summary>
+                /// The latitude and longitude associated with a geographic location.
+                /// </summary>
         public Geocoordinate Coordinate
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE

@@ -3,15 +3,11 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.System.Launcher))]
-//#else
 
 #if __ANDROID__
 using Android.App;
 using Android.Content;
-#elif __IOS__
+#elif __IOS__ || __TVOS__
 using UIKit;
 #endif
 using InTheHand.Storage;
@@ -29,6 +25,7 @@ namespace InTheHand.System
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -122,10 +119,10 @@ namespace InTheHand.System
                 }
                 catch { return false; }
             });
-#elif __IOS__
+#elif __IOS__ || __TVOS__
             return Task.Run<bool>(() =>
             {
-                return UIKit.UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
+                return UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(uri).AsTask();
@@ -165,7 +162,7 @@ namespace InTheHand.System
         /// </remarks>
         public static Task<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {
-#if __IOS__
+#if __IOS__ || __TVOS__
             if(launchQuerySupportType == LaunchQuerySupportType.UriForResults)
             {
                 return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.AppNotInstalled);
@@ -183,4 +180,3 @@ namespace InTheHand.System
         }
     }
 }
-//#endif
