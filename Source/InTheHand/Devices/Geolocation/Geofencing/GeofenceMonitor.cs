@@ -13,10 +13,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-#if __IOS__
+#if __UNIFIED__
 using Foundation;
 using CoreLocation;
+#if __IOS__
 using UIKit;
+#endif
 #endif
 
 
@@ -29,6 +31,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     /// <list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -53,7 +56,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             }
         }
 
-#if __IOS__
+#if __UNIFIED__
         internal CLLocationManager _locationManager;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geofencing.GeofenceMonitor _monitor;
@@ -69,19 +72,23 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
         private GeofenceMonitor()
         {
-#if __IOS__
+#if __UNIFIED__
             _locationManager = new CLLocationManager();
             _locationManager.DesiredAccuracy = CLLocation.AccuracyBest;
             maxRegion = _locationManager.MaximumRegionMonitoringDistance;
-            _locationManager.AllowsBackgroundLocationUpdates = true;
             _locationManager.AuthorizationChanged += _locationManager_AuthorizationChanged;
             _locationManager.LocationsUpdated += _locationManager_LocationsUpdated;
+#if __IOS__
+            _locationManager.AllowsBackgroundLocationUpdates = true;
+           
             UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
             {
                 _locationManager.RequestAlwaysAuthorization();
             });
-
             if (!CLLocationManager.IsMonitoringAvailable(typeof(CLCircularRegion)))
+#else
+            if (!CLLocationManager.IsMonitoringAvailable(new ObjCRuntime.Class("CLCircularRegion")))          
+#endif       
             {
                 Status = GeofenceMonitorStatus.NotAvailable;
                 throw new PlatformNotSupportedException();
@@ -94,7 +101,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #endif
         }
 
-#if __IOS__
+#if __UNIFIED__
         private void _locationManager_LocationsUpdated(object sender, CLLocationsUpdatedEventArgs e)
         {
             Status = GeofenceMonitorStatus.Ready;
@@ -139,7 +146,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             return reportSnapshot;
         }
 
-#if __IOS__
+#if __UNIFIED__
         private void _locationManager_RegionLeft(object sender, CLRegionEventArgs e)
         {
             lock (_reports)
@@ -168,7 +175,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             get
             {
-#if __IOS__
+#if __UNIFIED__
                 return new GeofenceList(this);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 List<Geofence> fences = new List<Geofence>();
@@ -184,10 +191,15 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             }
         }
 
-#if __IOS__
+#if __UNIFIED__
+    
         internal void AddRegion(CLRegion region)
         {
+#if __IOS__
             _locationManager.StartMonitoring(region, CLLocation.AccuracyBest);
+#else
+            _locationManager.StartMonitoring(region);
+#endif
             Status = GeofenceMonitorStatus.Ready;
         }
 
@@ -197,15 +209,17 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         }
 #endif
 
-        /// <summary>
-        /// Last reading of the device's location.
-        /// </summary>
+            /// <summary>
+            /// Last reading of the device's location.
+            /// </summary>
         public Geoposition LastKnownGeoposition
         {
             get
             {
+#if __UNIFIED__
 #if __IOS__
                 _locationManager.RequestLocation();
+#endif
                 return new Geoposition(_locationManager.Location);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _monitor.LastKnownGeoposition;
@@ -322,7 +336,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
     }
 
-#if __IOS__
+#if __UNIFIED__
     internal sealed class GeofenceList : Collection<Geofence>
     {
 

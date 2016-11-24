@@ -14,9 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#if __IOS__
+#if __UNIFIED__
 using Foundation;
-using UIKit;
 using CoreLocation;
 #endif
 
@@ -29,6 +28,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     /// <list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -52,7 +52,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             return new Geofence(f);
         }
-#elif __IOS__
+#elif __UNIFIED__
         private Geocircle _shape;
 
 
@@ -84,7 +84,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _fence = new Windows.Devices.Geolocation.Geofencing.Geofence(id, (Windows.Devices.Geolocation.Geocircle)((Geocircle)geoshape));
-#elif __IOS__
+#elif __UNIFIED__
             _shape = (Geocircle)geoshape;
 
             if(_shape.Radius > GeofenceMonitor.Current.maxRegion)
@@ -108,8 +108,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return (Geocircle)(Windows.Devices.Geolocation.Geocircle)_fence.Geoshape;
-#elif __IOS__
-                if(_shape == null)
+#elif __UNIFIED__
+                if (_shape == null)
                 {
                     _shape = new Geocircle(new BasicGeoposition() { Latitude= _region.Center.Latitude, Longitude = _region.Center.Longitude }, _region.Radius);
                 }
@@ -130,7 +130,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _fence.Id;
-#elif __IOS__
+#elif __UNIFIED__
                 return _region.Identifier;
 #else
                 throw new PlatformNotSupportedException();
@@ -148,7 +148,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             return base.Equals(obj);
         }
 
-#if __IOS__
+#if __UNIFIED__
         /// <summary>
         /// 
         /// </summary>
@@ -167,6 +167,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     /// <list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>maxOS 10.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -178,14 +179,17 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         /// No flag is set.
         /// </summary>
         None = 0,
+
         /// <summary>
         /// The device has entered a geofence area.
         /// </summary>
         Entered = 1,
+
         /// <summary>
         /// The device has left a geofence area.
         /// </summary>
         Exited = 2,
+
         /// <summary>
         /// The geofence has been removed.
         /// <para>Not supported on iOS.</para>

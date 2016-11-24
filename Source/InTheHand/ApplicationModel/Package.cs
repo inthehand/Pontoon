@@ -23,7 +23,7 @@ using InTheHand.Storage;
 using Android.App;
 using Android.Content.PM;
 using InTheHand;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
 using Foundation;
 #elif WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_UWP || WINDOWS_PHONE_81
 using System.Reflection;
@@ -41,6 +41,8 @@ namespace InTheHand.ApplicationModel
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -70,7 +72,7 @@ namespace InTheHand.ApplicationModel
 
 #if __ANDROID__
         PackageInfo _packageInfo;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
         NSBundle _mainBundle;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         Windows.ApplicationModel.Package _package;
@@ -92,7 +94,7 @@ namespace InTheHand.ApplicationModel
         {
 #if __ANDROID__
             _packageInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.MetaData);
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
             _mainBundle = NSBundle.MainBundle;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _package = Windows.ApplicationModel.Package.Current;
@@ -133,7 +135,7 @@ namespace InTheHand.ApplicationModel
 #if __ANDROID__
                 return Application.Context.PackageManager.GetApplicationLabel(_packageInfo.ApplicationInfo);
                 //return _packageInfo.PackageName;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
                 return _mainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return AppxManifest.Current.DisplayName;
@@ -181,7 +183,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return DateTimeOffsetHelper.FromUnixTimeMilliseconds(_packageInfo.FirstInstallTime);
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
                 DateTime d = Directory.GetCreationTime(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.MyDocuments));
                 return new DateTimeOffset(d);
 #elif WINDOWS_UWP
@@ -216,7 +218,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return new StorageFolder(Application.Context.PackageCodePath);
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
                 return new StorageFolder(NSBundle.MainBundle.BundlePath);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return new StorageFolder(_package.InstalledLocation);
@@ -244,7 +246,7 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return Android.App.Application.Context.PackageManager.GetInstallerPackageName(_packageInfo.PackageName) == null;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
                 return !File.Exists(_mainBundle.AppStoreReceiptUrl.Path);
 #elif WINDOWS_UWP || WINDOWS_APP
                 return _package.IsDevelopmentMode;

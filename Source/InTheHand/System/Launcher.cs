@@ -9,6 +9,8 @@ using Android.App;
 using Android.Content;
 #elif __IOS__ || __TVOS__
 using UIKit;
+#elif __MAC__
+using AppKit;
 #endif
 using InTheHand.Storage;
 using System;
@@ -25,6 +27,7 @@ namespace InTheHand.System
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -106,6 +109,17 @@ namespace InTheHand.System
         /// <param name="uri">The URI.</param>
         /// <param name="options">Ignored on Android and iOS.</param>
         /// <returns>The launch operation.</returns>
+        /// <remarks>    
+        /// <list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         internal static Task<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
         {
 #if __ANDROID__
@@ -119,10 +133,14 @@ namespace InTheHand.System
                 }
                 catch { return false; }
             });
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
             return Task.Run<bool>(() =>
             {
+#if __MAC__
+                return NSWorkspace.SharedWorkspace.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
+#else
                 return UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
+#endif
             });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(uri).AsTask();
@@ -131,13 +149,24 @@ namespace InTheHand.System
 #else
             throw new PlatformNotSupportedException();
 #endif
-        }
+            }
 
         /// <summary>
         /// Starts the default app associated with the URI scheme name for the specified URI.
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns>The launch operation.</returns>
+        /// <remarks>    
+        /// <list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         public static Task<bool> LaunchUriAsync(Uri uri)
         {
             return LaunchUriAsync(uri, new LauncherOptions());
@@ -154,6 +183,7 @@ namespace InTheHand.System
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
         /// <item><term>Android</term><description>-</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Store</term><description>-</description></item>
         /// <item><term>Windows Phone Store</term><description>-</description></item>
@@ -167,6 +197,7 @@ namespace InTheHand.System
             {
                 return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.AppNotInstalled);
             }
+
             return Task.FromResult<LaunchQuerySupportStatus>(UIKit.UIApplication.SharedApplication.CanOpenUrl(uri) ? LaunchQuerySupportStatus.Available : LaunchQuerySupportStatus.AppNotInstalled);
 #elif WINDOWS_UWP
             return Task.Run<LaunchQuerySupportStatus>(async () =>

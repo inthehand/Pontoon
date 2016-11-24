@@ -8,7 +8,7 @@
 //[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geoposition))]
 //#else
 
-#if __IOS__ || __TVOS__
+#if __UNIFIED__
 using CoreLocation;
 #elif WIN32
 using System.Device.Location;
@@ -25,6 +25,7 @@ namespace InTheHand.Devices.Geolocation
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -52,7 +53,7 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geoposition(gp);
         }
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
         // constructor from CoreLocation location
         internal Geoposition(CLLocation location)
         {
@@ -67,7 +68,7 @@ namespace InTheHand.Devices.Geolocation
                 {
                     Coordinate.AltitudeAccuracy = location.VerticalAccuracy;
                 }
-#if __IOS__
+#if __IOS__ || __MAC__
                 if (!double.IsNaN(location.Course) && location.Course != -1)
                 {
                     Coordinate.Heading = location.Course;

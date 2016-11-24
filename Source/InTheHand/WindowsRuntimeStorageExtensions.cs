@@ -27,7 +27,7 @@ namespace System.IO
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync((global::Windows.Storage.StorageFile)((StorageFile)windowsRuntimeFile));
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __UNIFIED__ || WIN32
             if (windowsRuntimeFile == null)
             {
                 throw new ArgumentNullException("windowsRuntimeFile");
@@ -49,7 +49,7 @@ namespace System.IO
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return WindowsRuntimeStorageExtensions.OpenStreamForReadAsync((global::Windows.Storage.StorageFolder)((StorageFolder)rootDirectory), relativePath);
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __UNIFIED__ || WIN32
             string newPath = Path.Combine(rootDirectory.Path, relativePath);
             return Task.FromResult<Stream>(global::System.IO.File.OpenRead(newPath));
 #else
@@ -66,7 +66,7 @@ namespace System.IO
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync((global::Windows.Storage.StorageFile)((StorageFile)windowsRuntimeFile));
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __UNIFIED__ || WIN32
             if (windowsRuntimeFile == null)
             {
                 throw new ArgumentNullException("windowsRuntimeFile");
@@ -89,7 +89,7 @@ namespace System.IO
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return WindowsRuntimeStorageExtensions.OpenStreamForWriteAsync((global::Windows.Storage.StorageFolder)((StorageFolder)rootDirectory), relativePath, (global::Windows.Storage.CreationCollisionOption)((int)creationCollisionOption));
-#elif __ANDROID__ || __IOS__ || WIN32
+#elif __ANDROID__ || __UNIFIED__ || WIN32
             string newPath = Path.Combine(rootDirectory.Path, relativePath);
             return Task.FromResult<Stream>(global::System.IO.File.OpenWrite(newPath));
 #else

@@ -4,7 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-#if __IOS__ || __TVOS__
+#if __UNIFIED__
 using Foundation;
 #endif
 using System;
@@ -19,6 +19,7 @@ namespace InTheHand
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -37,7 +38,7 @@ namespace InTheHand
         /// <returns>A date and time value that represents the same moment in time as the Unix time. </returns>
         public static DateTimeOffset FromUnixTimeSeconds(long seconds)
         {
-#if __ANDROID__ || __IOS__ || __TVOS__
+#if __ANDROID__ || __UNIFIED__ || TIZEN
             return DateTimeOffset.FromUnixTimeSeconds(seconds);
 #else
             return dt.AddSeconds(seconds);
@@ -52,7 +53,7 @@ namespace InTheHand
         /// <returns>A date and time value that represents the same moment in time as the Unix time. </returns>
         public static DateTimeOffset FromUnixTimeMilliseconds(long milliseconds)
         {
-#if __ANDROID__ || __IOS__ || __TVOS__
+#if __ANDROID__ || __UNIFIED__ || TIZEN
             return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds);
 #else
             return dt.AddSeconds(milliseconds / 1000);
@@ -70,7 +71,7 @@ namespace InTheHand
         /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.</para></remarks>
         public static long ToUnixTimeSeconds(this DateTimeOffset date)
         {
-#if __ANDROID__ || __IOS__ || __TVOS__
+#if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return date.ToUnixTimeSeconds();
 #else
             return Convert.ToInt64(date.Subtract(dt).TotalSeconds);
@@ -89,14 +90,14 @@ namespace InTheHand
         /// For date and time values before 1970-01-01T00:00:00Z, this method returns a negative value.</para></remarks>
         public static long ToUnixTimeMilliseconds(this DateTimeOffset date)
         {
-#if __ANDROID__ || __IOS__ || __TVOS__ || WIN32
+#if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return date.ToUnixTimeMilliseconds();
 #else
             return Convert.ToInt64(date.Subtract(dt).TotalMilliseconds);
 #endif
         }
 
-#if __IOS__ || __TVOS__
+#if __UNIFIED__
         private static readonly DateTimeOffset NSDateReferenceDate = new DateTimeOffset(2001, 1, 1, 0, 0, 0, TimeSpan.Zero);
         
         public static DateTimeOffset FromNSDate(NSDate date)

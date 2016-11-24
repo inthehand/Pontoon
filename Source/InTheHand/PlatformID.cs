@@ -3,7 +3,7 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-#if __ANDROID__ || __IOS__ || __TVOS__ || WINDOWS_PHONE || WIN32
+#if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE || WIN32
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.PlatformID))]
 #else

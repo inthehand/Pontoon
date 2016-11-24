@@ -90,7 +90,7 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _file.CopyAndReplaceAsync((Windows.Storage.StorageFile)((StorageFile)fileToReplace)).AsTask();
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32
+#elif __ANDROID__ || __UNIFIED__ || WIN32
             return Task.Run(() =>
             {
                 File.Replace(Path, fileToReplace.Path, null);
@@ -139,7 +139,7 @@ namespace InTheHand.Storage
 
                 return f == null ? null : new StorageFile(f);
             });
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<StorageFile>(() =>
             {
                 string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
@@ -172,7 +172,7 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _file.DeleteAsync((Windows.Storage.StorageDeleteOption)((int)option)).AsTask();
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(() =>
             {
                 global::System.IO.File.Delete(Path);
@@ -194,7 +194,7 @@ namespace InTheHand.Storage
                 var p = await _file.GetBasicPropertiesAsync();
                 return new BasicProperties(p);
             });
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.FromResult<BasicProperties>(new BasicProperties(this));
 #else
             throw new PlatformNotSupportedException();
@@ -213,7 +213,7 @@ namespace InTheHand.Storage
                 var parent = await _file.GetParentAsync();
                 return parent == null ? null : new StorageFolder(parent);
             });
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<StorageFolder>(() =>
             {
                 var parent = global::System.IO.Directory.GetParent(Path);
@@ -259,7 +259,7 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _file.MoveAsync((Windows.Storage.StorageFolder)((StorageFolder)destinationFolder), desiredNewName).AsTask();
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(() =>
             {
                 string newPath = global::System.IO.Path.Combine(destinationFolder.Path, desiredNewName);
@@ -284,7 +284,7 @@ namespace InTheHand.Storage
             }
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _file.MoveAndReplaceAsync((Windows.Storage.StorageFile)((StorageFile)fileToReplace)).AsTask();
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(async () =>
             {
                 string fileName = fileToReplace.Name;
@@ -328,7 +328,7 @@ namespace InTheHand.Storage
 
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _file.RenameAsync(desiredName, (Windows.Storage.NameCollisionOption)((int)option)).AsTask();
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(() =>
             {
                 string folder = global::System.IO.Path.GetDirectoryName(Path);
@@ -376,7 +376,7 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return (FileAttributes)((int)_file.Attributes);
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return FileAttributesHelper.FromIOFileAttributes(global::System.IO.File.GetAttributes(Path));
 #else
                 throw new PlatformNotSupportedException();
@@ -393,7 +393,7 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _file.DateCreated;
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 var utc = global::System.IO.File.GetCreationTimeUtc(Path);
                 var local = global::System.IO.File.GetCreationTime(Path);
                 var offset = local - utc;
@@ -425,7 +425,7 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _file.ContentType;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
                 string mime = string.Empty;
 
                 string utref = MobileCoreServices.UTType.CreatePreferredIdentifier(MobileCoreServices.UTType.TagClassFilenameExtension, FileType.Substring(1).ToLower(), null);
@@ -451,7 +451,7 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _file.FileType;
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return global::System.IO.Path.GetExtension(Path);
 #else
                 return string.Empty;
@@ -468,7 +468,7 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _file.Name;
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return global::System.IO.Path.GetFileName(Path);
 #else
                 return string.Empty;
@@ -485,7 +485,7 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _file.Path;
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || TIZEN
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return _path;
 #else
                 return string.Empty;

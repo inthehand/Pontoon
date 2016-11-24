@@ -18,6 +18,7 @@ namespace InTheHand.System
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>

@@ -17,6 +17,7 @@ namespace InTheHand
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -37,7 +38,7 @@ namespace InTheHand
             {
                 if(_operatingSystem == null)
                 {
-#if __ANDROID__ || __IOS__ || __TVOS__ || WIN32 || WINDOWS_PHONE
+#if __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_PHONE
                     _operatingSystem = global::System.Environment.OSVersion;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     Version version;

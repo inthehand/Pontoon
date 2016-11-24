@@ -16,6 +16,7 @@ namespace InTheHand.System.Profile
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -84,7 +85,7 @@ namespace InTheHand.System.Profile
         {
             get
             {
-#if __ANDROID__ || __IOS__ || __TVOS__ || __MAC__ || WINDOWS_PHONE || WIN32
+#if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE || WIN32
                 return global::System.Environment.OSVersion.Version.ToString();
 #elif WINDOWS_UWP
                 return Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
