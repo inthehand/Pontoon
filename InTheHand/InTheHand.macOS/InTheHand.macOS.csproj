@@ -233,6 +233,18 @@
     <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
       <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
+      <Link>UI\Notifications\BadgeNotification.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
+      <Link>UI\Notifications\BadgeNotificationCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdateManager.cs">
+      <Link>UI\Notifications\BadgeUpdateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
+      <Link>UI\Notifications\BadgeUpdater.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
     </Compile>
