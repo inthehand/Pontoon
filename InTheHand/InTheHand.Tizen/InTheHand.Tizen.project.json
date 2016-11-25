@@ -3,8 +3,9 @@
     "NETStandard.Library": "1.6.0",
     "Tizen.Applications": "1.0.2",
     "Tizen.Applications.Badge": "1.0.2",
-    "Tizen.Library": "1.0.0-pre1",
+    "Tizen.Content.MimeType": "1.0.2",
     "Tizen.Location": "1.0.3",
+    "Tizen.Network": "1.0.5",
     "Tizen.Sensor": "1.0.4",
     "Tizen.System": "1.0.5"
   },

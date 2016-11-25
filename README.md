@@ -16,7 +16,7 @@ This library provides a common API across Windows and Xamarin platforms allowing
 - iOS 9+
 - tvOS 9+
 - Tizen 3.0+
-- Xamarin Mac (Coming soon)
+- Xamarin Mac (OS X 10.7+)
 
 ## Feedback and Requests
 Please use [GitHub issues](https://github.com/inthehand/Pontoon/issues) for questions or comments.

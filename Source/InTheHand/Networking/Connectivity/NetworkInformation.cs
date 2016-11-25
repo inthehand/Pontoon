@@ -31,6 +31,7 @@ namespace InTheHand.Networking.Connectivity
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -84,6 +85,9 @@ namespace InTheHand.Networking.Connectivity
                     return new ConnectionProfile(flags);
                 }
             }
+#elif TIZEN
+            return Tizen.Network.Connection.ConnectionManager.CurrentConnection;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return new ConnectionProfile(Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile());
 #elif WIN32
@@ -155,10 +159,7 @@ namespace InTheHand.Networking.Connectivity
 
         private static void OnNetworkStatusChanged()
         {
-            if(networkStatusChanged != null)
-            {
-                networkStatusChanged(null);
-            }
+            networkStatusChanged?.Invoke(null);
         }
     }
 }

@@ -3,15 +3,6 @@
   "version": 2,
   "targets": {
     ".NETStandard,Version=v1.3": {
-      "ElmSharp/1.0.14": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard1.3/ElmSharp.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/ElmSharp.dll": {}
-        }
-      },
       "Microsoft.NETCore.Platforms/1.0.1": {
         "type": "package",
         "compile": {
@@ -828,18 +819,6 @@
           "lib/netstandard1.3/Tizen.Applications.Badge.dll": {}
         }
       },
-      "Tizen.Content.MediaContent/1.0.5": {
-        "type": "package",
-        "dependencies": {
-          "Tizen": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Content.MediaContent.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Content.MediaContent.dll": {}
-        }
-      },
       "Tizen.Content.MimeType/1.0.2": {
         "type": "package",
         "dependencies": {
@@ -850,25 +829,6 @@
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.Content.MimeType.dll": {}
-        }
-      },
-      "Tizen.Library/1.0.0-pre1": {
-        "type": "package",
-        "dependencies": {
-          "ElmSharp": "1.0.14",
-          "Tizen": "1.0.2",
-          "Tizen.Applications": "1.0.2",
-          "Tizen.Applications.Badge": "1.0.2",
-          "Tizen.Content.MediaContent": "1.0.5",
-          "Tizen.Content.MimeType": "1.0.2",
-          "Tizen.Location": "1.0.3",
-          "Tizen.Multimedia": "1.0.14",
-          "Tizen.Network": "1.0.5",
-          "Tizen.Security": "1.0.5",
-          "Tizen.Security.SecureRepository": "1.0.6",
-          "Tizen.Sensor": "1.0.4",
-          "Tizen.System": "1.0.5",
-          "Tizen.Tracer": "1.0.3"
         }
       },
       "Tizen.Location/1.0.3": {
@@ -883,19 +843,6 @@
           "lib/netstandard1.3/Tizen.Location.dll": {}
         }
       },
-      "Tizen.Multimedia/1.0.14": {
-        "type": "package",
-        "dependencies": {
-          "ElmSharp": "1.0.14",
-          "Tizen": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Multimedia.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Multimedia.dll": {}
-        }
-      },
       "Tizen.Network/1.0.5": {
         "type": "package",
         "dependencies": {
@@ -906,30 +853,6 @@
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.Network.dll": {}
-        }
-      },
-      "Tizen.Security/1.0.5": {
-        "type": "package",
-        "dependencies": {
-          "Tizen.Applications": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Security.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Security.dll": {}
-        }
-      },
-      "Tizen.Security.SecureRepository/1.0.6": {
-        "type": "package",
-        "dependencies": {
-          "Tizen": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Security.SecureRepository.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Security.SecureRepository.dll": {}
         }
       },
       "Tizen.Sensor/1.0.4": {
@@ -956,33 +879,10 @@
         "runtime": {
           "lib/netstandard1.3/Tizen.System.dll": {}
         }
-      },
-      "Tizen.Tracer/1.0.3": {
-        "type": "package",
-        "dependencies": {
-          "Tizen": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Tracer.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Tracer.dll": {}
-        }
       }
     }
   },
   "libraries": {
-    "ElmSharp/1.0.14": {
-      "sha512": "Dm0j2qgiuCqQhrw+wafm5Oq8tV0nj5jSp7BFxVKthX9VGbZa9ArExUIdtz3fba185kbyYh9UzemngdrB2eX4Cg==",
-      "type": "package",
-      "path": "ElmSharp/1.0.14",
-      "files": [
-        "ElmSharp.1.0.14.nupkg.sha512",
-        "ElmSharp.nuspec",
-        "lib/net45/ElmSharp.dll",
-        "lib/netstandard1.3/ElmSharp.dll"
-      ]
-    },
     "Microsoft.NETCore.Platforms/1.0.1": {
       "sha512": "2G6OjjJzwBfNOO8myRV/nFrbTw5iA+DEm0N+qUqhrOmaVtn4pC77h38I1jsXGw5VH55+dPfQsqHD0We9sCl9FQ==",
       "type": "package",
@@ -3694,17 +3594,6 @@
         "lib/netstandard1.3/Tizen.Applications.Badge.dll"
       ]
     },
-    "Tizen.Content.MediaContent/1.0.5": {
-      "sha512": "giFWEG6TrIHcVLeYK2UQBxUQcWcCOPkvbGUsMCdMTo/MrQU5f1AAIWYMnLbIp1IiClFpXHvYQ94C+zu83CaALQ==",
-      "type": "package",
-      "path": "Tizen.Content.MediaContent/1.0.5",
-      "files": [
-        "Tizen.Content.MediaContent.1.0.5.nupkg.sha512",
-        "Tizen.Content.MediaContent.nuspec",
-        "lib/net45/Tizen.Content.MediaContent.dll",
-        "lib/netstandard1.3/Tizen.Content.MediaContent.dll"
-      ]
-    },
     "Tizen.Content.MimeType/1.0.2": {
       "sha512": "jCUoNCHOtxT53RqHi3rs8cGUwFH9/P4Xx1GvJKpi/+b3TP/VYwhJkBMLHxSXn03BBnoeS9OYXpi9o9Gn6B429A==",
       "type": "package",
@@ -3714,15 +3603,6 @@
         "Tizen.Content.MimeType.nuspec",
         "lib/net45/Tizen.Content.MimeType.dll",
         "lib/netstandard1.3/Tizen.Content.MimeType.dll"
-      ]
-    },
-    "Tizen.Library/1.0.0-pre1": {
-      "sha512": "Yi7tdqsQgOKK4t4pfPGppg03+I7ZY1Zw7Fb+qe0FoNqSf+L0UGBLF9my9HVPSe9Nw5GlMkKy02yDLdCgW2cFtg==",
-      "type": "package",
-      "path": "Tizen.Library/1.0.0-pre1",
-      "files": [
-        "Tizen.Library.1.0.0-pre1.nupkg.sha512",
-        "Tizen.Library.nuspec"
       ]
     },
     "Tizen.Location/1.0.3": {
@@ -3736,17 +3616,6 @@
         "lib/netstandard1.3/Tizen.Location.dll"
       ]
     },
-    "Tizen.Multimedia/1.0.14": {
-      "sha512": "gPu4lEkJFtuNM7zyA/mGDchsaXygmIdUhsxal2YjtHj5qsA/zQRIcza8727cmufXI77WUSTjOHHj3m/VSCf6eg==",
-      "type": "package",
-      "path": "Tizen.Multimedia/1.0.14",
-      "files": [
-        "Tizen.Multimedia.1.0.14.nupkg.sha512",
-        "Tizen.Multimedia.nuspec",
-        "lib/net45/Tizen.Multimedia.dll",
-        "lib/netstandard1.3/Tizen.Multimedia.dll"
-      ]
-    },
     "Tizen.Network/1.0.5": {
       "sha512": "d6bbc3H+X0DnqjC7vkgA6y3y8CyN6njkcw/EXoetvk0NsLIS+BkGiJ4Xo52iM51yyQcBGPaF+a8O0yLmgUPjUg==",
       "type": "package",
@@ -3756,28 +3625,6 @@
         "Tizen.Network.nuspec",
         "lib/net45/Tizen.Network.dll",
         "lib/netstandard1.3/Tizen.Network.dll"
-      ]
-    },
-    "Tizen.Security/1.0.5": {
-      "sha512": "1rKm7qCNoKLXGXNYw62L1/zhEnUFOpwqHSh8yOk/lDaggIrkjVrd4Ml5cxbtbVshnkoN9mO+G7spBV+HbVQ64A==",
-      "type": "package",
-      "path": "Tizen.Security/1.0.5",
-      "files": [
-        "Tizen.Security.1.0.5.nupkg.sha512",
-        "Tizen.Security.nuspec",
-        "lib/net45/Tizen.Security.dll",
-        "lib/netstandard1.3/Tizen.Security.dll"
-      ]
-    },
-    "Tizen.Security.SecureRepository/1.0.6": {
-      "sha512": "sjAo6PmBHa59nAaQs4L9o8dlzAAoT4wOB656bfKwl5e0mmEv6Qlg7ZRhxR2YfxzklzaRIBRFO6cX1Mz7j6CruA==",
-      "type": "package",
-      "path": "Tizen.Security.SecureRepository/1.0.6",
-      "files": [
-        "Tizen.Security.SecureRepository.1.0.6.nupkg.sha512",
-        "Tizen.Security.SecureRepository.nuspec",
-        "lib/net45/Tizen.Security.SecureRepository.dll",
-        "lib/netstandard1.3/Tizen.Security.SecureRepository.dll"
       ]
     },
     "Tizen.Sensor/1.0.4": {
@@ -3801,17 +3648,6 @@
         "lib/net45/Tizen.System.dll",
         "lib/netstandard1.3/Tizen.System.dll"
       ]
-    },
-    "Tizen.Tracer/1.0.3": {
-      "sha512": "Rxst6xXA5rM9wcU8BU77uBNYLTn1T0vYmGtwgF+EuI3S0AQnYZeE+2cfxTvgXhDE+AdsH4UMZp2QjwzXIFudew==",
-      "type": "package",
-      "path": "Tizen.Tracer/1.0.3",
-      "files": [
-        "Tizen.Tracer.1.0.3.nupkg.sha512",
-        "Tizen.Tracer.nuspec",
-        "lib/net45/Tizen.Tracer.dll",
-        "lib/netstandard1.3/Tizen.Tracer.dll"
-      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -3819,8 +3655,9 @@
       "NETStandard.Library >= 1.6.0",
       "Tizen.Applications >= 1.0.2",
       "Tizen.Applications.Badge >= 1.0.2",
-      "Tizen.Library >= 1.0.0-pre1",
+      "Tizen.Content.MimeType >= 1.0.2",
       "Tizen.Location >= 1.0.3",
+      "Tizen.Network >= 1.0.5",
       "Tizen.Sensor >= 1.0.4",
       "Tizen.System >= 1.0.5"
     ],

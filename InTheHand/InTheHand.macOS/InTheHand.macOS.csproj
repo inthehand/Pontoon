@@ -6,8 +6,8 @@
     <ProjectGuid>{D6518524-4F9C-4218-8E0C-B2D38585A53D}</ProjectGuid>
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>InTheHand.Mac</RootNamespace>
-    <AssemblyName>InTheHand.Mac</AssemblyName>
+    <RootNamespace>InTheHand</RootNamespace>
+    <AssemblyName>InTheHand</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
@@ -28,7 +28,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand\lib\xamarinmac\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <EnableCodeSigning>false</EnableCodeSigning>
@@ -37,6 +37,7 @@
     <IncludeMonoRuntime>false</IncludeMonoRuntime>
     <UseSGen>false</UseSGen>
     <DefineConstants>__UNIFIED__;__MAC__</DefineConstants>
+    <DocumentationFile>..\..\NuGet\InTheHand\lib\xamarinmac\InTheHand.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

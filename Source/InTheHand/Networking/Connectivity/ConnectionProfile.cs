@@ -28,6 +28,7 @@ namespace InTheHand.Networking.Connectivity
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -49,6 +50,24 @@ namespace InTheHand.Networking.Connectivity
         {
             _flags = flags;
         }
+#elif TIZEN
+        private Tizen.Network.Connection.ConnectionItem _item;
+
+        private ConnectionProfile(Tizen.Network.Connection.ConnectionItem item)
+        {
+            _item = item;
+        }
+
+        public static implicit operator Tizen.Network.Connection.ConnectionItem(ConnectionProfile profile)
+        {
+            return profile._item;
+        }
+
+        public static implicit operator ConnectionProfile(Tizen.Network.Connection.ConnectionItem item)
+        {
+            return new Connectivity.ConnectionProfile(item);
+        }
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Networking.Connectivity.ConnectionProfile _profile;
 
@@ -61,6 +80,7 @@ namespace InTheHand.Networking.Connectivity
         {
             return p._profile;
         }
+
 #elif WIN32
         private NetworkInterface _interface;
 
@@ -88,6 +108,7 @@ namespace InTheHand.Networking.Connectivity
             }
 
             return NetworkConnectivityLevel.None;
+
 #elif __IOS__ || __TVOS__
             switch (_flags)
             {
@@ -97,6 +118,18 @@ namespace InTheHand.Networking.Connectivity
                 default:
                     return NetworkConnectivityLevel.None;
             }
+
+#elif TIZEN
+            switch(_item.State)
+            {
+                case Tizen.Network.Connection.ConnectionState.Connected:
+                    return NetworkConnectivityLevel.InternetAccess;
+
+                default:
+                    return NetworkConnectivityLevel.None;
+            }
+
+           
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return (NetworkConnectivityLevel) ((int)_profile.GetNetworkConnectivityLevel());
 #elif WIN32

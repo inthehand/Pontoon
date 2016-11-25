@@ -26,6 +26,7 @@ namespace InTheHand.Graphics.Display
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -88,6 +89,18 @@ namespace InTheHand.Graphics.Display
         /// <summary>
         /// Gets the current orientation of a rectangular monitor.
         /// </summary>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+        /// </remarks>
         public DisplayOrientations CurrentOrientation
         {
             get
@@ -96,6 +109,29 @@ namespace InTheHand.Graphics.Display
                 return _metrics.WidthPixels > _metrics.HeightPixels ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 #elif __IOS__ || __TVOS__
                 return _screen.Bounds.Width > _screen.Bounds.Height ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+#elif TIZEN
+                int orientation;
+
+                if(Tizen.System.SystemInfo.TryGetValue("DEVICE_ORIENTATION", out orientation))
+                {
+                    switch(orientation)
+                    {
+                        case 0:
+                            return DisplayOrientations.Portrait;
+
+                        case 1:
+                            return DisplayOrientations.PortraitFlipped;
+
+                        case 2:
+                            return DisplayOrientations.Landscape;
+
+                        case 3:
+                            return DisplayOrientations.LandscapeFlipped;
+                    }
+                }
+
+                return DisplayOrientations.None;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return (DisplayOrientations)((int)_information.CurrentOrientation);
 #elif WINDOWS_PHONE
@@ -111,6 +147,17 @@ namespace InTheHand.Graphics.Display
         /// <summary>
         /// Gets the raw dots per inch (DPI) along the x axis of the display monitor.
         /// </summary>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+        /// </remarks>
         public float RawDpiX
         {
             get
@@ -146,6 +193,17 @@ namespace InTheHand.Graphics.Display
         /// <summary>
         /// Gets the raw dots per inch (DPI) along the y axis of the display monitor.
         /// </summary>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+        /// </remarks>
         public float RawDpiY
         {
             get
@@ -182,6 +240,17 @@ namespace InTheHand.Graphics.Display
         /// <summary>
         /// Gets a value representing the number of raw (physical) pixels for each view (layout) pixel.
         /// </summary>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+        /// </remarks>
         public double RawPixelsPerViewPixel
         {
             get

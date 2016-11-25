@@ -124,6 +124,24 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
+      <Link>Graphics\Display\DisplayInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
+      <Link>Graphics\Display\DisplayOrientations.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
+      <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkConnectivityLevel.cs">
+      <Link>Networking\Connectivity\NetworkConnectivityLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkInformation.cs">
+      <Link>Networking\Connectivity\NetworkInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
+      <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
       <Link>Phone\Devices\Notification\VibrationDevice.cs</Link>
     </Compile>
