@@ -65,6 +65,12 @@ namespace InTheHand.System
 
                 return success;
             });
+#elif __MAC__
+            return Task.Run<bool>(() =>
+            {
+                bool success = NSWorkspace.SharedWorkspace.OpenFile(file.Path);
+                return success;
+            });
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchFileAsync((Windows.Storage.StorageFile)((StorageFile)file)).AsTask();
 #elif WIN32
