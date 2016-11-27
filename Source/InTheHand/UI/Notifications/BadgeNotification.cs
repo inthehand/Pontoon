@@ -45,6 +45,11 @@ namespace InTheHand.UI.Notifications
             _value = value;
         }
 
+        internal BadgeNotification(char glyph)
+        {
+            _glyph = glyph;
+        }
+
         private int _value;
 
         internal int Value
@@ -52,6 +57,16 @@ namespace InTheHand.UI.Notifications
             get
             {
                 return _value;
+            }
+        }
+
+        private char _glyph;
+
+        internal char Glyph
+        {
+            get
+            {
+                return _glyph;
             }
         }
 #endif

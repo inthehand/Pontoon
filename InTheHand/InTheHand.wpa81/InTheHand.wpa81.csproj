@@ -439,6 +439,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\Color.cs">
       <Link>UI\Color.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeGlyph.cs">
+      <Link>UI\Notifications\BadgeGlyph.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>

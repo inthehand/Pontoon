@@ -234,6 +234,9 @@
     <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
       <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeGlyph.cs">
+      <Link>UI\Notifications\BadgeGlyph.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>
