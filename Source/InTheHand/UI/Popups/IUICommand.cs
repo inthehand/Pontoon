@@ -6,11 +6,6 @@
 //   Represents a command in a context menu.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.IUICommand))]
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.UICommandInvokedHandler))]
-//#else
 
 namespace InTheHand.UI.Popups
 {
@@ -22,6 +17,7 @@ namespace InTheHand.UI.Popups
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -53,4 +49,3 @@ namespace InTheHand.UI.Popups
     /// <param name="command">Represents the invoked command.</param>
     public delegate void UICommandInvokedHandler(IUICommand command);
 }
-//#endif

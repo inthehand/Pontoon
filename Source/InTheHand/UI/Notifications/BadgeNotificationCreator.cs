@@ -51,9 +51,10 @@ namespace InTheHand.UI.Notifications
 
 #if __MAC__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         /// <summary>
-        /// Creates a badge notification with the required numerical value.
+        /// Creates a badge notification with the required glyph.
         /// </summary>
-        /// <param name="value">Value to show on the badge. Zero will hide the badge.</param>
+        /// <param name="glyph">Glyph to show on the badge.
+        /// None will hide the badge.</param>
         /// <returns></returns>
         /// <remarks>
         /// <para/><list type="table">

@@ -3,10 +3,6 @@
 //     Copyright © 2012-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.MessageDialog))]
-//#else
 
 using System;
 using System.Collections.Generic;
@@ -18,6 +14,8 @@ using Android.Content;
 using Android.Content.Res;
 #elif __IOS__ || __TVOS__
 using UIKit;
+#elif __MAC__
+using AppKit;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -26,7 +24,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace InTheHand.UI.Popups
 {
-
     /// <summary>
     /// Represents a dialog.
     /// </summary>
@@ -39,6 +36,7 @@ namespace InTheHand.UI.Popups
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -54,7 +52,7 @@ namespace InTheHand.UI.Popups
         private const int MaxCommands = 3;
 #endif
 
-#if __ANDROID__ || __IOS__ || __TVOS__
+#if __ANDROID__ || __UNIFIED__
         EventWaitHandle handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         IUICommand _selectedCommand;
 #endif
@@ -85,6 +83,17 @@ namespace InTheHand.UI.Popups
             }
 
             handle.Set();
+        }
+#elif __MAC__
+        private void NSAlert_onEnded(nint command)
+        {
+            if(command != null)
+            {
+                if(Commands.Count > 0)
+                {
+                    Commands[(int)command].Invoked(Commands[(int)command]);
+                }
+            }
         }
 #endif
 
@@ -172,6 +181,17 @@ namespace InTheHand.UI.Popups
                 return _selectedCommand;
             });
 
+#elif __MAC__
+            NSAlert alert = new NSAlert();
+            alert.InformativeText = Content;
+            alert.MessageText = Title;
+
+            foreach(IUICommand command in Commands)
+            {
+                var button = alert.AddButton(command.Label);
+            }
+
+            alert.BeginSheetForResponse(NSApplication.SharedApplication.MainWindow, NSAlert_onEnded)
 #elif WINDOWS_PHONE
             List<string> buttons = new List<string>();
             foreach(IUICommand uic in this.Commands)

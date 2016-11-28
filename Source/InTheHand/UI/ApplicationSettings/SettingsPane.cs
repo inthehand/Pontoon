@@ -84,6 +84,7 @@ namespace InTheHand.UI.ApplicationSettings
                     GetForCurrentView().showPublisher = false;
                 }
             }
+
             object objAbout = null;
             if(ApplicationData.Current.LocalSettings.Values.TryGetValue("InTheHand.UI.ApplicationSettings.ShowAbout", out objAbout))
             {
@@ -186,7 +187,6 @@ namespace InTheHand.UI.ApplicationSettings
         }
 
 #if WINDOWS_UWP || WINDOWS_APP
-
 
         private void SettingsPane_CommandsRequested(Windows.UI.ApplicationSettings.SettingsPane sender, Windows.UI.ApplicationSettings.SettingsPaneCommandsRequestedEventArgs args)
         {

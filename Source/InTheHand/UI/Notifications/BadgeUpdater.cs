@@ -3,10 +3,6 @@
 //     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.BadgeUpdater))]
-//#else
 
 #if __IOS__ || __TVOS__
 using UIKit;
@@ -100,4 +96,3 @@ namespace InTheHand.UI.Notifications
         }
     }
 }
-//#endif

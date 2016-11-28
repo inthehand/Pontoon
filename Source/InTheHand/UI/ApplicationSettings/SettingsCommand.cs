@@ -3,10 +3,7 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.ApplicationSettings.SettingsCommand))]
-//#else
+
 using System;
 using InTheHand.UI.Popups;
 
@@ -47,4 +44,3 @@ namespace InTheHand.UI.ApplicationSettings
         public string Label { set; get; }
     }
 }
-//#endif
