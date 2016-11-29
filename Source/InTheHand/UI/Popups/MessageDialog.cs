@@ -85,10 +85,12 @@ namespace InTheHand.UI.Popups
             _handle.Set();
         }
 #elif __MAC__
-        private void NSAlert_onEnded(nint i)
+        private void NSAlert_onEnded(nint command)
         {
-            if(i != null)
+            if(Commands.Count > 0)
             {
+                int i = (int)command;
+
                 if(Commands.Count > i)
                 {
                     _selectedCommand = Commands[(int)i];
@@ -155,7 +157,7 @@ namespace InTheHand.UI.Popups
 
             return Task.Run<IUICommand>(() =>
             {
-                handle.WaitOne();
+                _handle.WaitOne();
                 return _selectedCommand;
             });
 
@@ -187,6 +189,7 @@ namespace InTheHand.UI.Popups
 
 #elif __MAC__
             NSAlert alert = new NSAlert();
+            alert.AlertStyle = NSAlertStyle.Informational;
             alert.InformativeText = Content;
             alert.MessageText = Title;
 
@@ -390,7 +393,7 @@ namespace InTheHand.UI.Popups
                     _selectedCommand.Invoked(_selectedCommand);
                 }
             }
-            handle.Set();
+            _handle.Set();
         }
 #endif
         
