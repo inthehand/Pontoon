@@ -429,9 +429,6 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\PopupMenu.cs">
       <Link>UI\Popups\PopupMenu.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Popups\UIAlertDelegate.cs">
-      <Link>UI\Popups\UIAlertDelegate.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>
     </Compile>
