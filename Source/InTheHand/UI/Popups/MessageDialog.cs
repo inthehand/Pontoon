@@ -53,7 +53,7 @@ namespace InTheHand.UI.Popups
 #endif
 
 #if __ANDROID__ || __UNIFIED__
-        EventWaitHandle handle = new EventWaitHandle(false, EventResetMode.AutoReset);
+        EventWaitHandle _handle = new EventWaitHandle(false, EventResetMode.AutoReset);
         IUICommand _selectedCommand;
 #endif
 
@@ -82,18 +82,22 @@ namespace InTheHand.UI.Popups
                 }
             }
 
-            handle.Set();
+            _handle.Set();
         }
 #elif __MAC__
-        private void NSAlert_onEnded(nint command)
+        private void NSAlert_onEnded(nint i)
         {
-            if(command != null)
+            if(i != null)
             {
-                if(Commands.Count > 0)
+                if(Commands.Count > i)
                 {
-                    Commands[(int)command].Invoked(Commands[(int)command]);
+                    _selectedCommand = Commands[(int)i];
+
+                    Commands[(int)i].Invoked?.Invoke(Commands[(int)i]);
                 }
             }
+
+            _handle.Set();
         }
 #endif
 
@@ -177,7 +181,7 @@ namespace InTheHand.UI.Popups
 
             return Task.Run<IUICommand>(() =>
             {
-                handle.WaitOne();
+                _handle.WaitOne();
                 return _selectedCommand;
             });
 
@@ -191,7 +195,14 @@ namespace InTheHand.UI.Popups
                 var button = alert.AddButton(command.Label);
             }
 
-            alert.BeginSheetForResponse(NSApplication.SharedApplication.MainWindow, NSAlert_onEnded)
+            alert.BeginSheetForResponse(NSApplication.SharedApplication.MainWindow, NSAlert_onEnded);
+
+            return Task.Run<IUICommand>(() =>
+            {
+                _handle.WaitOne();
+                return _selectedCommand;
+            });
+
 #elif WINDOWS_PHONE
             List<string> buttons = new List<string>();
             foreach(IUICommand uic in this.Commands)
@@ -218,6 +229,7 @@ namespace InTheHand.UI.Popups
             {
                 Thread.Sleep(250);
             }
+
             Microsoft.Xna.Framework.GamerServices.Guide.BeginShowMessageBox(
                         string.IsNullOrEmpty(Title) ? " " : Title,
                         contentText,
