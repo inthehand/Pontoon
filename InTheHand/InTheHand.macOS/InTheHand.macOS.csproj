@@ -72,29 +72,11 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeopositionExtensions.cs">
       <Link>Devices\Geolocation\BasicGeopositionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocircle.cs">
-      <Link>Devices\Geolocation\Geocircle.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocoordinate.cs">
       <Link>Devices\Geolocation\Geocoordinate.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\GeocoordinateExtensions.cs">
       <Link>Devices\Geolocation\GeocoordinateExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\Geofence.cs">
-      <Link>Devices\Geolocation\Geofencing\Geofence.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitor.cs">
-      <Link>Devices\Geolocation\Geofencing\GeofenceMonitor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs">
-      <Link>Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
-      <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs">
-      <Link>Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
       <Link>Devices\Geolocation\Geolocator.cs</Link>
@@ -255,9 +237,6 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
       <Link>UI\Popups\MessageDialog.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\UI\Popups\UIAlertDelegate.cs">
-      <Link>UI\Popups\UIAlertDelegate.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>
     </Compile>
@@ -271,6 +250,8 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Devices\Geolocation\Geofencing\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
