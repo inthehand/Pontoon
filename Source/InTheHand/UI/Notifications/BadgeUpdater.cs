@@ -3,10 +3,6 @@
 //     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.BadgeUpdater))]
-//#else
 
 #if __IOS__ || __TVOS__
 using UIKit;
@@ -78,13 +74,20 @@ namespace InTheHand.UI.Notifications
                 UIApplication.SharedApplication.ApplicationIconBadgeNumber = notification.Value;
             });
 #elif __MAC__
-            if(notification.Value < 1)
+            if (notification.Glyph != char.MinValue)
             {
-                Clear();
-                return;
+                NSApplication.SharedApplication.DockTile.BadgeLabel = notification.Glyph.ToString();
             }
+            else
+            {
+                if (notification.Value < 1)
+                {
+                    Clear();
+                    return;
+                }
 
-            NSApplication.SharedApplication.DockTile.BadgeLabel = notification.Value.ToString();
+                NSApplication.SharedApplication.DockTile.BadgeLabel = notification.Value.ToString();
+            }
 #elif TIZEN
             Tizen.Applications.BadgeControl.Update(Tizen.Applications.Application.Current.ApplicationInfo.ApplicationId, notification.Value);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -93,4 +96,3 @@ namespace InTheHand.UI.Notifications
         }
     }
 }
-//#endif

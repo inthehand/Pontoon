@@ -3,10 +3,6 @@
 //     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.BadgeUpdateManager))]
-//#else
 
 namespace InTheHand.UI.Notifications
 {
@@ -37,7 +33,7 @@ namespace InTheHand.UI.Notifications
         {
             if(_updater == null)
             {
-#if __UNIFIED__
+#if __UNIFIED__ || TIZEN
                 _updater = new BadgeUpdater();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _updater = new BadgeUpdater(Windows.UI.Notifications.BadgeUpdateManager.CreateBadgeUpdaterForApplication());
@@ -48,4 +44,3 @@ namespace InTheHand.UI.Notifications
         }
     }
 }
-//#endif

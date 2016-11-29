@@ -436,6 +436,12 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Color.cs">
+      <Link>UI\Color.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeGlyph.cs">
+      <Link>UI\Notifications\BadgeGlyph.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>
@@ -483,6 +489,15 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
       <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\UIColorType.cs">
+      <Link>UI\ViewManagement\UIColorType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\UIElementType.cs">
+      <Link>UI\ViewManagement\UIElementType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\UISettings.cs">
+      <Link>UI\ViewManagement\UISettings.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\DispatcherTimer.cs">
       <Link>UI\Xaml\DispatcherTimer.cs</Link>

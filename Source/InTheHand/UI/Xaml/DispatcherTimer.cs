@@ -3,18 +3,16 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Xaml.DispatcherTimer))]
-//#else
 
 using System;
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
 using System.Timers;
 #endif
 
 #if __IOS__ || __TVOS__  
 using UIKit;
+#elif __MAC__
+using AppKit;
 #endif
 
 namespace InTheHand.UI.Xaml
@@ -27,6 +25,7 @@ namespace InTheHand.UI.Xaml
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -34,15 +33,20 @@ namespace InTheHand.UI.Xaml
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list></remarks>
     public sealed class DispatcherTimer
     {
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
         private Timer _timer;
 
         void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             if(Tick != null)
             {
-#if __IOS__ || __TVOS__  
+#if __IOS__ || __TVOS__
                 UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
+                {
+                    Tick?.Invoke(this, null);
+                });
+#elif __MAC__
+                NSApplication.SharedApplication.BeginInvokeOnMainThread(() =>
                 {
                     Tick?.Invoke(this, null);
                 });
@@ -69,12 +73,12 @@ namespace InTheHand.UI.Xaml
            Tick?.Invoke(this, null);
         }
 #endif
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DispatcherTimer"/> class. 
-        /// </summary>
+                /// <summary>
+                /// Initializes a new instance of the <see cref="DispatcherTimer"/> class. 
+                /// </summary>
         public DispatcherTimer()
         {
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
             _timer = new Timer();
             _timer.AutoReset = true;
             _timer.Elapsed += _timer_Elapsed;
@@ -99,7 +103,7 @@ namespace InTheHand.UI.Xaml
         {
             get
             {
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
                 return TimeSpan.FromMilliseconds(_timer.Interval);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _timer.Interval;
@@ -112,7 +116,7 @@ namespace InTheHand.UI.Xaml
 
             set
             {
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
                 _timer.Interval = value.TotalMilliseconds;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 _timer.Interval = value;
@@ -130,7 +134,7 @@ namespace InTheHand.UI.Xaml
         {
             get
             {
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
                 return _timer.Enabled;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _timer.IsEnabled;
@@ -148,7 +152,7 @@ namespace InTheHand.UI.Xaml
         /// <remarks>If the timer has already started, then it is restarted.</remarks>
         public void Start()
         {
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
             if (_timer.Enabled)
             {
                 _timer.Stop();
@@ -167,7 +171,7 @@ namespace InTheHand.UI.Xaml
         /// </summary>
         public void Stop()
         {
-#if __ANDROID__ || __IOS__ || __TVOS__  || WIN32
+#if __ANDROID__ || __UNIFIED__  || WIN32
             _timer.Stop();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             _timer.Stop();
