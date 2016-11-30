@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Collections.ObjectModel;
 using InTheHand.Foundation.Collections;
 using InTheHand;
+
 #if __ANDROID__
 using Android.App;
 using Android.Content;
@@ -20,14 +21,10 @@ using System.IO.IsolatedStorage;
 #elif __IOS__ || __TVOS__
 using Foundation;
 using System.Globalization;
+#elif TIZEN
+using Tizen.Applications;
 #endif
 
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationDataContainerSettings))]
-//#elif WINDOWS_PHONE
-//// not used in 8.0
-//#else
 namespace InTheHand.Storage
 {
 
@@ -152,7 +149,7 @@ namespace InTheHand.Storage
         private NSUbiquitousKeyValueStore _store;
 
         private NSObject _observer;
-
+        
 #elif WINDOWS_PHONE
         private IsolatedStorageSettings applicationSettings;
 
@@ -173,7 +170,7 @@ namespace InTheHand.Storage
 
 #endif
 
-#region IDictionary<string,object> Members
+        #region IDictionary<string,object> Members
 
         /// <summary>
         /// Adds an item to the <see cref="ApplicationDataContainerSettings"/>. 
@@ -201,6 +198,8 @@ namespace InTheHand.Storage
             applicationSettings.Add(key, value);
 #elif __IOS__ || __TVOS__
             this[key] = value;
+#elif TIZEN
+            Preference.Set(key, value);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -232,6 +231,9 @@ namespace InTheHand.Storage
                 // TODO: see if there is a more efficient way of checking the key exists
                 return _defaults.ValueForKey(new NSString(key)) != null;
             }
+
+#elif TIZEN
+            return Preference.Contains(key);
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -244,7 +246,7 @@ namespace InTheHand.Storage
         {
             get
             {
-                Collection<string> genericKeys = new Collection<string>();
+                ICollection<string> genericKeys = new Collection<string>();
 #if __ANDROID__
                 foreach(KeyValuePair<string,object> entry in _preferences.All)
                 {
@@ -257,6 +259,8 @@ namespace InTheHand.Storage
                 {
                     genericKeys.Add(key);
                 }
+#elif TIZEN
+                genericKeys = new List<string>(Preference.Keys);
 #endif
                 return genericKeys;
             }
@@ -287,6 +291,10 @@ namespace InTheHand.Storage
             {
                 _defaults.RemoveObject(key);
             }
+
+#elif TIZEN
+            Preference.Remove(key);
+            bool removed = true;
 #else
             bool removed = false;
             throw new PlatformNotSupportedException();
@@ -367,6 +375,17 @@ namespace InTheHand.Storage
             }
             value = IOSTypeConverter.ConvertToObject(obj);
             return obj != null;
+#elif TIZEN
+            try
+            {
+                value = Preference.Get<object>(key);
+                return value != null;
+            }
+            catch
+            {
+                value = null;
+                return false;
+            }
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -496,6 +515,15 @@ namespace InTheHand.Storage
                     obj = _defaults.ValueForKey(new NSString(key));
                 }
                 return IOSTypeConverter.ConvertToObject(obj);
+
+#elif TIZEN
+                object value;
+                if(TryGetValue(key, out value))
+                {
+                    return value;
+                }
+
+                return null;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -609,6 +637,9 @@ namespace InTheHand.Storage
                             break;
                     }
                 }
+
+#elif TIZEN
+                Add(key, value);
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -654,6 +685,10 @@ namespace InTheHand.Storage
             {
                 _defaults.Init();
             }
+
+#elif TIZEN
+            Preference.RemoveAll();
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -688,8 +723,15 @@ namespace InTheHand.Storage
                     return true;
                 }
             }
+
 #else
-            throw new PlatformNotSupportedException();
+            if(ContainsKey(item.Key))
+            {
+                if(this[item.Key] == item.Value)
+                {
+                    return true;
+                }
+            }
 #endif
             return false;
         }
@@ -704,6 +746,14 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _settings.CopyTo(array, arrayIndex);
+
+#elif __ANDROID__ || TIZEN
+            int index = arrayIndex;
+
+            foreach(string key in Keys)
+            {
+                array[index++] = new KeyValuePair<string, object>(key, this[key]);
+            }
 #else
             throw new NotSupportedException();
 #endif
@@ -724,6 +774,15 @@ namespace InTheHand.Storage
                 return applicationSettings.Count;
 #elif __IOS__ || __TVOS__
                 return -1;
+
+#elif TIZEN
+                int count = 0;
+                foreach(string key in Preference.Keys)
+                {
+                    count++;
+                }
+
+                return count;
 #else
                 throw new PlatformNotSupportedException();
 #endif

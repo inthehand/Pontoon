@@ -3,10 +3,6 @@
 //     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.ApplicationData))]
-//#else
 
 using System;
 using System.IO;
@@ -62,11 +58,11 @@ namespace InTheHand.Storage
 #else
             return Task.Run(async () =>
             {
-                await LocalFolder.DeleteAllItems();
-                LocalSettings.Values.Clear();
-                await RoamingFolder.DeleteAllItems();
+                await LocalFolder?.DeleteAllItems();
+                LocalSettings?.Values.Clear();
+                await RoamingFolder?.DeleteAllItems();
                 RoamingSettings?.Values.Clear();
-                await TemporaryFolder.DeleteAllItems();
+                await TemporaryFolder?.DeleteAllItems();
             });
 #endif
         }
@@ -83,15 +79,15 @@ namespace InTheHand.Storage
                 switch(locality)
                 {
                     case ApplicationDataLocality.Local:
-                        await LocalFolder.DeleteAllItems();
-                        LocalSettings.Values.Clear();
+                        await LocalFolder?.DeleteAllItems();
+                        LocalSettings?.Values.Clear();
                         break;
                     case ApplicationDataLocality.Roaming:
-                        await RoamingFolder.DeleteAllItems();
+                        await RoamingFolder?.DeleteAllItems();
                         RoamingSettings?.Values.Clear();
                         break;
                     case ApplicationDataLocality.Temporary:
-                        await TemporaryFolder.DeleteAllItems();
+                        await TemporaryFolder?.DeleteAllItems();
                         break;
                 }
             });
@@ -112,7 +108,7 @@ namespace InTheHand.Storage
 #elif WIN32
                 return new StorageFolder(Path.Combine(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.LocalApplicationData), Package.Current.Id.Publisher, Package.Current.Id.Name));
 #else
-                throw new PlatformNotSupportedException();
+                return null;
 #endif
             }
         }
@@ -197,7 +193,7 @@ namespace InTheHand.Storage
 #elif WIN32
                 return new StorageFolder(Path.GetTempPath());
 #else
-                throw new PlatformNotSupportedException();
+                return null;
 #endif
             }
         }
