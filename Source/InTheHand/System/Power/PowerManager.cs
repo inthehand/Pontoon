@@ -224,7 +224,7 @@ namespace InTheHand.System.Power
                     return 100;
                 }
 
-                if(_device.BatteryLevel < 0)
+                if(_device.BatteryLevel < 0.0f)
                 {
                     return 0;
                 }
