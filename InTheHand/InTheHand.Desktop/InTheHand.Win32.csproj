@@ -57,6 +57,15 @@
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
+      <Link>Graphics\Display\DisplayInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.Win32.cs">
+      <Link>Graphics\Display\DisplayInformation.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
+      <Link>Graphics\Display\DisplayOrientations.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
     </Compile>

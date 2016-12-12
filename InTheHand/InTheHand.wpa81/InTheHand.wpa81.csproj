@@ -250,6 +250,15 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReadingChangedEventArgs.cs">
       <Link>Devices\Sensors\AccelerometerReadingChangedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Gyrometer.cs">
+      <Link>Devices\Sensors\Gyrometer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\GyrometerReading.cs">
+      <Link>Devices\Sensors\GyrometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\GyrometerReadingChangedEventArgs.cs">
+      <Link>Devices\Sensors\GyrometerReadingChangedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>

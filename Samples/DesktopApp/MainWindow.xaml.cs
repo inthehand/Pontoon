@@ -30,7 +30,7 @@ namespace DesktopApp
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(InTheHand.Environment.OSVersion.VersionString);
+            /*System.Diagnostics.Debug.WriteLine(InTheHand.Environment.OSVersion.VersionString);
 
             MessageDialog md = new MessageDialog("Content goes here", "Title goes here");
             md.Commands.Add(new UICommand("One", (c) => { System.Diagnostics.Debug.WriteLine("One"); }, "one"));
@@ -38,9 +38,11 @@ namespace DesktopApp
             md.Commands.Add(new UICommand("Three", (c) => { System.Diagnostics.Debug.WriteLine("Three"); }, "three"));
             //md.DefaultCommandIndex = 2;
             //md.CancelCommandIndex = 0;
-            var cmd = await md.ShowAsync();
+            var cmd = await md.ShowAsync();*/
 
-            await InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
+            var di = InTheHand.Graphics.Display.DisplayInformation.GetForCurrentView();
+
+            //await InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
             //InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue = 50;
         }
     }
