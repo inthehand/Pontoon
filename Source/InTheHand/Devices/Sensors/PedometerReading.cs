@@ -37,24 +37,7 @@ namespace InTheHand.Devices.Sensors
         {
             return new PedometerReading(pr);
         }
-#elif __IOS__
-        private CoreMotion.CMAccelerometerData _accelerometerData;
-
-        private AccelerometerReading(CoreMotion.CMAccelerometerData accelerometerData)
-        {
-            _accelerometerData = accelerometerData;
-        }
-
-        public static implicit operator CoreMotion.CMAccelerometerData(AccelerometerReading ar)
-        {
-            return ar._accelerometerData;
-        }
-
-        public static implicit operator AccelerometerReading(CoreMotion.CMAccelerometerData ad)
-        {
-            return new AccelerometerReading(ad);
-        }
-#elif TIZEN
+#else
         private int _steps;
         private TimeSpan _duration;
         private PedometerStepKind _kind;
@@ -79,12 +62,8 @@ namespace InTheHand.Devices.Sensors
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _pedometerReading.CumulativeSteps;
-#elif __IOS__
-                return _accelerometerData.Acceleration.X;
-#elif TIZEN
-                return _steps;
 #else
-                throw new PlatformNotSupportedException();
+                return _steps;
 #endif
             }
         }
@@ -98,12 +77,8 @@ namespace InTheHand.Devices.Sensors
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _pedometerReading.CumulativeStepsDuration;
-#elif __IOS__
-                return _accelerometerData.Acceleration.Y;
-#elif TIZEN
-                return _duration;
 #else
-                throw new PlatformNotSupportedException();
+                return _duration;
 #endif
             }
         }
@@ -117,12 +92,8 @@ namespace InTheHand.Devices.Sensors
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return (PedometerStepKind)((int)_pedometerReading.StepKind);
-#elif __IOS__
-                                return _accelerometerData.Acceleration.Z;
-#elif TIZEN
-                return _kind;
 #else
-                                throw new PlatformNotSupportedException();
+                return _kind;
 #endif
             }
         }
@@ -136,13 +107,8 @@ namespace InTheHand.Devices.Sensors
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _pedometerReading.Timestamp;
-#elif __IOS__
-                //TODO: convert time since boot to actual timestamp
-                return Accelerometer._timestampOffset.AddSeconds(_accelerometerData.Timestamp);
-#elif TIZEN
-                return _timestamp;
 #else
-                throw new PlatformNotSupportedException();
+                return _timestamp;
 #endif
             }
         }

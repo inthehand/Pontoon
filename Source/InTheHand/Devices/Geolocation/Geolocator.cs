@@ -89,9 +89,13 @@ namespace InTheHand.Devices.Geolocation
             }
 #elif TIZEN
             _locator.ServiceStateChanged += _locator_ServiceStateChanged;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+
+            _locator.StatusChanged += _locator_StatusChanged;
 #elif WIN32
 #endif
-            }
+        }
+
 
 
 #if __IOS__ || __MAC__
@@ -149,9 +153,9 @@ namespace InTheHand.Devices.Geolocation
         }
 #endif
 
-                /// <summary>
-                /// The accuracy level at which the Geolocator provides location updates.
-                /// </summary>
+        /// <summary>
+        /// The accuracy level at which the Geolocator provides location updates.
+        /// </summary>
         public PositionAccuracy DesiredAccuracy
         {
             get
@@ -383,6 +387,8 @@ namespace InTheHand.Devices.Geolocation
 #elif TIZEN
                     _locator.LocationChanged += _locator_LocationChanged;
                     _locator.Start();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                    _locator.PositionChanged += _locator_PositionChanged;
 #elif WIN32
                     if (_watcher == null)
                     {
@@ -412,6 +418,8 @@ namespace InTheHand.Devices.Geolocation
 #elif TIZEN
                     _locator.LocationChanged -= _locator_LocationChanged;
                     _locator.Stop();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                    _locator.PositionChanged -= _locator_PositionChanged;
 #elif WIN32
                     _watcher.PositionChanged -= _watcher_PositionChanged;
                     _watcher.Stop();
@@ -420,6 +428,18 @@ namespace InTheHand.Devices.Geolocation
             }
         }
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+        
+        private void _locator_StatusChanged(Windows.Devices.Geolocation.Geolocator sender, Windows.Devices.Geolocation.StatusChangedEventArgs args)
+        {
+            StatusChanged?.Invoke(this, new StatusChangedEventArgs((PositionStatus)((int)args.Status)));
+        }
+
+        private void _locator_PositionChanged(Windows.Devices.Geolocation.Geolocator sender, Windows.Devices.Geolocation.PositionChangedEventArgs args)
+        {
+            _positionChanged?.Invoke(this, new PositionChangedEventArgs(args.Position));
+        }
+#endif
 
 
 #if __UNIFIED__

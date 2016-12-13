@@ -3,10 +3,6 @@
 //   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.PositionChangedEventArgs))]
-//#else
 
 namespace InTheHand.Devices.Geolocation
 {
@@ -19,7 +15,6 @@ namespace InTheHand.Devices.Geolocation
         {
             Position = position;
         }
-
         /// <summary>
         /// The location data associated with the <see cref="Geolocator.PositionChanged"/> event.
         /// </summary>
@@ -30,4 +25,3 @@ namespace InTheHand.Devices.Geolocation
         }
     }
 }
-//#endif

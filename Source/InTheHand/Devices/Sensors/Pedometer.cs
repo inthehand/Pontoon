@@ -38,12 +38,9 @@ namespace InTheHand.Devices.Sensors
             var p = await Windows.Devices.Sensors.Pedometer.GetDefaultAsync();
             return p == null ? null : new Pedometer(p);
 #elif __IOS__
-            if(_default == null)
+            if(CMPedometer.IsStepCountingAvailable)
             {
-                if (_manager.AccelerometerAvailable)
-                {
-                    _default = new Sensors.Accelerometer();
-                }
+                _default = new Pedometer();
             }
 
             return _default;
@@ -86,23 +83,21 @@ namespace InTheHand.Devices.Sensors
         }
 
 #elif __IOS__
-        private static CMMotionManager _manager = new CMMotionManager();
-        private static Accelerometer _default;
-        internal static DateTimeOffset _timestampOffset = DateTimeOffset.MinValue;
+        private static Pedometer _default;
 
-        private Accelerometer()
-        { }
+        private CMPedometer _pedometer;
+        private global::System.Threading.EventWaitHandle _handle = new global::System.Threading.EventWaitHandle(false, global::System.Threading.EventResetMode.AutoReset);
+        private CMPedometerData _lastData;
 
-
-        private void AccelerometerHandler(CoreMotion.CMAccelerometerData data, NSError error)
+        private Pedometer()
         {
-            if (_timestampOffset == DateTimeOffset.MinValue)
-            {
-                _timestampOffset = DateTimeOffset.Now.Subtract(TimeSpan.FromSeconds(data.Timestamp));
-            }
-            global::System.Diagnostics.Debug.WriteLine(_timestampOffset);
+            _pedometer = new CMPedometer();
+        }
 
-            _readingChanged?.Invoke(this, new Sensors.AccelerometerReadingChangedEventArgs(data));
+        private void PedometerDataHandler(CMPedometerData data, NSError err)
+        {
+            _lastData = data;
+            _handle.Set();
         }
 #elif TIZEN
         private static Pedometer _default;
@@ -131,8 +126,6 @@ namespace InTheHand.Devices.Sensors
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _pedometer.ReportInterval;
-#elif __IOS__
-                return Convert.ToUInt32(_manager.AccelerometerUpdateInterval * 1000);
 #elif TIZEN
                 return _pedometer.Interval;
 #else
@@ -143,8 +136,6 @@ namespace InTheHand.Devices.Sensors
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 _pedometer.ReportInterval = value;
-#elif __IOS__
-                _manager.AccelerometerUpdateInterval = value / 1000f;
 #elif TIZEN
                 if(value < _pedometer.MinInterval)
                 {
@@ -174,7 +165,16 @@ namespace InTheHand.Devices.Sensors
 
             return readings;
 #elif __IOS__
-            return _manager.AccelerometerData;
+            Dictionary<PedometerStepKind, PedometerReading> readings = new Dictionary<PedometerStepKind, PedometerReading>();
+            _lastData = null;
+            _pedometer.QueryPedometerData(NSDate.FromTimeIntervalSince1970(DateTimeOffset.Now.Subtract(DateTimeOffset.Now.TimeOfDay).ToUnixTimeSeconds()), NSDate.FromTimeIntervalSince1970(DateTimeOffset.Now.ToUnixTimeSeconds()), PedometerDataHandler);
+            _handle.WaitOne();
+            if(_lastData != null)
+            {
+                readings.Add(PedometerStepKind.Unknown, new PedometerReading(_lastData.NumberOfSteps.Int32Value, TimeSpan.FromSeconds(_lastData.EndDate.SecondsSinceReferenceDate - _lastData.StartDate.SecondsSinceReferenceDate), PedometerStepKind.Unknown, DateTimeOffsetHelper.FromNSDate(_lastData.EndDate)));
+            }
+
+            return readings;
 #elif TIZEN
             Dictionary<PedometerStepKind, PedometerReading> readings = new Dictionary<Sensors.PedometerStepKind, Sensors.PedometerReading>();
             readings.Add(PedometerStepKind.Running, new PedometerReading((int)_pedometer.RunStepCount, TimeSpan.Zero, PedometerStepKind.Running, DateTimeOffset.Now));
@@ -199,7 +199,7 @@ namespace InTheHand.Devices.Sensors
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     _pedometer.ReadingChanged += _pedometer_ReadingChanged;
 #elif __IOS__
-                    _manager.StartAccelerometerUpdates(NSOperationQueue.CurrentQueue, AccelerometerHandler);
+                    _pedometer.StartPedometerUpdates(DateTimeOffset.Now.ToNSDate(), PedometerDataHandler);
 #elif TIZEN
                     _pedometer.DataUpdated += _pedometer_DataUpdated;
 #else
@@ -218,7 +218,7 @@ namespace InTheHand.Devices.Sensors
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     _pedometer.ReadingChanged -= _pedometer_ReadingChanged;
 #elif __IOS__
-                    _manager.StopAccelerometerUpdates();
+                    _pedometer.StopPedometerUpdates();
 #elif TIZEN
                     _pedometer.DataUpdated -= _pedometer_DataUpdated;
 #endif

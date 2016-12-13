@@ -216,6 +216,18 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\GyrometerReadingChangedEventArgs.cs">
       <Link>Devices\Sensors\GyrometerReadingChangedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Pedometer.cs">
+      <Link>Devices\Sensors\Pedometer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\PedometerReading.cs">
+      <Link>Devices\Sensors\PedometerReading.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\PedometerReadingChangedEventArgs.cs">
+      <Link>Devices\Sensors\PedometerReadingChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Sensors\PedometerStepKind.cs">
+      <Link>Devices\Sensors\PedometerStepKind.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>

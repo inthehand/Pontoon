@@ -33,6 +33,8 @@ namespace UWPApp
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        InTheHand.Devices.Sensors.Pedometer p;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -50,6 +52,8 @@ namespace UWPApp
             {
                 StatusBar.GetForCurrentView()?.ProgressIndicator.ShowAsync();
             }
+
+            this.Loaded += MainPage_Loaded;
            
             Windows.Devices.Enumeration.DeviceInformationPairing dip;
             Task.Run(async () => {
@@ -80,6 +84,19 @@ namespace UWPApp
                     }
                 });
             });
+        }
+
+        private async void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            p = await InTheHand.Devices.Sensors.Pedometer.GetDefaultAsync();
+            if (p != null)
+            {
+                var r = p.GetCurrentReadings();
+                foreach (KeyValuePair<InTheHand.Devices.Sensors.PedometerStepKind, InTheHand.Devices.Sensors.PedometerReading> readingentry in r)
+                {
+                    System.Diagnostics.Debug.WriteLine(readingentry.Value.Timestamp.ToString() + " " + readingentry.Value.CumulativeSteps.ToString() + " " + readingentry.Value.StepKind);
+                }
+            }
         }
 
         private void MainPage_DataRequested(object sender, DataRequestedEventArgs e)
