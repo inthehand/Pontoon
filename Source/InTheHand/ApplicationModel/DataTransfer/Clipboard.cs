@@ -135,8 +135,20 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
                 return package.GetView();
             }
+
 #elif __MAC__
-            // TODO: read and convert to DataPackageView
+            if(!string.IsNullOrEmpty(NSPasteboard.GeneralPasteboard.GetAvailableTypeFromArray(new string[] { NSPasteboard.NSPasteboardTypeString})))
+            {
+                DataPackage package = new DataPackage();
+                string str = NSPasteboard.GeneralPasteboard.GetStringForType(NSPasteboard.NSPasteboardTypeString);
+                if (!string.IsNullOrEmpty(str))
+                {
+                    package.SetText(str);
+                }
+
+                return package.GetView();
+            }
+
 #elif WINDOWS_PHONE_APP
             if(_on10)
             {
