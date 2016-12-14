@@ -15,6 +15,9 @@ using Android.Content;
 #elif __IOS__
 using Foundation;
 using UIKit;
+#elif __MAC__
+using Foundation;
+using AppKit;
 #elif WINDOWS_PHONE_APP
 using System.Reflection;
 #endif
@@ -50,6 +53,8 @@ namespace InTheHand.ApplicationModel.DataTransfer
             _clipboardManager.PrimaryClip = null;
 #elif __IOS__
             UIPasteboard.General.SetData(null, "kUTTypePlainText");
+#elif __MAC__
+            NSPasteboard.GeneralPasteboard.ClearContents();
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
@@ -118,6 +123,8 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
                 return package.GetView();
             }
+#elif __MAC__
+            // TODO: read and convert to DataPackageView
 #elif WINDOWS_PHONE_APP
             if(_on10)
             {
@@ -225,6 +232,9 @@ namespace InTheHand.ApplicationModel.DataTransfer
             {
                 UIPasteboard.General.Url = NSUrl.FromString(uri.ToString());
             }
+#elif __MAC__
+            NSPasteboard.GeneralPasteboard.SetStringForType(text, NSPasteboard.NSPasteboardTypeString);
+
 #elif WINDOWS_PHONE || WINDOWS_PHONE_APP
             if (string.IsNullOrEmpty(text) && uri != null)
             {

@@ -48,6 +48,24 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
+      <Link>ApplicationModel\DataTransfer\Clipboard.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackage.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySet.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackagePropertySet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackagePropertySetView.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackagePropertySetView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackageView.cs">
+      <Link>ApplicationModel\DataTransfer\DataPackageView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
+      <Link>ApplicationModel\DataTransfer\StandardDataFormats.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
       <Link>ApplicationModel\Package.cs</Link>
     </Compile>
