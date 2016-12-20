@@ -45,5 +45,24 @@ namespace DesktopApp
             //await InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();
             //InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ProgressValue = 50;
         }
+
+        private async void button_Click(object sender, RoutedEventArgs e)
+        {
+            /*InTheHand.Storage.Pickers.FileOpenPicker fop = new InTheHand.Storage.Pickers.FileOpenPicker();
+            fop.FileTypeFilter.Add(".txt");
+            fop.FileTypeFilter.Add(".cs");
+            var file = await fop.PickSingleFileAsync();*/
+
+            /* InTheHand.Storage.Pickers.FileSavePicker fsp = new InTheHand.Storage.Pickers.FileSavePicker();
+             fsp.FileTypeChoices.Add("Text file", new List<string> { ".txt", ".csv" });
+             fsp.DefaultFileExtension = ".txt";
+             var savefile = await fsp.PickSaveFileAsync();*/
+
+            InTheHand.Storage.Pickers.FolderPicker fp = new InTheHand.Storage.Pickers.FolderPicker();
+
+
+            var folder = await fp.PickSingleFolderAsync();
+
+        }
     }
 }

@@ -125,5 +125,13 @@ namespace UWPApp
             //StorageFile sf = await ccu.CaptureFileAsync(Windows.Media.Capture.CameraCaptureUIMode.Photo);
            // InTheHand.UI.ApplicationSettings.SettingsPane.Show();
         }
+
+        private async void button_Click(object sender, RoutedEventArgs e)
+        {
+            InTheHand.Storage.Pickers.FileOpenPicker fop = new InTheHand.Storage.Pickers.FileOpenPicker();
+            fop.FileTypeFilter.Add(".txt");
+            fop.FileTypeFilter.Add(".cs");
+            var file = await fop.PickSingleFileAsync();
+        }
     }
 }

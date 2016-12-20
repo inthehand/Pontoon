@@ -84,6 +84,24 @@
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs">
       <Link>Storage\IStorageFolder2.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
+      <Link>Storage\Pickers\FileOpenPicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.Win32.cs">
+      <Link>Storage\Pickers\FileOpenPicker.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileSavePicker.cs">
+      <Link>Storage\Pickers\FileSavePicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileSavePicker.Win32.cs">
+      <Link>Storage\Pickers\FileSavePicker.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FolderPicker.cs">
+      <Link>Storage\Pickers\FolderPicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FolderPicker.Win32.cs">
+      <Link>Storage\Pickers\FolderPicker.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
     </Compile>

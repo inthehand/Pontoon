@@ -422,6 +422,24 @@
     <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
       <Link>Storage\PathIO.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
+      <Link>Storage\Pickers\FileOpenPicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.WinRT.cs">
+      <Link>Storage\Pickers\FileOpenPicker.WinRT.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileSavePicker.cs">
+      <Link>Storage\Pickers\FileSavePicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileSavePicker.WinRT.cs">
+      <Link>Storage\Pickers\FileSavePicker.WinRT.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FolderPicker.cs">
+      <Link>Storage\Pickers\FolderPicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FolderPicker.WinRT.cs">
+      <Link>Storage\Pickers\FolderPicker.WinRT.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
       <Link>Storage\StorageDeleteOption.cs</Link>
     </Compile>

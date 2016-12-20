@@ -63,6 +63,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackageView.cs">
       <Link>ApplicationModel\DataTransfer\DataPackageView.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataProviderRequest.cs">
+      <Link>ApplicationModel\DataTransfer\DataProviderRequest.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
       <Link>ApplicationModel\DataTransfer\StandardDataFormats.cs</Link>
     </Compile>
