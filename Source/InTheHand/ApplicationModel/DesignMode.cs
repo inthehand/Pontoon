@@ -3,15 +3,6 @@
 //   Copyright (c) 2013-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DesignMode))]
-//#else
-using System;
-
-#if WINDOWS_PHONE
-using System.Windows;
-#endif
 
 namespace InTheHand.ApplicationModel
 {
@@ -32,14 +23,12 @@ namespace InTheHand.ApplicationModel
             {
                 if (!designModeEnabled.HasValue)
                 {
-#if __ANDROID__ || __IOS__
-                    designModeEnabled = false; 
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     designModeEnabled = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
 #elif WINDOWS_PHONE
-                    designModeEnabled = (null == Application.Current) || Application.Current.GetType() == typeof(Application);
+                    designModeEnabled = (null == global::System.Windows.Application.Current) || global::System.Windows.Application.Current.GetType() == typeof(global::System.Windows.Application);
 #else
-                    throw new PlatformNotSupportedException();
+                    designModeEnabled = false;
 #endif
                 }
 
@@ -48,4 +37,3 @@ namespace InTheHand.ApplicationModel
         }
     }
 }
-//#endif

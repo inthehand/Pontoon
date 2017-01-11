@@ -45,7 +45,7 @@ using System.Resources;
 #endif
 [assembly: AssemblyProduct("Pontoon")]
 [assembly: AssemblyCompany("In The Hand Ltd")]
-[assembly: AssemblyCopyright("Copyright © In The Hand Ltd 2013-16. All rights reserved.")]
+[assembly: AssemblyCopyright("Copyright © In The Hand Ltd 2013-17. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 // Version information for an assembly consists of the following four values:
@@ -58,6 +58,6 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("10.0.0.0")]
-[assembly: AssemblyFileVersion("10.2016.12.13")]
+[assembly: AssemblyFileVersion("10.2017.01.06")]
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

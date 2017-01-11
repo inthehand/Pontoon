@@ -16,12 +16,19 @@ namespace InTheHand.Storage.Pickers
     {
         private async Task<StorageFile> PickSingleFileAsyncImpl()
         {
+            if(_filter.Count == 0)
+            {
+                throw new InvalidOperationException("The FileTypeFilters property must have at least one file type filter specified.");
+            }
+
             NativeMethods.OPENFILENAME ofn = new Pickers.FileOpenPicker.NativeMethods.OPENFILENAME();
+            
             StringBuilder sb = new StringBuilder();
             foreach(string ext in _filter)
             {
                 sb.Append("*" + ext + "\0*" + ext + "\0");
             }
+
             sb.Append("\0");
             ofn.lpstrFilter = sb.ToString();
             ofn.lStructSize = Marshal.SizeOf(ofn);
@@ -29,6 +36,7 @@ namespace InTheHand.Storage.Pickers
             ofn.lpstrFile = new string('\0', ofn.nMaxFile);
             ofn.Flags = 0x02001000;
             bool success = NativeMethods.GetOpenFileName(ref ofn);
+
             if(success)
             {
                 return new StorageFile(ofn.lpstrFile);

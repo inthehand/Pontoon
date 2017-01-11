@@ -47,5 +47,17 @@ namespace InTheHand.Storage.Pickers
                 return GetFileTypeChoices();
             }
         }
+
+#if PCL
+        private Task<StorageFile> PickSaveFileAsyncImpl()
+        {
+            return null;
+        }
+
+        private IDictionary<String, IList<String>> GetFileTypeChoices()
+        {
+            return null;
+        }
+#endif
     }
 }

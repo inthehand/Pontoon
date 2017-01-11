@@ -1,13 +1,8 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="CreationCollisionOption.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.CreationCollisionOption))]
-//#else
 
 namespace InTheHand.Storage
 {
@@ -19,7 +14,8 @@ namespace InTheHand.Storage
     {
         /// <summary>
         /// Automatically append a number to the base of the specified name if the file or folder already exists.
-        /// For example, if MyFile.txt already exists, then the new file is named MyFile(2).txt.If MyFolder already exists, then the new folder is named MyFolder(2).
+        /// For example, if MyFile.txt already exists, then the new file is named MyFile(2).txt.
+        /// If MyFolder already exists, then the new folder is named MyFolder(2).
         /// </summary>
         GenerateUniqueName = 0,
 
@@ -40,4 +36,3 @@ namespace InTheHand.Storage
         OpenIfExists = 3,
     }
 }
-//#endif

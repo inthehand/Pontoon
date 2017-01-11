@@ -303,6 +303,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileAttributesHelper.cs">
+      <Link>Storage\FileAttributesHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
       <Link>Storage\FileIO.cs</Link>
     </Compile>
@@ -359,6 +362,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
       <Link>System\Launcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.iOS.cs">
+      <Link>System\Launcher.iOS.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\LauncherOptions.cs">
       <Link>System\LauncherOptions.cs</Link>

@@ -45,6 +45,7 @@ namespace InTheHand.System
         /// <list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -52,25 +53,8 @@ namespace InTheHand.System
         /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         public static Task<bool> LaunchFileAsync(IStorageFile file)
         {
-#if __IOS__
-            return Task.Run<bool>(() =>
-            {
-                bool success = false;
-                UIKit.UIApplication.SharedApplication.InvokeOnMainThread(() =>
-                {
-                    UIDocumentInteractionController c = UIDocumentInteractionController.FromUrl(global::Foundation.NSUrl.FromFilename(file.Path));
-                    c.ViewControllerForPreview = ViewControllerForPreview;
-                    success = c.PresentPreview(true);
-                });
-
-                return success;
-            });
-#elif __MAC__
-            return Task.Run<bool>(() =>
-            {
-                bool success = NSWorkspace.SharedWorkspace.OpenFile(file.Path);
-                return success;
-            });
+#if __IOS__ || __MAC__
+            return LaunchFileAsyncImpl(file);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchFileAsync((Windows.Storage.StorageFile)((StorageFile)file)).AsTask();
 #elif WIN32
@@ -79,14 +63,6 @@ namespace InTheHand.System
             throw new PlatformNotSupportedException();
 #endif
         }
-
-#if __IOS__
-
-        private static UIViewController ViewControllerForPreview(UIDocumentInteractionController c)
-        {
-            return UIApplication.SharedApplication.KeyWindow.RootViewController;
-        }
-#endif
 
         /// <summary>
         /// Launches File Explorer and displays the contents of the specified folder.
@@ -140,14 +116,7 @@ namespace InTheHand.System
                 catch { return false; }
             });
 #elif __UNIFIED__
-            return Task.Run<bool>(() =>
-            {
-#if __MAC__
-                return NSWorkspace.SharedWorkspace.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
-#else
-                return UIApplication.SharedApplication.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
-#endif
-            });
+            return LaunchUriAsyncImpl(uri, options);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(uri).AsTask();
 #elif WIN32
@@ -155,7 +124,7 @@ namespace InTheHand.System
 #else
             throw new PlatformNotSupportedException();
 #endif
-            }
+        }
 
         /// <summary>
         /// Starts the default app associated with the URI scheme name for the specified URI.
@@ -199,12 +168,7 @@ namespace InTheHand.System
         public static Task<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {
 #if __IOS__ || __TVOS__
-            if(launchQuerySupportType == LaunchQuerySupportType.UriForResults)
-            {
-                return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.AppNotInstalled);
-            }
-
-            return Task.FromResult<LaunchQuerySupportStatus>(UIKit.UIApplication.SharedApplication.CanOpenUrl(uri) ? LaunchQuerySupportStatus.Available : LaunchQuerySupportStatus.AppNotInstalled);
+            return QueryUriSupportAsyncImpl(uri, launchQuerySupportType);
 #elif WINDOWS_UWP
             return Task.Run<LaunchQuerySupportStatus>(async () =>
             {

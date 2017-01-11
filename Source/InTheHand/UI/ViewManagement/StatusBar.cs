@@ -1,13 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="StatusBar.cs" company="In The Hand Ltd">
-//     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2015-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBar))]
-//#else
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -108,4 +104,3 @@ namespace InTheHand.UI.ViewManagement
         }
     }
 }
-//#endif

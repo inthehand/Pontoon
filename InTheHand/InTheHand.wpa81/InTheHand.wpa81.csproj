@@ -166,6 +166,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
       <Link>ApplicationModel\PackageVersion.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.WinRT.cs">
+      <Link>ApplicationModel\PackageVersion.WinRT.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Resources\ResourceLoader.cs">
       <Link>ApplicationModel\Resources\ResourceLoader.cs</Link>
     </Compile>
@@ -375,6 +378,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
       <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
+      <Link>Storage\Pickers\FileOpenPicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.WinRT.cs">
+      <Link>Storage\Pickers\FileOpenPicker.WinRT.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
       <Link>Storage\StorageDeleteOption.cs</Link>

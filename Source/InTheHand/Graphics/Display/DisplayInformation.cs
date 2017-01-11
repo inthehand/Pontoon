@@ -1,15 +1,12 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DisplayInformation.cs" company="In The Hand Ltd">
-//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 #if __IOS__ || __TVOS__
 using UIKit;
 #endif
-
-using System;
-using System.Windows;
 
 namespace InTheHand.Graphics.Display
 {
@@ -22,6 +19,7 @@ namespace InTheHand.Graphics.Display
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -29,7 +27,7 @@ namespace InTheHand.Graphics.Display
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
-    /// /// </remarks>
+    /// </remarks>
     public sealed partial class DisplayInformation
     {
         private static DisplayInformation current;
@@ -42,7 +40,7 @@ namespace InTheHand.Graphics.Display
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             return new Display.DisplayInformation(Windows.Graphics.Display.DisplayInformation.GetForCurrentView());
-#elif WIN32
+#elif __MAC__ || WIN32
             return GetForCurrentViewImpl();
 #else
             if (current == null)
@@ -111,6 +109,8 @@ namespace InTheHand.Graphics.Display
                 return _metrics.WidthPixels > _metrics.HeightPixels ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 #elif __IOS__ || __TVOS__
                 return _screen.Bounds.Width > _screen.Bounds.Height ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+#elif __MAC__
+                return GetCurrentOrientation();
 #elif TIZEN
                 int orientation;
 
@@ -137,7 +137,7 @@ namespace InTheHand.Graphics.Display
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return (DisplayOrientations)((int)_information.CurrentOrientation);
 #elif WINDOWS_PHONE
-                return Application.Current.Host.Content.ActualWidth > Application.Current.Host.Content.ActualHeight ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+                return global::System.Windows.Application.Current.Host.Content.ActualWidth > global::System.Windows.Application.Current.Host.Content.ActualHeight ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 #elif WIN32
                 return _orientation;
 #else

@@ -29,16 +29,11 @@ namespace InTheHand.Storage.Pickers
             return PickSingleFolderAsyncImpl();
         }
 
-        /*
-        /// <summary>
-        /// Gets the collection of file types that the folder picker displays.
-        /// </summary>
-        public IList<string> FileTypeFilter
+#if PCL
+        private Task<StorageFolder> PickSingleFolderAsyncImpl()
         {
-            get
-            {
-                return GetFileTypeFilter();
-            }
-        }*/
+            return null;
+        }
+#endif
     }
 }

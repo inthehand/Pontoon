@@ -1,13 +1,8 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="KnownFolders.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.KnownFolders))]
-//#else
 
 using System;
 using System.Threading.Tasks;
@@ -24,6 +19,7 @@ namespace InTheHand.Storage
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -73,7 +69,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyDocuments);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Documents);
@@ -93,7 +89,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyMusic);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Music);
@@ -113,7 +109,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyPictures);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Images);
@@ -133,7 +129,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || WIN32
+#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyVideos);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Videos);
@@ -146,7 +142,7 @@ namespace InTheHand.Storage
             }
         }
 
-#if __ANDROID__ || __IOS__ || __TVOS__ || WIN32
+#if __ANDROID__ || __UNIFIED__ || WIN32
         private static StorageFolder GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder folder)
         {
             string path = global::System.Environment.GetFolderPath(folder);
@@ -170,4 +166,3 @@ namespace InTheHand.Storage
 #endif
     }
 }
-//#endif

@@ -13,8 +13,7 @@ namespace InTheHand.UI.ViewManagement
     {
         private IntPtr _handle;
         private ITaskbarList3 _taskbarList = (ITaskbarList3)new TaskbarInstance();
-        private double? _progressValue = null;
-        private bool _isVisible = false;
+
 
         internal StatusBarProgressIndicator(IntPtr handle)
         {

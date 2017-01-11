@@ -1,15 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="IStorageItem2.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageItem2))]
-//#else
 
-using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace InTheHand.Storage
@@ -33,4 +27,3 @@ namespace InTheHand.Storage
         bool IsEqual(IStorageItem item);
     }
 }
-//#endif

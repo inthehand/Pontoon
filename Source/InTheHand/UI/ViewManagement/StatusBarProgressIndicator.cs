@@ -1,12 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="StatusBarProgressIndicator.cs" company="In The Hand Ltd">
-//     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2015-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.ViewManagement.StatusBarProgressIndicator))]
-//#else
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -39,6 +36,9 @@ namespace InTheHand.UI.ViewManagement
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
     public sealed partial class StatusBarProgressIndicator
     {
+        private bool _isVisible = false;
+        private double? _progressValue = null;
+        
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.UI.ViewManagement.StatusBarProgressIndicator _indicator;
 
@@ -76,6 +76,7 @@ namespace InTheHand.UI.ViewManagement
                 Activity a = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity;
                 if (a != null)
                 {
+                    a.SetProgressBarVisibility(false);
                     a.SetProgressBarIndeterminateVisibility(false);
                 }         
 #elif __IOS__
@@ -103,7 +104,14 @@ namespace InTheHand.UI.ViewManagement
                 Activity a = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity;
                 if (a != null)
                 {
-                    a.SetProgressBarIndeterminateVisibility(true);
+                    if (_progressValue.HasValue)
+                    {
+                        a.SetProgressBarVisibility(true);
+                    }
+                    else
+                    {
+                        a.SetProgressBarIndeterminateVisibility(true);
+                    }
                 }         
 #elif __IOS__
                 UIApplication.SharedApplication.NetworkActivityIndicatorVisible = true;
@@ -138,7 +146,7 @@ namespace InTheHand.UI.ViewManagement
         public double? ProgressValue
         {
             get
-            {
+            { 
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
                 return _indicator.ProgressValue;
 #elif WINDOWS_PHONE
@@ -148,16 +156,17 @@ namespace InTheHand.UI.ViewManagement
                 }
 
                 return _progressIndicator.Value;
-#elif WIN32
-                return _progressValue;
 #else
-                return null;
+                return _progressValue;
 #endif
             }
 
             set
             {
-#if WINDOWS_UWP
+#if __ANDROID__
+                _progressValue = value;
+
+#elif WINDOWS_UWP
                 _indicator.ProgressValue = value;
 #elif WINDOWS_PHONE
                 if (value.HasValue)
@@ -185,6 +194,31 @@ namespace InTheHand.UI.ViewManagement
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text label displayed on the progress indicator.
+        /// </summary>
+        public string Text
+        {
+            get
+            {        
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+                return _indicator.Text;
+#elif WINDOWS_PHONE
+                return _progressIndicator.Text;
+#else
+                return string.Empty;
+#endif
+            }
+
+            set
+            {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+                _indicator.Text = value;
+#elif WINDOWS_PHONE
+                _progressIndicator.Text = value;
+#endif
+            }
+        }
+
     }
 }
-//#endif

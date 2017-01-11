@@ -3,10 +3,6 @@
 //     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.System.LaunchQuerySupportStatus))]
-//#else
 
 namespace InTheHand.System
 {
@@ -53,4 +49,3 @@ namespace InTheHand.System
         Unknown = 4,
     }
 }
-//#endif

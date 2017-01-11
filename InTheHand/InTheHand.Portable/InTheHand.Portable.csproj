@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;PCL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -29,7 +29,7 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;PCL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML</DocumentationFile>
@@ -329,6 +329,15 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
       <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
+      <Link>Storage\Pickers\FileOpenPicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileSavePicker.cs">
+      <Link>Storage\Pickers\FileSavePicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FolderPicker.cs">
+      <Link>Storage\Pickers\FolderPicker.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
       <Link>Storage\StorageDeleteOption.cs</Link>

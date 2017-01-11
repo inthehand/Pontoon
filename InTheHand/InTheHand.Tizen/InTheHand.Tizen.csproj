@@ -180,6 +180,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileAttributesHelper.cs">
+      <Link>Storage\FileAttributesHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
       <Link>Storage\FileIO.cs</Link>
     </Compile>

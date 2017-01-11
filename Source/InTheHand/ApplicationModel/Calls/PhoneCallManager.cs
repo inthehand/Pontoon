@@ -6,10 +6,7 @@
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallManager))]
-//#else
+
 using InTheHand.UI.Popups;
 using InTheHand.System;
 using System;
@@ -175,4 +172,3 @@ namespace InTheHand.ApplicationModel.Calls
         }
     }
 }
-//#endif

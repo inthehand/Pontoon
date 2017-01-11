@@ -1,13 +1,8 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PackageVersionExtensions.cs" company="In The Hand Ltd">
+// <copyright file="PackageVersion.cs" company="In The Hand Ltd">
 //   Copyright (c) 2013-16 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.PackageVersion))]
-//#else
-using System;
 
 namespace InTheHand.ApplicationModel
 {
@@ -28,7 +23,7 @@ namespace InTheHand.ApplicationModel
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
     /// </remarks>
-    public struct PackageVersion
+    public partial struct PackageVersion
     {
         /// <summary>
         /// The major version number of the package.
@@ -47,18 +42,6 @@ namespace InTheHand.ApplicationModel
         /// </summary>
         public ushort Revision;
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-        public static implicit operator Windows.ApplicationModel.PackageVersion(PackageVersion pv)
-        {
-            return new Windows.ApplicationModel.PackageVersion { Major = pv.Major, Minor = pv.Minor, Build = pv.Build, Revision = pv.Revision };
-        }
-
-        public static implicit operator PackageVersion(Windows.ApplicationModel.PackageVersion pv)
-        {
-            return new PackageVersion() { Major = pv.Major, Minor = pv.Minor, Build = pv.Build, Revision = pv.Revision };
-        }
-#endif
-
         /// <summary>
         /// Returns a formatted string for the PackageVersion.
         /// </summary>
@@ -69,4 +52,3 @@ namespace InTheHand.ApplicationModel
         }
     }
 }
-//#endif

@@ -1,12 +1,8 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="IStorageItem.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.IStorageItem))]
-//#else
 
 using System;
 using System.Threading.Tasks;
@@ -67,4 +63,3 @@ namespace InTheHand.Storage
         string Path { get; }
     }
 }
-//#endif

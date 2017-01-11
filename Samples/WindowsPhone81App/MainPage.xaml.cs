@@ -82,12 +82,12 @@ namespace WindowsPhone81App
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            ChatMessageManager.ShowSmsSettings();
-            return;
+            InTheHand.Storage.Pickers.FileOpenPicker fop = new InTheHand.Storage.Pickers.FileOpenPicker();
+            var file = await fop.PickSingleFileAsync();
 
-            CameraCaptureUI ccu = new CameraCaptureUI();
+            /*CameraCaptureUI ccu = new CameraCaptureUI();
             InTheHand.Storage.StorageFile sf = await ccu.CaptureFileAsync(CameraCaptureUIMode.Photo);
-            System.Diagnostics.Debug.WriteLine(sf.Path);
+            System.Diagnostics.Debug.WriteLine(sf.Path);*/
             /*
             var store = await InTheHand.ApplicationModel.Calls.PhoneCallManager.RequestStoreAsync();
             Guid g = await store.GetDefaultLineAsync();

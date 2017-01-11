@@ -4,12 +4,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-
-using System.Threading.Tasks;
-using InTheHand.Storage.FileProperties;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace InTheHand.Storage.Pickers
 {
@@ -21,6 +17,7 @@ namespace InTheHand.Storage.Pickers
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows 10 Mobile or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
     /// </remarks>
     public sealed partial class FileOpenPicker
@@ -44,5 +41,17 @@ namespace InTheHand.Storage.Pickers
                 return GetFileTypeFilter();
             }
         }
+
+#if PCL
+        private Task<StorageFile> PickSingleFileAsyncImpl()
+        {
+            return null;
+        }
+
+        private IList<string> GetFileTypeFilter()
+        {
+            return null;
+        }
+#endif
     }
 }

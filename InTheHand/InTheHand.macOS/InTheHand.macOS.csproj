@@ -141,6 +141,15 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
+      <Link>Graphics\Display\DisplayInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.macOS.cs">
+      <Link>Graphics\Display\DisplayInformation.macOS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
+      <Link>Graphics\Display\DisplayOrientations.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\OperatingSystem.cs">
       <Link>OperatingSystem.cs</Link>
     </Compile>
@@ -164,6 +173,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs">
       <Link>Storage\FileAttributes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileAttributesHelper.cs">
+      <Link>Storage\FileAttributesHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs">
       <Link>Storage\FileIO.cs</Link>
@@ -218,6 +230,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
       <Link>System\Launcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.macOS.cs">
+      <Link>System\Launcher.macOS.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\LauncherOptions.cs">
       <Link>System\LauncherOptions.cs</Link>
