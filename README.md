@@ -3,7 +3,7 @@ A flexible bridge to the Universal Windows Platform
 
 This library provides a common API across Windows and Xamarin platforms allowing you to query the application properties and perform common tasks. More detailed API documentation is available at - https://inthehand.github.io/
 
-- https://www.nuget.org/packages/InTheHand.Pontoon/ - Contains shared APIs
+[![NuGet version](https://badge.fury.io/nu/inthehand.pontoon.svg)](https://badge.fury.io/nu/inthehand.pontoon)
 
 ## Platforms
 - Windows Phone 8.0 (Silverlight)
