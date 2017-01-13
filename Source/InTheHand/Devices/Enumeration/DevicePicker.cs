@@ -1,17 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DevicePicker.cs" company="In The Hand Ltd">
-//   32feet.NET - Personal Area Networking for .NET
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
 
 using System;
 using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
 using Windows.Foundation;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -20,18 +17,43 @@ namespace InTheHand.Devices.Enumeration
     /// </summary>
     public sealed class DevicePicker
     {
-#if WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+        private Windows.Devices.Enumeration.DevicePicker _picker = new Windows.Devices.Enumeration.DevicePicker();
+
+        private void _picker_DeviceSelected(Windows.Devices.Enumeration.DevicePicker sender, Windows.Devices.Enumeration.DeviceSelectedEventArgs args)
+        {
+            OnDeviceSelected(args.SelectedDevice);
+        }
+
+        private void _picker_DevicePickerDismissed(Windows.Devices.Enumeration.DevicePicker sender, object args)
+        {
+            OnDevicePickerDismissed();
+        }
+
+#elif WINDOWS_PHONE_APP
         private DevicePickerDialog _dialog;
-#else
+#elif WINDOWS_APP
         private Popup _popup;
+#endif
+
+#if !WINDOWS_UWP
+        private DevicePickerAppearance _appearance = new DevicePickerAppearance();   
+        private DevicePickerFilter _filter = new DevicePickerFilter();
+        
 #endif
 
         /// <summary>
         /// Creates a <see cref="DevicePicker"/> object.
         /// </summary>
-        public DevicePicker() 
-        { 
+        public DevicePicker()
+        {
+#if WINDOWS_UWP
+            _picker.DevicePickerDismissed += _picker_DevicePickerDismissed;
+            _picker.DeviceSelected += _picker_DeviceSelected;
+#endif
         }
+
+
 
 
         /// <summary>
@@ -44,10 +66,7 @@ namespace InTheHand.Devices.Enumeration
         // raises the DevicePickerDismissed event
         internal void OnDevicePickerDismissed()
         {
-            if(DevicePickerDismissed != null)
-            {
-                DevicePickerDismissed(this, null);
-            }
+            DevicePickerDismissed?.Invoke(this, null);
         }
 
 
@@ -57,26 +76,28 @@ namespace InTheHand.Devices.Enumeration
         public event TypedEventHandler<DevicePicker, DeviceSelectedEventArgs> DeviceSelected;
 
         // Raises the DeviceSelected event
-        internal void OnDeviceSelected(Windows.Devices.Enumeration.DeviceInformation device)
+        internal void OnDeviceSelected(DeviceInformation device)
         {
-            if(DeviceSelected != null)
-            {
-                DeviceSelected(this, new DeviceSelectedEventArgs() { SelectedDevice = device });
-            }
+            DeviceSelected?.Invoke(this, new DeviceSelectedEventArgs() { SelectedDevice = device });
         }
 
-        private DevicePickerAppearance _appearance = new DevicePickerAppearance();
-
+        
         /// <summary>
         /// Gets the colors of the picker.
         /// </summary>
         /// <value>The color of the picker.</value>
         public DevicePickerAppearance Appearance
         {
-            get { return _appearance; }
+            get
+            {
+#if WINDOWS_UWP
+                return _picker.Appearance;
+#else
+                return _appearance;
+#endif
+            }
         }
 
-        private DevicePickerFilter _filter = new DevicePickerFilter();
         /// <summary>
         /// Gets the filter used to choose what devices to show in the picker.
         /// </summary>
@@ -84,7 +105,11 @@ namespace InTheHand.Devices.Enumeration
         {
             get
             {
+#if WINDOWS_UWP
+                return _picker.Filter;
+#else                
                 return _filter;
+#endif
             }
         }
 
@@ -111,7 +136,7 @@ namespace InTheHand.Devices.Enumeration
         /// <param name="selection">The rectangle from which you want the picker to fly out.
         /// Ignored on Windows Phone.</param>
         /// <returns></returns>
-        public Task<Windows.Devices.Enumeration.DeviceInformation> PickSingleDeviceAsync(Rect selection)
+        public Task<DeviceInformation> PickSingleDeviceAsync(Rect selection)
         {
             return PickSingleDeviceAsync(selection, Placement.Default);
         }
@@ -124,13 +149,15 @@ namespace InTheHand.Devices.Enumeration
         /// <param name="placement">The edge of the rectangle from which you want the picker to fly out.
         /// Ignored on Windows Phone.</param>
         /// <returns></returns>
-        public async Task<Windows.Devices.Enumeration.DeviceInformation> PickSingleDeviceAsync(Rect selection, Placement placement)
+        public async Task<DeviceInformation> PickSingleDeviceAsync(Rect selection, Placement placement)
         {
-#if WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            return await _picker.PickSingleDeviceAsync(selection, (Windows.UI.Popups.Placement)((int)placement)).AsTask();
+#elif WINDOWS_PHONE_APP
             _dialog = new DevicePickerDialog(this);
-            ContentDialogResult result = await _dialog.ShowAsync();
+            Windows.UI.Xaml.Controls.ContentDialogResult result = await _dialog.ShowAsync();
             return _dialog.SelectedDevice;
-#else
+#elif WINDOWS_APP
             _popup = new Popup();
             DevicePickerControl dpc = new DevicePickerControl(this, _popup);
             _popup.Child = dpc;
@@ -164,7 +191,7 @@ namespace InTheHand.Devices.Enumeration
 #if WINDOWS_PHONE_APP
             _dialog = new DevicePickerDialog(this);
             _dialog.ShowAsync();
-#else
+#elif WINDOWS_APP
             _popup = new Popup();
             _popup.Child = new DevicePickerControl(this, _popup);
             _popup.HorizontalOffset = selection.Right;

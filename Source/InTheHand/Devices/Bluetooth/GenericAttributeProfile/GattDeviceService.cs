@@ -9,7 +9,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-#if __IOS__
+#if __UNIFIED__
 using CoreBluetooth;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using Windows.Devices.Enumeration;
@@ -26,11 +26,22 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
         private Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService  _service;
 
-        internal GattDeviceService(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service)
+        private GattDeviceService(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service)
         {
             _service = service;
         }
-#elif __IOS__
+
+        public static implicit operator Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService(GattDeviceService service)
+        {
+            return service._service;
+        }
+
+        public static implicit operator GattDeviceService(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service)
+        {
+            return new GattDeviceService(service);
+        }
+
+#elif __UNIFIED__
         internal CBService _service;
       
         internal GattDeviceService(CBService service)
@@ -39,9 +50,18 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         }
 #endif
 
+        public static async Task<GattDeviceService> FromIdAsync(string deviceId)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            return await Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.FromIdAsync(deviceId).AsTask();
+#else
+            return null;
+#endif
+        }
+
         public static string GetDeviceSelectorFromShortId(ushort serviceShortId)
         {
-#if __IOS__
+#if __UNIFIED__
             return CBUUID.FromPartial(serviceShortId).ToString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             return Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromShortId(serviceShortId);
@@ -52,7 +72,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         public static string GetDeviceSelectorFromUuid(Guid serviceUuid)
         {
-#if __IOS__
+#if __UNIFIED__
             return CBUUID.FromBytes(serviceUuid.ToByteArray()).ToString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             return Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(serviceUuid);
@@ -65,23 +85,61 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         public IReadOnlyList<GattCharacteristic> GetAllCharacteristics()
         {
             List<GattCharacteristic> characteristics = new List<GattCharacteristic>();
-#if __IOS__
-            foreach(CBCharacteristic characteristic in _service.Characteristics)
+#if __UNIFIED__
+            foreach (CBCharacteristic characteristic in _service.Characteristics)
             {
-                characteristics.Add(new GattCharacteristic(characteristic));
+                characteristics.Add(characteristic);
             }
 
             return characteristics.AsReadOnly();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic in _service.GetAllCharacteristics())
             {
-                characteristics.Add(new GattCharacteristic(characteristic));
+                characteristics.Add(characteristic);
             }
 
             return new ReadOnlyCollection<GattCharacteristic>(characteristics);
 #else
             return new ReadOnlyCollection<GattCharacteristic>(new List<GattCharacteristic>());
 #endif
+        }
+
+        public IReadOnlyList<GattCharacteristic> GetCharacteristics(Guid characteristicUuid)
+        {
+            List<GattCharacteristic> chars = new List<GenericAttributeProfile.GattCharacteristic>();
+#if __UNIFIED__
+            foreach (CBCharacteristic characteristic in _service.Characteristics)
+            {
+                if (characteristic.UUID.ToGuid() == characteristicUuid)
+                {
+                    chars.Add(characteristic);
+                }
+            }
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+            foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic in _service.GetCharacteristics(characteristicUuid))
+            {
+                chars.Add(characteristic);
+            }
+#endif
+            return chars.AsReadOnly();
+        }
+
+        /// <summary>
+        /// The GATT Service UUID associated with this GattDeviceService.
+        /// </summary>
+        public Guid Uuid
+        {
+            get
+            {
+#if __UNIFIED__
+                return _service.UUID.ToGuid();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return _service.Uuid;
+#else
+                return Guid.Empty;
+#endif
+            }
         }
     }
 }

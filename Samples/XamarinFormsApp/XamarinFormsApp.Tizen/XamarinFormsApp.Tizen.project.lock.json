@@ -2210,7 +2210,7 @@
           "lib/netstandard1.3/Tizen.Tracer.dll": {}
         }
       },
-      "Xamarin.Forms/2.3.3.163-pre3": {
+      "Xamarin.Forms/2.3.3.180": {
         "compile": {
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Core.dll": {},
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Platform.dll": {},
@@ -4570,7 +4570,7 @@
           "lib/netstandard1.3/Tizen.Tracer.dll": {}
         }
       },
-      "Xamarin.Forms/2.3.3.163-pre3": {
+      "Xamarin.Forms/2.3.3.180": {
         "compile": {
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Core.dll": {},
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Platform.dll": {},
@@ -6907,7 +6907,7 @@
           "lib/netstandard1.3/Tizen.Tracer.dll": {}
         }
       },
-      "Xamarin.Forms/2.3.3.163-pre3": {
+      "Xamarin.Forms/2.3.3.180": {
         "compile": {
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Core.dll": {},
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Platform.dll": {},
@@ -12329,12 +12329,12 @@
         "lib/netstandard1.3/Tizen.Tracer.dll"
       ]
     },
-    "Xamarin.Forms/2.3.3.163-pre3": {
-      "sha512": "AzPb6q0vF4cz4TGk691OsetnCf6QEHtkj3vtWvOLsj/+eAH6INoU66k9kj+ey+qycwXWSjClQt4vZ/HBSZp7nQ==",
+    "Xamarin.Forms/2.3.3.180": {
+      "sha512": "n4zTnWMDmtWnLqD8duenKd4Ofk8NmklPHHFRIMx+BuUuzX9ZOJFGWun6RCgzok54UBWQgX38Mf80Hvh7v3GYzQ==",
       "type": "package",
-      "path": "Xamarin.Forms/2.3.3.163-pre3",
+      "path": "Xamarin.Forms/2.3.3.180",
       "files": [
-        "Xamarin.Forms.2.3.3.163-pre3.nupkg.sha512",
+        "Xamarin.Forms.2.3.3.180.nupkg.sha512",
         "Xamarin.Forms.nuspec",
         "build/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/ICSharpCode.Decompiler.dll",
         "build/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/ICSharpCode.NRefactory.CSharp.dll",
@@ -12441,6 +12441,7 @@
         "lib/uap10.0/Xamarin.Forms.Platform.UAP.dll",
         "lib/uap10.0/Xamarin.Forms.Platform.UAP.pri",
         "lib/uap10.0/Xamarin.Forms.Platform.UAP/AutoSuggestStyle.xbf",
+        "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsCommandBarStyle.xbf",
         "lib/uap10.0/Xamarin.Forms.Platform.UAP/FormsTextBoxStyle.xbf",
         "lib/uap10.0/Xamarin.Forms.Platform.UAP/MasterDetailControlStyle.xbf",
         "lib/uap10.0/Xamarin.Forms.Platform.UAP/PageControl.xbf",
@@ -12506,7 +12507,7 @@
     "": [
       "Microsoft.NETCore.App >= 1.0.0",
       "Tizen.Library >= 1.0.0-pre1",
-      "Xamarin.Forms >= 2.3.3.163-pre3",
+      "Xamarin.Forms >= 2.3.3.180",
       "Xamarin.Forms.Platform.Tizen >= 2.3.3.163-pre3"
     ],
     ".NETCoreApp,Version=v1.0": []

@@ -1,12 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="HtmlUtilities.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 #if __ANDROID__
 using Android.Text;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
 using Foundation;
 #elif WINDOWS_PHONE || WIN32
 using System.Text.RegularExpressions;
@@ -92,10 +92,10 @@ namespace InTheHand.Data.Html
             html = html.Replace("</li>", "<p/>");
 
 #if __ANDROID__
-            ISpanned sp = Android.Text.Html.FromHtml(html);
+            ISpanned sp = Android.Text.Html.FromHtml(html, FromHtmlOptions.ModeLegacy);
             return sp.ToString().Trim();
 
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
             byte[] data = global::System.Text.Encoding.UTF8.GetBytes(html);
             NSData d = NSData.FromArray(data);
             NSAttributedStringDocumentAttributes importParams = new NSAttributedStringDocumentAttributes();
@@ -103,8 +103,11 @@ namespace InTheHand.Data.Html
             NSError error = new NSError();
             error = null;
             NSDictionary dict = new NSDictionary();
-
+#if __MAC__
+            var attrString = new NSAttributedString(d, importParams, out dict, out error);
+#else
             var attrString = new NSAttributedString(d, importParams, out dict, ref error);
+#endif
             return attrString.Value;
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81

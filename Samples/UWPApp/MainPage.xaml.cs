@@ -55,35 +55,7 @@ namespace UWPApp
 
             this.Loaded += MainPage_Loaded;
            
-            Windows.Devices.Enumeration.DeviceInformationPairing dip;
-            Task.Run(async () => {
-                await Task.Delay(1000);
-
-                //var sel = Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(Windows.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.DeviceInformation);
-
-                var sel = Windows.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
-                 var devs =   await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(sel);
-                foreach(DeviceInformation di in devs)
-                {
-                    //var s = await Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.FromIdAsync(di.Id);
-
-                    var d = await Windows.Devices.Bluetooth.BluetoothLEDevice.FromIdAsync(di.Id);
-                    foreach(GattDeviceService serv in d.GattServices)
-                    {
-                        System.Diagnostics.Debug.WriteLine(serv);
-                    }
-                    System.Diagnostics.Debug.WriteLine(di.Name);
-                }
-
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-
-                    if (ApiInformation.IsTypePresent("Windows.UI.ViewManagment.StatusBar"))
-                    {
-                        StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
-                    }
-                });
-            });
+            
         }
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
@@ -97,6 +69,50 @@ namespace UWPApp
                     System.Diagnostics.Debug.WriteLine(readingentry.Value.Timestamp.ToString() + " " + readingentry.Value.CumulativeSteps.ToString() + " " + readingentry.Value.StepKind);
                 }
             }
+
+            var sel = InTheHand.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
+                //var sel = Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.DeviceInformation);
+                var devs = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(sel);
+            foreach (DeviceInformation di in devs)
+            {
+                //var s = await Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.FromIdAsync(di.Id);
+
+                //var d = await InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.FromIdAsync(di.Id);
+                var d = await InTheHand.Devices.Bluetooth.BluetoothLEDevice.FromIdAsync(di.Id);
+                foreach (InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService serv in d.GattServices)
+                {
+                    System.Diagnostics.Debug.WriteLine(serv.Uuid.ToString());
+                    if (serv.Uuid == GattServiceUuids.DeviceInformation)
+                    {
+                        foreach(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic ch in serv.GetCharacteristics(GattCharacteristicUuids.ManufacturerNameString))
+                        {
+                            InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattReadResult rr = await ch.ReadValueAsync();
+                            var vl = rr.Value;
+                            System.Diagnostics.Debug.WriteLine(System.Text.Encoding.UTF8.GetString(vl));
+                        }
+                    }
+                    foreach (InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic c in serv.GetAllCharacteristics())
+                    {
+                        System.Diagnostics.Debug.WriteLine(c.Uuid.ToString());
+
+                        
+                        /*foreach(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattDescriptor ds in c.GetAllDescriptors())
+                        {
+                            InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattReadResult r = await ds.ReadValueAsync();
+                            object raw = r.Value;
+                        }*/
+
+                    }
+                }
+                System.Diagnostics.Debug.WriteLine(di.Name);
+            }
+
+                
+
+                    if (ApiInformation.IsTypePresent("Windows.UI.ViewManagment.StatusBar"))
+                    {
+                        StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
+                    }
         }
 
         private void MainPage_DataRequested(object sender, DataRequestedEventArgs e)

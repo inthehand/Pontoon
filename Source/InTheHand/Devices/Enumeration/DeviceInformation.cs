@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DeviceInformation.cs" company="In The Hand Ltd">
-//   32feet.NET - Personal Area Networking for .NET
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
@@ -9,13 +9,15 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 #if __ANDROID__
 using Android.Bluetooth;
 using Android.Bluetooth.LE;
-#elif __IOS__
+#elif __UNIFIED__
 using CoreBluetooth;
 using Foundation;
+using System.Threading;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
@@ -31,28 +33,39 @@ namespace InTheHand.Devices.Enumeration
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
         private Windows.Devices.Enumeration.DeviceInformation _deviceInformation;
 
-        internal DeviceInformation(Windows.Devices.Enumeration.DeviceInformation deviceInformation)
+        private DeviceInformation(Windows.Devices.Enumeration.DeviceInformation deviceInformation)
         {
             _deviceInformation = deviceInformation;
         }
+
+        public static implicit operator Windows.Devices.Enumeration.DeviceInformation(DeviceInformation deviceInformation)
+        {
+            return deviceInformation._deviceInformation;
+        }
+
+        public static implicit operator DeviceInformation(Windows.Devices.Enumeration.DeviceInformation deviceInformation)
+        {
+            return new DeviceInformation(deviceInformation);
+        }
+
 #elif __ANDROID__
         private static BluetoothLeScanner _scanner;
         static DeviceInformation()
         {
-            BluetoothManager bluetoothManager = (BluetoothManager)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Android.MainApplication.BluetoothService);
+            BluetoothManager bluetoothManager = (BluetoothManager)global::Android.App.Application.Context.GetSystemService(global::Android.App.Application.BluetoothService);
             _scanner = bluetoothManager.Adapter.BluetoothLeScanner;
 
         }
-#elif __IOS__
+#elif __UNIFIED__
         internal CBPeripheral _peripheral;
         private static CBCentralManager _manager;
-        private static System.Threading.EventWaitHandle stateHandle;
-        private static System.Threading.EventWaitHandle retrievedHandle = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.AutoReset);
+        private static EventWaitHandle stateHandle;
+        private static EventWaitHandle retrievedHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
         //private static EventHandler<CBPeripheralsEventArgs> _retrieved = new EventHandler<CBPeripheralsEventArgs>(_manager_RetrievedConnectedPeripherals);
         internal static List<DeviceInformation> _devices = new List<DeviceInformation>();
         static DeviceInformation()
         {
-            stateHandle = new System.Threading.EventWaitHandle(false, System.Threading.EventResetMode.ManualReset);
+            stateHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
             _manager = new CBCentralManager();
             //_manager.RetrievedConnectedPeripherals += _manager_RetrievedConnectedPeripherals;
             //_manager.RetrievedPeripherals += _manager_RetrievedPeripherals;
@@ -60,7 +73,7 @@ namespace InTheHand.Devices.Enumeration
             _manager.DiscoveredPeripheral += _manager_DiscoveredPeripheral;
         }
 
-        private static void _manager_RetrievedPeripherals(object sender, CBPeripheralsEventArgs e)
+        /*private static void _manager_RetrievedPeripherals(object sender, CBPeripheralsEventArgs e)
         {
             foreach (CBPeripheral p in e.Peripherals)
             {
@@ -68,11 +81,11 @@ namespace InTheHand.Devices.Enumeration
             }
 
             retrievedHandle.Set();
-        }
+        }*/
 
         private static void _manager_UpdatedState(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(_manager.State);
+            Debug.WriteLine(_manager.State);
             if(_manager.State == CBCentralManagerState.PoweredOn)
             {
                 stateHandle.Set();
@@ -97,11 +110,11 @@ namespace InTheHand.Devices.Enumeration
         {
             foreach(KeyValuePair<NSObject,NSObject> kvp in e.AdvertisementData)
             {
-                System.Diagnostics.Debug.WriteLine(kvp.Key.ToString() + " " + kvp.Value.ToString());
+                Debug.WriteLine(kvp.Key.ToString() + " " + kvp.Value.ToString());
             }
 
             //e.Peripheral.
-            System.Diagnostics.Debug.WriteLine(e.RSSI.ToString());
+            Debug.WriteLine(e.RSSI.ToString());
             _devices.Add(new DeviceInformation(e.Peripheral, e.AdvertisementData["kCBAdvDataLocalName"].ToString()));
         }
 
@@ -124,7 +137,7 @@ namespace InTheHand.Devices.Enumeration
                     stateHandle.Reset();
                 }
             }
-            public override void DiscoveredPeripheral(CBCentralManager central, CBPeripheral peripheral, NSDictionary advertisementData, NSNumber RSSI)
+            /*public override void DiscoveredPeripheral(CBCentralManager central, CBPeripheral peripheral, NSDictionary advertisementData, NSNumber RSSI)
             {
                 base.DiscoveredPeripheral(central, peripheral, advertisementData, RSSI);
             }
@@ -132,13 +145,13 @@ namespace InTheHand.Devices.Enumeration
             public override void RetrievedConnectedPeripherals(CBCentralManager central, CBPeripheral[] peripherals)
             {
                 base.RetrievedConnectedPeripherals(central, peripherals);
-            }
+            }*/
         }
 #endif
 
         public static async Task<IReadOnlyCollection<DeviceInformation>> FindAllAsync(string aqsFilter)
         {
-#if __IOS__
+#if __UNIFIED__
             return await Task.Run<IReadOnlyCollection<DeviceInformation>>(async () =>
             {
                 if (_manager.State != CBCentralManagerState.PoweredOn)
@@ -199,7 +212,7 @@ namespace InTheHand.Devices.Enumeration
         {
             get
             {
-#if __IOS__
+#if __UNIFIED__
                 return _peripheral.Identifier.AsString();
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _deviceInformation.Id;
@@ -209,14 +222,14 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 
-#if __IOS__
+#if __UNIFIED__
         private string _name;
 #endif
         public string Name
         {
             get
             {
-#if __IOS__
+#if __UNIFIED__
                 if (string.IsNullOrEmpty(_peripheral.Name))
                 {
                     return _name;

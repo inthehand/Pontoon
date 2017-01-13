@@ -21,7 +21,16 @@ namespace InTheHand.Storage.Pickers
 
         private async Task<StorageFile> PickSingleFileAsyncImpl()
         {
-            return new StorageFile(await _picker.PickSingleFileAsync());
+#if WINDOWS_PHONE_APP
+            if (InTheHand.Environment.OSVersion.Version.Major > 8)
+            {
+#endif
+                return new StorageFile(await _picker.PickSingleFileAsync());
+#if WINDOWS_PHONE_APP
+            }
+
+            return null;
+#endif
         }
 
         private IList<string> GetFileTypeFilter()
