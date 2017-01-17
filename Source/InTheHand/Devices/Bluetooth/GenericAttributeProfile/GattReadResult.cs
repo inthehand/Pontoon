@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="GattReadResult.cs" company="In The Hand Ltd">
-//   32feet.NET - Personal Area Networking for .NET
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
@@ -10,7 +10,7 @@ using System.IO;
 using System.Threading.Tasks;
 #if __UNIFIED__
 using CoreBluetooth;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 #endif
@@ -22,7 +22,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// </summary>
     public sealed class GattReadResult
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult _result;
 
         internal GattReadResult(Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult result)
@@ -56,7 +56,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 byte[] buffer = new byte[_result.Value.Length];
                 Windows.Storage.Streams.DataReader.FromBuffer(_result.Value).ReadBytes(buffer);
                 return buffer;

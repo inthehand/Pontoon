@@ -153,6 +153,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
     </Compile>

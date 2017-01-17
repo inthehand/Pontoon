@@ -86,6 +86,10 @@ namespace UWPApp
                     {
                         foreach(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic ch in serv.GetCharacteristics(GattCharacteristicUuids.ManufacturerNameString))
                         {
+                            if(ch.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify))
+                            {
+                                ((Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic)ch).
+                            }
                             InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattReadResult rr = await ch.ReadValueAsync();
                             var vl = rr.Value;
                             System.Diagnostics.Debug.WriteLine(System.Text.Encoding.UTF8.GetString(vl));

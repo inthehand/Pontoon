@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="GattDeviceService.cs" company="In The Hand Ltd">
-//   32feet.NET - Personal Area Networking for .NET
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 #if __UNIFIED__
 using CoreBluetooth;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 #endif
@@ -23,7 +23,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// </summary>
     public sealed class GattDeviceService
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService  _service;
 
         private GattDeviceService(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service)
@@ -52,7 +52,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         public static async Task<GattDeviceService> FromIdAsync(string deviceId)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.FromIdAsync(deviceId).AsTask();
 #else
             return null;
@@ -63,7 +63,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
 #if __UNIFIED__
             return CBUUID.FromPartial(serviceShortId).ToString();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromShortId(serviceShortId);
 #else
             return string.Empty;
@@ -74,7 +74,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
 #if __UNIFIED__
             return CBUUID.FromBytes(serviceUuid.ToByteArray()).ToString();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(serviceUuid);
 #else
             return string.Empty;
@@ -92,7 +92,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
 
             return characteristics.AsReadOnly();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic in _service.GetAllCharacteristics())
             {
                 characteristics.Add(characteristic);
@@ -116,7 +116,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
                 }
             }
 
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic in _service.GetCharacteristics(characteristicUuid))
             {
                 chars.Add(characteristic);
@@ -134,7 +134,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
 #if __UNIFIED__
                 return _service.UUID.ToGuid();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _service.Uuid;
 #else
                 return Guid.Empty;

@@ -10,9 +10,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 #if __UNIFIED__
 using CoreBluetooth;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+using Foundation;
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
+using System.Runtime.InteropServices.WindowsRuntime;
 #endif
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
@@ -22,7 +24,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// </summary>
     public sealed class GattCharacteristic
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic _characteristic;
 
         private GattCharacteristic(Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic)
@@ -68,19 +70,24 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
                 descriptors.Add(d);
             }
 
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP          
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             foreach(GattDescriptor d in _characteristic.GetAllDescriptors())
             {
                 descriptors.Add(d);
             }
-               
+#elif WINDOWS_PHONE_81
+            // TODO: GetAll is missing from SL8.1 so test this workaround
+            foreach (GattDescriptor d in _characteristic.GetDescriptors(Guid.Empty))
+            {
+                descriptors.Add(d);
+            }
 #endif
             return descriptors.AsReadOnly();
         }
 
         public async Task<GattReadResult> ReadValueAsync()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await _characteristic.ReadValueAsync().AsTask();
 #elif __UNIFIED__
             return new GattReadResult(_characteristic.Value);
@@ -88,6 +95,26 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
                 return null;
 #endif
         }
+
+        public async Task<GattCommunicationStatus> WriteValueAsync(byte[] value)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return await _characteristic.WriteValueAsync(value.AsBuffer()).AsTask() == Windows.Devices.Bluetooth.GenericAttributeProfile.GattCommunicationStatus.Success ? GattCommunicationStatus.Success : GattCommunicationStatus.Unreachable;
+#elif __UNIFIED__
+            try
+            {
+                _characteristic.Value = NSData.FromArray(value);
+                return GattCommunicationStatus.Success;
+            }
+            catch
+            {
+                return GattCommunicationStatus.Unreachable;
+            }
+#else
+                throw new PlatformNotSupportedException();
+#endif
+        }
+
 
         /// <summary>
         /// Gets the GATT characteristic properties, as defined by the GATT profile.
@@ -97,8 +124,8 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             get
             {
 #if __UNIFIED__
-                return (GattCharacteristicProperties)((uint)_characteristic.Properties);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+                return _characteristic.Properties.ToGattCharacteristicProperties();
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (GattCharacteristicProperties)((uint)_characteristic.CharacteristicProperties);
 #else
                 return GattCharacteristicProperties.None;
@@ -115,12 +142,17 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
 #if __UNIFIED__
                 return _characteristic.UUID.ToGuid();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _characteristic.Uuid;
 #else
                 return Guid.Empty;
 #endif
             }
         }
+
+        // <summary>
+        // An App can register an event handler in order to receive events when notification or indications are received from a device, after setting the Client Characteristic Configuration Descriptor.
+        // </summary>
+        //public event TypedEventHandler<GattCharacteristic, GattValueChangedEventArgs> ValueChanged;
     }
 }

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="GattDescriptor.cs" company="In The Hand Ltd">
-//   32feet.NET - Personal Area Networking for .NET
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
@@ -9,7 +9,7 @@ using System;
 using System.Threading.Tasks;
 #if __UNIFIED__
 using CoreBluetooth;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
 #endif
@@ -21,7 +21,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// </summary>
     public sealed class GattDescriptor
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.Devices.Bluetooth.GenericAttributeProfile.GattDescriptor _descriptor;
 
         private GattDescriptor(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDescriptor descriptor)
@@ -60,7 +60,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         public async Task<GattReadResult> ReadValueAsync()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await _descriptor.ReadValueAsync().AsTask();
 #elif __UNIFIED__
             return new GattReadResult(_descriptor.Value);
@@ -76,7 +76,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _descriptor.Uuid;
 #else
                 return Guid.Empty;

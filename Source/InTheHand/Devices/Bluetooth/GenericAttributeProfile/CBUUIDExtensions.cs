@@ -1,6 +1,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CBUUIDExtensions.cs" company="In The Hand Ltd">
-//   Copyright (c) 2017 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
+//   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
