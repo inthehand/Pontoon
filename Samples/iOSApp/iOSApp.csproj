@@ -44,7 +44,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: peter@inthehand.com (J6H6XMGG96)</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <MtouchSdkVersion>10.0</MtouchSdkVersion>
     <MtouchLink>SdkOnly</MtouchLink>

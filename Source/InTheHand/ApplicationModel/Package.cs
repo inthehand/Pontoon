@@ -1,15 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Package.cs" company="In The Hand Ltd">
-//   Copyright (c) 2013-16 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2013-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides information about an app package.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-/*#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Package))]
-#else*/
 
 using System;
 using System.Collections.Generic;

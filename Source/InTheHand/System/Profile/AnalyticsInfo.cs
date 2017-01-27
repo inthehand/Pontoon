@@ -28,7 +28,8 @@ namespace InTheHand.System.Profile
     public static class AnalyticsInfo
     {
         private static AnalyticsVersionInfo _versionInfo;
-#if WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_APP || WINDOWS_PHONE_APP 
+        /*|| WIN32*/
         private static Type _type10;
 
         static AnalyticsInfo()
@@ -67,6 +68,12 @@ namespace InTheHand.System.Profile
                 {
 #if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE || WIN32 || WINDOWS_UWP
                     _versionInfo = new AnalyticsVersionInfo(null);
+/*#elif WIN32
+                    if(_type10 != null)
+                    {
+                        _versionInfo = new AnalyticsVersionInfo(_type10.GetRuntimeProperty("VersionInfo").GetValue(null));
+                    }
+                    _versionInfo = new AnalyticsVersionInfo(null);*/
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
                     if (_type10 != null)
                     {

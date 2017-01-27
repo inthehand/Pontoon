@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="OperatingSystem.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 #if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE || WIN32

@@ -54,7 +54,7 @@ namespace UWPApp
             }
 
             this.Loaded += MainPage_Loaded;
-           
+
             
         }
 
@@ -88,7 +88,7 @@ namespace UWPApp
                         {
                             if(ch.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Notify))
                             {
-                                ((Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic)ch).
+                                ch.ValueChanged += MainPage_ValueChanged;
                             }
                             InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattReadResult rr = await ch.ReadValueAsync();
                             var vl = rr.Value;
@@ -117,6 +117,13 @@ namespace UWPApp
                     {
                         StatusBar.GetForCurrentView()?.ProgressIndicator.HideAsync();
                     }
+        }
+
+        private void MainPage_ValueChanged(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic sender, InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattValueChangedEventArgs args)
+        {
+            var b = args.CharacteristicValue;
+            string s = System.Text.Encoding.UTF8.GetString(b);
+            System.Diagnostics.Debug.WriteLine(b);
         }
 
         private void MainPage_DataRequested(object sender, DataRequestedEventArgs e)

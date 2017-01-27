@@ -1,12 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ChatMessage.cs" company="In The Hand Ltd">
-//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
+//     This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Chat.ChatMessage))]
-//#else
 
 using System.Collections.Generic;
 
@@ -43,4 +40,3 @@ namespace InTheHand.ApplicationModel.Chat
         }
     }
 }
-//#endif

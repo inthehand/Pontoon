@@ -1,6 +1,7 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="Launcher.cs" company="In The Hand Ltd">
-//     Copyright © 2015-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2015-17 In The Hand Ltd. All rights reserved.
+//     This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -15,7 +16,6 @@ using AppKit;
 using InTheHand.Storage;
 using System;
 using System.Threading.Tasks;
-using System.Threading;
 
 namespace InTheHand.System
 {
@@ -163,7 +163,7 @@ namespace InTheHand.System
         /// <item><term>Windows Store</term><description>-</description></item>
         /// <item><term>Windows Phone Store</term><description>-</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>-</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>-</description></item></list>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
         /// </remarks>
         public static Task<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {
@@ -174,6 +174,22 @@ namespace InTheHand.System
             {
                 var s = await Windows.System.Launcher.QueryUriSupportAsync(uri, (Windows.System.LaunchQuerySupportType)((int)launchQuerySupportType)).AsTask();
                 return (LaunchQuerySupportStatus)((int)s);
+            });
+#elif WIN32
+            return Task.Run<LaunchQuerySupportStatus>(() =>
+            {
+                using (Microsoft.Win32.RegistryKey rk = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(uri.Scheme))
+                {
+                    if (rk != null)
+                    {
+                        if (rk.GetValue("URL Protocol") != null)
+                        {
+                            return LaunchQuerySupportStatus.Available;
+                        }
+                    }
+                }
+
+                return LaunchQuerySupportStatus.NotSupported;
             });
 #else
             return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.Unknown);

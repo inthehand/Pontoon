@@ -85,16 +85,16 @@ namespace InTheHand.System.Profile
         {
             get
             {
-#if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE || WIN32
-                return global::System.Environment.OSVersion.Version.ToString();
-#elif WINDOWS_UWP
-                return Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
-#else
                 if (_native != null)
                 {
                     return _native.GetType().GetRuntimeProperty("DeviceFamilyVersion").GetValue(_native).ToString();
                 }
 
+#if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE || WIN32
+                return global::System.Environment.OSVersion.Version.ToString();
+#elif WINDOWS_UWP
+                return Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
+#else
                 return string.Empty;
 #endif
             }

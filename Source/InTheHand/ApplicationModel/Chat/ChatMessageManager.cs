@@ -1,16 +1,14 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ChatMessageManager.cs" company="In The Hand Ltd">
-//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
+//     This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Chat.ChatMessageManager))]
-//#else
 
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 #if __ANDROID__
 using Android.Content;
 using Android.App;
@@ -24,8 +22,29 @@ namespace InTheHand.ApplicationModel.Chat
     /// <summary>
     /// Provides methods for managing chat messages.
     /// </summary>
+    /// <remarks>
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public static class ChatMessageManager
     {
+#if WINDOWS_APP || WIN32
+        private static Type _type10;
+
+        static ChatMessageManager()
+        {
+            _type10 = Type.GetType("Windows.ApplicationModel.Chat.ChatMessageManager, Windows, ContentType=WindowsRuntime");
+        }
+#endif
+
         /// <summary>
         /// Shows the compose SMS dialog, pre-populated with data from the supplied ChatMessage object, allowing the user to send an SMS message.
         /// </summary>
@@ -92,7 +111,7 @@ namespace InTheHand.ApplicationModel.Chat
             m.Body = message.Body;
 
             return Windows.ApplicationModel.Chat.ChatMessageManager.ShowComposeSmsMessageAsync(m).AsTask();
-#elif WINDOWS_APP
+#elif WINDOWS_APP || WIN32 || __MAC__
             return Task.Run(async () =>
             {
                 // build uri
@@ -125,7 +144,7 @@ namespace InTheHand.ApplicationModel.Chat
                     sb.Append("body=" + Uri.EscapeDataString(message.Body));
                 }
 
-                await Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
+                await InTheHand.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
             });
 #elif WINDOWS_PHONE
             return Task.Run(() =>
@@ -168,12 +187,19 @@ namespace InTheHand.ApplicationModel.Chat
 #if __ANDROID__
             Intent settingsIntent = new Intent(Android.Provider.Settings.ActionDataRoamingSettings);
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(settingsIntent);
+
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
             Windows.ApplicationModel.Chat.ChatMessageManager.ShowSmsSettings();
+
+#elif WINDOWS_APP || WIN32
+            if(_type10 != null)
+            {
+                _type10.GetRuntimeMethod("ShowSmsSettings", new Type[0]).Invoke(null, new object[0]);
+            }
+
 #elif WINDOWS_PHONE
             Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings-cellular:"));
 #endif
         }
     }
 }
-//#endif

@@ -3,9 +3,6 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//[assembly:global::System.Runtime.CompilerServices.TypeForwardedTo(typeof(Windows.Foundation.Rect))]
-//#else
 
 namespace InTheHand.Foundation
 {
@@ -34,6 +31,7 @@ namespace InTheHand.Foundation
         /// </summary>
         public double X
         { get; set; }
+
         /// <summary>
         /// The y-coordinate location of the top side of the rectangle.
         /// </summary>
@@ -45,6 +43,7 @@ namespace InTheHand.Foundation
         /// </summary>
         public double Width
         { get; set; }
+
         /// <summary>
         /// A value that represents the Height of the rectangle.
         /// </summary>
@@ -52,4 +51,3 @@ namespace InTheHand.Foundation
         { get; set; }
     }
 }
-//#endif

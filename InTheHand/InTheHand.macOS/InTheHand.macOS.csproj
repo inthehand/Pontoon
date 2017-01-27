@@ -48,6 +48,15 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
+      <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
+      <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
       <Link>ApplicationModel\DataTransfer\Clipboard.cs</Link>
     </Compile>
@@ -68,6 +77,15 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
       <Link>ApplicationModel\DataTransfer\StandardDataFormats.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.cs">
+      <Link>ApplicationModel\Email\EmailManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailMessage.cs">
+      <Link>ApplicationModel\Email\EmailMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailRecipient.cs">
+      <Link>ApplicationModel\Email\EmailRecipient.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
       <Link>ApplicationModel\Package.cs</Link>
@@ -108,6 +126,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
     </Compile>
@@ -116,6 +137,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
@@ -182,6 +206,18 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
       <Link>Graphics\Display\DisplayOrientations.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
+      <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkConnectivityLevel.cs">
+      <Link>Networking\Connectivity\NetworkConnectivityLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkInformation.cs">
+      <Link>Networking\Connectivity\NetworkInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
+      <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\OperatingSystem.cs">
       <Link>OperatingSystem.cs</Link>

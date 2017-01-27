@@ -143,8 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="InTheHand, Version=10.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\InTheHand.Pontoon.10.2016.10.11-pre\lib\win81\InTheHand.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\packages\InTheHand.Pontoon.10.2016.12.13\lib\win81\InTheHand.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Xamarin.Forms.2.3.3.180\lib\win81\Xamarin.Forms.Core.dll</HintPath>

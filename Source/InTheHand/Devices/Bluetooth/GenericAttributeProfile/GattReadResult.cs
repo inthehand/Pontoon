@@ -41,9 +41,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         }
 
 #elif __UNIFIED__
-        private object _value;
+        private byte[] _value;
       
-        internal GattReadResult(object value)
+        internal GattReadResult(byte[] value)
         {
             _value = value;
         }
@@ -61,7 +61,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
                 Windows.Storage.Streams.DataReader.FromBuffer(_result.Value).ReadBytes(buffer);
                 return buffer;
 #elif __UNIFIED__
-                return (byte[])_value;
+                return _value;
 #else
                 return null;
 #endif

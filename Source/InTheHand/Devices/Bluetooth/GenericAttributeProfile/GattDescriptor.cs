@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 #if __UNIFIED__
 using CoreBluetooth;
+using Foundation;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
@@ -63,7 +64,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await _descriptor.ReadValueAsync().AsTask();
 #elif __UNIFIED__
-            return new GattReadResult(_descriptor.Value);
+            return new GattReadResult(((NSData)_descriptor.Value).ToArray());
 #else
                 return null;
 #endif
@@ -78,6 +79,8 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _descriptor.Uuid;
+#elif __UNIFIED__
+                return _descriptor.UUID.ToGuid();
 #else
                 return Guid.Empty;
 #endif

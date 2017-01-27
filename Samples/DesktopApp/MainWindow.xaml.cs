@@ -40,6 +40,8 @@ namespace DesktopApp
             //md.CancelCommandIndex = 0;
             var cmd = await md.ShowAsync();*/
 
+            MessageDialog md = new MessageDialog(InTheHand.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+            await md.ShowAsync();
             var di = InTheHand.Graphics.Display.DisplayInformation.GetForCurrentView();
 
             //await InTheHand.UI.ViewManagement.StatusBar.GetForCurrentView().ProgressIndicator.ShowAsync();

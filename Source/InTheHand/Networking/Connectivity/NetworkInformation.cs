@@ -1,12 +1,8 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="NetworkInformation.cs" company="In The Hand Ltd">
-//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.NetworkInformation))]
-//#else
 
 using System;
 using System.Collections.Generic;
@@ -14,7 +10,7 @@ using System.Linq;
 using System.Text;
 #if __ANDROID__
 using Android.Net;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
 using SystemConfiguration;
 #elif WIN32
 using System.Net.NetworkInformation;
@@ -30,6 +26,7 @@ namespace InTheHand.Networking.Connectivity
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -47,7 +44,7 @@ namespace InTheHand.Networking.Connectivity
         {
             OnNetworkStatusChanged();
         }
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
         private static NetworkReachability _reachability;
         private static void ReachabilityNotification(NetworkReachabilityFlags flags)
         {
@@ -61,7 +58,7 @@ namespace InTheHand.Networking.Connectivity
 #if __ANDROID__
             _manager = ConnectivityManager.FromContext(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             //_manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
             _reachability = new NetworkReachability("0.0.0.0");
 #endif
         }
@@ -75,7 +72,7 @@ namespace InTheHand.Networking.Connectivity
         {
 #if __ANDROID__
             return new ConnectionProfile(_manager.ActiveNetworkInfo);
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
             NetworkReachabilityFlags flags;
             if(_reachability.TryGetFlags(out flags))
             {
@@ -114,7 +111,7 @@ namespace InTheHand.Networking.Connectivity
                 {
 #if __ANDROID__
                     _manager.DefaultNetworkActive += _manager_DefaultNetworkActive;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
                     _reachability.SetNotification(new NetworkReachability.Notification(ReachabilityNotification));
                     _reachability.Schedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -132,7 +129,7 @@ namespace InTheHand.Networking.Connectivity
                 {
 #if __ANDROID__
                     _manager.DefaultNetworkActive -= _manager_DefaultNetworkActive;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
                     _reachability.Unschedule(CoreFoundation.CFRunLoop.Current, CoreFoundation.CFRunLoop.ModeDefault);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                     Windows.Networking.Connectivity.NetworkInformation.NetworkStatusChanged -= NetworkInformation_NetworkStatusChanged;
@@ -163,4 +160,3 @@ namespace InTheHand.Networking.Connectivity
         }
     }
 }
-//#endif

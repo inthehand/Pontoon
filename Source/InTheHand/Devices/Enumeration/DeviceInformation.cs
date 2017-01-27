@@ -30,7 +30,7 @@ namespace InTheHand.Devices.Enumeration
     /// </summary>
     public sealed class DeviceInformation
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Enumeration.DeviceInformation _deviceInformation;
 
         private DeviceInformation(Windows.Devices.Enumeration.DeviceInformation deviceInformation)
@@ -194,18 +194,17 @@ namespace InTheHand.Devices.Enumeration
 
         public static async Task<IReadOnlyCollection<DeviceInformation>> FindAllAsync()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            var devs = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync();
             List<DeviceInformation> all = new List<DeviceInformation>();
+            
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            var devs = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync();
+
             foreach(Windows.Devices.Enumeration.DeviceInformation di in devs)
             {
                 all.Add(new DeviceInformation(di));
             }
-            return new ReadOnlyCollection<DeviceInformation>(all);
-
-#else
-            return new ReadOnlyCollection<DeviceInformation>(new List<DeviceInformation>());
 #endif
+            return all.AsReadOnly();
         }
 
         public string Id
@@ -214,8 +213,10 @@ namespace InTheHand.Devices.Enumeration
             {
 #if __UNIFIED__
                 return _peripheral.Identifier.AsString();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _deviceInformation.Id;
+
 #else
                 return string.Empty;
 #endif
@@ -237,8 +238,9 @@ namespace InTheHand.Devices.Enumeration
 
                 return _peripheral.Name;
 
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _deviceInformation.Name;
+
 #else
                 return string.Empty;
 #endif

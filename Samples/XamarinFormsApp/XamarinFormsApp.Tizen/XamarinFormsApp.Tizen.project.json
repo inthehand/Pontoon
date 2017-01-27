@@ -6,9 +6,7 @@
     "preserveCompilationContext": true
   },
   "dependencies": {
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0"
-    },
+    "Microsoft.NETCore.App": "1.1.0",
     "Tizen.Library": "1.0.0-pre1",
     "Xamarin.Forms": "2.3.3.180",
     "Xamarin.Forms.Platform.Tizen": "2.3.3.163-pre3"

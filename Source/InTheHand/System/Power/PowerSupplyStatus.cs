@@ -3,10 +3,6 @@
 //   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.System.Power.PowerSupplyStatus))]
-//#else
 
 namespace InTheHand.System.Power
 {
@@ -33,4 +29,3 @@ namespace InTheHand.System.Power
         Adequate = 2,
     }
 }
-//#endif

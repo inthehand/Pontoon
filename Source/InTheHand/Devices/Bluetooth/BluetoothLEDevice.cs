@@ -16,7 +16,7 @@ using System.Threading;
 #if __UNIFIED__
 using CoreBluetooth;
 using Foundation;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Devices.Enumeration;
 #endif
 
@@ -27,7 +27,7 @@ namespace InTheHand.Devices.Bluetooth
     /// </summary>
     public sealed class BluetoothLEDevice
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.Devices.Bluetooth.BluetoothLEDevice _device;
 
         private BluetoothLEDevice(Windows.Devices.Bluetooth.BluetoothLEDevice device)

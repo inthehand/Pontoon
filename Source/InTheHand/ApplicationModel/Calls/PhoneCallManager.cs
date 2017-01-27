@@ -1,6 +1,7 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PhoneCallManager.cs" company="In The Hand Ltd">
-//   Copyright (c) 2014-2016 In The Hand Ltd, All rights reserved.
+//     Copyright (c) 2014-2017 In The Hand Ltd, All rights reserved.
+//     This source code is licensed under the MIT License - see License.txt
 // </copyright>
 // <summary>
 //   Provides methods for launching the built-in phone call UI.
@@ -29,6 +30,7 @@ namespace InTheHand.ApplicationModel.Calls
     /// <list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -47,7 +49,7 @@ namespace InTheHand.ApplicationModel.Calls
         }
 #endif
 
-#if !WIN32
+#if !WIN32 && !__MAC__
         /// <summary>
         /// 
         /// </summary>
@@ -146,11 +148,11 @@ namespace InTheHand.ApplicationModel.Calls
                 Windows.System.Launcher.LaunchUriAsync(new Uri("tel:" + phoneNumber));
             }
 #endif
-#elif WINDOWS_APP || WIN32
+#elif WINDOWS_APP || WIN32 || __MAC__
             MessageDialog prompt = new MessageDialog(string.Format("Dial {0} at {1}?", displayName, phoneNumber), "Phone");
             prompt.Commands.Add(new UICommand("Call", async (c) =>
                 {
-                        // Windows may prompt the user for an app e.g. Skype, Lync etc
+                        // OS may prompt the user for an app e.g. Skype, Lync etc
                         await Launcher.LaunchUriAsync(new Uri("tel:" + CleanPhoneNumber(phoneNumber)));
                 }));
             prompt.Commands.Add(new UICommand("Cancel", null));

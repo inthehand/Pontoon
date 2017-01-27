@@ -1,17 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="ConnectionProfile.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Networking.Connectivity.ConnectionProfile))]
-//#else
 
 using System;
 #if __ANDROID__
 using Android.Net;
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
 using SystemConfiguration;
 #elif WIN32
 using System.Net.NetworkInformation;
@@ -27,6 +23,7 @@ namespace InTheHand.Networking.Connectivity
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -43,7 +40,7 @@ namespace InTheHand.Networking.Connectivity
         {
             _info = info;
         }
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
         private NetworkReachabilityFlags _flags;
 
         internal ConnectionProfile(NetworkReachabilityFlags flags)
@@ -94,6 +91,7 @@ namespace InTheHand.Networking.Connectivity
             return p._interface;
         }
 #endif
+
         /// <summary>
         /// Gets the network connectivity level for this connection.
         /// This value indicates what network resources, if any, are currently available.
@@ -109,7 +107,7 @@ namespace InTheHand.Networking.Connectivity
 
             return NetworkConnectivityLevel.None;
 
-#elif __IOS__ || __TVOS__
+#elif __UNIFIED__
             switch (_flags)
             {
                 case NetworkReachabilityFlags.Reachable:
@@ -140,4 +138,3 @@ namespace InTheHand.Networking.Connectivity
         }
     }
 }
-//#endif

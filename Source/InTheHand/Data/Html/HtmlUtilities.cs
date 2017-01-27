@@ -12,7 +12,6 @@ using Foundation;
 using System.Text.RegularExpressions;
 #endif
 
-
 namespace InTheHand.Data.Html
 {
     /// <summary>

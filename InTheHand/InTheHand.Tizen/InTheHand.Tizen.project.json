@@ -1,6 +1,6 @@
 ﻿{
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "Tizen.Applications": "1.0.2",
     "Tizen.Applications.Badge": "1.0.2",
     "Tizen.Content.MimeType": "1.0.2",

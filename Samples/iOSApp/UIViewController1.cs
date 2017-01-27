@@ -63,14 +63,14 @@ namespace ApplicationModel.iOS
     {
         public UIViewController1()
         {
-            InTheHand.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
+            //InTheHand.ApplicationModel.DataTransfer.DataTransferManager.GetForCurrentView().DataRequested += UIViewController1_DataRequested;
         }
 
-        private void UIViewController1_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
+        /*private void UIViewController1_DataRequested(object sender, InTheHand.ApplicationModel.DataTransfer.DataRequestedEventArgs e)
         {
             e.Request.Data.SetText("Hello World!");
             e.Request.Data.Properties.Title = "New Share";
-        }
+        }*/
 
         public override void DidReceiveMemoryWarning()
         {
@@ -82,9 +82,15 @@ namespace ApplicationModel.iOS
 
         private async void B_TouchUpInside(object sender, EventArgs e)
         {
-            var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("newfile.html", CreationCollisionOption.ReplaceExisting);
-            await FileIO.WriteTextAsync(file, "one,two,three,four,five");
-            var success = await InTheHand.System.Launcher.LaunchFileAsync(file);
+            string aqsFilter = InTheHand.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
+            var devices = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(aqsFilter);
+            foreach(InTheHand.Devices.Enumeration.DeviceInformation di in devices)
+            {
+                System.Diagnostics.Debug.WriteLine(di);
+            }
+            //var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("newfile.html", CreationCollisionOption.ReplaceExisting);
+            //await FileIO.WriteTextAsync(file, "one,two,three,four,five");
+            //var success = await InTheHand.System.Launcher.LaunchFileAsync(file);
             /*InTheHand.ApplicationModel.Email.EmailMessage m = new InTheHand.ApplicationModel.Email.EmailMessage();
             m.To.Add(new InTheHand.ApplicationModel.Email.EmailRecipient("peter@peterfoot.net"));
             m.Subject = "Here's your file";

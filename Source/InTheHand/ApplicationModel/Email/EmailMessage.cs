@@ -1,12 +1,10 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="EmailMessage.cs" company="In The Hand Ltd">
-//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
+//     This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailMessage))]
-//#else
+
 using System.Collections.Generic;
 
 namespace InTheHand.ApplicationModel.Email
@@ -18,6 +16,7 @@ namespace InTheHand.ApplicationModel.Email
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -74,4 +73,3 @@ namespace InTheHand.ApplicationModel.Email
         public IList<EmailRecipient> Bcc { get; private set; }
     }
 }
-//#endif

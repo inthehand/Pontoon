@@ -1,12 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="EmailManager.cs" company="In The Hand Ltd">
-//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
+//     This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Email.EmailManager))]
-//#else
 
 using System;
 using System.Collections.Generic;
@@ -20,8 +17,6 @@ using Android.App;
 using Foundation;
 using MessageUI;
 using UIKit;
-#elif WINDOWS_APP
-using Windows.System;
 #elif WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
@@ -36,6 +31,7 @@ namespace InTheHand.ApplicationModel.Email
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -45,7 +41,7 @@ namespace InTheHand.ApplicationModel.Email
     /// </remarks>
     public static class EmailManager
     {
-#if WINDOWS_APP
+#if WINDOWS_APP || WIN32
         private static Type _type10 = Type.GetType("Windows.ApplicationModel.Email.EmailManager, Windows, ContentType=WindowsRuntime");
 #endif
         /// <summary>
@@ -131,14 +127,14 @@ namespace InTheHand.ApplicationModel.Email
                 }
 
                 return Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(em).AsTask();
-#elif WINDOWS_APP
+#elif WINDOWS_APP || WIN32 || __MAC__
                 /*if (_type10 != null)
                 {
 
                 }
                 else
                 {*/
-                    // build URI for Windows Store platform
+                    // build URI
 
                     // build a uri
                     StringBuilder sb = new StringBuilder();
@@ -213,7 +209,7 @@ namespace InTheHand.ApplicationModel.Email
                         sb.Append("body=" + Uri.EscapeDataString(message.Body));
                     }
 
-                    Windows.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
+                    InTheHand.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
                 //}
 #elif WINDOWS_PHONE
                 // On Phone 8.0 use the email compose dialog
@@ -287,7 +283,7 @@ namespace InTheHand.ApplicationModel.Email
         }
 #endif
 
-#if WINDOWS_APP || WINDOWS_PHONE
+#if WINDOWS_APP || WINDOWS_PHONE || WIN32 || __MAC__
         private static string FormatRecipientCollection(IList<EmailRecipient> list)
         {
             StringBuilder builder = new StringBuilder();
@@ -311,4 +307,3 @@ namespace InTheHand.ApplicationModel.Email
 #endif
     }
 }
-//#endif

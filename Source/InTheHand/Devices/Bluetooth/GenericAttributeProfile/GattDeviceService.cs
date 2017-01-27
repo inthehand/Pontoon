@@ -63,8 +63,10 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
 #if __UNIFIED__
             return CBUUID.FromPartial(serviceShortId).ToString();
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromShortId(serviceShortId);
+
 #else
             return string.Empty;
 #endif
@@ -88,20 +90,23 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 #if __UNIFIED__
             foreach (CBCharacteristic characteristic in _service.Characteristics)
             {
-                characteristics.Add(characteristic);
+                characteristics.Add(new GattCharacteristic(characteristic, _service.Peripheral));
             }
-
-            return characteristics.AsReadOnly();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            
+#elif WINDOWS_UWP || WINDOWS_PHONE_APP
             foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic in _service.GetAllCharacteristics())
             {
                 characteristics.Add(characteristic);
             }
 
-            return new ReadOnlyCollection<GattCharacteristic>(characteristics);
-#else
-            return new ReadOnlyCollection<GattCharacteristic>(new List<GattCharacteristic>());
+#elif WINDOWS_PHONE || WINDOWS_APP
+            foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic in _service.GetCharacteristics(Guid.Empty))
+            {
+                characteristics.Add(characteristic);
+            }
+
 #endif
+            return characteristics.AsReadOnly();
         }
 
         public IReadOnlyList<GattCharacteristic> GetCharacteristics(Guid characteristicUuid)
@@ -112,7 +117,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
                 if (characteristic.UUID.ToGuid() == characteristicUuid)
                 {
-                    chars.Add(characteristic);
+                    chars.Add(new GattCharacteristic(characteristic, _service.Peripheral));
                 }
             }
 

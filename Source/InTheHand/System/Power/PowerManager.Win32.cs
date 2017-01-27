@@ -4,16 +4,10 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace InTheHand.System.Power
 {
-    /// <summary>
-    /// Provides information about the status of the device's battery.
-    /// <para>Only supported for Windows 8.1 apps when deployed to Windows 10 machines.</para>
-    /// </summary>
     public static partial class PowerManager
     {
         private static NativeMethods.SYSTEM_POWER_STATUS _status;
@@ -54,22 +48,27 @@ namespace InTheHand.System.Power
                 /// High—the battery capacity is at more than 66 percent
                 /// </summary>
                 HIGH = 0x01,
+
                 /// <summary>
                 /// Low—the battery capacity is at less than 33 percent
                 /// </summary>
                 LOW = 0x02,
+
                 /// <summary>
                 /// Critical—the battery capacity is at less than five percent
                 /// </summary>
                 CRITICAL = 0x04,
+
                 /// <summary>
                 /// Charging
                 /// </summary>
                 CHARGING = 0x08,
+
                 /// <summary>
                 /// No system battery
                 /// </summary>
                 NO_BATTERY = 0x80,
+
                 /// <summary>
                 /// Unknown status—unable to read the battery flag information
                 /// </summary>
@@ -77,5 +76,4 @@ namespace InTheHand.System.Power
             }
         }
     }
-
 }
