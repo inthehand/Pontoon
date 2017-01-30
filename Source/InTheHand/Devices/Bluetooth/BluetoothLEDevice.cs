@@ -199,9 +199,14 @@ namespace InTheHand.Devices.Bluetooth
                 if (_services.Count == 0)
                 {
                     _peripheral.DiscoveredService += _peripheral_DiscoveredService;
-                    _peripheral.DiscoverServices();
+                    _peripheral.DiscoverServices(null);
+                    Task.Run(() =>
+                    {
+                        Task.Delay(2000);
+                        _servicesHandle.Set();
+                    });
                     _servicesHandle.WaitOne();
-                    foreach (CBService service in _peripheral.Services)
+                    foreach (CBService service in _peripheral?.Services)
                     {
                         _services.Add(new GattDeviceService(service));
                     }

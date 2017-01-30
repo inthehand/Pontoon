@@ -44,7 +44,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARMv7, ARMv7s, ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer: peter@inthehand.com (J6H6XMGG96)</CodesignKey>
+    <CodesignKey>iPhone Developer: Peter Freeman Foot (JUJ4674JS4)</CodesignKey>
     <MtouchDebug>True</MtouchDebug>
     <MtouchSdkVersion>10.0</MtouchSdkVersion>
     <MtouchLink>SdkOnly</MtouchLink>
@@ -60,6 +60,7 @@
     <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
     <MtouchFloat32>False</MtouchFloat32>
     <DeviceSpecificBuild>False</DeviceSpecificBuild>
+    <CodesignProvision>e3076459-dab2-4ca5-9ccf-771d9142aa8f</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>

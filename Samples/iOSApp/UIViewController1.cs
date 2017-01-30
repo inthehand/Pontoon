@@ -11,6 +11,7 @@ using InTheHand.Storage;
 using InTheHand.Foundation.Collections;
 using InTheHand.Devices.Sensors;
 using System.IO;
+using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
 
 namespace ApplicationModel.iOS
 {
@@ -87,6 +88,14 @@ namespace ApplicationModel.iOS
             foreach(InTheHand.Devices.Enumeration.DeviceInformation di in devices)
             {
                 System.Diagnostics.Debug.WriteLine(di);
+                var btd = await InTheHand.Devices.Bluetooth.BluetoothLEDevice.FromIdAsync(di.Id);
+                foreach(GattDeviceService serv in btd.GattServices )
+                {
+                    foreach(GattCharacteristic cha in serv.GetAllCharacteristics())
+                    {
+                        System.Diagnostics.Debug.WriteLine(cha.UserDescription);
+                    }
+                }
             }
             //var file = await InTheHand.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync("newfile.html", CreationCollisionOption.ReplaceExisting);
             //await FileIO.WriteTextAsync(file, "one,two,three,four,five");

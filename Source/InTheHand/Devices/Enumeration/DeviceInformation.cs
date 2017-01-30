@@ -115,7 +115,8 @@ namespace InTheHand.Devices.Enumeration
 
             //e.Peripheral.
             Debug.WriteLine(e.RSSI.ToString());
-            _devices.Add(new DeviceInformation(e.Peripheral, e.AdvertisementData["kCBAdvDataLocalName"].ToString()));
+            string name = e.AdvertisementData.ContainsKey(new NSString("kCBAdvDataLocalName")) ? e.AdvertisementData["kCBAdvDataLocalName"].ToString() : e.Peripheral.Name;
+            _devices.Add(new DeviceInformation(e.Peripheral, name));
         }
 
         internal DeviceInformation(CBPeripheral peripheral, string name)
