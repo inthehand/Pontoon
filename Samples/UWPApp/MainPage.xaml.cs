@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -69,6 +70,7 @@ namespace UWPApp
                     System.Diagnostics.Debug.WriteLine(readingentry.Value.Timestamp.ToString() + " " + readingentry.Value.CumulativeSteps.ToString() + " " + readingentry.Value.StepKind);
                 }
             }
+
 
             var sel = InTheHand.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
                 //var sel = Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.GetDeviceSelectorFromUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.DeviceInformation);

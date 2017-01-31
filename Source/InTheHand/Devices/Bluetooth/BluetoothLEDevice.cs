@@ -199,10 +199,16 @@ namespace InTheHand.Devices.Bluetooth
                 if (_services.Count == 0)
                 {
                     _peripheral.DiscoveredService += _peripheral_DiscoveredService;
-                    _peripheral.DiscoverServices(null);
+                    var state = _peripheral.State;
+                    if(state == CBPeripheralState.Disconnected)
+                    {
+                        InTheHand.Devices.Enumeration.DeviceInformation.Manager.ConnectPeripheral(_peripheral);
+                    }
+
+                    _peripheral.DiscoverServices();
                     Task.Run(() =>
                     {
-                        Task.Delay(2000);
+                        Task.Delay(6000);
                         _servicesHandle.Set();
                     });
                     _servicesHandle.WaitOne();

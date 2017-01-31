@@ -59,6 +59,19 @@ namespace InTheHand.Devices.Enumeration
 #elif __UNIFIED__
         internal CBPeripheral _peripheral;
         private static CBCentralManager _manager;
+
+        internal static CBCentralManager Manager
+        {
+            get
+            {
+                if(_manager == null)
+                {
+                    _manager = new CBCentralManager();
+                }
+
+                return _manager;
+            }
+        }
         private static EventWaitHandle stateHandle;
         private static EventWaitHandle retrievedHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
         //private static EventHandler<CBPeripheralsEventArgs> _retrieved = new EventHandler<CBPeripheralsEventArgs>(_manager_RetrievedConnectedPeripherals);
@@ -67,21 +80,15 @@ namespace InTheHand.Devices.Enumeration
         {
             stateHandle = new EventWaitHandle(false, EventResetMode.ManualReset);
             _manager = new CBCentralManager();
-            //_manager.RetrievedConnectedPeripherals += _manager_RetrievedConnectedPeripherals;
-            //_manager.RetrievedPeripherals += _manager_RetrievedPeripherals;
+#if !__TVOS__
+            _manager.RetrievedConnectedPeripherals += _manager_RetrievedConnectedPeripherals;
+            _manager.RetrievedPeripherals += _manager_RetrievedPeripherals;
+#endif
             _manager.UpdatedState += _manager_UpdatedState;
             _manager.DiscoveredPeripheral += _manager_DiscoveredPeripheral;
         }
 
-        /*private static void _manager_RetrievedPeripherals(object sender, CBPeripheralsEventArgs e)
-        {
-            foreach (CBPeripheral p in e.Peripherals)
-            {
-                _devices.Add(new DeviceInformation(p,string.Empty));
-            }
-
-            retrievedHandle.Set();
-        }*/
+      
 
         private static void _manager_UpdatedState(object sender, EventArgs e)
         {
@@ -95,16 +102,27 @@ namespace InTheHand.Devices.Enumeration
                 stateHandle.Reset();
             }
         }
-        
-       /* private static void _manager_RetrievedConnectedPeripherals(object sender, CBPeripheralsEventArgs e)
+#if !__TVOS__
+        private static void _manager_RetrievedPeripherals(object sender, CBPeripheralsEventArgs e)
         {
-            foreach(CBPeripheral p in e.Peripherals )
+            foreach (CBPeripheral p in e.Peripherals)
             {
-                _devices.Add(new DeviceInformation(p));
+                _devices.Add(new DeviceInformation(p, string.Empty));
             }
 
             retrievedHandle.Set();
-        }*/
+        }
+
+        private static void _manager_RetrievedConnectedPeripherals(object sender, CBPeripheralsEventArgs e)
+        {
+            foreach(CBPeripheral p in e.Peripherals )
+            {
+                _devices.Add(new DeviceInformation(p, string.Empty));
+            }
+
+            retrievedHandle.Set();
+        }
+#endif
 
         private static void _manager_DiscoveredPeripheral(object sender, CBDiscoveredPeripheralEventArgs e)
         {
@@ -160,7 +178,7 @@ namespace InTheHand.Devices.Enumeration
                     stateHandle.WaitOne();
                 }
 
-            //CBPeripheral[] peripherals = _manager.RetrieveConnectedPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()));
+                //CBPeripheral[] peripherals = _manager.RetrieveConnectedPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()));
 
                 /*CBPeripheral[] peripherals = _manager.RetrievePeripheralsWithIdentifiers(null);// new CBUUID[] { CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery.ToByteArray()) });
 
@@ -170,9 +188,10 @@ namespace InTheHand.Devices.Enumeration
                     }*/
                 //retrievedHandle.WaitOne();
                 //_manager.ScanForPeripherals(CBUUID.FromString("180a"));
+                //_manager.RetrieveConnectedPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()));
                 _manager.ScanForPeripherals(peripheralUuids: null);
              //_manager.ScanForPeripherals( new CBUUID[] { CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery.ToByteArray()) });
-                await Task.Delay(12000);
+                await Task.Delay(5000);
                     _manager.StopScan();
            
 
