@@ -214,7 +214,7 @@ namespace InTheHand.Devices.Bluetooth
                     _servicesHandle.WaitOne();
                     foreach (CBService service in _peripheral?.Services)
                     {
-                        _services.Add(new GattDeviceService(service));
+                        _services.Add(new GattDeviceService(service, _peripheral));
                     }
                 }
                 

@@ -6,6 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
+<ProjectTypeGuids>{2F98DAC9-6F16-457B-AED7-D43CAC379341};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{39C0C993-C3EF-4589-82CB-3DF51F6586DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -72,11 +73,32 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeopositionExtensions.cs">
       <Link>Devices\Geolocation\BasicGeopositionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocircle.cs">
+      <Link>Devices\Geolocation\Geocircle.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocoordinate.cs">
       <Link>Devices\Geolocation\Geocoordinate.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\GeocoordinateExtensions.cs">
       <Link>Devices\Geolocation\GeocoordinateExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\Geofence.cs">
+      <Link>Devices\Geolocation\Geofencing\Geofence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitor.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\MonitoredGeofenceStates.cs">
+      <Link>Devices\Geolocation\Geofencing\MonitoredGeofenceStates.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
       <Link>Devices\Geolocation\Geolocator.cs</Link>
@@ -101,6 +123,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
       <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
+    </Compile>
+<Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
+      <Link>Devices\Input\KeyboardCapabilities.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Accelerometer.cs">
       <Link>Devices\Sensors\Accelerometer.cs</Link>
@@ -132,6 +157,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\PedometerStepKind.cs">
       <Link>Devices\Sensors\PedometerStepKind.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Environment.cs">
+      <Link>Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
@@ -159,8 +187,14 @@
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
       <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\OperatingSystem.cs">
+      <Link>OperatingSystem.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Phone\Devices\Notification\VibrationDevice.cs">
       <Link>Phone\Devices\Notification\VibrationDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\PlatformID.cs">
+      <Link>PlatformID.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationData.cs">
       <Link>Storage\ApplicationData.cs</Link>

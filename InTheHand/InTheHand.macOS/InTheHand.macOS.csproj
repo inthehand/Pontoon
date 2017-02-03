@@ -180,6 +180,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
       <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
+      <Link>Devices\Input\KeyboardCapabilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>

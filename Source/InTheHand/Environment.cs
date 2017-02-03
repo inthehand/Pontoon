@@ -1,10 +1,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Environment.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using InTheHand.System.Profile;
+#endif
 using System;
 
 namespace InTheHand
@@ -58,6 +60,12 @@ namespace InTheHand
                         version = new Version(10 + major, minor, build, revision);
                     }
                     _operatingSystem = new OperatingSystem(PlatformID.Win32NT, version);
+#elif TIZEN
+                    string ver;
+                    if(Tizen.System.SystemInfo.TryGetValue("http://tizen.org/feature/platform.version", out ver))
+                    {
+                        _operatingSystem = new OperatingSystem(PlatformID.Unix, Version.Parse(ver));
+                    }
 #endif
                 }
 

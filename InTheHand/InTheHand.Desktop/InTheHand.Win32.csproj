@@ -79,6 +79,9 @@
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
+      <Link>Devices\Input\KeyboardCapabilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
     </Compile>

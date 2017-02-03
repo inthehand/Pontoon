@@ -1,12 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="GeofenceMonitor.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geofencing.GeofenceMonitor))]
-//#else
 
 using InTheHand.Foundation;
 using System;
@@ -32,6 +28,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -65,6 +62,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             return m._monitor;
         }
+#elif TIZEN
+        internal Tizen.Location.Locator _locator;
 #endif
         private Queue<GeofenceStateChangeReport> _reports = new Queue<GeofenceStateChangeReport>();
 
@@ -88,7 +87,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             if (!CLLocationManager.IsMonitoringAvailable(typeof(CLCircularRegion)))
 #else
             if (!CLLocationManager.IsMonitoringAvailable(new ObjCRuntime.Class("CLCircularRegion")))          
-#endif       
+#endif
             {
                 Status = GeofenceMonitorStatus.NotAvailable;
                 throw new PlatformNotSupportedException();
@@ -98,8 +97,16 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             _locationManager.RegionLeft += _locationManager_RegionLeft;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _monitor = Windows.Devices.Geolocation.Geofencing.GeofenceMonitor.Current;
+#elif TIZEN
+            _locator = new Tizen.Location.Locator(Tizen.Location.LocationType.Hybrid);
+            _locator.ZoneChanged += _locator_ZoneChanged;
+            _locator.ServiceStateChanged += _locator_ServiceStateChanged;
 #endif
         }
+
+     
+
+
 
 #if __UNIFIED__
         private void _locationManager_LocationsUpdated(object sender, CLLocationsUpdatedEventArgs e)
@@ -118,6 +125,30 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                     break;
 
                 case CLAuthorizationStatus.Denied:
+                    Status = GeofenceMonitorStatus.Disabled;
+                    break;
+            }
+        }
+#elif TIZEN
+        private void _locator_ZoneChanged(object sender, Tizen.Location.ZoneChangedEventArgs e)
+        {
+            lock (_reports)
+            {
+                _reports.Enqueue(new Geofencing.GeofenceStateChangeReport(null, new Geolocation.Geoposition(new Tizen.Location.Location { Latitude = e.Latitude, Longitude = e.Longitude, Altitude = e.Altitude }), e.BoundState == Tizen.Location.BoundaryState.In ? GeofenceState.Entered : GeofenceState.Exited));
+            }
+
+            OnGeofenceStateChanged();
+        }
+
+        private void _locator_ServiceStateChanged(object sender, Tizen.Location.ServiceStateChangedEventArgs e)
+        {
+            switch(e.ServiceState)
+            {
+                case Tizen.Location.ServiceState.Enabled:
+                    Status = GeofenceMonitorStatus.Ready;
+                    break;
+
+                default:
                     Status = GeofenceMonitorStatus.Disabled;
                     break;
             }
@@ -175,7 +206,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             get
             {
-#if __UNIFIED__
+#if __UNIFIED__ || TIZEN
                 return new GeofenceList(this);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 List<Geofence> fences = new List<Geofence>();
@@ -207,11 +238,12 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             _locationManager.StopMonitoring(region);
         }
+
 #endif
 
-            /// <summary>
-            /// Last reading of the device's location.
-            /// </summary>
+        /// <summary>
+        /// Last reading of the device's location.
+        /// </summary>
         public Geoposition LastKnownGeoposition
         {
             get
@@ -223,6 +255,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                 return new Geoposition(_locationManager.Location);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _monitor.LastKnownGeoposition;
+#elif TIZEN
+                return new Geoposition(_locator.Location);
 #else
                 return new Geoposition();
 #endif
@@ -336,7 +370,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 
     }
 
-#if __UNIFIED__
+#if __UNIFIED__ || TIZEN
     internal sealed class GeofenceList : Collection<Geofence>
     {
 
@@ -345,16 +379,22 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         internal GeofenceList(GeofenceMonitor monitor)
         {
             _monitor = monitor;
+#if __UNIFIED__
             foreach(CLRegion r in _monitor._locationManager.MonitoredRegions)
             {
                 // add all the currently monitored regions as geofences
                 base.InsertItem(base.Count, r);
             }
+#endif
         }
 
         protected override void InsertItem(int index, Geofence item)
         {
+#if __UNIFIED__
             _monitor.AddRegion(item);
+#elif TIZEN
+            _monitor._locator.AddBoundary((Geocircle)item.Geoshape);
+#endif
             base.InsertItem(index, item);
         }
 
@@ -362,7 +402,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             try
             {
+#if __UNIFIED__
                 _monitor.RemoveRegion(this[index]);
+#elif TIZEN
+                _monitor._locator.RemoveBoundary((Geocircle)this[index].Geoshape);
+#endif
             }
             catch { }
             base.RemoveItem(index);
@@ -370,4 +414,3 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     }
 #endif
 }
-//#endif

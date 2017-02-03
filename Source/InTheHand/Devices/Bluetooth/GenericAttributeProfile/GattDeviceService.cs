@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 #if __UNIFIED__
 using CoreBluetooth;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -43,10 +44,26 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
 #elif __UNIFIED__
         internal CBService _service;
+        private CBPeripheral _peripheral;
       
-        internal GattDeviceService(CBService service)
+        internal GattDeviceService(CBService service, CBPeripheral peripheral)
         {
             _service = service;
+            _peripheral = peripheral;
+            _peripheral.DiscoveredCharacteristic += _peripheral_DiscoveredCharacteristic;
+        }
+
+        ~GattDeviceService()
+        {
+            _peripheral.DiscoveredCharacteristic -= _peripheral_DiscoveredCharacteristic;
+        }
+
+        private void _peripheral_DiscoveredCharacteristic(object sender, CBServiceEventArgs e)
+        {
+            if (e.Service == _service)
+            {
+                Debug.WriteLine(DateTimeOffset.Now.ToString() + " DiscoveredCharacteristic");
+            }
         }
 #endif
 

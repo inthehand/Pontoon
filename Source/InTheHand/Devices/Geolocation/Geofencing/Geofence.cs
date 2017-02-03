@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Geofence.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -12,6 +12,8 @@ using System.Text;
 #if __UNIFIED__
 using Foundation;
 using CoreLocation;
+#elif TIZEN
+using Tizen.Location;
 #endif
 
 namespace InTheHand.Devices.Geolocation.Geofencing
@@ -24,6 +26,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -67,6 +70,14 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
             return new Geofence(r);
         }
+#elif TIZEN
+        private string _id;
+        private Geocircle _shape;
+
+        private Geofence(Geocircle shape)
+        {
+            _shape = shape;
+        }
 #endif
 
 
@@ -88,8 +99,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             }
 
             _region = new CLCircularRegion(new CLLocationCoordinate2D(_shape.Center.Latitude, _shape.Center.Longitude), _shape.Radius, id);
+#elif TIZEN
+            _id = id;
+            _shape = ((Geocircle)geoshape);
 #else
-                throw new PlatformNotSupportedException();
+            throw new PlatformNotSupportedException();
 #endif
         }
 
@@ -110,6 +124,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                 }
 
                 return _shape;
+#elif TIZEN
+                return _shape;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -127,6 +143,8 @@ namespace InTheHand.Devices.Geolocation.Geofencing
                 return _fence.Id;
 #elif __UNIFIED__
                 return _region.Identifier;
+#elif TIZEN
+                return _id;
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -151,6 +169,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         public override int GetHashCode()
         {
             return _region.GetHashCode();
+        }
+#elif TIZEN
+        public override int GetHashCode()
+        {
+            return _shape.GetHashCode();
         }
 #endif
     }

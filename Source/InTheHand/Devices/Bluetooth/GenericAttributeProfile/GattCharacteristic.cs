@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using InTheHand.Foundation;
+using System.Diagnostics;
 #if __UNIFIED__
 using CoreBluetooth;
 using Foundation;
@@ -50,6 +51,20 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             _characteristic = characteristic;
             _peripheral = peripheral;
+            _peripheral.DiscoveredDescriptor += _peripheral_DiscoveredDescriptor;
+        }
+
+        ~GattCharacteristic()
+        {
+            _peripheral.DiscoveredDescriptor -= _peripheral_DiscoveredDescriptor;
+        }
+
+        private void _peripheral_DiscoveredDescriptor(object sender, CBCharacteristicEventArgs e)
+        {
+            if(e.Characteristic == _characteristic)
+            {
+                Debug.WriteLine(DateTimeOffset.Now.ToString() + " DiscoveredDescriptor");
+            }
         }
 
         public static implicit operator CBCharacteristic(GattCharacteristic characteristic)
@@ -62,6 +77,8 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             List<GattDescriptor> descriptors = new List<GattDescriptor>();
 
 #if __UNIFIED__
+            _peripheral.DiscoverDescriptors(_characteristic);
+
             foreach (CBDescriptor d in _characteristic.Descriptors)
             {
                 descriptors.Add(d);

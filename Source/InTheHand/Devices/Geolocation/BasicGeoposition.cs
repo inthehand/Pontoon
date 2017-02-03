@@ -1,12 +1,8 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="BasicGeoposition.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.BasicGeoposition))]
-//#else
 
 using System;
 
@@ -21,6 +17,7 @@ namespace InTheHand.Devices.Geolocation
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -36,6 +33,16 @@ namespace InTheHand.Devices.Geolocation
         public static implicit operator BasicGeoposition(Windows.Devices.Geolocation.BasicGeoposition bg)
         {
             return new BasicGeoposition { Altitude = bg.Altitude, Latitude = bg.Latitude, Longitude = bg.Longitude };
+        }
+#elif TIZEN
+        public static implicit operator Tizen.Location.Coordinate(BasicGeoposition bg)
+        {
+            return new Tizen.Location.Coordinate { Latitude = bg.Latitude, Longitude = bg.Longitude };
+        }
+
+        public static implicit operator BasicGeoposition(Tizen.Location.Coordinate c)
+        {
+            return new BasicGeoposition { Latitude = c.Latitude, Longitude = c.Longitude };
         }
 #endif
         /// <summary>
@@ -58,4 +65,3 @@ namespace InTheHand.Devices.Geolocation
         public double Longitude;
     }
 }
-//#endif

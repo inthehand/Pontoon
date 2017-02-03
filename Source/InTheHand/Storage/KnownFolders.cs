@@ -69,7 +69,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
+#if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyDocuments);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Documents);
@@ -89,7 +89,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
+#if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyMusic);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Music);
@@ -109,7 +109,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
+#if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyPictures);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Images);
@@ -129,7 +129,7 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
+#if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyVideos);
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Videos);

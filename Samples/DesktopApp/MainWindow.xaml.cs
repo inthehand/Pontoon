@@ -30,6 +30,7 @@ namespace DesktopApp
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine(new InTheHand.Devices.Input.KeyboardCapabilities().KeyboardPresent);
             /*System.Diagnostics.Debug.WriteLine(InTheHand.Environment.OSVersion.VersionString);
 
             MessageDialog md = new MessageDialog("Content goes here", "Title goes here");

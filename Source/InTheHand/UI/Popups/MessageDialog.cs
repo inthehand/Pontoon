@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="MessageDialog.cs" company="In The Hand Ltd">
-//     Copyright © 2012-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2012-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 

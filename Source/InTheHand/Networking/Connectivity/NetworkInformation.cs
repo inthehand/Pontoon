@@ -50,7 +50,8 @@ namespace InTheHand.Networking.Connectivity
         {
             OnNetworkStatusChanged();
         }
-
+#elif TIZEN
+        private static Tizen.Network.Connection.ConnectionManager _manager = new Tizen.Network.Connection.ConnectionManager();
 #endif
 
         static NetworkInformation()
@@ -83,7 +84,7 @@ namespace InTheHand.Networking.Connectivity
                 }
             }
 #elif TIZEN
-            return Tizen.Network.Connection.ConnectionManager.CurrentConnection;
+            return _manager.CurrentConnection;
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return new ConnectionProfile(Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile());

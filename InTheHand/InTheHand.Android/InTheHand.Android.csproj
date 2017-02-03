@@ -219,6 +219,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs">
       <Link>Devices\Enumeration\DeviceInformationCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
+      <Link>Devices\Input\KeyboardCapabilities.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
     </Compile>

@@ -1,14 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Geocircle.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.IGeoshape))]
-//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.GeoshapeType))]
-//[assembly: TypeForwardedTo(typeof(Windows.Devices.Geolocation.Geocircle))]
-//#else
 
 using System;
 
@@ -22,6 +16,7 @@ namespace InTheHand.Devices.Geolocation
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -67,7 +62,24 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geolocation.Geocircle(gc);
         }
-#else 
+#elif TIZEN
+        private Tizen.Location.CircleBoundary _boundary;
+
+        private Geocircle(Tizen.Location.CircleBoundary boundary)
+        {
+            _boundary = boundary;
+        }
+
+        public static implicit operator Tizen.Location.CircleBoundary(Geocircle c)
+        {
+            return c._boundary;
+        }
+
+        public static implicit operator Geocircle(Tizen.Location.CircleBoundary b)
+        {
+            return new Geocircle(b);
+        }
+#else
         private BasicGeoposition _position;
         private double _radius;
 #endif
@@ -80,6 +92,8 @@ namespace InTheHand.Devices.Geolocation
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _circle = new Windows.Devices.Geolocation.Geocircle(position, radius);
+#elif TIZEN
+            _boundary = new Tizen.Location.CircleBoundary(position, radius);
 #else
             _position = position;
             _radius = radius;
@@ -95,6 +109,8 @@ namespace InTheHand.Devices.Geolocation
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _circle.Center;
+#elif TIZEN
+                return _boundary.Center;
 #else
                 return _position;
 #endif
@@ -125,6 +141,8 @@ namespace InTheHand.Devices.Geolocation
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _circle.Radius;
+#elif TIZEN
+                return _boundary.Radius;
 #else
                 return _radius;
 #endif
@@ -133,4 +151,3 @@ namespace InTheHand.Devices.Geolocation
 
     }
 }
-//#endif
