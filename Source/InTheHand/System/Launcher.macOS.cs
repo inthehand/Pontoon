@@ -22,6 +22,15 @@ namespace InTheHand.System
             });
         }
 
+        private static Task<bool> LaunchFolderAsyncImpl(IStorageFolder folder)
+        {
+            return Task.Run<bool>(() =>
+            {
+                bool success = NSWorkspace.SharedWorkspace.OpenUrl(global::Foundation.NSUrl.FromFilename(folder.Path));
+                return success;
+            });
+        }
+
         private static Task<bool> LaunchUriAsyncImpl(Uri uri, LauncherOptions options)
         {
             return Task.Run<bool>(() =>

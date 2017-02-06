@@ -117,6 +117,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
       <Link>ApplicationModel\DataTransfer\Clipboard.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.wpa81.cs">
+      <Link>ApplicationModel\DataTransfer\Clipboard.wpa81.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\DataPackage.cs">
       <Link>ApplicationModel\DataTransfer\DataPackage.cs</Link>
     </Compile>

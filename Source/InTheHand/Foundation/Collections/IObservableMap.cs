@@ -1,12 +1,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="IObservableMap.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Foundation.Collections.IObservableMap<,>))]
-//#else
+
 using System.Collections.Generic;
 
 namespace InTheHand.Foundation.Collections
@@ -84,4 +81,3 @@ namespace InTheHand.Foundation.Collections
         ItemChanged = 3,
     }
 }
-//#endif

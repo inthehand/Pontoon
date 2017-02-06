@@ -3,7 +3,7 @@
   "version": 1,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
-      "ElmSharp/1.0.14": {
+      "ElmSharp/1.1.0-beta-009": {
         "compile": {
           "lib/netstandard1.3/ElmSharp.dll": {}
         },
@@ -2058,7 +2058,7 @@
           "lib/netstandard1.3/Tizen.dll": {}
         }
       },
-      "Tizen.Applications/1.0.2": {
+      "Tizen.Applications/1.1.0": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -2080,7 +2080,7 @@
           "lib/netstandard1.3/Tizen.Applications.Badge.dll": {}
         }
       },
-      "Tizen.Content.MediaContent/1.0.5": {
+      "Tizen.Content.MediaContent/1.0.6": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -2102,39 +2102,44 @@
           "lib/netstandard1.3/Tizen.Content.MimeType.dll": {}
         }
       },
-      "Tizen.Library/1.0.0-pre1": {
+      "Tizen.Library/1.0.0-pre2": {
+        "dependencies": {
+          "ElmSharp": "1.1.0-beta-009",
+          "Tizen": "1.0.2",
+          "Tizen.Applications": "1.1.0",
+          "Tizen.Applications.Badge": "1.0.2",
+          "Tizen.Content.MediaContent": "1.0.6",
+          "Tizen.Content.MimeType": "1.0.2",
+          "Tizen.Messaging.Push": "1.0.2",
+          "Tizen.Multimedia": "1.0.28",
+          "Tizen.Network.Connection": "1.0.6",
+          "Tizen.Network.WiFi": "1.0.3",
+          "Tizen.Security": "1.0.5",
+          "Tizen.Security.SecureRepository": "1.0.7",
+          "Tizen.Sensor": "1.0.4",
+          "Tizen.System": "1.0.5",
+          "Tizen.System.MediaKey": "1.0.2",
+          "Tizen.Tracer": "1.0.3",
+          "Tizen.Uix.Stt": "1.0.0",
+          "Tizen.Uix.Tts": "1.0.0"
+        }
+      },
+      "Tizen.Messaging.Push/1.0.2": {
+        "dependencies": {
+          "Tizen": "1.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Messaging.Push.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Messaging.Push.dll": {}
+        }
+      },
+      "Tizen.Multimedia/1.0.28": {
         "dependencies": {
           "ElmSharp": "1.0.14",
           "Tizen": "1.0.2",
-          "Tizen.Applications": "1.0.2",
-          "Tizen.Applications.Badge": "1.0.2",
-          "Tizen.Content.MediaContent": "1.0.5",
-          "Tizen.Content.MimeType": "1.0.2",
-          "Tizen.Location": "1.0.3",
-          "Tizen.Multimedia": "1.0.14",
-          "Tizen.Network": "1.0.5",
-          "Tizen.Security": "1.0.5",
-          "Tizen.Security.SecureRepository": "1.0.6",
-          "Tizen.Sensor": "1.0.4",
-          "Tizen.System": "1.0.5",
-          "Tizen.Tracer": "1.0.3"
-        }
-      },
-      "Tizen.Location/1.0.3": {
-        "dependencies": {
-          "Tizen": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Location.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Location.dll": {}
-        }
-      },
-      "Tizen.Multimedia/1.0.14": {
-        "dependencies": {
-          "ElmSharp": "1.0.14",
-          "Tizen": "1.0.2"
+          "Tizen.Applications": "1.0.2"
         },
         "compile": {
           "lib/netstandard1.3/Tizen.Multimedia.dll": {}
@@ -2143,15 +2148,27 @@
           "lib/netstandard1.3/Tizen.Multimedia.dll": {}
         }
       },
-      "Tizen.Network/1.0.5": {
+      "Tizen.Network.Connection/1.0.6": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
         "compile": {
-          "lib/netstandard1.3/Tizen.Network.dll": {}
+          "lib/netstandard1.3/Tizen.Network.Connection.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Tizen.Network.dll": {}
+          "lib/netstandard1.3/Tizen.Network.Connection.dll": {}
+        }
+      },
+      "Tizen.Network.WiFi/1.0.3": {
+        "dependencies": {
+          "Tizen": "1.0.2",
+          "Tizen.Network.Connection": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Network.WiFi.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Network.WiFi.dll": {}
         }
       },
       "Tizen.Security/1.0.5": {
@@ -2165,7 +2182,7 @@
           "lib/netstandard1.3/Tizen.Security.dll": {}
         }
       },
-      "Tizen.Security.SecureRepository/1.0.6": {
+      "Tizen.Security.SecureRepository/1.0.7": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -2199,6 +2216,17 @@
           "lib/netstandard1.3/Tizen.System.dll": {}
         }
       },
+      "Tizen.System.MediaKey/1.0.2": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.System.MediaKey.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.System.MediaKey.dll": {}
+        }
+      },
       "Tizen.Tracer/1.0.3": {
         "dependencies": {
           "Tizen": "1.0.2"
@@ -2208,6 +2236,28 @@
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.Tracer.dll": {}
+        }
+      },
+      "Tizen.Uix.Stt/1.0.0": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Uix.Stt.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Uix.Stt.dll": {}
+        }
+      },
+      "Tizen.Uix.Tts/1.0.0": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Uix.Tts.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Uix.Tts.dll": {}
         }
       },
       "Xamarin.Forms/2.3.3.180": {
@@ -2222,20 +2272,20 @@
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Xaml.dll": {}
         }
       },
-      "Xamarin.Forms.Platform.Tizen/2.3.3.163-pre3-b11": {
+      "Xamarin.Forms.Platform.Tizen/2.3.3.175-beta-007": {
         "dependencies": {
-          "Xamarin.Forms": "2.3.3.163-pre3"
+          "Xamarin.Forms": "2.3.3.175"
         },
         "compile": {
-          "lib/netcoreapp1.0/Xamarin.Forms.Platform.Tizen.dll": {}
+          "lib/netstandard1.6/Xamarin.Forms.Platform.Tizen.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp1.0/Xamarin.Forms.Platform.Tizen.dll": {}
+          "lib/netstandard1.6/Xamarin.Forms.Platform.Tizen.dll": {}
         }
       }
     },
     ".NETCoreApp,Version=v1.0/linux": {
-      "ElmSharp/1.0.14": {
+      "ElmSharp/1.1.0-beta-009": {
         "compile": {
           "lib/netstandard1.3/ElmSharp.dll": {}
         },
@@ -4418,7 +4468,7 @@
           "lib/netstandard1.3/Tizen.dll": {}
         }
       },
-      "Tizen.Applications/1.0.2": {
+      "Tizen.Applications/1.1.0": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -4440,7 +4490,7 @@
           "lib/netstandard1.3/Tizen.Applications.Badge.dll": {}
         }
       },
-      "Tizen.Content.MediaContent/1.0.5": {
+      "Tizen.Content.MediaContent/1.0.6": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -4462,39 +4512,44 @@
           "lib/netstandard1.3/Tizen.Content.MimeType.dll": {}
         }
       },
-      "Tizen.Library/1.0.0-pre1": {
+      "Tizen.Library/1.0.0-pre2": {
+        "dependencies": {
+          "ElmSharp": "1.1.0-beta-009",
+          "Tizen": "1.0.2",
+          "Tizen.Applications": "1.1.0",
+          "Tizen.Applications.Badge": "1.0.2",
+          "Tizen.Content.MediaContent": "1.0.6",
+          "Tizen.Content.MimeType": "1.0.2",
+          "Tizen.Messaging.Push": "1.0.2",
+          "Tizen.Multimedia": "1.0.28",
+          "Tizen.Network.Connection": "1.0.6",
+          "Tizen.Network.WiFi": "1.0.3",
+          "Tizen.Security": "1.0.5",
+          "Tizen.Security.SecureRepository": "1.0.7",
+          "Tizen.Sensor": "1.0.4",
+          "Tizen.System": "1.0.5",
+          "Tizen.System.MediaKey": "1.0.2",
+          "Tizen.Tracer": "1.0.3",
+          "Tizen.Uix.Stt": "1.0.0",
+          "Tizen.Uix.Tts": "1.0.0"
+        }
+      },
+      "Tizen.Messaging.Push/1.0.2": {
+        "dependencies": {
+          "Tizen": "1.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Messaging.Push.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Messaging.Push.dll": {}
+        }
+      },
+      "Tizen.Multimedia/1.0.28": {
         "dependencies": {
           "ElmSharp": "1.0.14",
           "Tizen": "1.0.2",
-          "Tizen.Applications": "1.0.2",
-          "Tizen.Applications.Badge": "1.0.2",
-          "Tizen.Content.MediaContent": "1.0.5",
-          "Tizen.Content.MimeType": "1.0.2",
-          "Tizen.Location": "1.0.3",
-          "Tizen.Multimedia": "1.0.14",
-          "Tizen.Network": "1.0.5",
-          "Tizen.Security": "1.0.5",
-          "Tizen.Security.SecureRepository": "1.0.6",
-          "Tizen.Sensor": "1.0.4",
-          "Tizen.System": "1.0.5",
-          "Tizen.Tracer": "1.0.3"
-        }
-      },
-      "Tizen.Location/1.0.3": {
-        "dependencies": {
-          "Tizen": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Location.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Location.dll": {}
-        }
-      },
-      "Tizen.Multimedia/1.0.14": {
-        "dependencies": {
-          "ElmSharp": "1.0.14",
-          "Tizen": "1.0.2"
+          "Tizen.Applications": "1.0.2"
         },
         "compile": {
           "lib/netstandard1.3/Tizen.Multimedia.dll": {}
@@ -4503,15 +4558,27 @@
           "lib/netstandard1.3/Tizen.Multimedia.dll": {}
         }
       },
-      "Tizen.Network/1.0.5": {
+      "Tizen.Network.Connection/1.0.6": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
         "compile": {
-          "lib/netstandard1.3/Tizen.Network.dll": {}
+          "lib/netstandard1.3/Tizen.Network.Connection.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Tizen.Network.dll": {}
+          "lib/netstandard1.3/Tizen.Network.Connection.dll": {}
+        }
+      },
+      "Tizen.Network.WiFi/1.0.3": {
+        "dependencies": {
+          "Tizen": "1.0.2",
+          "Tizen.Network.Connection": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Network.WiFi.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Network.WiFi.dll": {}
         }
       },
       "Tizen.Security/1.0.5": {
@@ -4525,7 +4592,7 @@
           "lib/netstandard1.3/Tizen.Security.dll": {}
         }
       },
-      "Tizen.Security.SecureRepository/1.0.6": {
+      "Tizen.Security.SecureRepository/1.0.7": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -4559,6 +4626,17 @@
           "lib/netstandard1.3/Tizen.System.dll": {}
         }
       },
+      "Tizen.System.MediaKey/1.0.2": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.System.MediaKey.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.System.MediaKey.dll": {}
+        }
+      },
       "Tizen.Tracer/1.0.3": {
         "dependencies": {
           "Tizen": "1.0.2"
@@ -4568,6 +4646,28 @@
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.Tracer.dll": {}
+        }
+      },
+      "Tizen.Uix.Stt/1.0.0": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Uix.Stt.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Uix.Stt.dll": {}
+        }
+      },
+      "Tizen.Uix.Tts/1.0.0": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Uix.Tts.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Uix.Tts.dll": {}
         }
       },
       "Xamarin.Forms/2.3.3.180": {
@@ -4582,20 +4682,20 @@
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Xaml.dll": {}
         }
       },
-      "Xamarin.Forms.Platform.Tizen/2.3.3.163-pre3-b11": {
+      "Xamarin.Forms.Platform.Tizen/2.3.3.175-beta-007": {
         "dependencies": {
-          "Xamarin.Forms": "2.3.3.163-pre3"
+          "Xamarin.Forms": "2.3.3.175"
         },
         "compile": {
-          "lib/netcoreapp1.0/Xamarin.Forms.Platform.Tizen.dll": {}
+          "lib/netstandard1.6/Xamarin.Forms.Platform.Tizen.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp1.0/Xamarin.Forms.Platform.Tizen.dll": {}
+          "lib/netstandard1.6/Xamarin.Forms.Platform.Tizen.dll": {}
         }
       }
     },
     ".NETCoreApp,Version=v1.0/win": {
-      "ElmSharp/1.0.14": {
+      "ElmSharp/1.1.0-beta-009": {
         "compile": {
           "lib/netstandard1.3/ElmSharp.dll": {}
         },
@@ -6755,7 +6855,7 @@
           "lib/netstandard1.3/Tizen.dll": {}
         }
       },
-      "Tizen.Applications/1.0.2": {
+      "Tizen.Applications/1.1.0": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -6777,7 +6877,7 @@
           "lib/netstandard1.3/Tizen.Applications.Badge.dll": {}
         }
       },
-      "Tizen.Content.MediaContent/1.0.5": {
+      "Tizen.Content.MediaContent/1.0.6": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -6799,39 +6899,44 @@
           "lib/netstandard1.3/Tizen.Content.MimeType.dll": {}
         }
       },
-      "Tizen.Library/1.0.0-pre1": {
+      "Tizen.Library/1.0.0-pre2": {
+        "dependencies": {
+          "ElmSharp": "1.1.0-beta-009",
+          "Tizen": "1.0.2",
+          "Tizen.Applications": "1.1.0",
+          "Tizen.Applications.Badge": "1.0.2",
+          "Tizen.Content.MediaContent": "1.0.6",
+          "Tizen.Content.MimeType": "1.0.2",
+          "Tizen.Messaging.Push": "1.0.2",
+          "Tizen.Multimedia": "1.0.28",
+          "Tizen.Network.Connection": "1.0.6",
+          "Tizen.Network.WiFi": "1.0.3",
+          "Tizen.Security": "1.0.5",
+          "Tizen.Security.SecureRepository": "1.0.7",
+          "Tizen.Sensor": "1.0.4",
+          "Tizen.System": "1.0.5",
+          "Tizen.System.MediaKey": "1.0.2",
+          "Tizen.Tracer": "1.0.3",
+          "Tizen.Uix.Stt": "1.0.0",
+          "Tizen.Uix.Tts": "1.0.0"
+        }
+      },
+      "Tizen.Messaging.Push/1.0.2": {
+        "dependencies": {
+          "Tizen": "1.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Messaging.Push.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Messaging.Push.dll": {}
+        }
+      },
+      "Tizen.Multimedia/1.0.28": {
         "dependencies": {
           "ElmSharp": "1.0.14",
           "Tizen": "1.0.2",
-          "Tizen.Applications": "1.0.2",
-          "Tizen.Applications.Badge": "1.0.2",
-          "Tizen.Content.MediaContent": "1.0.5",
-          "Tizen.Content.MimeType": "1.0.2",
-          "Tizen.Location": "1.0.3",
-          "Tizen.Multimedia": "1.0.14",
-          "Tizen.Network": "1.0.5",
-          "Tizen.Security": "1.0.5",
-          "Tizen.Security.SecureRepository": "1.0.6",
-          "Tizen.Sensor": "1.0.4",
-          "Tizen.System": "1.0.5",
-          "Tizen.Tracer": "1.0.3"
-        }
-      },
-      "Tizen.Location/1.0.3": {
-        "dependencies": {
-          "Tizen": "1.0.2"
-        },
-        "compile": {
-          "lib/netstandard1.3/Tizen.Location.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/Tizen.Location.dll": {}
-        }
-      },
-      "Tizen.Multimedia/1.0.14": {
-        "dependencies": {
-          "ElmSharp": "1.0.14",
-          "Tizen": "1.0.2"
+          "Tizen.Applications": "1.0.2"
         },
         "compile": {
           "lib/netstandard1.3/Tizen.Multimedia.dll": {}
@@ -6840,15 +6945,27 @@
           "lib/netstandard1.3/Tizen.Multimedia.dll": {}
         }
       },
-      "Tizen.Network/1.0.5": {
+      "Tizen.Network.Connection/1.0.6": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
         "compile": {
-          "lib/netstandard1.3/Tizen.Network.dll": {}
+          "lib/netstandard1.3/Tizen.Network.Connection.dll": {}
         },
         "runtime": {
-          "lib/netstandard1.3/Tizen.Network.dll": {}
+          "lib/netstandard1.3/Tizen.Network.Connection.dll": {}
+        }
+      },
+      "Tizen.Network.WiFi/1.0.3": {
+        "dependencies": {
+          "Tizen": "1.0.2",
+          "Tizen.Network.Connection": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Network.WiFi.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Network.WiFi.dll": {}
         }
       },
       "Tizen.Security/1.0.5": {
@@ -6862,7 +6979,7 @@
           "lib/netstandard1.3/Tizen.Security.dll": {}
         }
       },
-      "Tizen.Security.SecureRepository/1.0.6": {
+      "Tizen.Security.SecureRepository/1.0.7": {
         "dependencies": {
           "Tizen": "1.0.2"
         },
@@ -6896,6 +7013,17 @@
           "lib/netstandard1.3/Tizen.System.dll": {}
         }
       },
+      "Tizen.System.MediaKey/1.0.2": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.System.MediaKey.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.System.MediaKey.dll": {}
+        }
+      },
       "Tizen.Tracer/1.0.3": {
         "dependencies": {
           "Tizen": "1.0.2"
@@ -6905,6 +7033,28 @@
         },
         "runtime": {
           "lib/netstandard1.3/Tizen.Tracer.dll": {}
+        }
+      },
+      "Tizen.Uix.Stt/1.0.0": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Uix.Stt.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Uix.Stt.dll": {}
+        }
+      },
+      "Tizen.Uix.Tts/1.0.0": {
+        "dependencies": {
+          "Tizen": "1.0.2"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Uix.Tts.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Uix.Tts.dll": {}
         }
       },
       "Xamarin.Forms/2.3.3.180": {
@@ -6919,26 +7069,26 @@
           "lib/portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20/Xamarin.Forms.Xaml.dll": {}
         }
       },
-      "Xamarin.Forms.Platform.Tizen/2.3.3.163-pre3-b11": {
+      "Xamarin.Forms.Platform.Tizen/2.3.3.175-beta-007": {
         "dependencies": {
-          "Xamarin.Forms": "2.3.3.163-pre3"
+          "Xamarin.Forms": "2.3.3.175"
         },
         "compile": {
-          "lib/netcoreapp1.0/Xamarin.Forms.Platform.Tizen.dll": {}
+          "lib/netstandard1.6/Xamarin.Forms.Platform.Tizen.dll": {}
         },
         "runtime": {
-          "lib/netcoreapp1.0/Xamarin.Forms.Platform.Tizen.dll": {}
+          "lib/netstandard1.6/Xamarin.Forms.Platform.Tizen.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "ElmSharp/1.0.14": {
-      "sha512": "Dm0j2qgiuCqQhrw+wafm5Oq8tV0nj5jSp7BFxVKthX9VGbZa9ArExUIdtz3fba185kbyYh9UzemngdrB2eX4Cg==",
+    "ElmSharp/1.1.0-beta-009": {
+      "sha512": "FEP/w6DxbqQOk2PijLi4MzUu/7tsRmsMT9bcIo169Md/ITPzZe9kgNyVYBssAWIRGa2re5h0fFzZuZct+5//yQ==",
       "type": "package",
-      "path": "ElmSharp/1.0.14",
+      "path": "ElmSharp/1.1.0-beta-009",
       "files": [
-        "ElmSharp.1.0.14.nupkg.sha512",
+        "ElmSharp.1.1.0-beta-009.nupkg.sha512",
         "ElmSharp.nuspec",
         "lib/net45/ElmSharp.dll",
         "lib/netstandard1.3/ElmSharp.dll"
@@ -12188,12 +12338,12 @@
         "lib/netstandard1.3/Tizen.dll"
       ]
     },
-    "Tizen.Applications/1.0.2": {
-      "sha512": "c1Bc9j2IF+09T5amXJ0i3XpC90SAV7vif0x3UZfu0ssivC2X1815Kl55vnmZOwx4cbXCThLNyjqJRffV0j8HVA==",
+    "Tizen.Applications/1.1.0": {
+      "sha512": "Vuj2qvNlt/8i1ZoczkA4/s9wprarSR7ExsEYQvQ8EWj2HLtiDzA7whWJ92Iuy5vq7nGKwhC48qP94N3RpvuZiQ==",
       "type": "package",
-      "path": "Tizen.Applications/1.0.2",
+      "path": "Tizen.Applications/1.1.0",
       "files": [
-        "Tizen.Applications.1.0.2.nupkg.sha512",
+        "Tizen.Applications.1.1.0.nupkg.sha512",
         "Tizen.Applications.nuspec",
         "lib/net45/Tizen.Applications.dll",
         "lib/netstandard1.3/Tizen.Applications.dll"
@@ -12210,12 +12360,12 @@
         "lib/netstandard1.3/Tizen.Applications.Badge.dll"
       ]
     },
-    "Tizen.Content.MediaContent/1.0.5": {
-      "sha512": "giFWEG6TrIHcVLeYK2UQBxUQcWcCOPkvbGUsMCdMTo/MrQU5f1AAIWYMnLbIp1IiClFpXHvYQ94C+zu83CaALQ==",
+    "Tizen.Content.MediaContent/1.0.6": {
+      "sha512": "g+qKibMmg9DnOf+oFsyfS8smRZfBxER9lV5nySFVWDxk0n11JE1js+ddNRTR7t4x+sq06Z8LYDfdCjDxhjhW6w==",
       "type": "package",
-      "path": "Tizen.Content.MediaContent/1.0.5",
+      "path": "Tizen.Content.MediaContent/1.0.6",
       "files": [
-        "Tizen.Content.MediaContent.1.0.5.nupkg.sha512",
+        "Tizen.Content.MediaContent.1.0.6.nupkg.sha512",
         "Tizen.Content.MediaContent.nuspec",
         "lib/net45/Tizen.Content.MediaContent.dll",
         "lib/netstandard1.3/Tizen.Content.MediaContent.dll"
@@ -12232,46 +12382,57 @@
         "lib/netstandard1.3/Tizen.Content.MimeType.dll"
       ]
     },
-    "Tizen.Library/1.0.0-pre1": {
-      "sha512": "Yi7tdqsQgOKK4t4pfPGppg03+I7ZY1Zw7Fb+qe0FoNqSf+L0UGBLF9my9HVPSe9Nw5GlMkKy02yDLdCgW2cFtg==",
+    "Tizen.Library/1.0.0-pre2": {
+      "sha512": "w5Hfbryi0aIHHBWx6L6j/FZjUFWcrrXc/Vg2MaLrwVLcnwmtGhY93TDfWe2l6ljubt7E2lsOL+3w+2wIFDSoVQ==",
       "type": "package",
-      "path": "Tizen.Library/1.0.0-pre1",
+      "path": "Tizen.Library/1.0.0-pre2",
       "files": [
-        "Tizen.Library.1.0.0-pre1.nupkg.sha512",
+        "Tizen.Library.1.0.0-pre2.nupkg.sha512",
         "Tizen.Library.nuspec"
       ]
     },
-    "Tizen.Location/1.0.3": {
-      "sha512": "Ay8W2TF6dEq7RoMHDZn0zb3c6/4wCAHRG6hhODXMne9jEGKLVkULBtIv8zqV8EmpzlVArBE8jxYz1ptdNwbdvw==",
+    "Tizen.Messaging.Push/1.0.2": {
+      "sha512": "WUSycGrqoPG2dWeBizWQfG514t8gDDZgu1FVAFPFZ+//zEIrWFE7tvs8nQ6ciKIcDlUsJPkLXEoT6mkGDZVEbQ==",
       "type": "package",
-      "path": "Tizen.Location/1.0.3",
+      "path": "Tizen.Messaging.Push/1.0.2",
       "files": [
-        "Tizen.Location.1.0.3.nupkg.sha512",
-        "Tizen.Location.nuspec",
-        "lib/net45/Tizen.Location.dll",
-        "lib/netstandard1.3/Tizen.Location.dll"
+        "Tizen.Messaging.Push.1.0.2.nupkg.sha512",
+        "Tizen.Messaging.Push.nuspec",
+        "lib/net45/Tizen.Messaging.Push.dll",
+        "lib/netstandard1.3/Tizen.Messaging.Push.dll"
       ]
     },
-    "Tizen.Multimedia/1.0.14": {
-      "sha512": "gPu4lEkJFtuNM7zyA/mGDchsaXygmIdUhsxal2YjtHj5qsA/zQRIcza8727cmufXI77WUSTjOHHj3m/VSCf6eg==",
+    "Tizen.Multimedia/1.0.28": {
+      "sha512": "zD7ZZ6pT/K5NUE4qVg3RLkA/sXYWCrwWow8wexmRbT4Sc3HVlzceUJDzBenN1NF37BQkPOif6STK+kleHLU1Iw==",
       "type": "package",
-      "path": "Tizen.Multimedia/1.0.14",
+      "path": "Tizen.Multimedia/1.0.28",
       "files": [
-        "Tizen.Multimedia.1.0.14.nupkg.sha512",
+        "Tizen.Multimedia.1.0.28.nupkg.sha512",
         "Tizen.Multimedia.nuspec",
         "lib/net45/Tizen.Multimedia.dll",
         "lib/netstandard1.3/Tizen.Multimedia.dll"
       ]
     },
-    "Tizen.Network/1.0.5": {
-      "sha512": "d6bbc3H+X0DnqjC7vkgA6y3y8CyN6njkcw/EXoetvk0NsLIS+BkGiJ4Xo52iM51yyQcBGPaF+a8O0yLmgUPjUg==",
+    "Tizen.Network.Connection/1.0.6": {
+      "sha512": "ONZgWf5yyB3B2L675IsSQfZykra76Kob1/9JmJULPvMmErtUUkeEuWKKASaCmkG+0VsbzAdzaNJ0i81QT0mujg==",
       "type": "package",
-      "path": "Tizen.Network/1.0.5",
+      "path": "Tizen.Network.Connection/1.0.6",
       "files": [
-        "Tizen.Network.1.0.5.nupkg.sha512",
-        "Tizen.Network.nuspec",
-        "lib/net45/Tizen.Network.dll",
-        "lib/netstandard1.3/Tizen.Network.dll"
+        "Tizen.Network.Connection.1.0.6.nupkg.sha512",
+        "Tizen.Network.Connection.nuspec",
+        "lib/net45/Tizen.Network.Connection.dll",
+        "lib/netstandard1.3/Tizen.Network.Connection.dll"
+      ]
+    },
+    "Tizen.Network.WiFi/1.0.3": {
+      "sha512": "/ltrE/HNKAobHKpIhdleKBJ/mlKaAD4p82THx/IEwNnOzU2ZWt9NKl5/FyVTEEo49/OsGHWkO79iOnFnZUv3ow==",
+      "type": "package",
+      "path": "Tizen.Network.WiFi/1.0.3",
+      "files": [
+        "Tizen.Network.WiFi.1.0.3.nupkg.sha512",
+        "Tizen.Network.WiFi.nuspec",
+        "lib/net45/Tizen.Network.WiFi.dll",
+        "lib/netstandard1.3/Tizen.Network.WiFi.dll"
       ]
     },
     "Tizen.Security/1.0.5": {
@@ -12285,12 +12446,12 @@
         "lib/netstandard1.3/Tizen.Security.dll"
       ]
     },
-    "Tizen.Security.SecureRepository/1.0.6": {
-      "sha512": "sjAo6PmBHa59nAaQs4L9o8dlzAAoT4wOB656bfKwl5e0mmEv6Qlg7ZRhxR2YfxzklzaRIBRFO6cX1Mz7j6CruA==",
+    "Tizen.Security.SecureRepository/1.0.7": {
+      "sha512": "4uFpHDf8+wRT3+Oyu2OtiSnfqtlFK3X2peDjs1reNKIOEuxiAhJ4/jEb7fROmTdR9kNJ4/ZWgLlBruVEOq4JEQ==",
       "type": "package",
-      "path": "Tizen.Security.SecureRepository/1.0.6",
+      "path": "Tizen.Security.SecureRepository/1.0.7",
       "files": [
-        "Tizen.Security.SecureRepository.1.0.6.nupkg.sha512",
+        "Tizen.Security.SecureRepository.1.0.7.nupkg.sha512",
         "Tizen.Security.SecureRepository.nuspec",
         "lib/net45/Tizen.Security.SecureRepository.dll",
         "lib/netstandard1.3/Tizen.Security.SecureRepository.dll"
@@ -12318,6 +12479,17 @@
         "lib/netstandard1.3/Tizen.System.dll"
       ]
     },
+    "Tizen.System.MediaKey/1.0.2": {
+      "sha512": "T/tJJPJH2Z78DD72WBXkvzsxyse7i3T1zLrY2QYOsEjQ20F1lTaVzvCMBDgsDbl+ijBOHK6CVUvk2o7pjMQdSw==",
+      "type": "package",
+      "path": "Tizen.System.MediaKey/1.0.2",
+      "files": [
+        "Tizen.System.MediaKey.1.0.2.nupkg.sha512",
+        "Tizen.System.MediaKey.nuspec",
+        "lib/net45/Tizen.System.MediaKey.dll",
+        "lib/netstandard1.3/Tizen.System.MediaKey.dll"
+      ]
+    },
     "Tizen.Tracer/1.0.3": {
       "sha512": "Rxst6xXA5rM9wcU8BU77uBNYLTn1T0vYmGtwgF+EuI3S0AQnYZeE+2cfxTvgXhDE+AdsH4UMZp2QjwzXIFudew==",
       "type": "package",
@@ -12327,6 +12499,28 @@
         "Tizen.Tracer.nuspec",
         "lib/net45/Tizen.Tracer.dll",
         "lib/netstandard1.3/Tizen.Tracer.dll"
+      ]
+    },
+    "Tizen.Uix.Stt/1.0.0": {
+      "sha512": "bxdiDufX+HNcnLbfUmwXQL104TEJF3SWMwGAB6goAJT/Ue0SSQzKx7rxRxG85lAGtqeCJGut9xmpTsfabT5y/g==",
+      "type": "package",
+      "path": "Tizen.Uix.Stt/1.0.0",
+      "files": [
+        "Tizen.Uix.Stt.1.0.0.nupkg.sha512",
+        "Tizen.Uix.Stt.nuspec",
+        "lib/net45/Tizen.Uix.Stt.dll",
+        "lib/netstandard1.3/Tizen.Uix.Stt.dll"
+      ]
+    },
+    "Tizen.Uix.Tts/1.0.0": {
+      "sha512": "8XLESpoh8CfHxarATrdjGGqSaxYNiORbQZEl+JoY5ekk293lXa+ZlQ7SuXpLvhUzqBabY6MS93e/QWRq8NBrpA==",
+      "type": "package",
+      "path": "Tizen.Uix.Tts/1.0.0",
+      "files": [
+        "Tizen.Uix.Tts.1.0.0.nupkg.sha512",
+        "Tizen.Uix.Tts.nuspec",
+        "lib/net45/Tizen.Uix.Tts.dll",
+        "lib/netstandard1.3/Tizen.Uix.Tts.dll"
       ]
     },
     "Xamarin.Forms/2.3.3.180": {
@@ -12492,23 +12686,23 @@
         "lib/wpa81/Xamarin.Forms.Xaml.xml"
       ]
     },
-    "Xamarin.Forms.Platform.Tizen/2.3.3.163-pre3-b11": {
-      "sha512": "N/1Y9haiYkitDHdX9E1ONofGAxTTaBrMH5bDto1DA1rIpF9Gk6JrBkV3g/Ez37U2g1bMUCPzAuv9a+AP5ZqAZg==",
+    "Xamarin.Forms.Platform.Tizen/2.3.3.175-beta-007": {
+      "sha512": "fGzQ4SoaW1oOTP6O/oUVKbkMIvMznjThPXz/SsxA9bRiYFWyJ70WRoEwLUU8R4qWNivU4eoA/xBsnxYa5AOQsQ==",
       "type": "package",
-      "path": "Xamarin.Forms.Platform.Tizen/2.3.3.163-pre3-b11",
+      "path": "Xamarin.Forms.Platform.Tizen/2.3.3.175-beta-007",
       "files": [
-        "Xamarin.Forms.Platform.Tizen.2.3.3.163-pre3-b11.nupkg.sha512",
+        "Xamarin.Forms.Platform.Tizen.2.3.3.175-beta-007.nupkg.sha512",
         "Xamarin.Forms.Platform.Tizen.nuspec",
-        "lib/netcoreapp1.0/Xamarin.Forms.Platform.Tizen.dll"
+        "lib/netstandard1.6/Xamarin.Forms.Platform.Tizen.dll"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "": [
       "Microsoft.NETCore.App >= 1.1.0",
-      "Tizen.Library >= 1.0.0-pre1",
+      "Tizen.Library >= 1.0.0-pre2",
       "Xamarin.Forms >= 2.3.3.180",
-      "Xamarin.Forms.Platform.Tizen >= 2.3.3.163-pre3"
+      "Xamarin.Forms.Platform.Tizen >= 2.3.3.175-beta-007"
     ],
     ".NETCoreApp,Version=v1.0": []
   }

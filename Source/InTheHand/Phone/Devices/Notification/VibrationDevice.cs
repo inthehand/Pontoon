@@ -1,12 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="VibrationDevice.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Phone.Devices.Notification.VibrationDevice))]
-//#else
 
 #if __ANDROID__
 using Android.Content;

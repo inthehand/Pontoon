@@ -73,9 +73,10 @@ namespace InTheHand.UI.Xaml
            Tick?.Invoke(this, null);
         }
 #endif
-                /// <summary>
-                /// Initializes a new instance of the <see cref="DispatcherTimer"/> class. 
-                /// </summary>
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DispatcherTimer"/> class. 
+        /// </summary>
         public DispatcherTimer()
         {
 #if __ANDROID__ || __UNIFIED__  || WIN32
@@ -181,4 +182,3 @@ namespace InTheHand.UI.Xaml
         }
     }
 }
-//#endif

@@ -7,9 +7,9 @@
   },
   "dependencies": {
     "Microsoft.NETCore.App": "1.1.0",
-    "Tizen.Library": "1.0.0-pre1",
+    "Tizen.Library": "1.0.0-pre2",
     "Xamarin.Forms": "2.3.3.180",
-    "Xamarin.Forms.Platform.Tizen": "2.3.3.163-pre3"
+    "Xamarin.Forms.Platform.Tizen": "2.3.3.175-beta-007"
   },
   "runtimes": {
     "win": {},

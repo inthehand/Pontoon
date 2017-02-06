@@ -72,11 +72,14 @@ namespace InTheHand.System
         /// <remarks>    
         /// <list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         public static Task<bool> LaunchFolderAsync(IStorageFolder folder)
         {
-#if WINDOWS_UWP
+#if __MAC__
+            return LaunchFolderAsyncImpl(folder);
+#elif WINDOWS_UWP
             return Windows.System.Launcher.LaunchFolderAsync((Windows.Storage.StorageFolder)((StorageFolder)folder)).AsTask();
 #elif WIN32
             return Task.FromResult<bool>(Launch("explorer.exe", folder.Path));

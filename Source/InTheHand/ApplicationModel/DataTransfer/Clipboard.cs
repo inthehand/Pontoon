@@ -1,12 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="Clipboard.cs" company="In The Hand Ltd">
-//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.Clipboard))]
-//#else
+
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -289,25 +286,3 @@ namespace InTheHand.ApplicationModel.DataTransfer
         public static event EventHandler<object> ContentChanged;
     }
 }
-
-#if WINDOWS_PHONE_APP
-namespace System.Windows
-{
-    internal static class Clipboard
-    {
-        /// <summary>
-        /// For Windows XAML Phone Applications use a separate app to push items to the Clipboard
-        /// </summary>
-        /// <param name="text"></param>
-        public static void SetText(string text)
-        {
-            global::Windows.System.LauncherOptions options = new global::Windows.System.LauncherOptions();
-            options.PreferredApplicationDisplayName = "Clipboarder";
-            options.PreferredApplicationPackageFamilyName = "InTheHandLtd.Clipboarder";
-            options.DisplayApplicationPicker = false;
-            global::Windows.System.Launcher.LaunchUriAsync(new Uri(string.Format("clipboard:Set?Text={0}", Uri.EscapeDataString(text))), options);
-        }
-    }
-}
-#endif
-//#endif

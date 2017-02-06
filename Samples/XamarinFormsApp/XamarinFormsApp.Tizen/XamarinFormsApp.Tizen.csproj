@@ -41,6 +41,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>XamarinFormsApp.Tizen.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="XamarinFormsApp.Tizen.project.json" />
     <None Include="tizen-manifest.xml" />

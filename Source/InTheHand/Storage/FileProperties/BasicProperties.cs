@@ -3,10 +3,6 @@
 //     Copyright © 2016 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Storage.FileProperties.BasicProperties))]
-//#else
 
 using System;
 using System.IO;
@@ -105,4 +101,3 @@ namespace InTheHand.Storage.FileProperties
         }
     }
 }
-//#endif

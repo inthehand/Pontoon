@@ -1,12 +1,9 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DataPackage.cs" company="In The Hand Ltd">
-//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackage))]
-//#else
+
 using System;
 using System.Collections.Generic;
 
@@ -137,4 +134,3 @@ namespace InTheHand.ApplicationModel.DataTransfer
         }
     }
 }
-//#endif
