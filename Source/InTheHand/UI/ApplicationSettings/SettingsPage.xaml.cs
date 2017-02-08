@@ -22,30 +22,30 @@ namespace InTheHandUI.ApplicationSettings
     /// </summary>
     internal sealed partial class SettingsPage : Page
     {
-        private IList<SettingsCommand> commands;
-        private bool backRegistered = true;
+        private IList<SettingsCommand> _commands;
+        private bool _backRegistered = true;
 #if WINDOWS_UWP
-        private Windows.UI.Color? previousBackground;
-        private Windows.UI.Color? previousForeground;
-        private double previousBackgroundOpacity;
+        private Windows.UI.Color? _previousBackground;
+        private Windows.UI.Color? _previousForeground;
+        private double _previousBackgroundOpacity;
         
 #endif
         
         public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
 
             /*Color bgColor = InTheHand.ApplicationModel.Package.Current.BackgroundColor;
             if (bgColor != Colors.Transparent)
             {
                 Color modColor = Color.FromArgb((byte)0xff, (byte)(bgColor.R / 3), (byte)(bgColor.G / 3), (byte)(bgColor.B / 3));
-                this.Background = new SolidColorBrush(modColor);
+                Background = new SolidColorBrush(modColor);
             }*/
 
 #if WINDOWS_UWP
 
-            this.Transitions.Add(new NavigationThemeTransition() { DefaultNavigationTransitionInfo = new CommonNavigationTransitionInfo() { IsStaggeringEnabled = true } });
+            Transitions.Add(new NavigationThemeTransition() { DefaultNavigationTransitionInfo = new CommonNavigationTransitionInfo() { IsStaggeringEnabled = true } });
 
             Grid LayoutRoot = new Grid();
             LayoutRoot.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(48) });
@@ -57,15 +57,15 @@ namespace InTheHandUI.ApplicationSettings
             SettingsList = new ListView();
             Grid.SetRow(SettingsList, 1);
             LayoutRoot.Children.Add(SettingsList);
-            this.Content = LayoutRoot;
+            Content = LayoutRoot;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += SettingsPage_BackRequested;
             /*Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if(sb != null)
             {
-                previousBackground = sb.BackgroundColor;
-                previousForeground = sb.ForegroundColor;
-                previousBackgroundOpacity = sb.BackgroundOpacity;
+                _previousBackground = sb.BackgroundColor;
+                _previousForeground = sb.ForegroundColor;
+                _previousBackgroundOpacity = sb.BackgroundOpacity;
                 sb.BackgroundColor = Windows.ApplicationModel.Package.Current.BackgroundColor;
                 sb.BackgroundOpacity = 1.0;
                 sb.ForegroundColor = Colors.White;
@@ -79,7 +79,7 @@ namespace InTheHandUI.ApplicationSettings
 
             Windows.Phone.UI.Input.HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 #endif
-            this.Unloaded += SettingsPage_Unloaded;
+            Unloaded += SettingsPage_Unloaded;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -89,9 +89,9 @@ namespace InTheHandUI.ApplicationSettings
             Windows.UI.ViewManagement.StatusBar sb = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             if (sb != null)
             {
-                sb.BackgroundColor = previousBackground;
-                sb.BackgroundOpacity = previousBackgroundOpacity;
-                sb.ForegroundColor = previousForeground;
+                sb.BackgroundColor = _previousBackground;
+                sb.BackgroundOpacity = _previousBackgroundOpacity;
+                sb.ForegroundColor = _previousForeground;
             }
 #endif
 
@@ -105,14 +105,14 @@ namespace InTheHandUI.ApplicationSettings
 
         private void UnregisterBack()
         {
-            if (backRegistered)
+            if (_backRegistered)
             {
 #if WINDOWS_UWP
                 SystemNavigationManager.GetForCurrentView().BackRequested -= SettingsPage_BackRequested;
 #elif WINDOWS_PHONE_APP
                 Windows.Phone.UI.Input.HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
 #endif
-                backRegistered = false;
+                _backRegistered = false;
             }
         }
 
@@ -126,20 +126,20 @@ namespace InTheHandUI.ApplicationSettings
 
             UnregisterBack();
 
-            if (this.Frame.CanGoBack)
+            if (Frame.CanGoBack)
             {
-                this.Frame.GoBack();
+                Frame.GoBack();
             }
         }
 
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            commands = SettingsPane.GetForCurrentView().OnCommandsRequested();
+            _commands = SettingsPane.GetForCurrentView().OnCommandsRequested();
 
-            if (commands == null)
+            if (_commands == null)
             {
-                commands = new List<SettingsCommand>();
+                _commands = new List<SettingsCommand>();
             }
 
             // for store distribution include rate and review
@@ -147,12 +147,12 @@ namespace InTheHandUI.ApplicationSettings
             if (!InTheHand.ApplicationModel.Package.Current.IsDevelopmentMode)
             {
 #endif
-                commands.Add(new SettingsCommand("RateAndReview", "Rate and review", async (c) =>
+                _commands.Add(new SettingsCommand("RateAndReview", "Rate and review", async (c) =>
                 {
                     await InTheHand.ApplicationModel.Store.CurrentApp.RequestReviewAsync();
                 }));
 
-                commands.Add(new SettingsCommand("PrivacyPolicy", "Privacy policy", async (c) =>
+                _commands.Add(new SettingsCommand("PrivacyPolicy", "Privacy policy", async (c) =>
                     {
                         await InTheHand.ApplicationModel.Store.CurrentApp.RequestDetailsAsync();
                     }));
@@ -167,7 +167,7 @@ namespace InTheHandUI.ApplicationSettings
                 }));
             }*/
 
-            SettingsList.ItemsSource = commands;
+            SettingsList.ItemsSource = _commands;
 
             base.OnNavigatedTo(e);
         }

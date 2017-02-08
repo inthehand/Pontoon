@@ -21,18 +21,18 @@ namespace InTheHand.Devices.Enumeration
         public DevicePickerDialog(DevicePicker owner)
         {
             _owner = owner;
-            this.Background = new SolidColorBrush(this._owner.Appearance.BackgroundColor);
-            this.Foreground = new SolidColorBrush(this._owner.Appearance.ForegroundColor);
-            this.Resources.Add("AccentBrush", new SolidColorBrush(this._owner.Appearance.AccentColor));
-            this.Resources.Add("ForegroundBrush", new SolidColorBrush(this._owner.Appearance.ForegroundColor));
-            this.Resources.Add("SelectedAccentBrush", new SolidColorBrush(this._owner.Appearance.SelectedAccentColor));
-            this.Resources.Add("SelectedBackgroundBrush", new SolidColorBrush(this._owner.Appearance.SelectedBackgroundColor));
-            this.Resources.Add("SelectedForegroundBrush", new SolidColorBrush(this._owner.Appearance.SelectedForegroundColor));
+            Background = new SolidColorBrush(_owner.Appearance.BackgroundColor);
+            Foreground = new SolidColorBrush(_owner.Appearance.ForegroundColor);
+            Resources.Add("AccentBrush", new SolidColorBrush(_owner.Appearance.AccentColor));
+            Resources.Add("ForegroundBrush", new SolidColorBrush(_owner.Appearance.ForegroundColor));
+            Resources.Add("SelectedAccentBrush", new SolidColorBrush(_owner.Appearance.SelectedAccentColor));
+            Resources.Add("SelectedBackgroundBrush", new SolidColorBrush(_owner.Appearance.SelectedBackgroundColor));
+            Resources.Add("SelectedForegroundBrush", new SolidColorBrush(_owner.Appearance.SelectedForegroundColor));
             
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.Loaded += DevicePickerDialog_Loaded;
-            this.Closed += DevicePickerDialog_Closed;
+            Loaded += DevicePickerDialog_Loaded;
+            Closed += DevicePickerDialog_Closed;
         }
 
         void DevicePickerDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
@@ -90,7 +90,7 @@ namespace InTheHand.Devices.Enumeration
                 _selectedDevice = (DeviceList.SelectedItem as DeviceViewModel).Information;
                 _owner.OnDeviceSelected(_selectedDevice);
 
-                this.Hide();
+                Hide();
             }
         }
     }

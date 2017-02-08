@@ -49,7 +49,7 @@ namespace InTheHand.UI
         /// <returns></returns>
         public bool Equals(Color color)
         {
-            return this.A == color.A && this.B == color.B && this.G == color.G && this.R == color.R;
+            return A == color.A && B == color.B && G == color.G && R == color.R;
         }
 
         /// <summary>

@@ -208,7 +208,7 @@ namespace InTheHand.UI.Popups
 
 #elif WINDOWS_PHONE
             List<string> buttons = new List<string>();
-            foreach(IUICommand uic in this.Commands)
+            foreach(IUICommand uic in Commands)
             {
                 buttons.Add(uic.Label);
             }

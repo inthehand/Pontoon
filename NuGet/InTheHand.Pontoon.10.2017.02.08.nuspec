@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>InTheHand.Pontoon</id>
+        <version>10.2017.02.08</version>
+        <title>Pontoon</title>
+        <authors>Peter Foot</authors>
+        <owners>peterfoot</owners>
+        <licenseUrl>https://github.com/inthehand/Pontoon/blob/master/License.txt</licenseUrl>
+        <projectUrl>https://github.com/inthehand/Pontoon</projectUrl>
+        <iconUrl>https://avatars3.githubusercontent.com/u/11249648</iconUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>A flexible bridge to the Universal Windows Platform. Simplify your cross-platform development.</description>
+        <summary>A flexible bridge to the Universal Windows Platform. Simplify your cross-platform development.</summary>
+        <releaseNotes>Mac and Tizen additions</releaseNotes>
+        <copyright>Copyright 2016-17 In The Hand Ltd</copyright>
+        <tags>windows ios tvos android xamarin uwp wp8 wp81 wpa81 win32 pcl</tags>
+        <dependencies>
+            <group targetFramework="MonoAndroid1.0">
+                <dependency id="Plugin.CurrentActivity" version="1.0.1" />
+            </group>
+            <group targetFramework="WindowsPhone8.0">
+                <dependency id="WPtoolkit" version="4.2013.08.16" />
+            </group>
+            <group targetFramework="WindowsPhone8.1">
+                <dependency id="WPtoolkit" version="4.2013.08.16" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="InTheHand\lib\MonoAndroid10\InTheHand.dll" target="lib\MonoAndroid10\InTheHand.dll" />
+        <file src="InTheHand\lib\MonoAndroid10\InTheHand.XML" target="lib\MonoAndroid10\InTheHand.XML" />
+        <file src="InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.dll" target="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.dll" />
+        <file src="InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML" target="lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML" />
+        <file src="InTheHand\lib\uap10.0\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml" target="lib\uap10.0\InTheHand\UI\ApplicationSettings\SettingsPage.UWP.xaml" />
+        <file src="InTheHand\lib\uap10.0\InTheHand\InTheHand.xr.xml" target="lib\uap10.0\InTheHand\InTheHand.xr.xml" />
+        <file src="InTheHand\lib\uap10.0\InTheHand.dll" target="lib\uap10.0\InTheHand.dll" />
+        <file src="InTheHand\lib\uap10.0\InTheHand.pri" target="lib\uap10.0\InTheHand.pri" />
+        <file src="InTheHand\lib\uap10.0\InTheHand.XML" target="lib\uap10.0\InTheHand.XML" />
+        <file src="InTheHand\lib\win81\InTheHand.dll" target="lib\win81\InTheHand.dll" />
+        <file src="InTheHand\lib\win81\InTheHand.pri" target="lib\win81\InTheHand.pri" />
+        <file src="InTheHand\lib\win81\InTheHand.XML" target="lib\win81\InTheHand.XML" />
+        <file src="InTheHand\lib\wp8\InTheHand.dll" target="lib\wp8\InTheHand.dll" />
+        <file src="InTheHand\lib\wp8\InTheHand.XML" target="lib\wp8\InTheHand.XML" />
+        <file src="InTheHand\lib\wp81\InTheHand.dll" target="lib\wp81\InTheHand.dll" />
+        <file src="InTheHand\lib\wp81\InTheHand.XML" target="lib\wp81\InTheHand.XML" />
+        <file src="InTheHand\lib\wpa81\InTheHand\UI\ApplicationSettings\SettingsPage.xaml" target="lib\wpa81\InTheHand\UI\ApplicationSettings\SettingsPage.xaml" />
+        <file src="InTheHand\lib\wpa81\InTheHand\UI\ApplicationSettings\SettingsPage.xbf" target="lib\wpa81\InTheHand\UI\ApplicationSettings\SettingsPage.xbf" />
+        <file src="InTheHand\lib\wpa81\InTheHand\InTheHand.xr.xml" target="lib\wpa81\InTheHand\InTheHand.xr.xml" />
+        <file src="InTheHand\lib\wpa81\InTheHand.dll" target="lib\wpa81\InTheHand.dll" />
+        <file src="InTheHand\lib\wpa81\InTheHand.pri" target="lib\wpa81\InTheHand.pri" />
+        <file src="InTheHand\lib\wpa81\InTheHand.XML" target="lib\wpa81\InTheHand.XML" />
+        <file src="InTheHand\lib\Xamarin.iOS10\InTheHand.dll" target="lib\Xamarin.iOS10\InTheHand.dll" />
+        <file src="InTheHand\lib\Xamarin.iOS10\InTheHand.XML" target="lib\Xamarin.iOS10\InTheHand.XML" />
+        <file src="InTheHand\lib\xamarinmac\InTheHand.dll" target="lib\xamarinmac\InTheHand.dll" />
+        <file src="InTheHand\lib\xamarinmac\InTheHand.xml" target="lib\xamarinmac\InTheHand.xml" />
+        <file src="InTheHand\lib\Xamarin.tvOS10\InTheHand.dll" target="lib\xamarintvos\InTheHand.dll" />
+        <file src="InTheHand\lib\Xamarin.tvOS10\InTheHand.xml" target="lib\xamarintvos\InTheHand.xml" />
+    </files>
+</package>

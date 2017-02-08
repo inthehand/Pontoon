@@ -1,12 +1,8 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DataPackageView.cs" company="In The Hand Ltd">
-//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.DataTransfer.DataPackageView))]
-//#else
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +33,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             get
             {
-                return new ReadOnlyCollection<string>(_package.data.Keys.ToArray<string>());
+                return new ReadOnlyCollection<string>(_package._data.Keys.ToArray<string>());
             }
         }
 
@@ -69,9 +65,9 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             return Task.Run<object>(() => 
             {
-                if (_package.data.ContainsKey(formatId))
+                if (_package._data.ContainsKey(formatId))
                 {
-                    DataProviderHandler handler = _package.data[formatId] as DataProviderHandler;
+                    DataProviderHandler handler = _package._data[formatId] as DataProviderHandler;
 
                     if (handler != null)
                     {
@@ -80,7 +76,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
                     }
                     else
                     {
-                        return _package.data[formatId];
+                        return _package._data[formatId];
                     }
                 }
 
@@ -96,9 +92,9 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
             return Task.Run<string>(() =>
             {
-                if (_package.data.ContainsKey(StandardDataFormats.Text))
+                if (_package._data.ContainsKey(StandardDataFormats.Text))
                 {
-                    DataProviderHandler handler = _package.data[StandardDataFormats.Text] as DataProviderHandler;
+                    DataProviderHandler handler = _package._data[StandardDataFormats.Text] as DataProviderHandler;
 
                     if (handler != null)
                     {
@@ -106,7 +102,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
                         handler.Invoke(request);
                     }
 
-                    return _package.data[StandardDataFormats.Text].ToString();
+                    return _package._data[StandardDataFormats.Text].ToString();
                 }
 
                 return null;
@@ -115,9 +111,9 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
         private Uri GetUri(string format)
         {
-            if (_package.data.ContainsKey(format))
+            if (_package._data.ContainsKey(format))
             {
-                DataProviderHandler handler = _package.data[format] as DataProviderHandler;
+                DataProviderHandler handler = _package._data[format] as DataProviderHandler;
 
                 if (handler != null)
                 {
@@ -125,7 +121,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
                     handler.Invoke(request);
                 }
 
-                return (Uri)_package.data[format];
+                return (Uri)_package._data[format];
             }
 
             return null;
@@ -156,4 +152,3 @@ namespace InTheHand.ApplicationModel.DataTransfer
         }
     }
 }
-//#endif

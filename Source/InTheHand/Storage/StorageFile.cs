@@ -432,7 +432,7 @@ namespace InTheHand.Storage
                 }
                 return mime;
 #elif TIZEN
-                return Tizen.Content.MimeType.MimeUtil.GetMimeType(this.FileType);
+                return Tizen.Content.MimeType.MimeUtil.GetMimeType(FileType);
 #else
                 return string.Empty;
 #endif

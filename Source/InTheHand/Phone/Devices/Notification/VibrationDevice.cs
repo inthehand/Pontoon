@@ -40,7 +40,7 @@ namespace InTheHand.Phone.Devices.Notification
     /// </remarks>
     public sealed class VibrationDevice
     {
-        private static VibrationDevice  _default;
+        private static VibrationDevice  s_default = null;
 
         /// <summary>
         /// Gets an instance of the VibrationDevice class.
@@ -48,28 +48,28 @@ namespace InTheHand.Phone.Devices.Notification
         /// <returns></returns>
         public static VibrationDevice GetDefault()
         {
-            if(_default == null)
+            if(s_default == null)
             {
 #if __ANDROID__ || __IOS__ || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                _default = new VibrationDevice();
+                s_default = new VibrationDevice();
 #elif TIZEN
                 if (Tizen.System.RuntimeInformation.GetStatus<bool>(Tizen.System.RuntimeInformationKey.Vibration))
                 {
                     if (Tizen.System.Vibrator.NumberOfVibrators > 0)
                     {
-                        _default = new VibrationDevice();
+                        s_default = new VibrationDevice();
                     }
                 }
 
 #elif WINDOWS_UWP
                 if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
                 {
-                    _default = new Notification.VibrationDevice();
+                    s_default = new Notification.VibrationDevice();
                 }
 #endif
             }
 
-            return _default;
+            return s_default;
         }
 
 #if __ANDROID__

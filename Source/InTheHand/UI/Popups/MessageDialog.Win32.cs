@@ -20,7 +20,7 @@ namespace InTheHand.UI.Popups
             tdc.pszMainInstruction = Title;
             tdc.dwFlags = NativeMethods.TASKDIALOG_FLAGS.SIZE_TO_CONTENT;
             tdc.pszContent = Content;
-            if (this.Commands.Count == 0)
+            if (Commands.Count == 0)
             {
                 tdc.dwCommonButtons = NativeMethods.TASKDIALOG_COMMON_BUTTON_FLAGS.CLOSE_BUTTON;
             }

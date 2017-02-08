@@ -14,14 +14,14 @@ namespace InTheHand.ApplicationModel.DataTransfer
     /// </summary>
     public sealed class DataPackage
     {
-        internal Dictionary<string, object> data;
+        internal Dictionary<string, object> _data;
 
         /// <summary>
         /// Constructor that creates a new <see cref="DataPackage"/>.
         /// </summary>
         public DataPackage()
         {
-            data = new Dictionary<string, object>();
+            _data = new Dictionary<string, object>();
             Properties = new DataPackagePropertySet();
         }
 
@@ -37,7 +37,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <returns>The object that is a read-only copy of the <see cref="DataPackage"/> object.</returns>
         public DataPackageView GetView()
         {
-            return new DataPackageView((DataPackage)this.MemberwiseClone());
+            return new DataPackageView((DataPackage)MemberwiseClone());
         }
 
         /// <summary>
@@ -48,13 +48,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <param name="value">Specifies the content that the DataPackage contains.</param>
         public void SetData(string formatId, object value)
         {
-            if (data.ContainsKey(formatId))
+            if (_data.ContainsKey(formatId))
             {
-                data[formatId] = value;
+                _data[formatId] = value;
             }
             else
             {
-                data.Add(formatId, value);
+                _data.Add(formatId, value);
             }
         }
 
@@ -66,13 +66,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <param name="delayRenderer">A delegate that is responsible for processing requests from a target app.</param>
         public void SetDataProvider(string formatId, DataProviderHandler delayRenderer)
         {
-            if (data.ContainsKey(formatId))
+            if (_data.ContainsKey(formatId))
             {
-                data[formatId] = delayRenderer;
+                _data[formatId] = delayRenderer;
             }
             else
             {
-                data.Add(formatId, delayRenderer);
+                _data.Add(formatId, delayRenderer);
             }
         }
 
@@ -82,13 +82,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// <param name="value">The text.</param>
         public void SetText(string value)
         {
-            if (data.ContainsKey(StandardDataFormats.Text))
+            if (_data.ContainsKey(StandardDataFormats.Text))
             {
-                data[StandardDataFormats.Text] = value;
+                _data[StandardDataFormats.Text] = value;
             }
             else
             {
-                data.Add(StandardDataFormats.Text, value);
+                _data.Add(StandardDataFormats.Text, value);
             }
         }
         
@@ -101,13 +101,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// Use this property to indicate the source of the shared content.</remarks>
         public void SetWebLink(Uri value)
         {
-            if (data.ContainsKey(StandardDataFormats.WebLink))
+            if (_data.ContainsKey(StandardDataFormats.WebLink))
             {
-                data[StandardDataFormats.WebLink] = value;
+                _data[StandardDataFormats.WebLink] = value;
             }
             else
             {
-                data.Add(StandardDataFormats.WebLink, value);
+                _data.Add(StandardDataFormats.WebLink, value);
             }
         }
 
@@ -123,13 +123,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         /// The app sharing this URI must be capable of being the default handler, although it may not be set as the default handler.</para></remarks>
         public void SetApplicationLink(Uri value)
         {
-            if (data.ContainsKey(StandardDataFormats.ApplicationLink))
+            if (_data.ContainsKey(StandardDataFormats.ApplicationLink))
             {
-                data[StandardDataFormats.ApplicationLink] = value;
+                _data[StandardDataFormats.ApplicationLink] = value;
             }
             else
             {
-                data.Add(StandardDataFormats.ApplicationLink, value);
+                _data.Add(StandardDataFormats.ApplicationLink, value);
             }
         }
     }

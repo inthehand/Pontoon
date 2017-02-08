@@ -1047,8 +1047,8 @@ namespace InTheHand.Storage
     {
         internal ApplicationDataMapChangedEventArgs(string key, CollectionChange change)
         {
-            this.Key = key;
-            this.CollectionChange = change;
+            Key = key;
+            CollectionChange = change;
         }
 
         public CollectionChange CollectionChange

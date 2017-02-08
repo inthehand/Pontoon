@@ -57,7 +57,7 @@ namespace InTheHand.UI.Popups
         /// <returns>The command that the user selected.</returns>
         public IUICommand GetResults()
         {
-            if (this.Status != AsyncStatus.Completed)
+            if (Status != AsyncStatus.Completed)
             {
                 throw new InvalidOperationException();
             }
@@ -69,7 +69,7 @@ namespace InTheHand.UI.Popups
         {
             _status = AsyncStatus.Completed;
             _command = command;
-            this.OnCompleted();
+            OnCompleted();
         }
         #endregion
 

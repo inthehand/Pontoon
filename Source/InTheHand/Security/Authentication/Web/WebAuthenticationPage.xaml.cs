@@ -15,7 +15,7 @@ namespace InTheHandSecurity.Authentication.Web
 {
     internal partial class WebAuthenticationPage : PhoneApplicationPage
     {
-        private string redirectUri;
+        private string _redirectUri;
 
         public WebAuthenticationPage()
         {
@@ -37,8 +37,8 @@ namespace InTheHandSecurity.Authentication.Web
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            Browser.Navigating -= this.Browser_Navigating;
-            Browser.NavigationFailed -= this.Browser_NavigationFailed;
+            Browser.Navigating -= Browser_Navigating;
+            Browser.NavigationFailed -= Browser_NavigationFailed;
 
             base.OnNavigatingFrom(e);
         }
@@ -48,8 +48,8 @@ namespace InTheHandSecurity.Authentication.Web
             Icon.Source = new BitmapImage(InTheHand.ApplicationModel.Package.Current.Logo);
             AppName.Text = InTheHand.ApplicationModel.Package.Current.DisplayName;
 
-            redirectUri = NavigationContext.QueryString["returnUri"];
-            Browser.Navigate(new Uri(this.NavigationContext.QueryString["uri"]));
+            _redirectUri = NavigationContext.QueryString["returnUri"];
+            Browser.Navigate(new Uri(NavigationContext.QueryString["uri"]));
             base.OnNavigatedTo(e);
         }        
         
@@ -66,7 +66,7 @@ namespace InTheHandSecurity.Authentication.Web
 
         void Browser_Navigating(object sender, NavigatingEventArgs e)
         {
-            if (e.Uri.OriginalString.Contains(redirectUri))
+            if (e.Uri.OriginalString.Contains(_redirectUri))
             {
                 WebAuthenticationBroker.Result = new WebAuthenticationResult(e.Uri.OriginalString, 0, e.Uri.OriginalString.Contains("error=") ? WebAuthenticationStatus.UserCancel : WebAuthenticationStatus.Success);
 
