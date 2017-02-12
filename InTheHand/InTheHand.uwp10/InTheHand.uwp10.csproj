@@ -332,6 +332,18 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.cs">
+      <Link>Devices\Radios\Radio.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioAccessState.cs">
+      <Link>Devices\Radios\RadioAccessState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioKind.cs">
+      <Link>Devices\Radios\RadioKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioState.cs">
+      <Link>Devices\Radios\RadioState.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Accelerometer.cs">
       <Link>Devices\Sensors\Accelerometer.cs</Link>
     </Compile>

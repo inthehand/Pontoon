@@ -4,6 +4,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Reflection;
 
 namespace InTheHand.Devices.Input
@@ -35,7 +36,7 @@ namespace InTheHand.Devices.Input
             return kc._keyboardCapabilities;
         }
 #elif WIN32
-        private global::System.Type _type10 = global::System.Type.GetType("Windows.Devices.Input.KeyboardCapabilities, Windows, ContentType=WindowsRuntime");
+        private static Type s_type10 = Type.GetType("Windows.Devices.Input.KeyboardCapabilities, Windows, ContentType=WindowsRuntime");
 #endif
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyboardCapabilities"/> class.
@@ -69,10 +70,10 @@ namespace InTheHand.Devices.Input
                 Tizen.System.SystemInfo.TryGetValue("http://tizen.org/feature/input.keyboard", out keyb);
                 return keyb ? 1 : 0;
 #elif WIN32
-                if(_type10 != null)
+                if(s_type10 != null)
                 {
-                    object kc = global::System.Activator.CreateInstance(_type10);
-                    return (int)_type10.GetRuntimeProperty("KeyboardPresent").GetValue(kc);
+                    object kc = global::System.Activator.CreateInstance(s_type10);
+                    return (int)s_type10.GetRuntimeProperty("KeyboardPresent").GetValue(kc);
                 }
 
                 return 0;

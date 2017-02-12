@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-<ProjectTypeGuids>{2F98DAC9-6F16-457B-AED7-D43CAC379341};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectTypeGuids>{2F98DAC9-6F16-457B-AED7-D43CAC379341};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{39C0C993-C3EF-4589-82CB-3DF51F6586DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -124,8 +124,17 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
       <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
     </Compile>
-<Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioAccessState.cs">
+      <Link>Devices\Radios\RadioAccessState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioKind.cs">
+      <Link>Devices\Radios\RadioKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioState.cs">
+      <Link>Devices\Radios\RadioState.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Accelerometer.cs">
       <Link>Devices\Sensors\Accelerometer.cs</Link>
@@ -334,4 +343,14 @@
     <_FullFrameworkReferenceAssemblyPaths>$(MSBuildThisFileDirectory)</_FullFrameworkReferenceAssemblyPaths>
     <AutoUnifyAssemblyReferences>true</AutoUnifyAssemblyReferences>
   </PropertyGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Debug|Any CPU">
+        <ProjectCorporateFlavorCfg />
+      </FlavorProperties>
+      <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Release|Any CPU">
+        <ProjectCorporateFlavorCfg />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
