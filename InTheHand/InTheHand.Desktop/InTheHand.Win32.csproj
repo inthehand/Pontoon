@@ -85,6 +85,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.cs">
       <Link>Devices\Radios\Radio.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.Win32.cs">
+      <Link>Devices\Radios\Radio.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioAccessState.cs">
       <Link>Devices\Radios\RadioAccessState.cs</Link>
     </Compile>

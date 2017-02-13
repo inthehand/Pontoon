@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using InTheHand.ApplicationModel.DataTransfer;
 using InTheHand.UI.Popups;
+using InTheHand.Devices.Radios;
+using System.Diagnostics;
 
 namespace DesktopApp
 {
@@ -30,6 +32,16 @@ namespace DesktopApp
 
         private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            var radios = await InTheHand.Devices.Radios.Radio.GetRadiosAsync();
+            foreach(Radio r in radios)
+            {
+                Debug.WriteLine(r.State);
+                //await r.SetStateAsync(RadioState.Off);
+                Debug.WriteLine(r.State);
+                //await r.SetStateAsync(RadioState.On);
+                Debug.WriteLine(r.State);
+            }
+
             System.Diagnostics.Debug.WriteLine(new InTheHand.Devices.Input.KeyboardCapabilities().KeyboardPresent);
             /*System.Diagnostics.Debug.WriteLine(InTheHand.Environment.OSVersion.VersionString);
 

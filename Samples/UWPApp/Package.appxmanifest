@@ -27,5 +27,6 @@
     <uap:Capability Name="phoneCall" />
     <DeviceCapability Name="activity"/>
     <DeviceCapability Name="bluetooth" />
+    <DeviceCapability Name="radios"/>
   </Capabilities>
 </Package>

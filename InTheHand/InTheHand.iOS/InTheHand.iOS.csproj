@@ -243,6 +243,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.cs">
       <Link>Devices\Radios\Radio.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.Unified.cs">
+      <Link>Devices\Radios\Radio.Unified.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioAccessState.cs">
       <Link>Devices\Radios\RadioAccessState.cs</Link>
     </Compile>

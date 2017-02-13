@@ -11,6 +11,7 @@ using Windows.ApplicationModel.Calls;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
+using Windows.Devices.Radios;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -61,6 +62,32 @@ namespace UWPApp
 
         private async void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
+            Windows.Devices.Radios.RadioAccessStatus s = await Windows.Devices.Radios.Radio.RequestAccessAsync();
+            //await Windows.Devices.WiFi.WiFiAdapter.RequestAccessAsync();
+            /*string rsel = Windows.Devices.Radios.Radio.GetDeviceSelector();
+            foreach(DeviceInformation di in await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(rsel))
+            {
+                Debug.WriteLine(di.Name);
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                {
+                    Radio r = await Windows.Devices.Radios.Radio.FromIdAsync(di.Id);
+                    Debug.WriteLine(r.Name);
+                    Debug.WriteLine(r.Kind);
+                    Debug.WriteLine(r.State);
+                });
+            }*/
+
+            var radios = await Windows.Devices.Radios.Radio.GetRadiosAsync();
+
+
+            foreach (Windows.Devices.Radios.Radio r in radios)
+            {
+                System.Diagnostics.Debug.WriteLine(r.Name);
+                Debug.WriteLine(r.Kind);
+                Debug.WriteLine(r.State);
+
+            }
+
             p = await InTheHand.Devices.Sensors.Pedometer.GetDefaultAsync();
             if (p != null)
             {

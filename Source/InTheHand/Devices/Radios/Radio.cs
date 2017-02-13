@@ -6,13 +6,9 @@
 //-----------------------------------------------------------------------
 
 using System;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-#if __UNIFIED__
-using CoreBluetooth;
-using Foundation;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+using System.Threading.Tasks;
+#if WINDOWS_UWP
 using Windows.Devices.Radios;
 #endif
 
@@ -21,9 +17,20 @@ namespace InTheHand.Devices.Radios
     /// <summary>
     /// Represents a radio device on the system.
     /// </summary>
-    public sealed class Radio
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
+    public sealed partial class Radio
     {
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
         private Windows.Devices.Radios.Radio _radio;
 
         private Radio(Windows.Devices.Radios.Radio radio)
@@ -40,18 +47,7 @@ namespace InTheHand.Devices.Radios
         {
             return new Radio(radio);
         }
-#elif WIN32
-        private static Type s_type10 = Type.GetType("Windows.Devices.Radios.Radio, Windows, ContentType=WindowsRuntime");
-        private object _object10 = null;
-#elif __UNIFIED__
-        private CBCentralManager _manager;
-
-        internal Radio(CBCentralManager manager)
-        {
-            _manager = manager;
-        }
 #endif
-
 
         /// <summary>
         /// A static method that retrieves a Radio object corresponding to a device Id obtained through FindAllAsync(System.String) and related APIs.
@@ -59,11 +55,15 @@ namespace InTheHand.Devices.Radios
         /// <param name="deviceId">A string that identifies a particular radio device.</param>
         /// <returns>An asynchronous retrieval operation.
         /// On successful completion, it contains a <see cref="Radio"/> object that represents the specified radio device.</returns>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 10</description></item></list>
+        /// </remarks>
         public static async Task<Radio> FromIdAsync(string deviceId)
         {
-#if __UNIFIED__
-            return null;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
             return await Windows.Devices.Radios.Radio.FromIdAsync(deviceId);
 #else
             return null;
@@ -74,19 +74,18 @@ namespace InTheHand.Devices.Radios
         /// A static method that returns an Advanced Query Syntax (AQS) string to be used to enumerate or monitor Radio devices with FindAllAsync(System.String) and related methods.
         /// </summary>
         /// <returns>An identifier to be used to enumerate radio devices.</returns>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 10</description></item></list>
+        /// </remarks>
         public static string GetDeviceSelector()
         {
-#if __UNIFIED__
-            return "radio";
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
             return Windows.Devices.Radios.Radio.GetDeviceSelector();
 #elif WIN32
-            if(s_type10 != null)
-            {
-                return s_type10.GetMethod(nameof(GetDeviceSelector), BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[0]).ToString();
-            }
-
-            return string.Empty;
+            return GetDeviceSelectorImpl();
 #else
             return string.Empty;
 #endif
@@ -96,16 +95,27 @@ namespace InTheHand.Devices.Radios
         /// A static, asynchronous method that retrieves a collection of <see cref="Radio"/> objects representing radio devices existing on the system.
         /// </summary>
         /// <returns>An asynchronous retrieval operation. When the operation is complete, contains a list of Radio objects describing available radios.</returns>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// </remarks>
         public static async Task<IReadOnlyList<Radio>> GetRadiosAsync()
         {
             List<Radio> radios = new List<Radio>();
-#if __UNIFIED__
-            radios.Add(new Radio(new CBCentralManager()));
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
             foreach (Windows.Devices.Radios.Radio r in await Windows.Devices.Radios.Radio.GetRadiosAsync())
             {
                 radios.Add(r);
             }
+#elif __UNIFIED__ || WIN32 || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            GetRadiosAsyncImpl(radios);
 #endif
             return radios.AsReadOnly();
         }
@@ -116,19 +126,44 @@ namespace InTheHand.Devices.Radios
         /// Consequently, always call this method on the UI thread.
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// </remarks>
         public static async Task<RadioAccessStatus> RequestAccessAsync()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
             return (RadioAccessStatus)((int)await Windows.Devices.Radios.Radio.RequestAccessAsync());
+#elif WIN32
+            // desktop apps have full access and no permissions are required
+            return RadioAccessStatus.Allowed;
 #else
             return RadioAccessStatus.Unspecified;
 #endif
         }
 
+        private Radio()
+        {
+        }
+
+        /// <summary>
+        /// An asynchronous operation that attempts to set the state of the radio represented by this object.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// </remarks>
         public async Task<RadioAccessStatus> SetStateAsync(RadioState value)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP
             return (RadioAccessStatus)((int)await _radio.SetStateAsync((Windows.Devices.Radios.RadioState)((int)value)));
+#elif WIN32
+            return await SetStateAsyncImpl(value);
 #else
             return RadioAccessStatus.Unspecified;
 #endif
@@ -138,14 +173,25 @@ namespace InTheHand.Devices.Radios
         /// Gets an enumeration value that describes what kind of radio this object represents.
         /// </summary>
         /// <value>The kind of this radio.</value>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// </remarks>
         public RadioKind Kind
         {
             get
             {
-#if __UNIFIED__
-                return RadioKind.Bluetooth;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP 
                 return (RadioKind)((int)_radio.Kind);
+#elif __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return GetKindImpl();
 #else
                 return RadioKind.Other;
 #endif
@@ -156,12 +202,25 @@ namespace InTheHand.Devices.Radios
         /// Gets the name of the radio represented by this object.
         /// </summary>
         /// <value>The radio name.</value>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// </remarks>
         public string Name
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP 
                 return _radio.Name;
+#elif __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return GetNameImpl();
 #else
                 return string.Empty;
 #endif
@@ -172,38 +231,29 @@ namespace InTheHand.Devices.Radios
         /// Gets the current state of the radio represented by this object.
         /// </summary>
         /// <value>The current radio state.</value>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+        /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// </remarks>
         public RadioState State
         {
             get
             {
-#if __UNIFIED__
-                return CBCentalManagerStateToRadioState(_manager.State);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP 
                 return (RadioState)((int)_radio.State);
+#elif __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+                return GetStateImpl();
 #else
                 return RadioState.Unknown;
 #endif
             }
         }
-
-#if __UNIFIED__
-        private static RadioState CBCentalManagerStateToRadioState(CBCentralManagerState state)
-        {
-            switch(state)
-            {
-                case CBCentralManagerState.PoweredOn:
-                    return RadioState.On;
-
-                case CBCentralManagerState.PoweredOff:
-                    return RadioState.Off;
-
-                case CBCentralManagerState.Unauthorized:
-                    return RadioState.Disabled;
-
-                default:
-                    return RadioState.Unknown;
-            }
-        }
-#endif
     }
 }
