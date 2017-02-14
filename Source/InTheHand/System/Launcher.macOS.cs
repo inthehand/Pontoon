@@ -5,6 +5,7 @@
 //-----------------------------------------------------------------------
 
 using AppKit;
+using Foundation;
 using InTheHand.Storage;
 using System;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace InTheHand.System
         {
             return Task.Run<bool>(() =>
             {
-                bool success = NSWorkspace.SharedWorkspace.OpenUrl(global::Foundation.NSUrl.FromFilename(folder.Path));
+                bool success = NSWorkspace.SharedWorkspace.OpenUrl(NSUrl.FromFilename(folder.Path));
                 return success;
             });
         }
@@ -35,7 +36,7 @@ namespace InTheHand.System
         {
             return Task.Run<bool>(() =>
             {
-                return NSWorkspace.SharedWorkspace.OpenUrl(new global::Foundation.NSUrl(uri.ToString()));
+                return NSWorkspace.SharedWorkspace.OpenUrl(new NSUrl(uri.ToString()));
             });
         }
     }

@@ -32,7 +32,12 @@ namespace InTheHand.Devices.Radios
 
         private static void GetRadiosAsyncImpl(List<Radio> radios)
         {
-            radios.Add(new Radio());
+            // Vista and above support 2.1 so this is the minimum version to check for.
+            // Only add a Radio if support is present.
+            if (NativeMethods.BluetoothIsVersionAvailable(2, 0))
+            {
+                radios.Add(new Radio());
+            }
         }
 
         private Task<RadioAccessStatus> SetStateAsyncImpl(RadioState state)
@@ -86,6 +91,10 @@ namespace InTheHand.Devices.Radios
             [DllImport("irprops.cpl", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool BluetoothIsConnectable(IntPtr hRadio);
+
+            [DllImport("bthprops.cpl")]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            internal static extern bool BluetoothIsVersionAvailable(byte MajorVersion, byte MinorVersion);
         }
     }
 }
