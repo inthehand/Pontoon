@@ -1,3 +1,4 @@
+
 # Pontoon
 A flexible bridge to the Universal Windows Platform
 
@@ -23,3 +24,6 @@ Please use [GitHub issues](https://github.com/inthehand/Pontoon/issues) for ques
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/inthehand/Pontoon/blob/master/Contributing.md).
+
+## About In The Hand
+[In The Hand Ltd](http://inthehand.com) are a Xamarin Authorized Consulting Partner and create apps and components for Windows and Xamarin mobile platforms.
