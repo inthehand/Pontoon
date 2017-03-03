@@ -192,6 +192,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.uwp.cs">
+      <Link>Devices\Bluetooth\BluetoothLEDevice.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
     </Compile>
@@ -368,6 +371,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
       <Link>Media\Capture\CameraCaptureUI.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUIMode.cs">
+      <Link>Media\Capture\CameraCaptureUIMode.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>

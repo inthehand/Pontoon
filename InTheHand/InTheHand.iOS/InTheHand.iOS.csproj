@@ -141,6 +141,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Unified.cs">
+      <Link>Devices\Bluetooth\BluetoothLEDevice.Unified.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\CBUUIDExtensions.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\CBUUIDExtensions.cs</Link>
     </Compile>
@@ -314,6 +317,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
       <Link>Media\Capture\CameraCaptureUI.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.iOS.cs">
+      <Link>Media\Capture\CameraCaptureUI.iOS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUIMode.cs">
+      <Link>Media\Capture\CameraCaptureUIMode.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>

@@ -187,10 +187,16 @@ namespace InTheHand.Devices.Enumeration
                         _devices.Add(new DeviceInformation(p));
                     }*/
                 //retrievedHandle.WaitOne();
-                //_manager.ScanForPeripherals(CBUUID.FromString("180a"));
+                _manager.ScanForPeripherals(CBUUID.FromString("0x180A"));
+                var peripherals = _manager.RetrieveConnectedPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.DeviceInformation.ToByteArray()));
+
+                //var peripherals2 = _manager.RetrievePeripheralsWithIdentifiers(new NSUuid(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()));
+                //retrievedHandle.WaitOne();
+
+
                 //_manager.RetrieveConnectedPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()));
-                _manager.ScanForPeripherals(peripheralUuids: null);
-             //_manager.ScanForPeripherals( new CBUUID[] { CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery.ToByteArray()) });
+                                          //_manager.ScanForPeripherals(peripheralUuids: null);
+                                          //_manager.ScanForPeripherals( new CBUUID[] { CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAccess.ToByteArray()), CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.Battery.ToByteArray()) });
                 await Task.Delay(5000);
                     _manager.StopScan();
            

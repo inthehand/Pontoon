@@ -83,10 +83,9 @@ namespace ApplicationModel.iOS
 
         private async void B_TouchUpInside(object sender, EventArgs e)
         {
-            UIApplication.SharedApplication.OpenUrl(NSUrl.FromString("App-Prefs:root=BLUETOOTH"));
+            //UIApplication.SharedApplication.OpenUrl(NSUrl.FromString("App-Prefs:root=BLUETOOTH"));
             //await InTheHand.System.Launcher.LaunchUriAsync(new Uri("App-Prefs:root=AIRPLANE_MODE"));
-            return;
-
+           
             string aqsFilter = InTheHand.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
             var devices = await InTheHand.Devices.Enumeration.DeviceInformation.FindAllAsync(aqsFilter);
             foreach(InTheHand.Devices.Enumeration.DeviceInformation di in devices)

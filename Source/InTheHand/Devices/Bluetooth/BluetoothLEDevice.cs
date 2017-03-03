@@ -13,58 +13,25 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using InTheHand.Foundation;
 using System.Threading;
-#if __UNIFIED__
-using CoreBluetooth;
-using Foundation;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using Windows.Devices.Enumeration;
-#endif
 
 namespace InTheHand.Devices.Bluetooth
 {
     /// <summary>
     /// Represents a Bluetooth LE device.
     /// </summary>
-    public sealed class BluetoothLEDevice
+    public sealed partial class BluetoothLEDevice
     {
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-        private Windows.Devices.Bluetooth.BluetoothLEDevice _device;
-
-        private BluetoothLEDevice(Windows.Devices.Bluetooth.BluetoothLEDevice device)
-        {
-            _device = device;
-        }
-
-        public static implicit operator Windows.Devices.Bluetooth.BluetoothLEDevice(BluetoothLEDevice device)
-        {
-            return device._device;
-        }
-
-        public static implicit operator BluetoothLEDevice(Windows.Devices.Bluetooth.BluetoothLEDevice device)
-        {
-            return new BluetoothLEDevice(device);
-        }
-
-#elif __UNIFIED__
-        private CBPeripheral _peripheral;
-
-        internal BluetoothLEDevice(CBPeripheral peripheral)
-        {
-            _peripheral = peripheral;
-        }
-#endif
-
         /// <summary>
         /// Returns a BluetoothLEDevice object for the given BluetoothAddress.
         /// </summary>
         /// <param name="bluetoothAddress"></param>
         /// <returns></returns>
-        public static async Task<BluetoothLEDevice> FromBluetoothAddressAsync(ulong bluetoothAddress)
+        public static Task<BluetoothLEDevice> FromBluetoothAddressAsync(ulong bluetoothAddress)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            return await Windows.Devices.Bluetooth.BluetoothLEDevice.FromBluetoothAddressAsync(bluetoothAddress);
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return FromBluetoothAddressAsyncImpl(bluetoothAddress);
 #else
-            return null;
+            return Task.FromResult<BluetoothLEDevice>(null);
 #endif
         }
 
@@ -73,19 +40,10 @@ namespace InTheHand.Devices.Bluetooth
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
-        public static async Task<BluetoothLEDevice> FromIdAsync(string deviceId)
+        public static Task<BluetoothLEDevice> FromIdAsync(string deviceId)
         {
-#if __UNIFIED__
-            foreach(DeviceInformation di in DeviceInformation._devices)
-            {
-                if(di.Id == deviceId)
-                {
-                    return new BluetoothLEDevice(di._peripheral);
-                }
-            }
-            return null;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            return await Windows.Devices.Bluetooth.BluetoothLEDevice.FromIdAsync(deviceId);
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return FromIdAsyncImpl(deviceId);
 #else
             return null;
 #endif
@@ -98,10 +56,8 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns></returns>
         public static string GetDeviceSelector()
         {
-#if __UNIFIED__
-            return "btle";
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            return Windows.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return GetDeviceSelectorImpl();
 #else
             return string.Empty;
 #endif
@@ -115,12 +71,13 @@ namespace InTheHand.Devices.Bluetooth
         {
             add
             {
-#if __UNIFIED__
                 if (_nameChanged == null)
                 {
-                    _peripheral.UpdatedName += _peripheral_UpdatedName;
-                }
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    NameChangedAdd();
 #endif
+                }
+
                 _nameChanged += value;
 
             }
@@ -128,18 +85,14 @@ namespace InTheHand.Devices.Bluetooth
             remove
             {
                 _nameChanged -= value;
-#if __UNIFIED__
+
                 if (_nameChanged == null)
                 {
-                    _peripheral.UpdatedName -= _peripheral_UpdatedName;
-                }
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    NameChangedRemove();
 #endif
+                }
             }
-        }
-
-        private void _peripheral_UpdatedName(object sender, EventArgs e)
-        {
-            _nameChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -149,10 +102,8 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if __UNIFIED__
-                return ulong.MaxValue;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-                return _device.BluetoothAddress;
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return GetBluetoothAddress();
 #else
                 return 0;
 #endif
@@ -163,15 +114,42 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if __UNIFIED__
-                return _peripheral.State == CBPeripheralState.Connected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-                return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return GetConnectionStatus();
 #else
                 return BluetoothConnectionStatus.Disconnected;
 #endif
             }
         }
+
+        private event TypedEventHandler<BluetoothLEDevice, object> _connectionStatusChanged;
+
+        public event TypedEventHandler<BluetoothLEDevice, object> ConnectionStatusChanged
+        {
+            add
+            {
+                if(_connectionStatusChanged == null)
+                {
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    ConnectionStatusChangedAdd();
+#endif
+                }
+
+                _connectionStatusChanged += value;
+            }
+            remove
+            {
+                _connectionStatusChanged -= value;
+
+                if (_connectionStatusChanged == null)
+                {
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                    ConnectionStatusChangedRemove();
+#endif
+                }
+            }
+        }
+
 
         /// <summary>
         /// Gets the device Id.
@@ -180,62 +158,28 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if __UNIFIED__
-                return _peripheral.Identifier.ToString();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-                return _device.DeviceId;
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return GetDeviceId();
 #else
                 return string.Empty;
 #endif
             }
         }
-        private EventWaitHandle _servicesHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
-        private List<GattDeviceService> _services = new List<GattDeviceService>();
+
+        /// <summary>
+        /// 
+        /// </summary>
         public IReadOnlyList<GattDeviceService> GattServices
         {
             get
             {
-#if __UNIFIED__
-                if (_services.Count == 0)
-                {
-                    _peripheral.DiscoveredService += _peripheral_DiscoveredService;
-                    var state = _peripheral.State;
-                    if(state == CBPeripheralState.Disconnected)
-                    {
-                        InTheHand.Devices.Enumeration.DeviceInformation.Manager.ConnectPeripheral(_peripheral);
-                    }
-
-                    _peripheral.DiscoverServices();
-                    Task.Run(() =>
-                    {
-                        Task.Delay(6000);
-                        _servicesHandle.Set();
-                    });
-                    _servicesHandle.WaitOne();
-                    foreach (CBService service in _peripheral?.Services)
-                    {
-                        _services.Add(new GattDeviceService(service, _peripheral));
-                    }
-                }
-                
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-                _services.Clear();
-                foreach(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service in _device.GattServices)
-                {
-                    _services.Add(service);
-                }
+#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return GetGattServices();
+#else
+                return null;
 #endif
-
-                return _services.AsReadOnly();
             }
         }
-
-#if __UNIFIED__
-        private void _peripheral_DiscoveredService(object sender, NSErrorEventArgs e)
-        {
-            _servicesHandle.Set();
-        }
-#endif
     }
 
     /// <summary>

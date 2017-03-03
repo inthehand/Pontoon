@@ -29,7 +29,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>9.1</string>
+	<string>10.2</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We wll take your picture</string>
 	<key>NSMotionUsageDescription</key>

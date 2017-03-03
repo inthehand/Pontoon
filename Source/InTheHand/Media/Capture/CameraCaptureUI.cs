@@ -1,13 +1,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 // <copyright file="CameraCaptureUI.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.Media.Capture.CameraCaptureUI))]
-//[assembly: TypeForwardedTo(typeof(Windows.Media.Capture.CameraCaptureUIMode))]
-//#else
 
 #if __ANDROID__
 using Android.App;
@@ -15,8 +10,6 @@ using Android.OS;
 using Android.Content;
 using Android.Provider;
 using Android.Content.PM;
-#elif __IOS__
-using UIKit;
 #elif WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
@@ -45,14 +38,9 @@ namespace InTheHand.Media.Capture
     /// <item><term>Windows Phone Store</term><description>Windows 10 Mobile or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
     /// </remarks>
-    public sealed class CameraCaptureUI
+    public sealed partial class CameraCaptureUI
     {
-#if __IOS__
-        private UIImagePickerController _pc = new UIImagePickerController();
-        private EventWaitHandle _handle = new EventWaitHandle(false, EventResetMode.AutoReset);
-        private string _filename;
-
-#elif WINDOWS_UWP || WINDOWS_APP
+#if WINDOWS_UWP || WINDOWS_APP
         private Windows.Media.Capture.CameraCaptureUI _cc;
 #elif WINDOWS_PHONE_APP
         private static Type _type10;
@@ -78,9 +66,7 @@ namespace InTheHand.Media.Capture
         public CameraCaptureUI()
         {
 #if __IOS__
-            _pc.ModalPresentationStyle = UIModalPresentationStyle.FullScreen;
-            _pc.FinishedPickingMedia += Pc_FinishedPickingMedia;
-            _pc.Canceled += Pc_Canceled;
+            Init();
 #elif WINDOWS_UWP || WINDOWS_APP
             _cc = new Windows.Media.Capture.CameraCaptureUI();
 #elif WINDOWS_PHONE_APP
@@ -143,41 +129,6 @@ namespace InTheHand.Media.Capture
             }
         }
 
-#elif __IOS__
-        private void Pc_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
-        {
-            Stream gfxStream = null;
-            if (e.EditedImage != null)
-            {
-                gfxStream = e.EditedImage.AsJPEG().AsStream();
-            }
-            else if (e.OriginalImage != null)
-            {
-                gfxStream = e.OriginalImage.AsJPEG().AsStream();
-            }
-
-            if (gfxStream != null)
-            {
-                _filename = Path.Combine(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.Personal), DateTime.UtcNow.ToString("yyyy-mm-dd HH:mm:ss") + ".jpg");
-                Stream file = File.Create(_filename);
-                gfxStream.CopyTo(file);
-                file.Close();
-            }
-
-            _pc.DismissViewController(true, null);
-
-            _handle.Set();
-        }
-
-        private void Pc_Canceled(object sender, EventArgs e)
-        {
-            _handle.Set();
-
-            UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
-            {
-                _pc.DismissViewController(true, null);
-            });
-        }
 #endif
 
         /// <summary>
@@ -207,33 +158,7 @@ namespace InTheHand.Media.Capture
             return Task.FromResult<StorageFile>(null);
 
 #elif __IOS__
-            return Task.Run<StorageFile>(async () =>
-                        {
-                            UIApplication.SharedApplication.InvokeOnMainThread(() =>
-                            {
-                                _pc.SourceType = UIImagePickerControllerSourceType.Camera;
-                                switch (mode)
-                                {
-                                    case CameraCaptureUIMode.Photo:
-                                        _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo;
-                                        break;
-
-                                    case CameraCaptureUIMode.Video:
-                                        _pc.CameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Video;
-                                        break;
-                                }
-                                
-                                UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pc, true, null);
-                            });
-
-                            _handle.WaitOne();
-
-                            if (!string.IsNullOrEmpty(_filename))
-                            {
-                                return await StorageFile.GetFileFromPathAsync(_filename);
-                            }
-                            return null;
-                        });
+            return CaptureFileAsyncImpl(mode); 
 #elif WINDOWS_UWP || WINDOWS_APP
             return Task.Run<StorageFile>(async ()=>{
                 var f = await _cc.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((int)mode));
@@ -264,26 +189,4 @@ namespace InTheHand.Media.Capture
 #endif
         }
     }
-
-    /// <summary>
-    /// Determines whether the user interface for capturing from the attached camera allows capture of photos, videos, or both photos and videos.
-    /// </summary>
-    public enum CameraCaptureUIMode
-    {
-        /// <summary>
-        /// Either a photo or video can be captured.
-        /// </summary>
-        PhotoOrVideo = 0,
-
-        /// <summary>
-        /// The user can only capture a photo.
-        /// </summary>
-        Photo = 1,
-
-        /// <summary>
-        /// The user can only capture a video. 
-        /// </summary>
-        Video = 2,
-    }
 }
-//#endif
