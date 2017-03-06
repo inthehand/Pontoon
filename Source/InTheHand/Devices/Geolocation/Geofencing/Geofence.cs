@@ -151,6 +151,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             if(obj != null && ((Geofence)obj).Id == Id)
@@ -159,6 +164,21 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             }
 
             return base.Equals(obj);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return _fence.GetHashCode();
+#elif __UNIFIED__
+            return _region.GetHashCode();
+#else
+            return base.GetHashCode();
+#endif
         }
 
 #if __UNIFIED__

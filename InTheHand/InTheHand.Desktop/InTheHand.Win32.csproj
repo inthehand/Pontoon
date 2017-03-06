@@ -106,6 +106,9 @@
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
       <Link>Graphics\Display\DisplayOrientations.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\MathHelper.cs">
+      <Link>MathHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
     </Compile>
