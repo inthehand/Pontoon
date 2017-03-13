@@ -73,8 +73,7 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
 #if __UNIFIED__
             _locationManager = new CLLocationManager();
-            _locationManager.DesiredAccuracy = CLLocation.AccuracyBest;
-            maxRegion = _locationManager.MaximumRegionMonitoringDistance;
+            _locationManager.DesiredAccuracy = CLLocation.AccuracyBest;            
             _locationManager.AuthorizationChanged += _locationManager_AuthorizationChanged;
             _locationManager.LocationsUpdated += _locationManager_LocationsUpdated;
 #if __IOS__
@@ -90,11 +89,13 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #endif
             {
                 Status = GeofenceMonitorStatus.NotAvailable;
-                throw new PlatformNotSupportedException();
             }
-
-            _locationManager.RegionEntered += _locationManager_RegionEntered;
-            _locationManager.RegionLeft += _locationManager_RegionLeft;
+            else
+            {
+                maxRegion = _locationManager.MaximumRegionMonitoringDistance;
+                _locationManager.RegionEntered += _locationManager_RegionEntered;
+                _locationManager.RegionLeft += _locationManager_RegionLeft;
+            }
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _monitor = Windows.Devices.Geolocation.Geofencing.GeofenceMonitor.Current;
 #elif TIZEN

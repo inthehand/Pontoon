@@ -176,25 +176,11 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             return _fence.GetHashCode();
 #elif __UNIFIED__
             return _region.GetHashCode();
+#elif TIZEN
+            return _shape.GetHashCode();
 #else
             return base.GetHashCode();
 #endif
         }
-
-#if __UNIFIED__
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return _region.GetHashCode();
-        }
-#elif TIZEN
-        public override int GetHashCode()
-        {
-            return _shape.GetHashCode();
-        }
-#endif
     }
 }

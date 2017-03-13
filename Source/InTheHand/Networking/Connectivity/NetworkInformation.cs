@@ -60,7 +60,7 @@ namespace InTheHand.Networking.Connectivity
             _manager = ConnectivityManager.FromContext(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             //_manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);
 #elif __UNIFIED__
-            _reachability = new NetworkReachability("0.0.0.0");
+            _reachability = new NetworkReachability("http://apple.com");
 #endif
         }
 
@@ -78,7 +78,7 @@ namespace InTheHand.Networking.Connectivity
             if(_reachability.TryGetFlags(out flags))
             {
                 // only return if internet is reachable
-                if (flags.HasFlag(NetworkReachabilityFlags.Reachable))
+                if (flags.HasFlag(NetworkReachabilityFlags.Reachable) && !flags.HasFlag(NetworkReachabilityFlags.ConnectionRequired))
                 {
                     return new ConnectionProfile(flags);
                 }
