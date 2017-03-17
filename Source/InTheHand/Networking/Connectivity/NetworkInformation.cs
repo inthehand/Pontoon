@@ -60,7 +60,7 @@ namespace InTheHand.Networking.Connectivity
             _manager = ConnectivityManager.FromContext(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             //_manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);
 #elif __UNIFIED__
-            _reachability = new NetworkReachability("http://apple.com");
+            _reachability = new NetworkReachability("www.apple.com");
 #endif
         }
 
@@ -82,6 +82,12 @@ namespace InTheHand.Networking.Connectivity
                 {
                     return new ConnectionProfile(flags);
                 }
+#if __IOS__
+                else if(flags.HasFlag(NetworkReachabilityFlags.Reachable) && flags.HasFlag(NetworkReachabilityFlags.IsWWAN))
+                {
+                    return new ConnectionProfile(flags);
+                }
+#endif
             }
 #elif TIZEN
             return _manager.CurrentConnection;

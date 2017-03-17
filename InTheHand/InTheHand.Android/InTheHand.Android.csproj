@@ -351,6 +351,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncodingHelper.cs">
       <Link>Storage\Streams\UnicodeEncodingHelper.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.Android.cs">
+      <Link>System\Display\DisplayRequest.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
     </Compile>
