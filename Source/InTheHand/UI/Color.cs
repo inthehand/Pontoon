@@ -10,7 +10,30 @@ namespace InTheHand.UI
 {
     /// <summary>
     /// Describes a color in terms of alpha, red, green, and blue channels.
+    /// Can be implicitly converted into a variety of platform-specific types.
     /// </summary>
+    /// <remarks>
+    /// <list type="table">
+    /// <listheader><term>Platform</term><description>Platform Type</description></listheader>
+    /// <item><term>Android</term><description>Android.Graphics.Color</description></item>
+    /// <item><term>iOS, tvOS, macOS</term><description>CoreGraphics.CGColor, CoreImage.CIColor</description></item>
+    /// <item><term>iOS, tvOS</term><description>UIKit.UIColor</description></item>
+    /// <item><term>macOS</term><description>AppKit.NSColor</description></item>
+    /// <item><term>Windows UWP, Windows Store, Windows Phone Store</term><description>Windows.UI.Color</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>System.Windows.Media.Color</description></item></list>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// </remarks>
     public struct Color
     {
         /// <summary>
@@ -37,7 +60,17 @@ namespace InTheHand.UI
         {
             return new Color { A = a, B = b, G = g, R = r };
         }
-#if __UNIFIED__
+#if __ANDROID__
+        public static implicit operator Android.Graphics.Color(Color c)
+        {
+            return new Android.Graphics.Color(c.R, c.G, c.B, c.A);
+        }
+
+        public static implicit operator Color(Android.Graphics.Color c)
+        {
+            return Color.FromArgb(c.A, c.R, c.G, c.B);
+        }
+#elif __UNIFIED__
 
         public static implicit operator CoreGraphics.CGColor(Color c)
         {
@@ -70,6 +103,18 @@ namespace InTheHand.UI
         {
             nfloat r,g,b,a;
             c.GetRGBA(out r, out g, out b, out a);
+            return Color.FromArgb(FloatComponentToByte(a), FloatComponentToByte(r), FloatComponentToByte(g), FloatComponentToByte(b));
+        }
+#elif __MAC__
+        public static implicit operator AppKit.NSColor(Color c)
+        {
+            return AppKit.NSColor.FromCalibratedRgba(c.R, c.G, c.B, c.A);
+        }
+
+        public static implicit operator Color(AppKit.NSColor c)
+        {
+            nfloat r,g,b,a;
+            c.GetRgba(out r, out g, out b, out a);
             return Color.FromArgb(FloatComponentToByte(a), FloatComponentToByte(r), FloatComponentToByte(g), FloatComponentToByte(b));
         }
 #endif

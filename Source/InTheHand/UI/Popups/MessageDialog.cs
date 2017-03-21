@@ -237,7 +237,7 @@ namespace InTheHand.UI.Popups
                         string.IsNullOrEmpty(Title) ? " " : Title,
                         contentText,
                         buttons,
-                        (int)DefaultCommandIndex, // can choose which button has the focus
+                        DefaultCommandIndex == uint.MaxValue ? 0 : (int)DefaultCommandIndex, // can choose which button has the focus
                         Microsoft.Xna.Framework.GamerServices.MessageBoxIcon.None, // can play sounds
                         result =>
                         {
