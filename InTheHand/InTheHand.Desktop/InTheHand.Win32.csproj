@@ -64,8 +64,14 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
       <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailAttachment.cs">
+      <Link>ApplicationModel\Email\EmailAttachment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.cs">
       <Link>ApplicationModel\Email\EmailManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.Win32.cs">
+      <Link>ApplicationModel\Email\EmailManager.Win32.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailMessage.cs">
       <Link>ApplicationModel\Email\EmailMessage.cs</Link>

@@ -39,7 +39,7 @@ namespace InTheHand.ApplicationModel.Email
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
     /// </remarks>
-    public static class EmailManager
+    public static partial class EmailManager
     {
 #if WINDOWS_APP || WIN32
         private static Type _type10 = Type.GetType("Windows.ApplicationModel.Email.EmailManager, Windows, ContentType=WindowsRuntime");
@@ -127,7 +127,7 @@ namespace InTheHand.ApplicationModel.Email
                 }
 
                 return Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(em).AsTask();
-#elif WINDOWS_APP || WIN32 || __MAC__
+#elif WINDOWS_APP || __MAC__
                 /*if (_type10 != null)
                 {
 
@@ -245,6 +245,8 @@ namespace InTheHand.ApplicationModel.Email
                 }
 
                 task.Show();
+#elif WIN32
+                ShowComposeNewEmailImpl(message);
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -283,7 +285,7 @@ namespace InTheHand.ApplicationModel.Email
         }
 #endif
 
-#if WINDOWS_APP || WINDOWS_PHONE || WIN32 || __MAC__
+#if WINDOWS_APP || WINDOWS_PHONE || __MAC__
         private static string FormatRecipientCollection(IList<EmailRecipient> list)
         {
             StringBuilder builder = new StringBuilder();

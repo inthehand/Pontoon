@@ -1,11 +1,10 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="EmailAttachment.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
 using InTheHand.Storage;
-using System.Collections.Generic;
 
 namespace InTheHand.ApplicationModel.Email
 {
@@ -18,7 +17,8 @@ namespace InTheHand.ApplicationModel.Email
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
-    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item></list>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
     /// </remarks>
     public sealed class EmailAttachment
     {
@@ -35,7 +35,7 @@ namespace InTheHand.ApplicationModel.Email
         }
 
         /// <summary>
-        /// Initializes a new instance of the see cref="EmailAttachment"/> class.
+        /// Initializes a new instance of the see <cref="EmailAttachment"/> class.
         /// </summary>
         /// <param name="filename">The filename of the attachment.</param>
         /// <param name="data">The stream to use to download the attachment.</param>
