@@ -127,6 +127,9 @@
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
       <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataCreateDisposition.cs">
+      <Link>Storage\ApplicationDataCreateDisposition.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributesHelper.cs">
       <Link>Storage\FileAttributesHelper.cs</Link>
     </Compile>

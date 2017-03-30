@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Storage
 {
-
     /// <summary>
     /// Provides access to common locations that contain user content.
     /// This includes content from a user's local libraries (such as Documents, Pictures, Music, and Videos).

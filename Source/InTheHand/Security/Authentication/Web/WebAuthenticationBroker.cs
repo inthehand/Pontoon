@@ -61,6 +61,7 @@ namespace InTheHand.Security.Authentication.Web
         {
 #if WINDOWS_UWP || WINDOWS_APP
             return await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync((Windows.Security.Authentication.Web.WebAuthenticationOptions)((int)options), requestUri);
+
 #elif WINDOWS_PHONE_APP
             var method = type10.GetRuntimeMethod("AuthenticateAsync", new Type[] { typeof(Windows.Security.Authentication.Web.WebAuthenticationOptions), typeof(Uri) });
             if(method != null)
@@ -96,6 +97,7 @@ namespace InTheHand.Security.Authentication.Web
         {
 #if WINDOWS_UWP || WINDOWS_APP
             return await Windows.Security.Authentication.Web.WebAuthenticationBroker.AuthenticateAsync((Windows.Security.Authentication.Web.WebAuthenticationOptions)((int)options), requestUri, callbackUri);
+
 #elif WINDOWS_PHONE_APP
             var method = type10.GetRuntimeMethod("AuthenticateAsync", new Type[] { typeof(Windows.Security.Authentication.Web.WebAuthenticationOptions), typeof(Uri), typeof(Uri) });
             if (method != null)
@@ -108,6 +110,7 @@ namespace InTheHand.Security.Authentication.Web
             {
                 throw new PlatformNotSupportedException();
             }
+
 #elif WINDOWS_PHONE
             Result = new WebAuthenticationResult(null, 0, WebAuthenticationStatus.UserCancel);
 
@@ -129,6 +132,7 @@ namespace InTheHand.Security.Authentication.Web
             }
 
             return Result;
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -142,8 +146,9 @@ namespace InTheHand.Security.Authentication.Web
         /// However, applications need the URI value to add it to the request URI as required by the online provider.</remarks>
         public static Uri GetCurrentApplicationCallbackUri()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Security.Authentication.Web.WebAuthenticationBroker.GetCurrentApplicationCallbackUri();
+
 #else
             return new Uri("ms-app://" + InTheHand.ApplicationModel.Package.Current.Id.ProductId);
 #endif

@@ -10,7 +10,6 @@ using InTheHand.Storage.FileProperties;
 
 namespace InTheHand.Storage
 {
-
     /// <summary>
     /// Manipulates storage items (files and folders) and their contents, and provides information about them.
     /// </summary>

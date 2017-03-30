@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ApplicationData.cs" company="In The Hand Ltd">
-//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -20,6 +20,7 @@ namespace InTheHand.Storage
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -30,7 +31,7 @@ namespace InTheHand.Storage
     /// </remarks>
     public sealed class ApplicationData
     {
-        private static ApplicationData current = new ApplicationData();
+        private static ApplicationData s_current = new ApplicationData();
 
         /// <summary>
         /// Provides access to the app data store associated with the app's app package.
@@ -39,7 +40,7 @@ namespace InTheHand.Storage
         {
             get
             {
-                return current;
+                return s_current;
             }
         }
 
@@ -199,7 +200,7 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__
                 return new StorageFolder(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.CacheDir.AbsolutePath);
-#elif __IOS__ || __TVOS__ 
+#elif __UNIFIED__ 
                 return new StorageFolder("tmp/");
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return new StorageFolder(_applicationData.TemporaryFolder);
@@ -212,4 +213,3 @@ namespace InTheHand.Storage
         }
     }
 }
-//#endif

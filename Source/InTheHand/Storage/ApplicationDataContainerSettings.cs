@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ApplicationDataContainerSettings.cs" company="In The Hand Ltd">
-//     Copyright (c) 2013-16 In The Hand Ltd. All rights reserved.
+//     Copyright (c) 2013-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -16,11 +16,6 @@ using InTheHand;
 using Android.App;
 using Android.Content;
 using Android.Preferences;
-#elif WINDOWS_PHONE
-using System.IO.IsolatedStorage;
-#elif __IOS__ || __TVOS__
-using Foundation;
-using System.Globalization;
 #elif TIZEN
 using Tizen.Applications;
 #endif
@@ -43,7 +38,7 @@ namespace InTheHand.Storage
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
     /// </remarks>
-    public sealed class ApplicationDataContainerSettings :
+    public sealed partial class ApplicationDataContainerSettings :
 #if __ANDROID__
         Java.Lang.Object, ISharedPreferencesOnSharedPreferenceChangeListener, 
 #endif
@@ -67,31 +62,10 @@ namespace InTheHand.Storage
         internal ApplicationDataContainerSettings(ApplicationDataLocality locality, string name)
         {
             _locality = locality;
-#if __ANDROID__
-            _preferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
-#elif WINDOWS_PHONE
-            applicationSettings = global::System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
-            Microsoft.Phone.Shell.PhoneApplicationService.Current.Deactivated += Current_Deactivated;
-            Microsoft.Phone.Shell.PhoneApplicationService.Current.Closing += Current_Closing;
-#elif __IOS__ || __TVOS__
-            switch (locality)
-            {
-                case ApplicationDataLocality.Roaming:
-                    _store = NSUbiquitousKeyValueStore.DefaultStore;
-                    break;
-
-                case ApplicationDataLocality.SharedLocal:
-                    _defaults = new NSUserDefaults(name, NSUserDefaultsType.SuiteName);
-                    if(_defaults == null)
-                    {
-                        throw new ArgumentException("name");
-                    }
-                    break;
-
-                default:
-                    _defaults = NSUserDefaults.StandardUserDefaults;
-                    break;
-            }
+#if __ANDROID__ || WINDOWS_PHONE
+            Initialize();
+#elif __UNIFIED__
+            Initialize(name);
 #endif
         }
 
@@ -115,24 +89,13 @@ namespace InTheHand.Storage
             {
                 if (_mapChanged == null)
                 {
-#if __ANDROID__
-                    _preferences.RegisterOnSharedPreferenceChangeListener(this);
-#elif __IOS__ || __TVOS__
-                    if (!IsRoaming)
-                    {
-                        _observer = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
-                        {
-                            if (_mapChanged != null)
-                            {
-                            // indicate a reset change (because we can't determine the specific key)
-                            _mapChanged(this, new ApplicationDataMapChangedEventArgs(null, CollectionChange.Reset));
-                            }
-                        });
-                    }
+#if __ANDROID__ || __UNIFIED__
+                    AddMapChanged();
 #endif
                 }
                 _mapChanged += value;
             }
+
             remove
             {
                 _mapChanged -= value;
@@ -140,47 +103,11 @@ namespace InTheHand.Storage
                 if(_mapChanged == null)
                 {
 #if __ANDROID__
-                    _preferences.UnregisterOnSharedPreferenceChangeListener(this);
+                    RemoveMapChanged();
 #endif
                 }
             }
         }
-
-#if __ANDROID__
-        private ISharedPreferences _preferences;
-
-        void ISharedPreferencesOnSharedPreferenceChangeListener.OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
-        {
-            if(_mapChanged != null)
-            {
-                _mapChanged(this, new ApplicationDataMapChangedEventArgs(key, CollectionChange.Reset));
-            }
-        }
-#elif __IOS__ || __TVOS__
-        private NSUserDefaults _defaults;
-        private NSUbiquitousKeyValueStore _store;
-
-        private NSObject _observer;
-        
-#elif WINDOWS_PHONE
-        private IsolatedStorageSettings applicationSettings;
-
-        void rootFrame_Navigating(object sender, global::System.Windows.Navigation.NavigatingCancelEventArgs e)
-        {
-            applicationSettings.Save();
-        }
-
-        void Current_Deactivated(object sender, Microsoft.Phone.Shell.DeactivatedEventArgs e)
-        {
-            applicationSettings.Save();
-        }
-
-        void Current_Closing(object sender, Microsoft.Phone.Shell.ClosingEventArgs e)
-        {
-            applicationSettings.Save();
-        }
-
-#endif
 
         #region IDictionary<string,object> Members
 
@@ -191,25 +118,10 @@ namespace InTheHand.Storage
         /// <param name="value">The item value to add.</param>
         public void Add(string key, object value)
         {
-#if __ANDROID__
-            ISharedPreferencesEditor editor = _preferences.Edit();
-            List<string> pkg = new List<string>();
-            pkg.Add(value.GetType().Name);
-            pkg.Add(value.ToString());
-            editor.PutStringSet(key, pkg);
-            editor.Commit();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _settings.Add(key,value);
-#elif WINDOWS_PHONE
-            if (value is DateTimeOffset)
-            {
-                DateTimeOffset offset = (DateTimeOffset)value;
-                value = offset.UtcDateTime;
-            }
-
-            applicationSettings.Add(key, value);
-#elif __IOS__ || __TVOS__
-            this[key] = value;
+#elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
+            AddImpl(key, value);
 #elif TIZEN
             Preference.Set(key, value);
 #else
@@ -225,25 +137,10 @@ namespace InTheHand.Storage
         /// <returns>true if an item with that key exists in the <see cref="ApplicationDataContainerSettings"/>; otherwise, false. </returns>
         public bool ContainsKey(string key)
         {
-#if __ANDROID__
-            object o = null;
-            bool success = TryGetValue(key, out o);
-            return success;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return _settings.ContainsKey(key);
-#elif WINDOWS_PHONE
-            return applicationSettings.Contains(key);
-#elif __IOS__ || __TVOS__
-            if (IsRoaming)
-            {
-                return _store.ValueForKey(new NSString(key)) != null;
-            }
-            else
-            {
-                // TODO: see if there is a more efficient way of checking the key exists
-                return _defaults.ValueForKey(new NSString(key)) != null;
-            }
-
+#elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
+            return ContainsKeyImpl(key);
 #elif TIZEN
             return Preference.Contains(key);
 #else
@@ -259,18 +156,10 @@ namespace InTheHand.Storage
             get
             {
                 ICollection<string> genericKeys = new Collection<string>();
-#if __ANDROID__
-                foreach(KeyValuePair<string,object> entry in _preferences.All)
-                {
-                    genericKeys.Add(entry.Key);
-                }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings.Keys;
-#elif WINDOWS_PHONE
-                foreach (string key in applicationSettings.Keys)
-                {
-                    genericKeys.Add(key);
-                }
+#elif __ANDROID__ || WINDOWS_PHONE
+                return GetKeys();
 #elif TIZEN
                 genericKeys = new List<string>(Preference.Keys);
 #endif
@@ -285,30 +174,18 @@ namespace InTheHand.Storage
         /// <returns>true if the item was removed, otherwise false.</returns>
         public bool Remove(string key)
         {
-#if __ANDROID__
-            ISharedPreferencesEditor editor = _preferences.Edit();
-            editor.Remove(key);
-            bool removed = editor.Commit();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            bool removed = _settings.Remove(key);
-#elif WINDOWS_PHONE
-            bool removed = applicationSettings.Remove(key);
-#elif __IOS__ || __TVOS__
-            bool removed = true;
-            if (IsRoaming)
-            {
-                _store.Remove(key);
-            }
-            else
-            {
-                _defaults.RemoveObject(key);
-            }
+            bool removed = false;
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            removed = _settings.Remove(key);
+
+#elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
+            return RemoveImpl(key);
 
 #elif TIZEN
             Preference.Remove(key);
-            bool removed = true;
+            removed = true;
 #else
-            bool removed = false;
             throw new PlatformNotSupportedException();
 #endif
             /*if (removed)
@@ -329,64 +206,12 @@ namespace InTheHand.Storage
         /// <returns>true if an item with that key exists in the <see cref="ApplicationDataContainerSettings"/>; otherwise, false.</returns>
         public bool TryGetValue(string key, out object value)
         {
-#if __ANDROID__
-            ICollection<string> vals = _preferences.GetStringSet(key, new List<string> { "null", "" });
-            string type = string.Empty;
-            string val = string.Empty;
-            foreach (string v in vals)
-            {
-                if (string.IsNullOrEmpty(type))
-                {
-                    type = v;
-                }
-                else
-                {
-                    val = v;
-                    break;
-                }
-            }
-
-            //todo deserialise type
-            switch (type)
-            {
-                case "null":
-                    value = null;
-                    return false;
-                case "System.Boolean":
-                    value = bool.Parse(val);
-                    return true;
-                case "System.Int32":
-                    value = int.Parse(val);
-                    return true;
-                case "System.Int64":
-                    value = long.Parse(val);
-                    return true;
-                case "System.Single":
-                    value = float.Parse(val);
-                    return true;
-                case "System.DateTimeOffset":
-                    value = DateTimeOffset.Parse(val);
-                    return true;
-                default:
-                    value = val;
-                    return true;
-            }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return _settings.TryGetValue(key, out value);
-#elif WINDOWS_PHONE
-            return applicationSettings.TryGetValue<object>(key, out value);
-#elif __IOS__ || __TVOS__
-            NSObject obj = null;
-            if (IsRoaming)
-            {
-                obj = _store.ValueForKey(new NSString(key));
-            }
-            else
-            {
-                obj = _defaults.ValueForKey(new NSString(key));
-            }
-            value = IOSTypeConverter.ConvertToObject(obj);
-            return obj != null;
+
+#elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
+            return TryGetValueImpl(key, out value);
+
 #elif TIZEN
             try
             {
@@ -404,65 +229,19 @@ namespace InTheHand.Storage
         }
 
         /// <summary>
-        /// Gets an ICollection object containing the values of the <see cref="ApplicationDataContainerSettings"/>.
+        /// Gets an <see cref="ICollection{}"/> object containing the values of the <see cref="ApplicationDataContainerSettings"/>.
         /// </summary>
         public ICollection<object> Values
         {
             get
             {
                 Collection<object> genericValues = new Collection<object>();
-#if __ANDROID__
-                foreach(KeyValuePair<string,object> kvp in _preferences.All)
-                {
-                    ICollection<string> rawVal = kvp.Value as ICollection<string>;
-                    if(rawVal != null)
-                    {
-                        string type = string.Empty;
-                        string val = string.Empty;
-                        foreach (string v in rawVal)
-                        {
-                            if (string.IsNullOrEmpty(type))
-                            {
-                                type = v;
-                            }
-                            else
-                            {
-                                val = v;
-                                break;
-                            }
-                        }
-
-                        //todo deserialise type
-                        switch (type)
-                        {
-                            case "System.Boolean":
-                                genericValues.Add( bool.Parse(val));
-                                break;
-                            case "System.Int32":
-                                genericValues.Add(int.Parse(val));
-                                break;
-                            case "System.Int64":
-                                genericValues.Add(long.Parse(val));
-                                break;
-                            case "System.Single":
-                                genericValues.Add(float.Parse(val));
-                                break;
-                            case "System.DateTimeOffset":
-                                genericValues.Add(DateTimeOffset.Parse(val));
-                                break;
-                            default:
-                                genericValues.Add(val);
-                                break;
-                        }
-                    }
-                }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings.Values;
-#elif WINDOWS_PHONE
-                foreach (object value in applicationSettings.Values)
-                {
-                    genericValues.Add(value);
-                }
+
+#elif __ANDROID__ || WINDOWS_PHONE
+                return GetValues();
+
 #else
                 //throw new PlatformNotSupportedException();
 #endif
@@ -479,54 +258,11 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__
-               ICollection<string> vals =  _preferences.GetStringSet(key, new List<string> { "null", "" });
-                string type = string.Empty;
-                string val = string.Empty;
-                foreach(string v in vals)
-                {
-                    if(string.IsNullOrEmpty(type))
-                    {
-                        type = v;
-                    }
-                    else
-                    {
-                        val = v;
-                        break;
-                    }
-                }
-
-                //todo deserialise type
-                switch(type)
-                {
-                    case "null":
-                        return null;
-
-                    default:
-                        return val;
-                }
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings[key];
-#elif WINDOWS_PHONE
-                object value = applicationSettings[key];
-                if (value is DateTime)
-                {
-                    DateTime dateTime = (DateTime)value;
-                    value = new DateTimeOffset(dateTime);
-                }
-                
-                return value;
-#elif __IOS__ || __TVOS__
-                NSObject obj = null;
-                if (IsRoaming)
-                {
-                    obj = _store.ValueForKey(new NSString(key));
-                }
-                else
-                {
-                    obj = _defaults.ValueForKey(new NSString(key));
-                }
-                return IOSTypeConverter.ConvertToObject(obj);
+
+#elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
+                return GetItem(key);
 
 #elif TIZEN
                 object value;
@@ -544,111 +280,11 @@ namespace InTheHand.Storage
 
             set
             {
-#if __ANDROID__
-                Add(key, value);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _settings[key] = value;
-#elif WINDOWS_PHONE
-                // temporary workaround while investigating datetimeoffset behaviour in isostore
-                if (value is DateTimeOffset)
-                {
-                    DateTimeOffset offset = (DateTimeOffset)value;
-                    value = offset.UtcDateTime;
-                }
 
-                if (applicationSettings.Contains(key))
-                {
-                    if (applicationSettings[key] != value)
-                    {
-                        applicationSettings[key] = value;
-                        //OnMapChanged(key, CollectionChange.ItemChanged);
-                    }
-                }
-                else
-                {
-                    // if not present add a new value (matches RT behaviour)
-                    Add(key, value);
-                }
-#elif __IOS__ || __TVOS__
-                if (value == null)
-                {
-                    if (IsRoaming)
-                    {
-                        _store.Remove(key);
-                    }
-                    else
-                    {
-                        _defaults.RemoveObject(key);
-                    }
-                }
-                else
-                {
-                    TypeCode code = Type.GetTypeCode(value.GetType());
-                    switch (code)
-                    {
-                        case TypeCode.String:
-                            if (IsRoaming)
-                            {
-                                _store.SetString(key, value.ToString());
-                            }
-                            else
-                            {
-                                _defaults.SetString(value.ToString(), key);
-                            }
-                            break;
-                        case TypeCode.Int32:
-                            if (IsRoaming)
-                            {
-                                _store.SetLong(key, (long)value);
-                            }
-                            else
-                            {
-                                _defaults.SetInt((int)value, key);
-                            }
-                            break;
-                        case TypeCode.Double:
-                            if (IsRoaming)
-                            {
-                                _store.SetDouble(key, (double)value);
-                            }
-                            else
-                            {
-                                _defaults.SetDouble((double)value, key);
-                            }
-                            break;
-                        case TypeCode.Single:
-                            if (IsRoaming)
-                            {
-                                _store.SetDouble(key, (double)value);
-                            }
-                            else
-                            {
-                                _defaults.SetFloat((float)value, key);
-                            }
-                            break;
-                        case TypeCode.Boolean:
-                            if (IsRoaming)
-                            {
-                                _store.SetBool(key, (bool)value);
-                            }
-                            else
-                            {
-                                _defaults.SetBool((bool)value, key);
-                            }
-                            break;
-
-                        default:
-                            if (IsRoaming)
-                            {
-                                _store.SetValueForKey(IOSTypeConverter.ConvertToNSObject(value), new NSString(key));
-                            }
-                            else
-                            {
-                                _defaults.SetValueForKey(IOSTypeConverter.ConvertToNSObject(value), new NSString(key));
-                            }
-                            break;
-                    }
-                }
+#elif  __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
+                SetItem(key, value);
 
 #elif TIZEN
                 Add(key, value);
@@ -680,23 +316,11 @@ namespace InTheHand.Storage
         /// </summary>
         public void Clear()
         {
-#if __ANDROID__
-            ISharedPreferencesEditor editor = _preferences.Edit();
-            editor.Clear();
-            editor.Commit();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _settings.Clear();
-#elif WINDOWS_PHONE
-            applicationSettings.Clear();
-#elif __IOS__ || __TVOS__
-            if (IsRoaming)
-            {
-                _store.Init();
-            }
-            else
-            {
-                _defaults.Init();
-            }
+
+#elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
+            ClearImpl();
 
 #elif TIZEN
             Preference.RemoveAll();
@@ -704,7 +328,6 @@ namespace InTheHand.Storage
 #else
             throw new PlatformNotSupportedException();
 #endif
-            //OnMapChanged(null, CollectionChange.Reset);
         }
 
         /// <summary>
@@ -714,27 +337,11 @@ namespace InTheHand.Storage
         /// <returns></returns>
         public bool Contains(KeyValuePair<string, object> item)
         {
-#if __ANDROID__
-            object o = null;
-            bool success = TryGetValue(item.Key, out o);
-            return item.Value == o;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return _settings.Contains(item);
-#elif WINDOWS_PHONE
-            if (applicationSettings.Contains(item.Key))
-            {
-                object value = applicationSettings[item.Key];
-                if (value is DateTime)
-                {
-                    DateTime dateTime = (DateTime)value;
-                    value = new DateTimeOffset(dateTime);
-                }
 
-                if (value == item.Value)
-                {
-                    return true;
-                }
-            }
+#elif __ANDROID__ || WINDOWS_PHONE
+            return ContainsImpl(item.Key, item.Value);
 
 #else
             if(ContainsKey(item.Key))
@@ -778,13 +385,13 @@ namespace InTheHand.Storage
         {
             get
             {
-#if __ANDROID__
-                return _preferences.All.Count;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings.Count;
-#elif WINDOWS_PHONE
-                return applicationSettings.Count;
-#elif __IOS__ || __TVOS__
+
+#elif __ANDROID__ || WINDOWS_PHONE
+                return GetCount();
+
+#elif __UNIFIED__
                 return -1;
 
 #elif TIZEN
@@ -807,7 +414,10 @@ namespace InTheHand.Storage
         /// <value>true if the dictionary is read-only; otherwise, false.</value>
         public bool IsReadOnly
         {
-            get { return false; }
+            get
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -833,7 +443,7 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return ((IEnumerable<KeyValuePair<string,object>>)_settings).GetEnumerator();
 #elif WINDOWS_PHONE
-            return new ApplicationDataContainerEnumerator();
+            return GetEnumeratorImpl();
 #else
             throw new NotSupportedException();
 #endif
@@ -847,8 +457,10 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return ((IEnumerable)_settings).GetEnumerator();
+
 #elif WINDOWS_PHONE
-            return new ApplicationDataContainerEnumerator();
+            return GetEnumeratorImpl();
+
 #else
             throw new NotSupportedException();
 #endif
@@ -857,191 +469,7 @@ namespace InTheHand.Storage
 #endregion
     }
 
-#if WINDOWS_PHONE
-    internal sealed class ApplicationDataContainerEnumerator : IEnumerator<KeyValuePair<string, object>>
-    {
 
-        private global::System.IO.IsolatedStorage.IsolatedStorageSettings settings;
-        private IEnumerator keyEnumerator;
-
-        internal ApplicationDataContainerEnumerator()
-        {
-            settings = global::System.IO.IsolatedStorage.IsolatedStorageSettings.ApplicationSettings;
-            keyEnumerator = settings.Keys.GetEnumerator();
-        }
-
-        public KeyValuePair<string, object> Current
-        {
-            get {
-                object val = settings[keyEnumerator.Current.ToString()];
-                return new KeyValuePair<string, object>(keyEnumerator.Current.ToString(), val);
-            }
-        }
-
-        object IEnumerator.Current
-        {
-            get { return this.Current; }
-        }
-
-        public bool MoveNext()
-        {
-            return keyEnumerator.MoveNext();
-        }
-
-        public void Reset()
-        {
-            keyEnumerator.Reset();
-        }
-
-        public void Dispose()
-        {
-            keyEnumerator.Reset();
-        }
-    }
-#endif
-
-#if __IOS__ || __TVOS__
-    internal static class IOSTypeConverter
-    {
-        public static object ConvertToObject(NSObject obj)
-        {
-            object val = null;
-
-            if (obj != null)
-            {
-                if(obj is NSString)
-                {
-                    return obj.ToString();
-                }
-
-                if(obj is NSDate)
-                {
-                    return DateTimeOffsetHelper.FromNSDate((NSDate)obj);
-                }
-
-                if(obj is NSUuid)
-                {
-                    return new Guid(((NSUuid)obj).GetBytes());
-                }
-
-                if(obj is NSDecimalNumber)
-                {
-                    return decimal.Parse(obj.ToString(), CultureInfo.InvariantCulture);
-                }
-
-                if(obj is NSNumber)
-                {
-                    var x = (NSNumber)obj;
-                    switch(x.ObjCType)
-                    {
-                        case "c":
-                            return x.BoolValue;
-                        case "l":
-                        case "i":
-                            return x.Int32Value;
-                        case "s":
-                            return x.Int16Value;
-                        case "q":
-                            return x.Int64Value;
-                        case "Q":
-                            return x.UInt64Value;
-                        case "C":
-                            return x.ByteValue;
-                        case "L":
-                        case "I":
-                            return x.UInt32Value;
-                        case "S":
-                            return x.UInt16Value;
-                        case "f":
-                            return x.FloatValue;
-                        case "d":
-                            return x.DoubleValue;
-                        case "B":
-                            return x.BoolValue;
-                        default:
-                            return x.ToString();
-                    }
-                }
-
-                if (obj.GetType() == typeof(NSString))
-                {
-                    val = ((NSString)obj).ToString();
-                }
-                else if (obj.GetType() == typeof(NSDate))
-                {
-                    val = DateTimeOffsetHelper.FromNSDate((NSDate)obj);
-                }
-            }
-
-            return val;
-        }
-
-        public static NSObject ConvertToNSObject(object obj)
-        {
-            if(obj != null)
-            {
-                if(obj is Boolean)
-                {
-                    return NSNumber.FromBoolean((bool)obj);
-                }
-                else if (obj is Byte)
-                {
-                    return NSNumber.FromByte((byte)obj);
-                }
-                else if (obj is SByte)
-                {
-                    return NSNumber.FromSByte((sbyte)obj);
-                }
-                else if (obj is Int16)
-                {
-                    return NSNumber.FromInt16((short)obj);
-                }
-                else if (obj is Int32)
-                {
-                    return NSNumber.FromInt32((int)obj);
-                }
-                else if (obj is Int64)
-                {
-                    return NSNumber.FromInt64((long)obj);
-                }
-                else if (obj is UInt16)
-                {
-                    return NSNumber.FromUInt16((ushort)obj);
-                }
-                else if (obj is UInt32)
-                {
-                    return NSNumber.FromUInt32((uint)obj);
-                }
-                else if (obj is UInt64)
-                {
-                    return NSNumber.FromUInt64((ulong)obj);
-                }
-                else if (obj is Single)
-                {
-                    return NSNumber.FromFloat((float)obj);
-                }
-                else if (obj is Double)
-                {
-                    return NSNumber.FromDouble((double)obj);
-                }
-                else if (obj is string)
-                {
-                    return new NSString(obj.ToString());
-                }
-                else if(obj is Guid)
-                {
-                    return new NSUuid(((Guid)obj).ToByteArray());
-                }
-                else if(obj is DateTimeOffset)
-                {
-                    return ((DateTimeOffset)obj).ToNSDate();
-                }
-            }
-
-            return null;
-        }
-    }
-#endif
 
     internal sealed class ApplicationDataMapChangedEventArgs : IMapChangedEventArgs<string>
     {
@@ -1064,4 +492,3 @@ namespace InTheHand.Storage
         }
     }
 }
-//#endif

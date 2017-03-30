@@ -363,6 +363,12 @@
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
       <Link>Storage\ApplicationDataContainerSettings.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.iOS.cs">
+      <Link>Storage\ApplicationDataContainerSettings.iOS.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataCreateDisposition.cs">
+      <Link>Storage\ApplicationDataCreateDisposition.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
       <Link>Storage\ApplicationDataLocality.cs</Link>
     </Compile>

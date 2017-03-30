@@ -288,8 +288,14 @@
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainer.cs">
       <Link>Storage\ApplicationDataContainer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.Android.cs">
+      <Link>Storage\ApplicationDataContainerSettings.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
       <Link>Storage\ApplicationDataContainerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataCreateDisposition.cs">
+      <Link>Storage\ApplicationDataCreateDisposition.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
       <Link>Storage\ApplicationDataLocality.cs</Link>
