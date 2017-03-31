@@ -60,9 +60,14 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Storage.StorageFile _file;
 
-        internal StorageFile(Windows.Storage.StorageFile file)
+        private StorageFile(Windows.Storage.StorageFile file)
         {
             _file = file;
+        }
+
+        public static implicit operator StorageFile(Windows.Storage.StorageFile f)
+        {
+            return new StorageFile(f);
         }
 
         public static implicit operator Windows.Storage.StorageFile(StorageFile f)
@@ -188,8 +193,7 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Task.Run<BasicProperties>(async () =>
             {
-                var p = await _file.GetBasicPropertiesAsync();
-                return new BasicProperties(p);
+                return await _file.GetBasicPropertiesAsync();
             });
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.FromResult<BasicProperties>(new BasicProperties(this));
@@ -208,7 +212,7 @@ namespace InTheHand.Storage
             return Task.Run<StorageFolder>(async () =>
             {
                 var parent = await _file.GetParentAsync();
-                return parent == null ? null : new StorageFolder(parent);
+                return parent == null ? null : parent;
             });
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<StorageFolder>(() =>
@@ -225,7 +229,7 @@ namespace InTheHand.Storage
                 {
                     parent = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(parentPath);
                 }
-                return parent == null ? null : new StorageFolder(parent);
+                return parent == null ? null : parent;
             });
 #else
             throw new PlatformNotSupportedException();

@@ -37,7 +37,7 @@ namespace InTheHand.Storage
             _preferences.UnregisterOnSharedPreferenceChangeListener(this);
         }
 
-        private void ISharedPreferencesOnSharedPreferenceChangeListener.OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        void ISharedPreferencesOnSharedPreferenceChangeListener.OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
         {
             _mapChanged?.Invoke(this, new ApplicationDataMapChangedEventArgs(key, CollectionChange.Reset));
         }

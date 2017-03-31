@@ -179,6 +179,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
+      <Link>Devices\Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>

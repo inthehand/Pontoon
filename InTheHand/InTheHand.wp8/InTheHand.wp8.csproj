@@ -203,6 +203,9 @@
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
+      <Link>Devices\Environment.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>

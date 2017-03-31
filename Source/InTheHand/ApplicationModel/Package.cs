@@ -214,14 +214,19 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return new StorageFolder(Application.Context.PackageCodePath);
+
 #elif __UNIFIED__
                 return new StorageFolder(NSBundle.MainBundle.BundlePath);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return new StorageFolder(_package.InstalledLocation);
+                return _package.InstalledLocation;
+
 #elif WIN32
                 return new StorageFolder(AssemblyManifest.Current.InstalledLocation);
+
 #elif TIZEN
                 return new StorageFolder(Path.GetDirectoryName(_info.ExecutablePath));
+
 #else
                 return null;
 #endif

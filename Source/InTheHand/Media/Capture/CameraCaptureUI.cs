@@ -162,8 +162,9 @@ namespace InTheHand.Media.Capture
 #elif WINDOWS_UWP || WINDOWS_APP
             return Task.Run<StorageFile>(async ()=>{
                 var f = await _cc.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((int)mode));
-                return f == null ? null : new StorageFile(f);
+                return f == null ? null : f;
             });
+
 #elif WINDOWS_PHONE_APP
             if (_type10 != null)
             {
@@ -172,7 +173,7 @@ namespace InTheHand.Media.Capture
                     Type modeType = Type.GetType("Windows.Media.Capture.CameraCaptureUIMode, Windows, ContentType=WindowsRuntime");
                     object modeVal = Enum.ToObject(modeType, mode);
                     var f = await (Windows.Foundation.IAsyncOperation<Windows.Storage.StorageFile>)_type10.GetRuntimeMethod("CaptureFileAsync", new Type[] { modeType }).Invoke(ccu, new object[] { modeVal });
-                    return f == null ? null : new StorageFile(f);
+                    return f == null ? null : f;
                 });
             }
 

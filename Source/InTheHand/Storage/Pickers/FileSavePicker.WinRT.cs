@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FileSavePicker.WinRT.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ namespace InTheHand.Storage.Pickers
         private async Task<StorageFile> PickSaveFileAsyncImpl()
         {
             _picker.DefaultFileExtension = DefaultFileExtension;
-            return new StorageFile(await _picker.PickSaveFileAsync());
+            return await _picker.PickSaveFileAsync();
         }
 
         private IDictionary<string, IList<string>> GetFileTypeChoices()

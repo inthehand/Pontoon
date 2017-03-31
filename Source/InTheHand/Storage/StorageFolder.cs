@@ -64,9 +64,14 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Storage.StorageFolder _folder;
 
-        internal StorageFolder(Windows.Storage.StorageFolder folder)
+        private StorageFolder(Windows.Storage.StorageFolder folder)
         {
             _folder = folder;
+        }
+
+        public static implicit operator StorageFolder(Windows.Storage.StorageFolder f)
+        {
+            return new Storage.StorageFolder(f);
         }
 
         public static implicit operator Windows.Storage.StorageFolder(StorageFolder f)
@@ -93,8 +98,9 @@ namespace InTheHand.Storage
             return Task.Run<StorageFile>(async () =>
             {
                 var f = await _folder.CreateFileAsync(desiredName);
-                return f == null ? null : new StorageFile(f);
+                return f == null ? null : f;
             });
+
 #else
             return CreateFileAsync(desiredName, CreationCollisionOption.FailIfExists);
 #endif
@@ -112,8 +118,9 @@ namespace InTheHand.Storage
             return Task.Run<StorageFile>(async () =>
             {
                 var f = await _folder.CreateFileAsync(desiredName, (Windows.Storage.CreationCollisionOption)((int)options));
-                return f == null ? null : new StorageFile(f);
+                return f == null ? null : f;
             });
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<StorageFile>(() =>
             {
@@ -281,9 +288,9 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Task.Run<BasicProperties>(async () =>
             {
-                var p  = await _folder.GetBasicPropertiesAsync();
-                return new BasicProperties(p);
+                return await _folder.GetBasicPropertiesAsync();
             });
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.FromResult<BasicProperties>(new BasicProperties(this));
 #else
@@ -302,7 +309,7 @@ namespace InTheHand.Storage
             return Task.Run<StorageFile>(async () =>
             {
                 var f = await _folder.GetFileAsync(filename);
-                return f == null ? null : new StorageFile(f);
+                return f == null ? null : f;
             });
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<StorageFile>(() =>
@@ -334,11 +341,12 @@ namespace InTheHand.Storage
                 var found = await _folder.GetFilesAsync();
                 foreach(var file in found)
                 {
-                    files.Add(new StorageFile(file));
+                    files.Add(file);
                 }
 
                 return files.AsReadOnly();
             });
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<IReadOnlyList<StorageFile>>(() =>
             {
@@ -351,6 +359,7 @@ namespace InTheHand.Storage
 
                 return files;
             });
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -434,11 +443,11 @@ namespace InTheHand.Storage
                 {
                     if (item.IsOfType(Windows.Storage.StorageItemTypes.File))
                     {
-                        items.Add(new StorageFile((Windows.Storage.StorageFile)item));
+                        items.Add((StorageFile)((Windows.Storage.StorageFile)item));
                     }
                     else
                     {
-                        items.Add(new StorageFolder((Windows.Storage.StorageFolder)item));
+                        items.Add((StorageFolder)((Windows.Storage.StorageFolder)item));
                     }
                 }
 
@@ -516,13 +525,14 @@ namespace InTheHand.Storage
                     return null;
                 if(i.IsOfType(Windows.Storage.StorageItemTypes.File))
                 {
-                    return new StorageFile((Windows.Storage.StorageFile)i);
+                    return (StorageFile)((Windows.Storage.StorageFile)i);
                 }
                 else
                 {
-                    return new StorageFolder((Windows.Storage.StorageFolder)i);
+                    return (StorageFolder)((Windows.Storage.StorageFolder)i);
                 }
             });
+
 #elif WINDOWS_PHONE_APP
             return Task.Run<IStorageItem>(async () =>
             {
@@ -533,7 +543,7 @@ namespace InTheHand.Storage
                     {
                         if (file.Name == name)
                         {
-                            return new StorageFile(file);
+                            return (StorageFile)((Windows.Storage.StorageFile)file);
                         }
                     }
                 }
@@ -546,11 +556,11 @@ namespace InTheHand.Storage
                         {
                             if (item.IsOfType(Windows.Storage.StorageItemTypes.File))
                             {
-                                return new StorageFile((Windows.Storage.StorageFile)item);
+                                return (StorageFile)((Windows.Storage.StorageFile)item);
                             }
                             else
                             {
-                                return new StorageFolder((Windows.Storage.StorageFolder)item);
+                                return (StorageFolder)((Windows.Storage.StorageFolder)item);
                             }
                         }
                     }
@@ -570,11 +580,11 @@ namespace InTheHand.Storage
                         var i = await _folder.GetItemAsync(name);
                         if(i.IsOfType(Windows.Storage.StorageItemTypes.File))
                         {
-                            return new StorageFile((Windows.Storage.StorageFile)i);
+                            return (StorageFile)((Windows.Storage.StorageFile)i);
                         }
                         else
                         {
-                            return new StorageFolder((Windows.Storage.StorageFolder)i);
+                            return (StorageFolder)((Windows.Storage.StorageFolder)i);
                         }
                     }
                     catch
@@ -588,7 +598,7 @@ namespace InTheHand.Storage
                     // file
                     if (IsolatedStorageFile.GetUserStoreForApplication().FileExists(global::System.IO.Path.Combine(isoPath, name)))
                     {
-                        return new StorageFile(await _folder.GetFileAsync(name));
+                        return (StorageFile)((Windows.Storage.StorageFile)await _folder.GetFileAsync(name));
                     }
                 }
                 else
@@ -596,17 +606,18 @@ namespace InTheHand.Storage
                     // folder
                     if (IsolatedStorageFile.GetUserStoreForApplication().DirectoryExists(global::System.IO.Path.Combine(isoPath, name)))
                     {
-                        return new StorageFolder(await _folder.GetFolderAsync(name));
+                        return (StorageFolder)((Windows.Storage.StorageFolder)await _folder.GetFolderAsync(name));
                     }
                     else if (IsolatedStorageFile.GetUserStoreForApplication().FileExists(global::System.IO.Path.Combine(isoPath, name)))
                     {
                         // file without extension
-                        return new StorageFile(await _folder.GetFileAsync(name));
+                        return (StorageFile)((Windows.Storage.StorageFile)await _folder.GetFileAsync(name));
                     }
                 }
 
                 return null;
             });
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<IStorageItem>(() =>
             {

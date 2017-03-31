@@ -50,11 +50,13 @@ namespace InTheHand.Storage
                 var t = StorageFolder.GetFolderFromPathAsync(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath);
                 t.Wait();
                 return t.Result;
+
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Camera);
                 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new StorageFolder(Windows.Storage.KnownFolders.CameraRoll);
+                return Windows.Storage.KnownFolders.CameraRoll;
+
 #else
                 return null;
 #endif
@@ -70,11 +72,13 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyDocuments);
+
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Documents);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new StorageFolder(Windows.Storage.KnownFolders.DocumentsLibrary);
+                return Windows.Storage.KnownFolders.DocumentsLibrary;
+
 #else
                 return null;
 #endif
@@ -90,11 +94,13 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyMusic);
+
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Music);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new StorageFolder(Windows.Storage.KnownFolders.MusicLibrary);
+                return Windows.Storage.KnownFolders.MusicLibrary;
+
 #else
                 return null;
 #endif
@@ -110,11 +116,13 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyPictures);
+
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Images);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new StorageFolder(Windows.Storage.KnownFolders.PicturesLibrary);
+                return Windows.Storage.KnownFolders.PicturesLibrary;
+
 #else
                 return null;
 #endif
@@ -130,11 +138,13 @@ namespace InTheHand.Storage
             {
 #if __ANDROID__ || __UNIFIED__ || WIN32
                 return GetStorageFolderForSpecialFolder(global::System.Environment.SpecialFolder.MyVideos);
+
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Videos);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return new StorageFolder(Windows.Storage.KnownFolders.VideosLibrary);
+                return Windows.Storage.KnownFolders.VideosLibrary;
+
 #else
                 return null;
 #endif

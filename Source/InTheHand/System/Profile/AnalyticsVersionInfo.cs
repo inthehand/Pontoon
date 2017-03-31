@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="AnalyticsVersionInfo.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -18,6 +18,7 @@ namespace InTheHand.System.Profile
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -46,7 +47,9 @@ namespace InTheHand.System.Profile
                     return _native.GetType().GetRuntimeProperty("DeviceFamily").GetValue(_native).ToString();
                 }
 #if __ANDROID__
+                // TODO: determine wearable / phone / tablet / tv
                 return "Android";
+
 #elif __IOS__
                 switch(UIKit.UIDevice.CurrentDevice.UserInterfaceIdiom)
                 {
@@ -62,16 +65,25 @@ namespace InTheHand.System.Profile
                     default:
                         return "Apple.Mobile";
                 }
+
 #elif __TVOS__
                 return "Apple.TV";
+#elif TIZEN
+                // TODO: determine wearable / phone / tv
+                return "Tizen";
+
 #elif __MAC__
                 return "Apple.Desktop";
+
 #elif WINDOWS_UWP
                 return Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+
 #elif WINDOWS_APP || WIN32
                 return "Windows.Desktop";
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return "Windows.Mobile";
+
 #else
                 return string.Empty;
 #endif

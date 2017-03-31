@@ -298,6 +298,12 @@
     <Compile Include="..\..\Source\InTheHand\System\ProcessorArchitecture.cs">
       <Link>System\ProcessorArchitecture.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsInfo.cs">
+      <Link>System\Profile\AnalyticsInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Profile\AnalyticsVersionInfo.cs">
+      <Link>System\Profile\AnalyticsVersionInfo.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
     </Compile>

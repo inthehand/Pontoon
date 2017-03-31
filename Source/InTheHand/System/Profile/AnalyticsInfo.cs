@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="AnalyticsInfo.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -19,6 +19,7 @@ namespace InTheHand.System.Profile
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -28,8 +29,7 @@ namespace InTheHand.System.Profile
     public static class AnalyticsInfo
     {
         private static AnalyticsVersionInfo _versionInfo;
-#if WINDOWS_APP || WINDOWS_PHONE_APP 
-        /*|| WIN32*/
+#if WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE || WIN32
         private static Type _type10;
 
         static AnalyticsInfo()
@@ -66,15 +66,10 @@ namespace InTheHand.System.Profile
             {
                 if (_versionInfo == null)
                 {
-#if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE || WIN32 || WINDOWS_UWP
+#if __ANDROID__ || __UNIFIED__ || WINDOWS_UWP || TIZEN
                     _versionInfo = new AnalyticsVersionInfo(null);
-/*#elif WIN32
-                    if(_type10 != null)
-                    {
-                        _versionInfo = new AnalyticsVersionInfo(_type10.GetRuntimeProperty("VersionInfo").GetValue(null));
-                    }
-                    _versionInfo = new AnalyticsVersionInfo(null);*/
-#elif WINDOWS_APP || WINDOWS_PHONE_APP
+
+#elif WINDOWS_APP || WINDOWS_PHONE_APP || WIN32 || WINDOWS_PHONE
                     if (_type10 != null)
                     {
                         _versionInfo = new AnalyticsVersionInfo(_type10.GetRuntimeProperty("VersionInfo").GetValue(null));

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="BasicProperties.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -18,6 +18,7 @@ namespace InTheHand.Storage.FileProperties
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -31,9 +32,14 @@ namespace InTheHand.Storage.FileProperties
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Storage.FileProperties.BasicProperties _properties;
 
-        internal BasicProperties(Windows.Storage.FileProperties.BasicProperties properties)
+        private BasicProperties(Windows.Storage.FileProperties.BasicProperties properties)
         {
             _properties = properties;
+        }
+
+        public static implicit operator BasicProperties(Windows.Storage.FileProperties.BasicProperties p)
+        {
+            return new BasicProperties(p);
         }
 
         public static implicit operator Windows.Storage.FileProperties.BasicProperties(BasicProperties p)
@@ -57,7 +63,7 @@ namespace InTheHand.Storage.FileProperties
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _properties.DateModified;
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32
+#elif __ANDROID__ || __UNIFIED__ || WIN32 ||TIZEN
                 DateTime time;
                 TimeSpan offset;
                 if (_item.IsOfType(StorageItemTypes.File))
@@ -86,7 +92,7 @@ namespace InTheHand.Storage.FileProperties
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _properties.Size;
-#elif __ANDROID__ || __IOS__ || __TVOS__ || WIN32
+#elif __ANDROID__ || __UNIFIED__ || WIN32 ||TIZEN
                 if (_item.IsOfType(StorageItemTypes.File))
                 {
                     FileInfo fi = new FileInfo(_item.Path);
