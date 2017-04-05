@@ -45,7 +45,6 @@
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5.1\System.Runtime.WindowsRuntime.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
@@ -181,6 +180,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\Color.cs">
       <Link>UI\Color.cs</Link>
     </Compile>
+    <None Include="..\..\Source\InTheHand\UI\Color.WPF.cs">
+      <Link>UI\Color.WPF.cs</Link>
+    </None>
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
       <Link>UI\ViewManagement\StatusBar.cs</Link>
     </Compile>

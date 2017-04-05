@@ -5,14 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-#if __ANDROID__
-using Android.App;
-using Android.Content;
-#elif __IOS__ || __TVOS__
-using UIKit;
-#elif __MAC__
-using AppKit;
-#endif
 using InTheHand.Storage;
 using System;
 using System.Threading.Tasks;
@@ -44,6 +36,7 @@ namespace InTheHand.System
         /// <remarks>    
         /// <list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -53,7 +46,7 @@ namespace InTheHand.System
         /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         public static Task<bool> LaunchFileAsync(IStorageFile file)
         {
-#if __IOS__ || __MAC__
+#if __ANDROID__ || __IOS__ || __MAC__
             return LaunchFileAsyncImpl(file);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchFileAsync((Windows.Storage.StorageFile)((StorageFile)file)).AsTask();
@@ -97,6 +90,7 @@ namespace InTheHand.System
         /// <remarks>    
         /// <list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
@@ -107,19 +101,9 @@ namespace InTheHand.System
         /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
         internal static Task<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
         {
-#if __ANDROID__
-            return Task.Run<bool>(() =>
-            {
-                try {
-                    Intent uriIntent = new Intent(Intent.ActionView);
-                    uriIntent.SetData(Android.Net.Uri.Parse(uri.ToString()));
-                    Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(uriIntent);
-                    return true;
-                }
-                catch { return false; }
-            });
-#elif __UNIFIED__
+#if __ANDROID__ || __UNIFIED__
             return LaunchUriAsyncImpl(uri, options);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(uri).AsTask();
 #elif WIN32
@@ -137,6 +121,7 @@ namespace InTheHand.System
         /// <remarks>    
         /// <list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
@@ -159,7 +144,6 @@ namespace InTheHand.System
         /// <remarks>
         /// <para/><list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
-        /// <item><term>Android</term><description>-</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -170,7 +154,7 @@ namespace InTheHand.System
         /// </remarks>
         public static Task<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {
-#if __IOS__ || __TVOS__
+#if __ANDROID__ || __IOS__ || __TVOS__
             return QueryUriSupportAsyncImpl(uri, launchQuerySupportType);
 #elif WINDOWS_UWP
             return Task.Run<LaunchQuerySupportStatus>(async () =>

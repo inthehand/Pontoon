@@ -23,7 +23,14 @@ namespace InTheHandUI.ApplicationSettings
         {
             InitializeComponent();
 
-            
+            if(Application.Current.RootVisual is Microsoft.Phone.Controls.TransitionFrame)
+            {
+                NavigationInTransition transitionIn = new NavigationInTransition() { Backward = new TurnstileFeatherTransition { Mode = TurnstileFeatherTransitionMode.BackwardIn }, Forward = new SwivelTransition { Mode = SwivelTransitionMode.ForwardIn } };
+                NavigationOutTransition transitionOut = new NavigationOutTransition() { Backward = new SwivelTransition { Mode = SwivelTransitionMode.BackwardOut }, Forward = new SwivelTransition { Mode = SwivelTransitionMode.ForwardOut } };
+
+                this.SetValue(Microsoft.Phone.Controls.TransitionService.NavigationInTransitionProperty, transitionIn);
+                this.SetValue(Microsoft.Phone.Controls.TransitionService.NavigationOutTransitionProperty, transitionOut);
+            }
 
             Loaded += SettingsPage_Loaded;
         }
@@ -61,14 +68,14 @@ namespace InTheHandUI.ApplicationSettings
 
             if (SettingsPane.GetForCurrentView().showPublisher)
             {
-                AuthorText.Text = string.Format("By ", Package.Current.PublisherDisplayName);
+                AuthorText.Text = string.Format("By {0}", Package.Current.PublisherDisplayName);
             }
             else
             {
                 AuthorText.Visibility = Visibility.Collapsed;
             }
 
-            Version.Text = string.Format("Version ", Package.Current.Id.Version.ToString(4));
+            Version.Text = string.Format("Version {0}", Package.Current.Id.Version.ToString(4));
             
         }
 

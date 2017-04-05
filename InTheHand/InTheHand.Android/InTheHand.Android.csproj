@@ -366,6 +366,9 @@
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.Android.cs">
+      <Link>System\Launcher.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
       <Link>System\Launcher.cs</Link>
     </Compile>
