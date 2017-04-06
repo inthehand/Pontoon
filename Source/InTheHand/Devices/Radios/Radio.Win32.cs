@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Collections;
 
 namespace InTheHand.Devices.Radios
 {
@@ -18,7 +19,10 @@ namespace InTheHand.Devices.Radios
         private static Type s_type10 = Type.GetType("Windows.Devices.Radios.Radio, Windows, ContentType=WindowsRuntime");
         private object _object10 = null;
 
-
+        internal Radio(object o10)
+        {
+            _object10 = o10;
+        }
 
         private static string GetDeviceSelectorImpl()
         {
@@ -32,17 +36,37 @@ namespace InTheHand.Devices.Radios
 
         private static void GetRadiosAsyncImpl(List<Radio> radios)
         {
-            // Vista and above support 2.1 so this is the minimum version to check for.
-            // Only add a Radio if support is present.
-            if (NativeMethods.BluetoothIsVersionAvailable(2, 0))
+            /*if (s_type10 != null)
             {
-                radios.Add(new Radio());
+                object rta = s_type10.GetMethod("GetRadiosAsync").Invoke(null, new object[] { });
+                var aa = rta as Windows.Foundation.IAsyncInfo;
+                Type ivv = Type.GetType("Windows.Foundation.Collections.IVectorView`1, Windows, ContentType=WindowsRuntime");
+                Type t = ivv.MakeGenericType(s_type10);
+                Type tr = typeof(Windows.Foundation.IAsyncOperation<>).MakeGenericType(t);
+                object results = tr.GetMethod("GetResults").Invoke(rta, new object[] { });
+                IEnumerable il = results as IEnumerable;
+                foreach(object o in il)
+                {
+                    radios.Add(new Radios.Radio(o));
+                }
             }
+            else
+            {*/
+                // Vista and above support 2.1 so this is the minimum version to check for.
+                // Only add a Radio if support is present.
+                if (NativeMethods.BluetoothIsVersionAvailable(2, 0))
+                {
+                    radios.Add(new Radio());
+                }
+            //}
         }
 
         private Task<RadioAccessStatus> SetStateAsyncImpl(RadioState state)
         {
             bool enable = state == RadioState.On;
+            /*int result = NativeMethods.BthpEnableRadioSoftware(enable);
+            bool success = result == 0;*/
+
             if(!enable)
             {
                 bool discoverySuccess = NativeMethods.BluetoothEnableDiscovery(IntPtr.Zero, false);
@@ -67,6 +91,14 @@ namespace InTheHand.Devices.Radios
 
         private RadioState GetStateImpl()
         {
+            /*bool state;
+            int result = NativeMethods.BthpIsRadioSoftwareEnabled(out state);
+
+            if (result != 0)
+                return RadioState.Unknown;
+
+            return state ? RadioState.On : RadioState.Off;*/
+
             try
             {
                 bool state = NativeMethods.BluetoothIsConnectable(IntPtr.Zero);
@@ -80,21 +112,27 @@ namespace InTheHand.Devices.Radios
 
         private static class NativeMethods
         {
-            [DllImport("irprops.cpl", SetLastError = true)]
+            [DllImport("BluetoothApis", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool BluetoothEnableDiscovery(IntPtr hRadio, [MarshalAs(UnmanagedType.Bool)] bool fEnabled);
 
-            [DllImport("irprops.cpl", SetLastError = true)]
+            [DllImport("BluetoothApis", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool BluetoothEnableIncomingConnections(IntPtr hRadio, [MarshalAs(UnmanagedType.Bool)] bool fEnabled);
 
-            [DllImport("irprops.cpl", SetLastError = true)]
+            [DllImport("BluetoothApis", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool BluetoothIsConnectable(IntPtr hRadio);
 
-            [DllImport("bthprops.cpl")]
+            [DllImport("BluetoothApis")]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool BluetoothIsVersionAvailable(byte MajorVersion, byte MinorVersion);
+
+            /*[DllImport("BluetoothApis", SetLastError = false)]
+            internal static extern int BthpIsRadioSoftwareEnabled(out bool value);
+
+            [DllImport("BluetoothApis", SetLastError = false)]
+            internal static extern int BthpEnableRadioSoftware(bool fEnable);*/
         }
     }
 }

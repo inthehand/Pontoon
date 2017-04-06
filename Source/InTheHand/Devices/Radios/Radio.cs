@@ -20,6 +20,7 @@ namespace InTheHand.Devices.Radios
     /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
@@ -98,6 +99,7 @@ namespace InTheHand.Devices.Radios
         /// <remarks>
         /// <para/><list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
@@ -114,7 +116,7 @@ namespace InTheHand.Devices.Radios
             {
                 radios.Add(r);
             }
-#elif __UNIFIED__ || WIN32 || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_PHONE_APP || WINDOWS_PHONE
             GetRadiosAsyncImpl(radios);
 #endif
             return radios.AsReadOnly();
@@ -155,6 +157,7 @@ namespace InTheHand.Devices.Radios
         /// <remarks>
         /// <para/><list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
         /// </remarks>
@@ -162,7 +165,7 @@ namespace InTheHand.Devices.Radios
         {
 #if WINDOWS_UWP
             return (RadioAccessStatus)((int)await _radio.SetStateAsync((Windows.Devices.Radios.RadioState)((int)value)));
-#elif WIN32
+#elif __ANDROID__ || WIN32
             return await SetStateAsyncImpl(value);
 #else
             return RadioAccessStatus.Unspecified;
@@ -176,6 +179,7 @@ namespace InTheHand.Devices.Radios
         /// <remarks>
         /// <para/><list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
@@ -190,7 +194,7 @@ namespace InTheHand.Devices.Radios
             {
 #if WINDOWS_UWP 
                 return (RadioKind)((int)_radio.Kind);
-#elif __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return GetKindImpl();
 #else
                 return RadioKind.Other;
@@ -205,6 +209,7 @@ namespace InTheHand.Devices.Radios
         /// <remarks>
         /// <para/><list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
@@ -219,7 +224,7 @@ namespace InTheHand.Devices.Radios
             {
 #if WINDOWS_UWP 
                 return _radio.Name;
-#elif __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return GetNameImpl();
 #else
                 return string.Empty;
@@ -234,6 +239,7 @@ namespace InTheHand.Devices.Radios
         /// <remarks>
         /// <para/><list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
@@ -248,7 +254,7 @@ namespace InTheHand.Devices.Radios
             {
 #if WINDOWS_UWP 
                 return (RadioState)((int)_radio.State);
-#elif __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return GetStateImpl();
 #else
                 return RadioState.Unknown;
