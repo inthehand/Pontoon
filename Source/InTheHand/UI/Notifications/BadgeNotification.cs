@@ -25,17 +25,23 @@ namespace InTheHand.UI.Notifications
     public sealed partial class BadgeNotification
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        internal Windows.UI.Notifications.BadgeNotification _notification;
+        private Windows.UI.Notifications.BadgeNotification _notification;
 
-        internal BadgeNotification(Windows.UI.Notifications.BadgeNotification notification)
+        private BadgeNotification(Windows.UI.Notifications.BadgeNotification notification)
         {
             _notification = notification;
+        }
+
+        public static implicit operator BadgeNotification(Windows.UI.Notifications.BadgeNotification b)
+        {
+            return new BadgeNotification(b);
         }
 
         public static implicit operator Windows.UI.Notifications.BadgeNotification(BadgeNotification b)
         {
             return b._notification;
         }
+
 #elif __IOS__ || __TVOS__ || __WATCHOS__
 #else
         internal BadgeNotification(uint value)

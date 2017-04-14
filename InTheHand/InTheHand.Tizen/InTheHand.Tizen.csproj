@@ -316,6 +316,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
       <Link>UI\Notifications\BadgeUpdater.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\ScheduledToastNotification.cs">
+      <Link>UI\Notifications\ScheduledToastNotification.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotification.cs">
       <Link>UI\Notifications\ToastNotification.cs</Link>
     </Compile>
@@ -358,10 +361,10 @@
   <ProjectExtensions>
     <VisualStudio>
       <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Debug|Any CPU">
-        <ProjectCorporateFlavorCfg />
+        <ProjectCommonFlavorCfg />
       </FlavorProperties>
       <FlavorProperties GUID="{2F98DAC9-6F16-457B-AED7-D43CAC379341}" Configuration="Release|Any CPU">
-        <ProjectCorporateFlavorCfg />
+        <ProjectCommonFlavorCfg />
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>

@@ -5,6 +5,9 @@
 //-----------------------------------------------------------------------
 
 using System;
+#if __MAC__
+using Foundation;
+#endif
 
 namespace InTheHand.UI.Notifications
 {
@@ -16,12 +19,14 @@ namespace InTheHand.UI.Notifications
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
+    /// <seealso cref="ToastNotificationCreator"/>
     public sealed partial class ScheduledToastNotification
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -36,7 +41,25 @@ namespace InTheHand.UI.Notifications
         {
             return n._notification;
         }
-#elif __IOS__
+#elif __MAC__
+        private NSUserNotification _notification;
+
+        private ScheduledToastNotification(NSUserNotification notification)
+        {
+            _notification = notification;
+        }
+
+        public static implicit operator NSUserNotification(ScheduledToastNotification tn)
+        {
+            return tn._notification;
+        }
+
+        public static implicit operator ScheduledToastNotification(NSUserNotification un)
+        {
+            return new ScheduledToastNotification(un);
+        }
+
+#elif __UNIFIED__
 #else
 
 
@@ -72,7 +95,12 @@ namespace InTheHand.UI.Notifications
             {
                 return _notification.DeliveryTime;
             }
-#elif __IOS__
+#elif __MAC__
+            get
+            {
+                return InTheHand.DateTimeOffsetHelper.FromNSDate(_notification.DeliveryDate);
+            }
+#elif __UNIFIED__
             get
             {
                 return GetDeliveryTime();
@@ -93,7 +121,10 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Group;
 
-#elif __IOS__
+#elif __MAC__
+                return string.Empty;
+
+#elif __UNIFIED__
                 return GetGroup();
 
 #else
@@ -121,8 +152,10 @@ namespace InTheHand.UI.Notifications
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.SuppressPopup;
+#elif __MAC__
+                return false;
 
-#elif __IOS__
+#elif __UNIFIED__
                 return GetSuppressPopup();
 
 #else
@@ -134,7 +167,9 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.SuppressPopup = value;
 
-#elif __IOS__
+#elif __MAC__
+
+#elif __UNIFIED__
                 SetSuppressPopup(value);
 #endif
             }
@@ -145,13 +180,15 @@ namespace InTheHand.UI.Notifications
         /// </summary>
         public string Tag
         {
-
             get
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Tag;
 
-#elif __IOS__
+#elif __MAC__
+                return _notification.Identifier;
+
+#elif __UNIFIED__
                 return GetTag();
 
 #else
@@ -163,7 +200,10 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.Tag = value;
 
-#elif __IOS__
+#elif __MAC__
+                _notification.Identifier = value;
+
+#elif __UNIFIED__
                 SetTag(value);
 #endif
             }

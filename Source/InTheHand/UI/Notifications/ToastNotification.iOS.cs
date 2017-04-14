@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------
 
 using Foundation;
-using UIKit;
 using UserNotifications;
 
 namespace InTheHand.UI.Notifications
@@ -36,6 +35,7 @@ namespace InTheHand.UI.Notifications
             {
                 return ((NSNumber)_content.UserInfo["SuppressPopup"]).BoolValue;
             }
+
             return false;
         }
 
@@ -44,20 +44,14 @@ namespace InTheHand.UI.Notifications
             _content.UserInfo.SetValueForKey(NSNumber.FromBoolean(value), new NSString("SuppressPopup"));
         }
 
-
         private string GetTag()
         {
-            if (_content.UserInfo.ContainsKey(new NSString("Tag")))
-            {
-                return ((NSString)_content.UserInfo["Tag"]).ToString();
-            }
-            return string.Empty;
+            return _content.ThreadIdentifier;
         }
 
         private void SetTag(string value)
         {
-            _content.UserInfo.SetValueForKey(new NSString(value), new NSString("Tag"));
+            _content.ThreadIdentifier = value;
         }
-
     }
 }

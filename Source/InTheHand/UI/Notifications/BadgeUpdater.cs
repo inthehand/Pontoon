@@ -88,7 +88,7 @@ namespace InTheHand.UI.Notifications
             Tizen.Applications.BadgeControl.Update(Tizen.Applications.Application.Current.ApplicationInfo.ApplicationId, (int)notification.Value);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            _updater.Update(notification._notification);
+            _updater.Update(notification);
 #endif
         }
     }

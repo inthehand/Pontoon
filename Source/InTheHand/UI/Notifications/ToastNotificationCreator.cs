@@ -10,9 +10,12 @@ using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 #elif __ANDROID__
 using Android.Widget;
+
 #elif __UNIFIED__
 using Foundation;
+#if !__MAC__
 using UserNotifications;
+#endif
 #endif
 
 namespace InTheHand.UI.Notifications
@@ -25,6 +28,7 @@ namespace InTheHand.UI.Notifications
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -46,14 +50,20 @@ namespace InTheHand.UI.Notifications
             var textElements = doc.GetElementsByTagName("text");
             textElements[0].InnerText = title;
             textElements[1].InnerText = content;
-            return new ToastNotification(new Windows.UI.Notifications.ToastNotification(doc));
+            return new Windows.UI.Notifications.ToastNotification(doc);
 
 #elif WINDOWS_PHONE
             return new ToastNotification(new Microsoft.Phone.Shell.ShellToast() { Title = title, Content = content });
 
 #elif __ANDROID__
-            Toast toast = Toast.MakeText(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity, title + "\r\n" + content, ToastLength.Long);
-            return new ToastNotification(toast);
+            return Toast.MakeText(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity, title + "\r\n" + content, ToastLength.Long);
+
+#elif __MAC__
+			NSUserNotification notification = new NSUserNotification();
+			notification.Title = title;
+			notification.InformativeText = content;
+            notification.SoundName = NSUserNotification.NSUserNotificationDefaultSoundName;
+			return notification;
 
 #elif __UNIFIED__
             UNMutableNotificationContent notificationContent = new UNMutableNotificationContent();
@@ -89,6 +99,13 @@ namespace InTheHand.UI.Notifications
 
 #elif __ANDROID__
             throw new PlatformNotSupportedException();
+#elif __MAC__
+			NSUserNotification notification = new NSUserNotification();
+			notification.Title = title;
+			notification.InformativeText = content;
+            notification.SoundName = NSUserNotification.NSUserNotificationDefaultSoundName;
+            notification.DeliveryDate = deliveryTime.ToNSDate();
+			return notification;
 
 #elif __UNIFIED__
 

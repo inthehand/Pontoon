@@ -54,16 +54,12 @@ namespace InTheHand.UI.Notifications
 
         private string GetTag()
         {
-            if (_content.UserInfo.ContainsKey(new NSString("Tag")))
-            {
-                return ((NSString)_content.UserInfo["Tag"]).ToString();
-            }
-            return string.Empty;
+            return _content.ThreadIdentifier;
         }
 
         private void SetTag(string value)
         {
-            _content.UserInfo.SetValueForKey(new NSString(value), new NSString("Tag"));
+            _content.ThreadIdentifier = value;
         }
     }
 }

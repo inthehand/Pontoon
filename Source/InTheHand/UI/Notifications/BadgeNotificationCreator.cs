@@ -42,7 +42,8 @@ namespace InTheHand.UI.Notifications
             XmlDocument doc = Windows.UI.Notifications.BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
             var badgeElements = doc.GetElementsByTagName("badge");
             badgeElements[0].Attributes[0].InnerText = value.ToString();
-            return new BadgeNotification(new Windows.UI.Notifications.BadgeNotification(doc));
+            return new Windows.UI.Notifications.BadgeNotification(doc);
+
 #elif WINDOWS_PHONE
             throw new PlatformNotSupportedException();
 #else
@@ -72,7 +73,8 @@ namespace InTheHand.UI.Notifications
             XmlDocument doc = Windows.UI.Notifications.BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeGlyph);
             var badgeElements = doc.GetElementsByTagName("badge");
             badgeElements[0].Attributes[0].InnerText = glyph.ToString().ToLower();
-            return new BadgeNotification(new Windows.UI.Notifications.BadgeNotification(doc));
+            return new Windows.UI.Notifications.BadgeNotification(doc);
+
 #elif __MAC__
             switch(glyph)
             {
