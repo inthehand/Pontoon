@@ -16,6 +16,7 @@ This library provides a common API across Windows and Xamarin platforms allowing
 - Android 4.4+
 - iOS 9+
 - tvOS 9+
+- watchOS 2.0+
 - Tizen 3.0+
 - Xamarin Mac (OS X 10.7+)
 
