@@ -1,16 +1,8 @@
 //-----------------------------------------------------------------------
 // <copyright file="ToastNotifier.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotifier))]
-//#else
-
-#if __IOS__
-using UIKit;
-#endif
 
 using System;
 
@@ -25,13 +17,14 @@ namespace InTheHand.UI.Notifications
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
-    public sealed class ToastNotifier
+    public sealed partial class ToastNotifier
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.UI.Notifications.ToastNotifier _notifier;
@@ -58,15 +51,16 @@ namespace InTheHand.UI.Notifications
         {
 #if __ANDROID__
             notification._toast.Show();
-#elif __IOS__
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
-            {
-                UIApplication.SharedApplication.PresentLocalNotificationNow(notification._localNotification);
-            });
+
+#elif __UNIFIED__
+            ShowImpl(notification);
+
 #elif TIZEN
             Tizen.Applications.Notifications.NotificationManager.PostToastMessage(notification.Title + "\r\n" + notification.Content);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Show(notification._notification);
+
 #elif WINDOWS_PHONE
             notification._shellToast.Show();
 #endif
@@ -78,13 +72,12 @@ namespace InTheHand.UI.Notifications
         /// <param name="notification">The object that supplies the new XML definition for the toast.</param>
         public void Hide(ToastNotification notification)
         {
-#if __IOS__
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
-            {
-                UIApplication.SharedApplication.CancelLocalNotification(notification._localNotification);
-            });
+#if __UNIFIED__
+            HideImpl(notification);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Hide(notification._notification);
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -97,16 +90,13 @@ namespace InTheHand.UI.Notifications
         /// <param name="scheduledToast">The scheduled toast notification, which includes its content and timing instructions.</param>
         public void AddToSchedule(ScheduledToastNotification scheduledToast)
         {
-#if __ANDROID__
-            throw new PlatformNotSupportedException();
-#elif __IOS__
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
-            {
-                UIApplication.SharedApplication.ScheduleLocalNotification(scheduledToast._localNotification);
-            });
+#if __UNIFIED__
+            AddToScheduleImpl(scheduledToast);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.AddToSchedule(scheduledToast._notification);
-#elif WINDOWS_PHONE
+
+#else
             throw new PlatformNotSupportedException();
 #endif
         }
@@ -118,20 +108,16 @@ namespace InTheHand.UI.Notifications
         /// <param name="scheduledToast">The scheduled toast notification, which includes its content and timing instructions.</param>
         public void RemoveFromSchedule(ScheduledToastNotification scheduledToast)
         {
-#if __ANDROID__
-            throw new PlatformNotSupportedException();
-#elif __IOS__
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
-            {
-                UIApplication.SharedApplication.CancelLocalNotification(scheduledToast._localNotification);
-            });
+#if __UNIFIED__
+            RemoveFromScheduleImpl(scheduledToast);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.RemoveFromSchedule(scheduledToast._notification);
-#elif WINDOWS_PHONE
+
+#else
             throw new PlatformNotSupportedException();
 #endif
         }
 #endif
     }
 }
-//#endif

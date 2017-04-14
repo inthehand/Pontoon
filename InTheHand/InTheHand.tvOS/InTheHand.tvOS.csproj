@@ -333,6 +333,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notification\BadgeNotification.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.iOS.cs">
+      <Link>UI\Notification\BadgeNotification.iOS.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs">
       <Link>UI\Notification\BadgeNotificationCreator.cs</Link>
     </Compile>
@@ -341,6 +344,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.cs">
       <Link>UI\Notification\BadgeUpdater.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeUpdater.iOS.cs">
+      <Link>UI\Notification\BadgeUpdater.iOS.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
       <Link>UI\Popups\IUICommand.cs</Link>

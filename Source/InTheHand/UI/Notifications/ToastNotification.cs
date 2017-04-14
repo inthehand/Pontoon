@@ -1,18 +1,11 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ToastNotification.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotification))]
-//#else
 
 #if __ANDROID__
 using Android.Widget;
-#elif __IOS__
-using Foundation;
-using UIKit;
 #elif WINDOWS_PHONE
 using Microsoft.Phone.Shell;
 #endif
@@ -27,12 +20,13 @@ namespace InTheHand.UI.Notifications
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
-    public sealed class ToastNotification
+    public sealed partial class ToastNotification
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         internal Windows.UI.Notifications.ToastNotification _notification;
@@ -60,14 +54,7 @@ namespace InTheHand.UI.Notifications
         {
             _toast = toast;
         }
-        
-#elif __IOS__
-        internal UILocalNotification _localNotification;
-
-        internal ToastNotification(UILocalNotification localNotification)
-        {
-            _localNotification = localNotification;
-        }
+#elif __UNIFIED__
 #else
         internal ToastNotification(string content, string title)
         {
@@ -99,7 +86,7 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Group;
 #elif __IOS__
-                return _localNotification.Category;
+                return GetGroup();
 #else
                 return string.Empty;
 #endif
@@ -109,7 +96,7 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.Group = value;
 #elif __IOS__
-                _localNotification.Category = value;
+                SetGroup(value);
 #endif
             }
         }
@@ -125,11 +112,7 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.SuppressPopup;
 #elif __IOS__
-                if (_localNotification.UserInfo.ContainsKey(new NSString("SuppressPopup")))
-                {
-                    return ((NSNumber)_localNotification.UserInfo["SuppressPopup"]).BoolValue;
-                }
-                return false;
+                return GetSuppressPopup();
 #else
                 return false;
 #endif
@@ -139,7 +122,7 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.SuppressPopup = value;
 #elif __IOS__
-                _localNotification.UserInfo.SetValueForKey(NSNumber.FromBoolean(value), new NSString("SuppressPopup"));
+                SetSuppressPopup(value);
 #endif
             }
         }
@@ -155,11 +138,7 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Tag;
 #elif __IOS__
-                if (_localNotification.UserInfo.ContainsKey(new NSString("Tag")))
-                {
-                    return ((NSString)_localNotification.UserInfo["Tag"]).ToString();
-                }
-                return string.Empty;
+                return GetTag();
 #else
                 return string.Empty;
 #endif
@@ -169,10 +148,9 @@ namespace InTheHand.UI.Notifications
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.Tag = value;
 #elif __IOS__
-                _localNotification.UserInfo.SetValueForKey(new NSString(value), new NSString("Tag"));
+                SetTag(value);
 #endif
             }
         }
     }
 }
-//#endif

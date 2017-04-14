@@ -16,7 +16,8 @@ namespace InTheHand.UI
     /// <list type="table">
     /// <listheader><term>Platform</term><description>Platform Type</description></listheader>
     /// <item><term>Android</term><description>Android.Graphics.Color</description></item>
-    /// <item><term>iOS, tvOS, macOS</term><description>CoreGraphics.CGColor, CoreImage.CIColor</description></item>
+    /// <item><term>iOS, tvOS, macOS, watchOS</term><description>CoreGraphics.CGColor</description></item>
+    /// <item><term>iOS, tvOS, macOS</term><description>CoreImage.CIColor</description></item>
     /// <item><term>iOS, tvOS</term><description>UIKit.UIColor</description></item>
     /// <item><term>macOS</term><description>AppKit.NSColor</description></item>
     /// <item><term>Windows UWP, Windows Store, Windows Phone Store</term><description>Windows.UI.Color</description></item>
@@ -26,13 +27,14 @@ namespace InTheHand.UI
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
-    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
     public struct Color
     {
@@ -82,16 +84,18 @@ namespace InTheHand.UI
             // TODO: test against colors created for other color spaces
             return Color.FromArgb(FloatComponentToByte(c.Alpha), FloatComponentToByte(c.Components[0]), FloatComponentToByte(c.Components[1]), FloatComponentToByte(c.Components[2]));
         }
-
+#if !__WATCHOS__
         public static implicit operator CoreImage.CIColor(Color c)
         {
             return new CoreImage.CIColor(c.R / 255, c.G / 255, c.B / 255, c.A / 255);
         }
 
+
         public static implicit operator Color(CoreImage.CIColor c)
         {
             return Color.FromArgb(FloatComponentToByte(c.Alpha), FloatComponentToByte(c.Red), FloatComponentToByte(c.Green), FloatComponentToByte(c.Blue));
         }
+#endif
 
 #if __IOS__ || __TVOS__
         public static implicit operator UIKit.UIColor(Color c)

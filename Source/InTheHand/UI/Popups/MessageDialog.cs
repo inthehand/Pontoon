@@ -42,7 +42,7 @@ namespace InTheHand.UI.Popups
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
     public sealed partial class MessageDialog
     {
@@ -230,7 +230,7 @@ namespace InTheHand.UI.Popups
             
             while(Microsoft.Xna.Framework.GamerServices.Guide.IsVisible)
             {
-                Thread.Sleep(250);
+                Thread.Sleep(100);
             }
 
             Microsoft.Xna.Framework.GamerServices.Guide.BeginShowMessageBox(

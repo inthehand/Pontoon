@@ -1,12 +1,8 @@
 //-----------------------------------------------------------------------
 // <copyright file="ToastNotificationManager.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ToastNotificationManager))]
-//#else
 
 namespace InTheHand.UI.Notifications
 {
@@ -26,6 +22,7 @@ namespace InTheHand.UI.Notifications
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
         /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -46,4 +43,3 @@ namespace InTheHand.UI.Notifications
         }
     }
 }
-//#endif

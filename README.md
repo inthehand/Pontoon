@@ -12,7 +12,7 @@ This library provides a common API across Windows and Xamarin platforms allowing
 - Windows Phone 8.1
 - Windows 8.1 (Store Apps)
 - Windows 10 (Universal Windows Platform)
-- Windows Desktop Apps (Windows Vista+, .NET 4.5.1+)
+- Windows Desktop Apps (Windows 7+, .NET 4.5.1+)
 - Android 4.4+
 - iOS 9+
 - tvOS 9+

@@ -17,6 +17,7 @@ namespace InTheHand.Devices.Input
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -58,17 +59,26 @@ namespace InTheHand.Devices.Input
             {
 #if __ANDROID__
                 return Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.Configuration.Keyboard == Android.Content.Res.KeyboardType.Nokeys ? 0 : 1;
+
 #elif __MAC__
                 // this is a hack, but all Macs have a keyboard so return 1 until an API can be identified
                 return 1;
+
+#elif __WATCHOS__
+                // watch has no support for hardware keyboard
+                return 0;
+
 #elif WINDOWS_PHONE
                 return Microsoft.Phone.Info.DeviceStatus.IsKeyboardPresent ? 1 : 0;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return _keyboardCapabilities.KeyboardPresent;
+
 #elif TIZEN
                 bool keyb = false;
                 Tizen.System.SystemInfo.TryGetValue("http://tizen.org/feature/input.keyboard", out keyb);
                 return keyb ? 1 : 0;
+
 #elif WIN32
                 if(s_type10 != null)
                 {

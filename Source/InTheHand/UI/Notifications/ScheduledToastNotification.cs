@@ -1,18 +1,10 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ScheduledToastNotification.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.ScheduledToastNotification))]
-//#else
 
 using System;
-#if __IOS__
-using Foundation;
-using UIKit;
-#endif
 
 namespace InTheHand.UI.Notifications
 {
@@ -24,12 +16,13 @@ namespace InTheHand.UI.Notifications
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
-    public sealed class ScheduledToastNotification
+    public sealed partial class ScheduledToastNotification
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         internal Windows.UI.Notifications.ScheduledToastNotification _notification;
@@ -44,12 +37,6 @@ namespace InTheHand.UI.Notifications
             return n._notification;
         }
 #elif __IOS__
-        internal UILocalNotification _localNotification;
-
-        internal ScheduledToastNotification(UILocalNotification localNotification)
-        {
-            _localNotification = localNotification;
-        }
 #else
 
 
@@ -88,7 +75,7 @@ namespace InTheHand.UI.Notifications
 #elif __IOS__
             get
             {
-                return InTheHand.DateTimeOffsetHelper.FromNSDate(_localNotification.FireDate);
+                return GetDeliveryTime();
             }
 #else
             get;
@@ -96,15 +83,19 @@ namespace InTheHand.UI.Notifications
 #endif
         }
 
+        /// <summary>
+        /// Gets or sets the group identifier for the notification.
+        /// </summary>
         public string Group
         {
-
             get
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Group;
+
 #elif __IOS__
-                return _localNotification.Category;
+                return GetGroup();
+
 #else
                 return string.Empty;
 #endif
@@ -113,12 +104,16 @@ namespace InTheHand.UI.Notifications
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.Group = value;
+
 #elif __IOS__
-                _localNotification.Category = value;
+                SetGroup(value);
 #endif
             }
         }
 
+        /// <summary>
+        /// Gets or sets whether a toast's pop-up UI is displayed on the user's screen.
+        /// </summary>
         public bool SuppressPopup
         {
 
@@ -126,12 +121,10 @@ namespace InTheHand.UI.Notifications
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.SuppressPopup;
+
 #elif __IOS__
-                if (_localNotification.UserInfo.ContainsKey(new NSString("SuppressPopup")))
-                {
-                    return ((NSNumber)_localNotification.UserInfo["SuppressPopup"]).BoolValue;
-                }
-                return false;
+                return GetSuppressPopup();
+
 #else
                 return false;
 #endif
@@ -140,12 +133,16 @@ namespace InTheHand.UI.Notifications
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.SuppressPopup = value;
+
 #elif __IOS__
-                _localNotification.UserInfo.SetValueForKey(NSNumber.FromBoolean(value), new NSString("SuppressPopup"));
+                SetSuppressPopup(value);
 #endif
             }
         }
 
+        /// <summary>
+        /// Gets or sets the unique identifier of this notification within the notification Group.
+        /// </summary>
         public string Tag
         {
 
@@ -153,12 +150,10 @@ namespace InTheHand.UI.Notifications
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _notification.Tag;
+
 #elif __IOS__
-                if (_localNotification.UserInfo.ContainsKey(new NSString("Tag")))
-                {
-                    return ((NSString)_localNotification.UserInfo["Tag"]).ToString();
-                }
-                return string.Empty;
+                return GetTag();
+
 #else
                 return string.Empty;
 #endif
@@ -167,11 +162,11 @@ namespace InTheHand.UI.Notifications
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _notification.Tag = value;
+
 #elif __IOS__
-                _localNotification.UserInfo.SetValueForKey(new NSString(value), new NSString("Tag"));
+                SetTag(value);
 #endif
             }
         }
     }
 }
-//#endif

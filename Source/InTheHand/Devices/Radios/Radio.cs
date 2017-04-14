@@ -27,7 +27,7 @@ namespace InTheHand.Devices.Radios
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
     public sealed partial class Radio
     {
@@ -106,7 +106,7 @@ namespace InTheHand.Devices.Radios
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
         public static async Task<IReadOnlyList<Radio>> GetRadiosAsync()
         {
@@ -159,7 +159,7 @@ namespace InTheHand.Devices.Radios
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
         /// <item><term>Android</term><description>Android 4.4 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
         public async Task<RadioAccessStatus> SetStateAsync(RadioState value)
         {
@@ -186,7 +186,7 @@ namespace InTheHand.Devices.Radios
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
         public RadioKind Kind
         {
@@ -216,7 +216,7 @@ namespace InTheHand.Devices.Radios
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
         public string Name
         {
@@ -246,7 +246,7 @@ namespace InTheHand.Devices.Radios
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
         public RadioState State
         {

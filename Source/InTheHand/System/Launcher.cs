@@ -25,7 +25,7 @@ namespace InTheHand.System
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-    /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
     public static partial class Launcher
     {
         /// <summary>
@@ -43,7 +43,7 @@ namespace InTheHand.System
         /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
         public static Task<bool> LaunchFileAsync(IStorageFile file)
         {
 #if __ANDROID__ || __IOS__ || __MAC__
@@ -67,7 +67,7 @@ namespace InTheHand.System
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
         /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
         public static Task<bool> LaunchFolderAsync(IStorageFolder folder)
         {
 #if __MAC__
@@ -98,7 +98,7 @@ namespace InTheHand.System
         /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
         internal static Task<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
         {
 #if __ANDROID__ || __UNIFIED__
@@ -129,7 +129,7 @@ namespace InTheHand.System
         /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list></remarks>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
         public static Task<bool> LaunchUriAsync(Uri uri)
         {
             return LaunchUriAsync(uri, new LauncherOptions());
@@ -150,7 +150,7 @@ namespace InTheHand.System
         /// <item><term>Windows Store</term><description>-</description></item>
         /// <item><term>Windows Phone Store</term><description>-</description></item>
         /// <item><term>Windows Phone Silverlight</term><description>-</description></item>
-        /// <item><term>Windows (Desktop Apps)</term><description>Windows Vista or later</description></item></list>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
         public static Task<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {

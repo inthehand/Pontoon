@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="BadgeNotificationCreator.cs" company="In The Hand Ltd">
-//     Copyright © 2014-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -22,6 +22,7 @@ namespace InTheHand.UI.Notifications
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
@@ -35,7 +36,7 @@ namespace InTheHand.UI.Notifications
         /// </summary>
         /// <param name="value">Value to show on the badge. Zero will hide the badge.</param>
         /// <returns></returns>
-        public static BadgeNotification CreateBadgeNotification(int value)
+        public static BadgeNotification CreateBadgeNotification(uint value)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             XmlDocument doc = Windows.UI.Notifications.BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);

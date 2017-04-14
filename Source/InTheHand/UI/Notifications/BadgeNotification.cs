@@ -1,12 +1,8 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="BadgeNotification.cs" company="In The Hand Ltd">
-//     Copyright © 2014-15 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Notifications.BadgeNotification))]
-//#else
 
 namespace InTheHand.UI.Notifications
 {
@@ -20,12 +16,13 @@ namespace InTheHand.UI.Notifications
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list></remarks>
-    public sealed class BadgeNotification
+    public sealed partial class BadgeNotification
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         internal Windows.UI.Notifications.BadgeNotification _notification;
@@ -39,8 +36,9 @@ namespace InTheHand.UI.Notifications
         {
             return b._notification;
         }
+#elif __IOS__ || __TVOS__ || __WATCHOS__
 #else
-        internal BadgeNotification(int value)
+        internal BadgeNotification(uint value)
         {
             _value = value;
         }
@@ -50,9 +48,9 @@ namespace InTheHand.UI.Notifications
             _glyph = glyph;
         }
 
-        private int _value;
+        private uint _value;
 
-        internal int Value
+        internal uint Value
         {
             get
             {
@@ -72,4 +70,3 @@ namespace InTheHand.UI.Notifications
 #endif
     }
 }
-//#endif

@@ -100,7 +100,7 @@ namespace InTheHand.ApplicationModel.Resources
         /// <returns>The most appropriate string value of the specified resource for the default ResourceContext.</returns>
         public string GetString(string resource)
         {
-#if __ANDROID__ || __IOS__ || WINDOWS_PHONE
+#if __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE
             if(Thread.CurrentThread.CurrentCulture == null)
             {
                 Thread.CurrentThread.CurrentCulture = global::System.Globalization.CultureInfo.DefaultThreadCurrentCulture;

@@ -52,7 +52,6 @@ namespace InTheHand.Devices.Radios
             }
             else
             {*/
-                // Vista and above support 2.1 so this is the minimum version to check for.
                 // Only add a Radio if support is present.
                 if (NativeMethods.BluetoothIsVersionAvailable(2, 0))
                 {
