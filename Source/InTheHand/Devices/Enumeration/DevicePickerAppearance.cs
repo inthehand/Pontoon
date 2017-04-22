@@ -5,8 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using Windows.UI;
-using Windows.UI.Xaml.Media;
+using InTheHand.UI;
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -36,7 +35,7 @@ namespace InTheHand.Devices.Enumeration
         public DevicePickerAppearance()
         {
 #if WINDOWS_PHONE_APP
-            AccentColor = ((SolidColorBrush)Windows.UI.Xaml.Application.Current.Resources["PhoneAccentBrush"]).Color;
+            AccentColor = ((Windows.UI.Xaml.Media.SolidColorBrush)Windows.UI.Xaml.Application.Current.Resources["PhoneAccentBrush"]).Color;
             BackgroundColor = (Color)Windows.UI.Xaml.Application.Current.Resources["PhoneBackgroundColor"];
             ForegroundColor = (Color)Windows.UI.Xaml.Application.Current.Resources["PhoneForegroundColor"];
 #elif WINDOWS_APP

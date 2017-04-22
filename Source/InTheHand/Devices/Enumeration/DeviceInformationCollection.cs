@@ -7,11 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-using Windows.Devices.Enumeration;
-using Windows.Foundation;
-#endif
 
 namespace InTheHand.Devices.Enumeration
 {

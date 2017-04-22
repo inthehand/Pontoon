@@ -166,6 +166,13 @@ namespace InTheHand.Devices.Enumeration
                 base.RetrievedConnectedPeripherals(central, peripherals);
             }*/
         }
+#elif WIN32
+        private BLUETOOTH_DEVICE_INFO _deviceInfo;
+
+        internal DeviceInformation(BLUETOOTH_DEVICE_INFO info)
+        {
+            _deviceInfo = info;
+        }
 #endif
 
         public static async Task<IReadOnlyCollection<DeviceInformation>> FindAllAsync(string aqsFilter)
@@ -243,6 +250,9 @@ namespace InTheHand.Devices.Enumeration
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _deviceInformation.Id;
 
+#elif WIN32
+                return _deviceInfo.Address.ToString("X12");
+
 #else
                 return string.Empty;
 #endif
@@ -266,6 +276,9 @@ namespace InTheHand.Devices.Enumeration
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _deviceInformation.Name;
+
+#elif WIN32
+                return _deviceInfo.szName;
 
 #else
                 return string.Empty;

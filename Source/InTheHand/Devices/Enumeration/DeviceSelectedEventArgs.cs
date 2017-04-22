@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using Windows.Devices.Enumeration;
-
 namespace InTheHand.Devices.Enumeration
 {
     /// <summary>
@@ -18,7 +16,7 @@ namespace InTheHand.Devices.Enumeration
         /// The device selected by the user in the picker.
         /// </summary>
         /// <value>The selected device.</value>
-        public InTheHand.Devices.Enumeration.DeviceInformation SelectedDevice
+        public DeviceInformation SelectedDevice
         {
             get;
             internal set;

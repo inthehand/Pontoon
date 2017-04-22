@@ -26,6 +26,18 @@ namespace InTheHand.Foundation
             Height = height;
         }
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+        public static implicit operator Windows.Foundation.Rect(Rect r)
+        {
+            return new Windows.Foundation.Rect(r.X, r.Y, r.Width, r.Height);
+        }
+
+        public static implicit operator Rect(Windows.Foundation.Rect r)
+        {
+            return new Rect(r.X, r.Y, r.Width, r.Height);
+        }
+#endif
+
         /// <summary>
         /// The x-coordinate location of the left side of the rectangle.
         /// </summary>

@@ -7,7 +7,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Windows.Foundation;
+using InTheHand.Foundation;
 using Windows.UI.Popups;
 
 namespace InTheHand.Devices.Enumeration
@@ -15,7 +15,7 @@ namespace InTheHand.Devices.Enumeration
     /// <summary>
     /// Represents a picker flyout that contains a list of devices for the user to choose from.
     /// </summary>
-    public sealed class DevicePicker
+    public sealed partial class DevicePicker
     {
 #if WINDOWS_UWP
         private Windows.Devices.Enumeration.DevicePicker _picker = new Windows.Devices.Enumeration.DevicePicker();
@@ -61,7 +61,7 @@ namespace InTheHand.Devices.Enumeration
         /// Light dismiss happens when the user clicks somewhere other than the picker UI and the picker UI disappears. 
         /// On Windows Phone this indicates the Back button was pressed.
         /// </summary>
-        public event TypedEventHandler<DevicePicker, Object> DevicePickerDismissed;
+        public event TypedEventHandler<DevicePicker, object> DevicePickerDismissed;
 
         // raises the DevicePickerDismissed event
         internal void OnDevicePickerDismissed()
@@ -157,6 +157,7 @@ namespace InTheHand.Devices.Enumeration
             _dialog = new DevicePickerDialog(this);
             Windows.UI.Xaml.Controls.ContentDialogResult result = await _dialog.ShowAsync();
             return _dialog.SelectedDevice;
+
 #elif WINDOWS_APP
             _popup = new Popup();
             DevicePickerControl dpc = new DevicePickerControl(this, _popup);
@@ -166,6 +167,9 @@ namespace InTheHand.Devices.Enumeration
             _popup.IsLightDismissEnabled = true;
             _popup.IsOpen = true;
             return await Task.Run<DeviceInformation>(() => { return dpc.WaitForSelection(); });
+
+#elif WIN32
+            return await PickSingleDeviceAsyncImpl();
 #endif
         }
 

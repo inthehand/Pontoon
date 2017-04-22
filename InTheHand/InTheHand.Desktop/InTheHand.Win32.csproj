@@ -84,6 +84,27 @@
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
+      <Link>Devices\Enumeration\DeviceInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs">
+      <Link>Devices\Enumeration\DeviceInformationCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
+      <Link>Devices\Enumeration\DevicePicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.Win32.cs">
+      <Link>Devices\Enumeration\DevicePicker.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
+      <Link>Devices\Enumeration\DevicePickerAppearance.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
+      <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
+      <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
     </Compile>

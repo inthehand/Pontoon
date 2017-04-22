@@ -11,6 +11,17 @@ namespace InTheHand.Foundation
     /// </summary>
     public struct Point
     {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
+        public static implicit operator Windows.Foundation.Point(Point p)
+        {
+            return new Windows.Foundation.Point(p.X, p.Y);
+        }
+
+        public static implicit operator Point(Windows.Foundation.Point p)
+        {
+            return new Point() { X = p.X, Y = p.Y };
+        }
+#endif
         /// <summary>
         /// The horizontal position of the point.
         /// </summary>
