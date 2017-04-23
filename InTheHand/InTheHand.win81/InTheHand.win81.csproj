@@ -233,6 +233,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
     </Compile>

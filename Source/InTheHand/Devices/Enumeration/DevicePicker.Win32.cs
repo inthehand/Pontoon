@@ -14,10 +14,8 @@ namespace InTheHand.Devices.Enumeration
     public sealed partial class DevicePicker
     {
 
-        private Task<DeviceInformation> PickSingleDeviceAsyncImpl()
+        private async Task<DeviceInformation> PickSingleDeviceAsyncImpl()
         {
-            return Task.Run<DeviceInformation>(() =>
-            {
                 NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS sdp = new NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS();
                 sdp.dwSize = Marshal.SizeOf(sdp);
                 sdp.fShowAuthenticated = true;
@@ -34,7 +32,6 @@ namespace InTheHand.Devices.Enumeration
                 }
 
                 return null;
-            });
         }
 
         private static class NativeMethods
@@ -79,7 +76,7 @@ namespace InTheHand.Devices.Enumeration
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     internal struct BLUETOOTH_DEVICE_INFO
     {
         internal int dwSize;
@@ -91,9 +88,22 @@ namespace InTheHand.Devices.Enumeration
         internal bool fRemembered;
         [MarshalAs(UnmanagedType.Bool)]
         internal bool fAuthenticated;
-        internal ulong stLastSeen;
-        internal ulong stLastUsed;
+        internal SYSTEMTIME stLastSeen;
+        internal SYSTEMTIME stLastUsed;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst =248)]
         internal string szName;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct SYSTEMTIME
+    {
+        private ushort year;
+        private short month;
+        private short dayOfWeek;
+        private short day;
+        private short hour;
+        private short minute;
+        private short second;
+        private short millisecond;
     }
 }

@@ -240,6 +240,9 @@ namespace InTheHand.Devices.Enumeration
             return all.AsReadOnly();
         }
 
+        /// <summary>
+        /// A string representing the identity of the device.
+        /// </summary>
         public string Id
         {
             get
@@ -262,6 +265,9 @@ namespace InTheHand.Devices.Enumeration
 #if __UNIFIED__
         private string _name;
 #endif
+        /// <summary>
+        /// The name of the device.
+        /// </summary>
         public string Name
         {
             get
@@ -285,5 +291,27 @@ namespace InTheHand.Devices.Enumeration
 #endif
             }
         }
+
+#if WINDOWS_UWP || WIN32
+        /// <summary>
+        /// Gets the information about the capabilities for this device to pair.
+        /// </summary>
+        /// <value>The pairing information for this device.</value>
+        public DeviceInformationPairing Pairing
+        {
+            get
+            {
+#if WINDOWS_UWP 
+                return _deviceInformation.Pairing;
+
+#elif WIN32
+                return new DeviceInformationPairing(_deviceInfo);
+
+#else
+                return null;
+#endif
+            }
+        }
+#endif
     }
 }
