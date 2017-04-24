@@ -13,25 +13,76 @@ namespace InTheHand.Devices.Enumeration
 {
     public sealed partial class DevicePicker
     {
+        private NativeMethods.PFN_DEVICE_CALLBACK _callback;
 
         private async Task<DeviceInformation> PickSingleDeviceAsyncImpl()
         {
-                NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS sdp = new NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS();
-                sdp.dwSize = Marshal.SizeOf(sdp);
-                sdp.fShowAuthenticated = true;
-                sdp.cNumDevices = 1;
-                sdp.hwndParent = NativeMethods.GetForegroundWindow();
+            NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS sdp = new NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS();
+            sdp.dwSize = Marshal.SizeOf(sdp);
+            sdp.fShowAuthenticated = true;
 
-                bool success = NativeMethods.BluetoothSelectDevices(ref sdp);
-                if(success)
+            sdp.hwndParent = NativeMethods.GetForegroundWindow();
+
+            if (Filter.SupportedDeviceSelectors.Count > 0)
+            {
+                _callback = new NativeMethods.PFN_DEVICE_CALLBACK(FilterDevices);
+                sdp.pfnDeviceCallback = _callback;
+                //sdp.pvParam = Marshal.AllocHGlobal(4);
+                //Marshal.WriteInt32(sdp.pvParam, 1);
+            }
+
+            bool success = NativeMethods.BluetoothSelectDevices(ref sdp);
+
+            if (success)
+            {
+                BLUETOOTH_DEVICE_INFO info = Marshal.PtrToStructure<BLUETOOTH_DEVICE_INFO>(sdp.pDevices);
+                NativeMethods.BluetoothSelectDevicesFree(ref sdp);
+
+                return new DeviceInformation(info);
+            }
+
+            return null;
+        }
+
+        private bool FilterDevices(IntPtr param, ref BLUETOOTH_DEVICE_INFO info)
+        {
+            Guid[] services = GetRemoteServices(info);
+            if (services.Length > 0)
+            {
+                bool match = false;
+                foreach (string filter in Filter.SupportedDeviceSelectors)
                 {
-                    BLUETOOTH_DEVICE_INFO info = Marshal.PtrToStructure<BLUETOOTH_DEVICE_INFO>(sdp.pDevices);
-                    NativeMethods.BluetoothSelectDevicesFree(ref sdp);
+                    Guid service = Guid.Parse(filter);
+                    for (int i = 0; i < services.Length; i++)
+                    {
+                        if (services[i] == service)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
 
-                    return new DeviceInformation(info);
+            return false;
+        }
+
+        private Guid[] GetRemoteServices(BLUETOOTH_DEVICE_INFO info)
+        {
+            Guid[] services = new Guid[16];
+            int ns = services.Length;
+            int error = NativeMethods.BluetoothEnumerateInstalledServices(IntPtr.Zero, ref info, ref ns, services);
+            if(error == 0)
+            {
+                Guid[] enumeratedServices = new Guid[ns];
+                for(int i = 0; i < ns; i++)
+                {
+                    enumeratedServices[i] = services[i];
                 }
 
-                return null;
+                return enumeratedServices;
+            }
+
+            return new Guid[0];
         }
 
         private static class NativeMethods
@@ -41,38 +92,51 @@ namespace InTheHand.Devices.Enumeration
 
             [DllImport("IrProps.cpl", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
-            internal static extern bool BluetoothSelectDevices(ref BLUETOOTH_SELECT_DEVICE_PARAMS pbtsdp);
+            internal static extern bool BluetoothSelectDevices(
+                ref BLUETOOTH_SELECT_DEVICE_PARAMS pbtsdp);
 
             [DllImport("IrProps.cpl", SetLastError = true)]
             [return: MarshalAs(UnmanagedType.Bool)]
-            internal static extern bool BluetoothSelectDevicesFree(ref BLUETOOTH_SELECT_DEVICE_PARAMS pbtsdp);
+            internal static extern bool BluetoothSelectDevicesFree(
+                ref BLUETOOTH_SELECT_DEVICE_PARAMS pbtsdp);
+
+            [DllImport("IrProps.cpl", SetLastError = true)]
+            internal static extern int BluetoothEnumerateInstalledServices(
+                IntPtr hRadio,
+                ref BLUETOOTH_DEVICE_INFO pbtdi, 
+                ref int pcServices, 
+                Guid[] pGuidServices);
 
             [StructLayout(LayoutKind.Sequential)]
             internal struct BLUETOOTH_SELECT_DEVICE_PARAMS
             {
                 internal int dwSize;
-                internal uint cNumOfClasses;
-                internal IntPtr /*BLUETOOTH_COD_PAIRS**/ prgClassOfDevices;
+                uint numOfClasses;
+                IntPtr /*BLUETOOTH_COD_PAIRS**/ prgClassOfDevices;
                 [MarshalAs(UnmanagedType.LPWStr)]
-                internal string pszInfo;
+                string info;
                 internal IntPtr hwndParent;
                 [MarshalAs(UnmanagedType.Bool)]
-                internal bool fForceAuthentication;
+                bool fForceAuthentication;
                 [MarshalAs(UnmanagedType.Bool)]
                 internal bool fShowAuthenticated;
                 [MarshalAs(UnmanagedType.Bool)]
-                internal bool fShowRemembered;
+                bool fShowRemembered;
                 [MarshalAs(UnmanagedType.Bool)]
-                internal bool fShowUnknown;
+                bool fShowUnknown;
                 [MarshalAs(UnmanagedType.Bool)]
-                internal bool fAddNewDeviceWizard;
+                bool fAddNewDeviceWizard;
                 [MarshalAs(UnmanagedType.Bool)]
-                internal bool fSkipServicesPage;
-                internal IntPtr /*PFN_DEVICE_CALLBACK*/ pfnDeviceCallback;
+                bool fSkipServicesPage;
+                [MarshalAs(UnmanagedType.FunctionPtr)]
+                internal PFN_DEVICE_CALLBACK pfnDeviceCallback;
                 internal IntPtr pvParam;
-                internal uint cNumDevices;
+                internal uint numDevices;
                 internal IntPtr /*PBLUETOOTH_DEVICE_INFO*/ pDevices;
             }
+            
+            [return:MarshalAs(UnmanagedType.Bool)]
+            internal delegate bool PFN_DEVICE_CALLBACK(IntPtr param, ref BLUETOOTH_DEVICE_INFO device);
         }
     }
 

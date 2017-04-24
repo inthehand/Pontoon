@@ -28,7 +28,7 @@ namespace InTheHand.Devices.Enumeration
     /// <summary>
     /// Represents a picker flyout that contains a list of devices for the user to choose from.
     /// </summary>
-    public sealed class DeviceInformation
+    public sealed partial class DeviceInformation
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Enumeration.DeviceInformation _deviceInformation;
@@ -166,17 +166,12 @@ namespace InTheHand.Devices.Enumeration
                 base.RetrievedConnectedPeripherals(central, peripherals);
             }*/
         }
-#elif WIN32
-        private BLUETOOTH_DEVICE_INFO _deviceInfo;
-
-        internal DeviceInformation(BLUETOOTH_DEVICE_INFO info)
-        {
-            _deviceInfo = info;
-        }
 #endif
 
         public static async Task<IReadOnlyCollection<DeviceInformation>> FindAllAsync(string aqsFilter)
         {
+            List<DeviceInformation> all = new List<DeviceInformation>();
+
 #if __UNIFIED__
             return await Task.Run<IReadOnlyCollection<DeviceInformation>>(async () =>
             {
@@ -213,22 +208,22 @@ namespace InTheHand.Devices.Enumeration
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             var devs = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(aqsFilter);
-            List<DeviceInformation> all = new List<DeviceInformation>();
+            
             foreach(Windows.Devices.Enumeration.DeviceInformation di in devs)
             {
                 all.Add(new DeviceInformation(di));
             }
-            return new ReadOnlyCollection<DeviceInformation>(all);
+#elif WIN32
+            FindAllAsyncImpl(aqsFilter, all);
 
-#else
-            return new ReadOnlyCollection<DeviceInformation>(new List<DeviceInformation>());
 #endif
+            return all.AsReadOnly();
         }
 
         public static async Task<IReadOnlyCollection<DeviceInformation>> FindAllAsync()
         {
             List<DeviceInformation> all = new List<DeviceInformation>();
-            
+
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             var devs = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync();
 
@@ -236,6 +231,10 @@ namespace InTheHand.Devices.Enumeration
             {
                 all.Add(new DeviceInformation(di));
             }
+
+#elif WIN32
+            FindAllAsyncImpl(null, all);
+
 #endif
             return all.AsReadOnly();
         }

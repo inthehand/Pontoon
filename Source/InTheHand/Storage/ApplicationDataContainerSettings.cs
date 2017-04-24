@@ -230,7 +230,7 @@ namespace InTheHand.Storage
         }
 
         /// <summary>
-        /// Gets an <see cref="ICollection{}"/> object containing the values of the <see cref="ApplicationDataContainerSettings"/>.
+        /// Gets an <see cref="ICollection{T}"/> object containing the values of the <see cref="ApplicationDataContainerSettings"/>.
         /// </summary>
         public ICollection<object> Values
         {

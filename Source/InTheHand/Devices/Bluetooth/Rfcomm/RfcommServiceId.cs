@@ -15,15 +15,26 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
     public sealed class RfcommServiceId
     {
         private static readonly Guid BluetoothBase = new Guid(0x00000000, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
-
+       
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Generic File Transfer service (with short id 0x1202).
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Serial Port service (with short id 0x1101).
         /// </summary>
-        public static RfcommServiceId GenericFileTransfer
+        public static RfcommServiceId SerialPort
         {
             get
             {
-                return FromShortId(0x1202);
+                return FromShortId(0x1101);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized OBEX Object Push service (with short id 0x1105).
+        /// </summary>
+        public static RfcommServiceId ObexObjectPush
+        {
+            get
+            {
+                return FromShortId(0x1105);
             }
         }
 
@@ -39,13 +50,13 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized OBEX Object Push service (with short id 0x1105).
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Printing service (with short id 0x1122).
         /// </summary>
-        public static RfcommServiceId ObexObjectPush
+        public static RfcommServiceId BasicPrinting
         {
             get
             {
-                return FromShortId(0x1105);
+                return FromShortId(0x1122);
             }
         }
 
@@ -72,15 +83,18 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Serial Port service (with short id 0x1101).
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Generic File Transfer service (with short id 0x1202).
         /// </summary>
-        public static RfcommServiceId SerialPort
+        public static RfcommServiceId GenericFileTransfer
         {
             get
             {
-                return FromShortId(0x1101);
+                return FromShortId(0x1202);
             }
         }
+
+        
+        
 
         /// <summary>
         /// Creates a RfcommServiceId object from a 32-bit service id.
@@ -89,9 +103,14 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// <returns>The RfcommServiceId object.</returns>
         public static RfcommServiceId FromShortId(UInt32 shortId)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId.FromShortId(shortId);
+
+#else
             byte[] guidBytes = BluetoothBase.ToByteArray();
             BitConverter.GetBytes(shortId).CopyTo(guidBytes, 0);
-            return new RfcommServiceId(new Guid(guidBytes));   
+            return new RfcommServiceId(new Guid(guidBytes));  
+#endif 
         }
 
         /// <summary>
@@ -101,16 +120,46 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// <returns>The RfcommServiceId object.</returns>
         public static RfcommServiceId FromUuid(Guid uuid)
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId.FromUuid(uuid);
+
+#else
             return new RfcommServiceId(uuid);
+#endif
         }
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId _id;
+
+        private RfcommServiceId(Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId id)
+        {
+            _id = id;
+        }
+
+        public static implicit operator Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId(RfcommServiceId id)
+        {
+            return id._id;
+        }
+
+        public static implicit operator RfcommServiceId(Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId id)
+        {
+            return new RfcommServiceId(id);
+        }
+
+#else 
+        private Guid _uuid;
 
         private RfcommServiceId(Guid uuid)
         {
             _uuid = uuid;
         }
+#endif
 
 
-        private Guid _uuid;
+
+
+
+       
         /// <summary>
         /// Retrieves the 128-bit service id.
         /// </summary>
@@ -118,7 +167,11 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         {
             get
             {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _id.Uuid;
+#else
                 return _uuid;
+#endif
             }
         }
 
@@ -128,6 +181,10 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// <returns>Returns the 32-bit service id if the RfcommServiceId represents a standardized service.</returns>
         public uint AsShortId()
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return _id.AsShortId();
+
+#else
             var bytes = _uuid.ToByteArray();
             var baseBytes = BluetoothBase.ToByteArray();
             bool match = true;
@@ -141,6 +198,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             }
 
             return match ? BitConverter.ToUInt32(bytes, 0) : 0;
+#endif
         }
 
         /// <summary>
@@ -149,7 +207,12 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// <returns>Returns the string representation of the 128-bit service id.</returns>
         public string AsString()
         {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return _id.AsString();
+
+#else
             return _uuid.ToString();
+#endif
         }
     }
 }

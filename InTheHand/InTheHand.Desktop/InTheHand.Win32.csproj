@@ -84,11 +84,17 @@
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.Win32.cs">
+      <Link>Devices\Enumeration\DeviceInformation.Win32.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs">
       <Link>Devices\Enumeration\DeviceInformationCollection.cs</Link>
