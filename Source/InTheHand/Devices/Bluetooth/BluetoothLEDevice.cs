@@ -53,7 +53,7 @@ namespace InTheHand.Devices.Bluetooth
 #if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return FromIdAsyncImpl(deviceId);
 #else
-            return null;
+            return Task.FromResult<BluetoothLEDevice>(null);
 #endif
         }
 
@@ -188,21 +188,5 @@ namespace InTheHand.Devices.Bluetooth
 #endif
             }
         }
-    }
-
-    /// <summary>
-    /// Indicates the connection status of the device.
-    /// </summary>
-    public enum BluetoothConnectionStatus
-    {
-        /// <summary>
-        /// The device is disconnected.
-        /// </summary>
-        Disconnected = 0,
-
-        /// <summary>
-        /// The device is connected.
-        /// </summary>
-        Connected = 1,
     }
 }

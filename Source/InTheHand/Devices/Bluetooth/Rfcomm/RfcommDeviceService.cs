@@ -10,7 +10,7 @@ using System;
 namespace InTheHand.Devices.Bluetooth.Rfcomm
 {
     /// <summary>
-    /// Represents an instance of a service on a Bluetooth device.
+    /// Represents an instance of a service on a remote Bluetooth device.
     /// </summary>
     public sealed class RfcommDeviceService
     {
@@ -30,6 +30,45 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
 #else
             return string.Empty;
 #endif
+        }
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        private Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService _service;
+
+        private RfcommDeviceService(Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service)
+        {
+            _service = service;
+        }
+
+        public static implicit operator Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService(RfcommDeviceService service)
+        {
+            return service._service;
+        }
+
+        public static implicit operator RfcommDeviceService(Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service)
+        {
+            return new RfcommDeviceService(service);
+        }
+
+#else
+        private RfcommServiceId _id;
+#endif
+
+        /// <summary>
+        /// Gets the RfcommServiceId of this RFCOMM service instance.
+        /// </summary>
+        /// <value>The RfcommServiceId of the RFCOMM service instance.</value>
+        public RfcommServiceId ServiceId
+        {
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _service.ServiceId;
+
+#else
+                return _id;
+#endif
+            }
         }
     }
 }

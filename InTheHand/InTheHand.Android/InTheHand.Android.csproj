@@ -183,6 +183,9 @@
     <None Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
       <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
     </None>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs">
+      <Link>Devices\Bluetooth\BluetoothConnectionStatus.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
     </Compile>

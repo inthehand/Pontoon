@@ -35,7 +35,7 @@ namespace InTheHand.ApplicationModel.Email
         }
 
         /// <summary>
-        /// Initializes a new instance of the see <cref="EmailAttachment"/> class.
+        /// Initializes a new instance of the <see cref="EmailAttachment"/> class.
         /// </summary>
         /// <param name="filename">The filename of the attachment.</param>
         /// <param name="data">The stream to use to download the attachment.</param>

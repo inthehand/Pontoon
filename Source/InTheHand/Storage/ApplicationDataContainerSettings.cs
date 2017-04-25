@@ -181,7 +181,7 @@ namespace InTheHand.Storage
             removed = _settings.Remove(key);
 
 #elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
-            return RemoveImpl(key);
+            removed = RemoveImpl(key);
 
 #elif TIZEN
             Preference.Remove(key);

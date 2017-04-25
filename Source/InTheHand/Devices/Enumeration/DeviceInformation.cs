@@ -220,6 +220,10 @@ namespace InTheHand.Devices.Enumeration
             return all.AsReadOnly();
         }
 
+        /// <summary>
+        /// Enumerates all DeviceInformation objects.
+        /// </summary>
+        /// <returns></returns>
         public static async Task<IReadOnlyCollection<DeviceInformation>> FindAllAsync()
         {
             List<DeviceInformation> all = new List<DeviceInformation>();

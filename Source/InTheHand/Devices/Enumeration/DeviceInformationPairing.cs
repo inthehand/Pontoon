@@ -11,6 +11,7 @@ using System;
 using System.Runtime.InteropServices.WindowsRuntime;
 #elif WIN32
 using System.Runtime.InteropServices;
+using InTheHand.Devices.Bluetooth;
 #endif
 
 namespace InTheHand.Devices.Enumeration

@@ -8,6 +8,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using InTheHand.Devices.Bluetooth;
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -44,12 +45,11 @@ namespace InTheHand.Devices.Enumeration
             return null;
         }
 
-        private bool FilterDevices(IntPtr param, ref BLUETOOTH_DEVICE_INFO info)
+        private int FilterDevices(IntPtr param, ref BLUETOOTH_DEVICE_INFO info)
         {
             Guid[] services = GetRemoteServices(info);
             if (services.Length > 0)
             {
-                bool match = false;
                 foreach (string filter in Filter.SupportedDeviceSelectors)
                 {
                     Guid service = Guid.Parse(filter);
@@ -57,13 +57,13 @@ namespace InTheHand.Devices.Enumeration
                     {
                         if (services[i] == service)
                         {
-                            return true;
+                            return -1;
                         }
                     }
                 }
             }
 
-            return false;
+            return 0;
         }
 
         private Guid[] GetRemoteServices(BLUETOOTH_DEVICE_INFO info)
@@ -135,39 +135,9 @@ namespace InTheHand.Devices.Enumeration
                 internal IntPtr /*PBLUETOOTH_DEVICE_INFO*/ pDevices;
             }
             
-            [return:MarshalAs(UnmanagedType.Bool)]
-            internal delegate bool PFN_DEVICE_CALLBACK(IntPtr param, ref BLUETOOTH_DEVICE_INFO device);
+            internal delegate int PFN_DEVICE_CALLBACK(IntPtr param, ref BLUETOOTH_DEVICE_INFO device);
         }
     }
 
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    internal struct BLUETOOTH_DEVICE_INFO
-    {
-        internal int dwSize;
-        internal ulong Address;
-        internal uint ulClassofDevice;
-        [MarshalAs(UnmanagedType.Bool)]
-        internal bool fConnected;
-        [MarshalAs(UnmanagedType.Bool)]
-        internal bool fRemembered;
-        [MarshalAs(UnmanagedType.Bool)]
-        internal bool fAuthenticated;
-        internal SYSTEMTIME stLastSeen;
-        internal SYSTEMTIME stLastUsed;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst =248)]
-        internal string szName;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct SYSTEMTIME
-    {
-        private ushort year;
-        private short month;
-        private short dayOfWeek;
-        private short day;
-        private short hour;
-        private short minute;
-        private short second;
-        private short millisecond;
-    }
+    
 }

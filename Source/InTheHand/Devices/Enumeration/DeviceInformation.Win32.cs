@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using InTheHand.Devices.Bluetooth;
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -25,7 +26,7 @@ namespace InTheHand.Devices.Enumeration
 
         private static void FindAllAsyncImpl(string aqsFilter, List<DeviceInformation> list)
         {
-            NativeMethods.BLUETOOTH_DEVICE_SEARCH_PARAMS searchParams = new Enumeration.DeviceInformation.NativeMethods.BLUETOOTH_DEVICE_SEARCH_PARAMS();
+            NativeMethods.BLUETOOTH_DEVICE_SEARCH_PARAMS searchParams = new NativeMethods.BLUETOOTH_DEVICE_SEARCH_PARAMS();
             searchParams.dwSize = Marshal.SizeOf(searchParams);
             searchParams.cTimeoutMultiplier = 4;
             searchParams.fIssueInquiry = true;
