@@ -16,7 +16,7 @@ namespace InTheHand.Devices.Enumeration
     public sealed partial class DeviceInformation
     {
 
-        private BLUETOOTH_DEVICE_INFO _deviceInfo;
+        internal BLUETOOTH_DEVICE_INFO _deviceInfo;
 
         internal DeviceInformation(BLUETOOTH_DEVICE_INFO info)
         {

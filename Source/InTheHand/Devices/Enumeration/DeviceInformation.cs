@@ -257,7 +257,7 @@ namespace InTheHand.Devices.Enumeration
                 return _deviceInformation.Id;
 
 #elif WIN32
-                return _deviceInfo.Address.ToString("X12");
+                return GetId();
 
 #else
                 return string.Empty;
@@ -287,7 +287,7 @@ namespace InTheHand.Devices.Enumeration
                 return _deviceInformation.Name;
 
 #elif WIN32
-                return _deviceInfo.szName;
+                return GetName();
 
 #else
                 return string.Empty;

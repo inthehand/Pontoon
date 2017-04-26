@@ -28,40 +28,12 @@ namespace InTheHand.Devices.Bluetooth
         public static Task<BluetoothAdapter> GetDefaultAsync()
         {
 #if WIN32
-            return Task.Run<BluetoothAdapter>(() =>
-            {
-                BluetoothAdapter adapter = null;
-                NativeMethods.BLUETOOTH_FIND_RADIO_PARAMS p = new NativeMethods.BLUETOOTH_FIND_RADIO_PARAMS();
-                p.dwSize = Marshal.SizeOf(p);
-                IntPtr radioHandle;
-                IntPtr findHandle = NativeMethods.BluetoothFindFirstRadio(ref p, out radioHandle);
-                if(findHandle != IntPtr.Zero)
-                {
-                    NativeMethods.BLUETOOTH_RADIO_INFO radioInfo = new NativeMethods.BLUETOOTH_RADIO_INFO();
-                    radioInfo.dwSize = Marshal.SizeOf(radioInfo);
-                    if(NativeMethods.BluetoothGetRadioInfo(radioHandle, ref radioInfo) == 0)
-                    {
-                        adapter = new BluetoothAdapter(radioInfo);
-                    }
-
-                    NativeMethods.BluetoothFindRadioClose(findHandle);
-                }
-
-                return adapter;
-            });
+            return GetDefaultAsyncImpl();
 
 #else
-            return Task.ForResult<BluetoothAdapter>(null);
+            return Task.FromResult<BluetoothAdapter>(null);
 #endif
         }
-
-        private NativeMethods.BLUETOOTH_RADIO_INFO _radioInfo;
-
-        internal BluetoothAdapter(NativeMethods.BLUETOOTH_RADIO_INFO radioInfo)
-        {
-            _radioInfo = radioInfo;
-        }
-
 
         /// <summary>
         /// Gets the device address.
@@ -70,7 +42,12 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-                return _radioInfo.address;
+#if WIN32
+                return GetBluetoothAddress();
+#else
+                return 0;
+#endif
+
             }
         }
 
@@ -95,7 +72,7 @@ namespace InTheHand.Devices.Bluetooth
             get
             {
 #if WIN32
-                return _radioInfo.szName;
+                return GetName();
 #else
                 return string.Empty;
 #endif

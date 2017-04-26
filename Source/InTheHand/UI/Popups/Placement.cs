@@ -1,15 +1,9 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Placement.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
+//   This source code is licensed under the MIT License - see License.txt
 // </copyright>
-// <summary>
-//   Represents a command in a context menu.
-// </summary>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.UI.Popups.Placement))]
-//#else
 
 #if __IOS__
 using UIKit;
@@ -48,14 +42,7 @@ namespace InTheHand.UI.Popups
         Right = 4,
     }
 
-
-}
-//#endif
-
 #if __IOS__
-
-namespace InTheHand.UI.Popups
-{
     internal static class PlacementHelper
     {
         public static UIPopoverArrowDirection ToArrowDirection(Placement placement)
@@ -79,5 +66,6 @@ namespace InTheHand.UI.Popups
             }
         }
     }
-}
+
 #endif
+}

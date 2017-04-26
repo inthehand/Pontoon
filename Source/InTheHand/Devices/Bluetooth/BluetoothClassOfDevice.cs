@@ -16,8 +16,10 @@ namespace InTheHand.Devices.Bluetooth
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
-    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
+    /// <seealso cref="InTheHand.Net.Bluetooth.ClassOfDevice"/>
     public sealed partial class BluetoothClassOfDevice
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -77,6 +79,39 @@ namespace InTheHand.Devices.Bluetooth
         }
 
         /// <summary>
+        /// Gets the Major Class code of the Bluetooth device.
+        /// </summary>
+        /// <value>One of the enumeration values that specifies the device's Major Class code.</value>
+        public BluetoothMajorClass MajorClass
+        {
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return (BluetoothMajorClass)((int)_classOfDevice.MajorClass);
+#else
+                return (BluetoothMajorClass)((_rawValue & 0x01f00) >> 8);
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Gets the Minor Class code of the Bluetooth device.
+        /// </summary>
+        /// <value>One of the enumeration values that specifies the device's Minor Class code.</value>
+        public BluetoothMinorClass MinorClass
+        {
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return (BluetoothMinorClass)((int)_classOfDevice.MinorClass);
+#else
+                return (BluetoothMinorClass)((_rawValue & 0xfc) >> 2);
+
+#endif
+            }
+        }
+
+        /// <summary>
         /// Gets the service capabilities of the device.
         /// </summary>
         public BluetoothServiceCapabilities ServiceCapabilities
@@ -86,9 +121,23 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (BluetoothServiceCapabilities)((int)_classOfDevice.ServiceCapabilities);
 #else
-                return (BluetoothServiceCapabilities)((_rawValue & 0xFF000) >>13);
+                return (BluetoothServiceCapabilities)((_rawValue & 0xffe00) >>13);
 #endif
             }
+        }
+
+        public override int GetHashCode()
+        {
+            return RawValue.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as BluetoothClassOfDevice;
+            if (other != null && this.RawValue == other.RawValue)
+                return true;
+
+            return false;
         }
     }
 }

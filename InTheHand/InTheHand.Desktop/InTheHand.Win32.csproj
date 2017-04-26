@@ -90,6 +90,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs">
       <Link>Devices\Bluetooth\BluetoothAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.Win32.cs">
+      <Link>Devices\Bluetooth\BluetoothAdapter.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
       <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
     </Compile>
@@ -98,6 +101,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.cs">
       <Link>Devices\Bluetooth\BluetoothDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
+      <Link>Devices\Bluetooth\BluetoothMajorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMinorClass.cs">
+      <Link>Devices\Bluetooth\BluetoothMinorClass.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
       <Link>Devices\Bluetooth\BluetoothServiceCapabilities.cs</Link>
@@ -225,6 +234,9 @@
     <None Include="..\..\Source\InTheHand\UI\Color.WPF.cs">
       <Link>UI\Color.WPF.cs</Link>
     </None>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
+      <Link>UI\Popups\Placement.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs">
       <Link>UI\ViewManagement\StatusBar.cs</Link>
     </Compile>

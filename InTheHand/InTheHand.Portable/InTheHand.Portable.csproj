@@ -150,6 +150,12 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
+      <Link>Devices\Bluetooth\BluetoothMajorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMinorClass.cs">
+      <Link>Devices\Bluetooth\BluetoothMinorClass.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
       <Link>Devices\Bluetooth\BluetoothServiceCapabilities.cs</Link>
     </Compile>

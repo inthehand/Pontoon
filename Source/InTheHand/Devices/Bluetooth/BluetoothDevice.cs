@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using InTheHand.Devices.Enumeration;
 using System;
 using System.Threading.Tasks;
 
@@ -76,6 +77,24 @@ namespace InTheHand.Devices.Bluetooth
         }
 
         /// <summary>
+        /// Returns a <see cref="BluetoothDevice"/> object for the given DeviceInformation.
+        /// </summary>
+        /// <param name="deviceInformation">The DeviceInformation value that identifies the BluetoothDevice instance.</param>
+        /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object identified by the given DeviceInformation.</returns>
+        public static async Task<BluetoothDevice> FromDeviceInformationAsync(DeviceInformation deviceInformation)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceInformation.Id);
+
+#elif WIN32
+            return new Bluetooth.BluetoothDevice(deviceInformation._deviceInfo);
+
+#else
+            return null;
+#endif
+        }
+
+        /// <summary>
         /// Gets an Advanced Query Syntax (AQS) string for identifying all Bluetooth devices.
         /// This string is passed to the FindAllAsync or CreateWatcher method in order to get a list of Bluetooth devices.
         /// </summary>
@@ -101,6 +120,25 @@ namespace InTheHand.Devices.Bluetooth
             return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelectorFromClassOfDevice(classOfDevice);
 #elif WIN32
             return "bluetoothClassOfDevice:" + classOfDevice.RawValue.ToString("X12");
+#else
+            return string.Empty;
+#endif
+        }
+
+        /// <summary>
+        /// Creates an Advanced Query Syntax (AQS) filter string that contains a query for Bluetooth devices that are either paired or unpaired.
+        /// The AQS string is passed into the CreateWatcher method to return a collection of DeviceInformation objects.
+        /// </summary>
+        /// <param name="pairingState">The current pairing state for Bluetooth devices used for constructing the AQS string.
+        /// Bluetooth devices can be either paired (true) or unpaired (false).
+        /// The AQS Filter string will request scanning to be performed when the pairingState is false.</param>
+        /// <returns>An AQS string that can be passed as a parameter to the CreateWatcher method.</returns>
+        public static string GetDeviceSelectorFromPairingState(bool pairingState)
+        {
+#if WINDOWS_UWP
+            return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelectorFromPairingState(pairingState);
+#elif WIN32
+            return "bluetoothpaired:" + pairingState.ToString();
 #else
             return string.Empty;
 #endif

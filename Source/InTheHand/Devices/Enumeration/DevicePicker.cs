@@ -8,7 +8,7 @@
 using System;
 using System.Threading.Tasks;
 using InTheHand.Foundation;
-using Windows.UI.Popups;
+using InTheHand.UI.Popups;
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -185,6 +185,8 @@ namespace InTheHand.Devices.Enumeration
 
 #elif WIN32
             return await PickSingleDeviceAsyncImpl();
+#else
+            return null;
 #endif
         }
 

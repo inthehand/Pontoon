@@ -30,7 +30,7 @@ namespace InTheHand.Graphics.Display
     /// </remarks>
     public sealed partial class DisplayInformation
     {
-        private static DisplayInformation current;
+        private static DisplayInformation s_current;
 
         /// <summary>
         /// Gets the current physical display information.
@@ -43,12 +43,12 @@ namespace InTheHand.Graphics.Display
 #elif __MAC__ || WIN32
             return GetForCurrentViewImpl();
 #else
-            if (current == null)
+            if (s_current == null)
             {
-                current = new DisplayInformation();
+                s_current = new DisplayInformation();
             }
 
-            return current;
+            return s_current;
 #endif
         }
 
