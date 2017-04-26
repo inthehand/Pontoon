@@ -19,7 +19,8 @@ namespace InTheHand.Devices.Bluetooth
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
-    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
     public sealed partial class BluetoothDevice
     {
@@ -52,11 +53,23 @@ namespace InTheHand.Devices.Bluetooth
         /// Returns a <see cref="BluetoothDevice"/> object for the given Id.
         /// </summary>
         /// <param name="deviceId">The DeviceId value that identifies the BluetoothDevice instance.</param>
-        /// <returns></returns>
+        /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object identified by the given DeviceId.</returns>
         public static async Task<BluetoothDevice> FromIdAsync(string deviceId)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceId);
+#elif WIN32
+            if(deviceId.StartsWith("bluetooth:"))
+            {
+                string addrString = deviceId.Substring(10);
+                ulong addr = 0;
+                if(ulong.TryParse(addrString, global::System.Globalization.NumberStyles.HexNumber, null, out addr))
+                {
+                    return await FromBluetoothAddressAsync(addr);
+                }
+            }
+
+            return null;
 #else
             return null;
 #endif
@@ -86,6 +99,8 @@ namespace InTheHand.Devices.Bluetooth
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelectorFromClassOfDevice(classOfDevice);
+#elif WIN32
+            return "bluetoothClassOfDevice:" + classOfDevice.RawValue.ToString("X12");
 #else
             return string.Empty;
 #endif
@@ -135,6 +150,23 @@ namespace InTheHand.Devices.Bluetooth
         }
 
         /// <summary>
+        /// Gets the Bluetooth Class Of Device information of the device.
+        /// </summary>
+        public BluetoothClassOfDevice ClassOfDevice
+        {
+            get
+            {
+#if _WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _device.ClassOfDevice;
+#elif WIN32
+                return new BluetoothClassOfDevice(_info.ulClassofDevice);
+#else
+                return null;
+#endif
+            }
+        }
+
+        /// <summary>
         /// Gets the connection status of the device.
         /// </summary>
         public BluetoothConnectionStatus ConnectionStatus
@@ -143,6 +175,8 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);
+#elif WIN32
+                return _info.fConnected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
 #else
                 return BluetoothConnectionStatus.Disconnected;
 #endif
@@ -160,6 +194,24 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _device.DeviceId;
+#else
+                return string.Empty;
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Gets the Name of the device.
+        /// </summary>
+        /// <value>The name of the device.</value>
+        public string Name
+        {
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                return _device.Name;
+#elif WIN32
+                return _info.szName;
 #else
                 return string.Empty;
 #endif

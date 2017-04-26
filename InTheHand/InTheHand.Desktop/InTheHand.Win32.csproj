@@ -87,6 +87,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Bluetooth.Win32.cs">
       <Link>Devices\Bluetooth\Bluetooth.Win32.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs">
+      <Link>Devices\Bluetooth\BluetoothAdapter.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
       <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
     </Compile>

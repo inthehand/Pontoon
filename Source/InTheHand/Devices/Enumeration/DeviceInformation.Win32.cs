@@ -50,7 +50,7 @@ namespace InTheHand.Devices.Enumeration
 
         private string GetId()
         {
-            return _deviceInfo.Address.ToString("X12");
+            return "bluetooth:" + _deviceInfo.Address.ToString("X12");
         }
 
         private string GetName()

@@ -22,6 +22,27 @@ namespace InTheHand.Devices.Enumeration
             sdp.dwSize = Marshal.SizeOf(sdp);
             sdp.fShowAuthenticated = true;
 
+            if(Filter.SupportedDeviceSelectors.Count > 0)
+            {
+                foreach(string filter in Filter.SupportedDeviceSelectors)
+                {
+                    if(filter.StartsWith("bluetoothClassOfDevice:"))
+                    {
+                        int codMask = 0;
+                        if (int.TryParse(filter.Substring(23), global::System.Globalization.NumberStyles.HexNumber, null, out codMask))
+                        {
+                            // only support one COD mask
+                            sdp.numOfClasses = 1;
+                            sdp.prgClassOfDevices = Marshal.AllocHGlobal(8);
+                            Marshal.WriteInt32(sdp.prgClassOfDevices, codMask);
+                            break;
+                        }
+                        
+                        
+                    }
+                }
+            }
+
             sdp.hwndParent = NativeMethods.GetForegroundWindow();
 
             if (Filter.SupportedDeviceSelectors.Count > 0)
@@ -33,6 +54,12 @@ namespace InTheHand.Devices.Enumeration
             }
 
             bool success = NativeMethods.BluetoothSelectDevices(ref sdp);
+
+            if(sdp.prgClassOfDevices != IntPtr.Zero)
+            {
+                Marshal.FreeHGlobal(sdp.prgClassOfDevices);
+                sdp.prgClassOfDevices = IntPtr.Zero;
+            }
 
             if (success)
             {
@@ -107,12 +134,12 @@ namespace InTheHand.Devices.Enumeration
                 ref int pcServices, 
                 Guid[] pGuidServices);
 
-            [StructLayout(LayoutKind.Sequential)]
+            [StructLayout(LayoutKind.Sequential, Size =60)]
             internal struct BLUETOOTH_SELECT_DEVICE_PARAMS
             {
                 internal int dwSize;
-                uint numOfClasses;
-                IntPtr /*BLUETOOTH_COD_PAIRS**/ prgClassOfDevices;
+                internal uint numOfClasses;
+                internal IntPtr prgClassOfDevices;
                 [MarshalAs(UnmanagedType.LPWStr)]
                 string info;
                 internal IntPtr hwndParent;

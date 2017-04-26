@@ -47,6 +47,20 @@ namespace InTheHand.Devices.Bluetooth
 #endif
 
         /// <summary>
+        /// Creates a BluetoothClassOfDevice object from a raw integer value representing the Major Class, Minor Class and Service Capabilities of the device.
+        /// </summary>
+        /// <param name="rawValue">The raw integer value from which to create the BluetoothClassOfDevice object.</param>
+        /// <returns>A BluetoothClassOfDevice object.</returns>
+        public static BluetoothClassOfDevice FromRawValue(uint rawValue)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return Windows.Devices.Bluetooth.BluetoothClassOfDevice.FromRawValue(rawValue);
+#else
+            return new Bluetooth.BluetoothClassOfDevice(rawValue);
+#endif
+        }
+
+        /// <summary>
         /// Gets the Bluetooth Class Of Device information, represented as an integer value.
         /// </summary>
         /// <value>The Bluetooth Class Of Device information, represented as a raw integer value.</value>
@@ -72,7 +86,7 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (BluetoothServiceCapabilities)((int)_classOfDevice.ServiceCapabilities);
 #else
-                return (BluetoothServiceCapabilities)((_rawValue & 0xFF000000) >>12);
+                return (BluetoothServiceCapabilities)((_rawValue & 0xFF000) >>13);
 #endif
             }
         }
