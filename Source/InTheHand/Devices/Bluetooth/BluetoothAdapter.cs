@@ -27,7 +27,7 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns>An asynchronous operation that completes with a BluetoothAdapter.</returns>
         public static Task<BluetoothAdapter> GetDefaultAsync()
         {
-#if WIN32
+#if __ANDROID__ || WIN32
             return GetDefaultAsyncImpl();
 
 #else
@@ -42,7 +42,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if WIN32
+#if __ANDROID__ || WIN32
                 return GetBluetoothAddress();
 #else
                 return 0;
@@ -71,7 +71,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if WIN32
+#if __ANDROID__ || WIN32
                 return GetName();
 #else
                 return string.Empty;

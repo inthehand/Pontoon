@@ -5,8 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System.Threading.Tasks;
-
 namespace InTheHand.Devices.Enumeration
 {
     /// <summary>

@@ -36,7 +36,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseSigned|AnyCPU'">
     <OutputPath>..\..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\</OutputPath>
-    <DefineConstants>TRACE;SIGNED</DefineConstants>
+    <DefineConstants>TRACE;PCL</DefineConstants>
     <DocumentationFile>..\..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

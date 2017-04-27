@@ -102,6 +102,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.cs">
       <Link>Devices\Bluetooth\BluetoothDevice.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.Win32.cs">
+      <Link>Devices\Bluetooth\BluetoothDevice.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
       <Link>Devices\Bluetooth\BluetoothMajorClass.cs</Link>
     </Compile>

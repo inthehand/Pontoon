@@ -5,6 +5,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace InTheHand.Devices.Bluetooth
 {
     /// <summary>
@@ -138,6 +140,48 @@ namespace InTheHand.Devices.Bluetooth
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Returns the Major/Minor device class as a string.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+#if PCL
+            // PCL is missing GetFields() but it doesn't matter since the PCL is only a placeholder
+            return MinorClass.ToString();
+#else
+            string majorClassName = MajorClass.ToString();
+
+            if (MajorClass != BluetoothMajorClass.Miscellaneous)
+            {
+                if(MinorClass == BluetoothMinorClass.Uncategorized)
+                {
+                    // return just the Major class
+                    return majorClassName;
+                }
+
+#if WINDOWS_PHONE_APP
+                foreach (FieldInfo fi in typeof(BluetoothMinorClass).GetRuntimeFields())
+#else
+                foreach (FieldInfo fi in typeof(BluetoothMinorClass).GetFields())
+#endif
+                {
+                    string minorName = fi.Name;
+                    if (minorName.StartsWith(majorClassName))
+                    {
+                        if ((int)fi.GetValue(null) == (int)MinorClass)
+                        {
+                            // return the correct Minor class
+                            return minorName;
+                        }
+                    }
+                }
+            }
+#endif
+            // if it doesn't match a known major/minor class return the raw value
+            return RawValue.ToString("X8");
         }
     }
 }

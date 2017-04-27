@@ -163,12 +163,7 @@ namespace InTheHand.Devices.Bluetooth
         }
 
 #elif WIN32
-        private BLUETOOTH_DEVICE_INFO _info;
-
-        internal BluetoothDevice(BLUETOOTH_DEVICE_INFO info)
-        {
-            _info = info;
-        }
+        
 #else
 #endif
 
@@ -181,6 +176,8 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if _WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _device.BluetoothAddress;
+#elif __ANDROID__ || Win32
+                return GetBluetoothAddress();
 #else
                 return 0;
 #endif
@@ -196,8 +193,9 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if _WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _device.ClassOfDevice;
-#elif WIN32
-                return new BluetoothClassOfDevice(_info.ulClassofDevice);
+
+#elif __ANDROID__ || WIN32
+                return GetClassOfDevice();
 #else
                 return null;
 #endif
@@ -214,7 +212,7 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);
 #elif WIN32
-                return _info.fConnected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
+                GetConnectionStatus();
 #else
                 return BluetoothConnectionStatus.Disconnected;
 #endif
@@ -248,8 +246,9 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _device.Name;
-#elif WIN32
-                return _info.szName;
+
+#elif __ANDROID__ || WIN32
+                return GetName();
 #else
                 return string.Empty;
 #endif
