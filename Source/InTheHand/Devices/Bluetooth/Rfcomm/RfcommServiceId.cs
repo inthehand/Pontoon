@@ -17,13 +17,35 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         private static readonly Guid BluetoothBase = new Guid(0x00000000, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
        
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Serial Port service (with short id 0x1101).
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Serial Port (SPP) service (with short id 0x1101).
         /// </summary>
         public static RfcommServiceId SerialPort
         {
             get
             {
                 return FromShortId(0x1101);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Dial-up Networking (DUN) service (with short id 0x1103).
+        /// </summary>
+        public static RfcommServiceId DialupNetworking
+        {
+            get
+            {
+                return FromShortId(0x1103);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Synchronization service (with short id 0x1104).
+        /// </summary>
+        public static RfcommServiceId IrMCSync
+        {
+            get
+            {
+                return FromShortId(0x1104);
             }
         }
 
@@ -50,13 +72,112 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Printing service (with short id 0x1122).
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Headset Profile (HSP) (with short id 0x1108).
         /// </summary>
-        public static RfcommServiceId BasicPrinting
+        public static RfcommServiceId Headset
         {
             get
             {
-                return FromShortId(0x1122);
+                return FromShortId(0x1108);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Audio/Video Remote Control Profile (AVRCP) (with short id 0x110E).
+        /// </summary>
+        public static RfcommServiceId AVRemoteControl
+        {
+            get
+            {
+                return FromShortId(0x110E);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Imaging service (with short id 0x111A).
+        /// </summary>
+        public static RfcommServiceId BasicImaging
+        {
+            get
+            {
+                return FromShortId(0x111A);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Hands-free Profile (HFP) (with short id 0x111E).
+        /// </summary>
+        public static RfcommServiceId Handsfree
+        {
+            get
+            {
+                return FromShortId(0x111E);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Printing service (with short id 0x1118).
+        /// </summary>
+        public static RfcommServiceId DirectPrinting
+        {
+            get
+            {
+                return FromShortId(0x1118);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Printing service (with short id 0x1119).
+        /// </summary>
+        public static RfcommServiceId ReferencePrinting
+        {
+            get
+            {
+                return FromShortId(0x1119);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the printing status service for the Basic Printing Profile (BPP) (with short id 0x1123).
+        /// </summary>
+        public static RfcommServiceId PrintingStatus
+        {
+            get
+            {
+                return FromShortId(0x1123);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Hardcopy Cable Replacement Profile (HCRP) for printing (with short id 0x1126).
+        /// </summary>
+        public static RfcommServiceId HcrPrint
+        {
+            get
+            {
+                return FromShortId(0x1126);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Hardcopy Cable Replacement Profile (HCRP) for scanning (with short id 0x1127).
+        /// </summary>
+        public static RfcommServiceId HcrScan
+        {
+            get
+            {
+                return FromShortId(0x1127);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized SIM Access Profile (SAP) (with short id 0x112D).
+        /// </summary>
+        public static RfcommServiceId SimAccess
+        {
+            get
+            {
+                return FromShortId(0x112D);
             }
         }
 
@@ -93,8 +214,28 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             }
         }
 
-        
-        
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Health Device Source service for Health Device Profile (HDP) (with short id 0x1401).
+        /// </summary>
+        public static RfcommServiceId HealthDeviceSource
+        {
+            get
+            {
+                return FromShortId(0x1401);
+            }
+        }
+
+        /// <summary>
+        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Health Device Sink service for Health Device Profile (HDP) (with short id 0x1402).
+        /// </summary>
+        public static RfcommServiceId HealthDeviceSink
+        {
+            get
+            {
+                return FromShortId(0x1402);
+            }
+        }
+
 
         /// <summary>
         /// Creates a RfcommServiceId object from a 32-bit service id.

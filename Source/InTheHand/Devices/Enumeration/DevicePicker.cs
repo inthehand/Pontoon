@@ -9,6 +9,9 @@ using System;
 using System.Threading.Tasks;
 using InTheHand.Foundation;
 using InTheHand.UI.Popups;
+#if WINDOWS_APP
+using Windows.UI.Xaml.Controls.Primitives;
+#endif
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -26,8 +29,25 @@ namespace InTheHand.Devices.Enumeration
     public sealed partial class DevicePicker
     {
 #if WINDOWS_UWP
-        private Windows.Devices.Enumeration.DevicePicker _picker = new Windows.Devices.Enumeration.DevicePicker();
+        private Windows.Devices.Enumeration.DevicePicker _devicePicker = new Windows.Devices.Enumeration.DevicePicker();
 
+        private DevicePicker(Windows.Devices.Enumeration.DevicePicker devicePicker)
+        {
+            _devicePicker = devicePicker;
+        }
+
+        public static implicit operator Windows.Devices.Enumeration.DevicePicker(DevicePicker devicePicker)
+        {
+            return devicePicker._devicePicker;
+        }
+
+        public static implicit operator DevicePicker(Windows.Devices.Enumeration.DevicePicker devicePicker)
+        {
+            return new DevicePicker(devicePicker);
+        }
+
+        
+        /*
         private void _picker_DeviceSelected(Windows.Devices.Enumeration.DevicePicker sender, Windows.Devices.Enumeration.DeviceSelectedEventArgs args)
         {
             OnDeviceSelected(args.SelectedDevice);
@@ -36,7 +56,7 @@ namespace InTheHand.Devices.Enumeration
         private void _picker_DevicePickerDismissed(Windows.Devices.Enumeration.DevicePicker sender, object args)
         {
             OnDevicePickerDismissed();
-        }
+        }*/
 
 #elif WINDOWS_PHONE_APP
         private DevicePickerDialog _dialog;
@@ -56,8 +76,8 @@ namespace InTheHand.Devices.Enumeration
         public DevicePicker()
         {
 #if WINDOWS_UWP
-            _picker.DevicePickerDismissed += _picker_DevicePickerDismissed;
-            _picker.DeviceSelected += _picker_DeviceSelected;
+            //_picker.DevicePickerDismissed += _picker_DevicePickerDismissed;
+            //_picker.DeviceSelected += _picker_DeviceSelected;
 #endif
         }
 
@@ -76,8 +96,7 @@ namespace InTheHand.Devices.Enumeration
         {
             DevicePickerDismissed?.Invoke(this, null);
         }
-
-
+        
         /// <summary>
         /// Indicates that the user selected a device in the picker.
         /// </summary>
@@ -106,7 +125,7 @@ namespace InTheHand.Devices.Enumeration
             get
             {
 #if WINDOWS_UWP
-                return _picker.Appearance;
+                return _devicePicker.Appearance;
 #else
                 return _appearance;
 #endif
@@ -121,14 +140,14 @@ namespace InTheHand.Devices.Enumeration
             get
             {
 #if WINDOWS_UWP
-                return _picker.Filter;
+                return _devicePicker.Filter;
 #else                
                 return _filter;
 #endif
             }
         }
 
-
+        /*
         /// <summary>
         /// Hides the picker.
         /// </summary>
@@ -143,6 +162,15 @@ namespace InTheHand.Devices.Enumeration
             _dialog.Hide();
 #else
 #endif
+        }*/
+
+        /// <summary>
+        /// Shows the picker UI and returns the selected device; does not require you to register for an event.
+        /// </summary>
+        /// <returns></returns>
+        public Task<DeviceInformation> PickSingleDeviceAsync()
+        {
+            return PickSingleDeviceAsync(new Rect(), Placement.Default);
         }
 
         /// <summary>
@@ -167,7 +195,7 @@ namespace InTheHand.Devices.Enumeration
         public async Task<DeviceInformation> PickSingleDeviceAsync(Rect selection, Placement placement)
         {
 #if WINDOWS_UWP
-            return await _picker.PickSingleDeviceAsync(selection, (Windows.UI.Popups.Placement)((int)placement)).AsTask();
+            return await _devicePicker.PickSingleDeviceAsync(selection, (Windows.UI.Popups.Placement)((int)placement));
 #elif WINDOWS_PHONE_APP
             _dialog = new DevicePickerDialog(this);
             Windows.UI.Xaml.Controls.ContentDialogResult result = await _dialog.ShowAsync();
@@ -177,8 +205,8 @@ namespace InTheHand.Devices.Enumeration
             _popup = new Popup();
             DevicePickerControl dpc = new DevicePickerControl(this, _popup);
             _popup.Child = dpc;
-            _popup.HorizontalOffset = selection.Right;
-            _popup.VerticalOffset = selection.Top;
+            _popup.HorizontalOffset = selection.X + selection.Width;
+            _popup.VerticalOffset = selection.Y;
             _popup.IsLightDismissEnabled = true;
             _popup.IsOpen = true;
             return await Task.Run<DeviceInformation>(() => { return dpc.WaitForSelection(); });
@@ -190,6 +218,7 @@ namespace InTheHand.Devices.Enumeration
 #endif
         }
 
+        /*
         /// <summary>
         /// Shows the picker UI.
         /// </summary>
@@ -219,6 +248,6 @@ namespace InTheHand.Devices.Enumeration
             _popup.VerticalOffset = selection.Top;
             _popup.IsOpen = true;
 #endif
-        }
+        }*/
     }
 }

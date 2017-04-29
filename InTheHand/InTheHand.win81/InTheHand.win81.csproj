@@ -245,6 +245,24 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
+      <Link>Devices\Enumeration\DevicePicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
+      <Link>Devices\Enumeration\DevicePickerAppearance.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerControl.xaml.cs">
+      <Link>Devices\Enumeration\DevicePickerControl.xaml.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
+      <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
+      <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceViewModel.cs">
+      <Link>Devices\Enumeration\DeviceViewModel.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>
@@ -648,7 +666,13 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerControl.xaml">
+      <Link>Devices\Enumeration\DevicePickerControl.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

@@ -35,16 +35,7 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromBluetoothAddressAsync(address);
 #elif WIN32
-            BLUETOOTH_DEVICE_INFO info = new BLUETOOTH_DEVICE_INFO();
-            info.dwSize = global::System.Runtime.InteropServices.Marshal.SizeOf(info);
-            info.Address = address;
-            int result = NativeMethods.BluetoothGetDeviceInfo(IntPtr.Zero, ref info);
-            if(result == 0)
-            {
-                return new BluetoothDevice(info);
-            }
-
-            return null;
+            return await FromBluetoothAddressAsyncImpl(address);
 #else
             return null;
 #endif
@@ -212,7 +203,7 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);
 #elif WIN32
-                GetConnectionStatus();
+                return GetConnectionStatus();
 #else
                 return BluetoothConnectionStatus.Disconnected;
 #endif
