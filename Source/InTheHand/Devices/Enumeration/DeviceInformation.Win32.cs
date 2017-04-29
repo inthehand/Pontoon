@@ -62,37 +62,5 @@ namespace InTheHand.Devices.Enumeration
         {
             return new DeviceInformationPairing(_deviceInfo);
         }
-
-        private static class NativeMethods
-        {
-            [DllImport("bthprops.cpl", SetLastError = true)]
-            internal static extern IntPtr BluetoothFindFirstDevice(
-                ref BLUETOOTH_DEVICE_SEARCH_PARAMS pbtsp,
-                ref BLUETOOTH_DEVICE_INFO pbtdi);
-
-            [DllImport("bthprops.cpl", SetLastError = true)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            internal static extern bool BluetoothFindNextDevice(
-                IntPtr hFind,
-                ref BLUETOOTH_DEVICE_INFO pbtdi);
-
-            [DllImport("bthprops.cpl", SetLastError = true)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            internal static extern bool BluetoothFindDeviceClose(IntPtr hFind);
-
-            [StructLayout(LayoutKind.Sequential)]
-            internal struct BLUETOOTH_DEVICE_SEARCH_PARAMS
-            {
-                internal int dwSize;
-                internal bool fReturnAuthenticated;
-                internal bool fReturnRemembered;
-                internal bool fReturnUnknown;
-                internal bool fReturnConnected;
-                internal bool fIssueInquiry;
-                internal ushort cTimeoutMultiplier;
-                internal IntPtr hRadio;
-            }
-
-        }
     }
 }

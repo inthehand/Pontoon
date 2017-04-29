@@ -41,6 +41,10 @@ namespace InTheHand.Devices.Enumeration
                     _status = DevicePairingResultStatus.Paired;
                     break;
 
+                case 258: /* WAIT_TIMEOUT */
+                    _status = DevicePairingResultStatus.AuthenticationTimeout;
+                    break;
+
                 case 259: /*ERROR_NO_MORE_ITEMS*/
                     _status = DevicePairingResultStatus.AlreadyPaired;
                     break;

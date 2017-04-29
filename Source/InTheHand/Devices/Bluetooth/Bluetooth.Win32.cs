@@ -47,7 +47,48 @@ namespace InTheHand.Devices.Bluetooth
         private const string bthDll = "bthprops.cpl";
 
         private const int BLUETOOTH_MAX_NAME_SIZE = 248;
+        
+        // Pairing
+        [DllImport(bthDll)]
+        internal static extern int BluetoothAuthenticateDeviceEx(IntPtr hwndParentIn,
+                IntPtr hRadioIn,
+                ref BLUETOOTH_DEVICE_INFO pbtdiInout,
+                IntPtr pbtOobData,
+                AUTHENTICATION_REQUIREMENTS authenticationRequirement);
 
+        [DllImport(bthDll)]
+        internal static extern int BluetoothRemoveDevice(ref ulong pAddress);
+
+        internal enum AUTHENTICATION_REQUIREMENTS
+        {
+            MITMProtectionNotRequired = 0x00,
+            MITMProtectionRequired = 0x01,
+            MITMProtectionNotRequiredBonding = 0x02,
+            MITMProtectionRequiredBonding = 0x03,
+            MITMProtectionNotRequiredGeneralBonding = 0x04,
+            MITMProtectionRequiredGeneralBonding = 0x05,
+            MITMProtectionNotDefined = 0xff,
+        }
+
+        internal enum BLUETOOTH_AUTHENTICATION_METHOD
+        {
+            LEGACY = 1,
+            OOB,
+            NUMERIC_COMPARISON,
+            PASSKEY_NOTIFICATION,
+            PASSKEY,
+        }
+
+        internal enum BLUETOOTH_IO_CAPABILITY
+        {
+            DISPLAYONLY = 0x00,
+            DISPLAYYESNO = 0x01,
+            KEYBOARDONLY = 0x02,
+            NOINPUTNOOUTPUT = 0x03,
+            UNDEFINED = 0xff
+        }
+
+        // Radio
         [DllImport(bthDll, SetLastError = true)]
         internal static extern IntPtr BluetoothFindFirstRadio(ref BLUETOOTH_FIND_RADIO_PARAMS pbtfrp, out IntPtr phRadio);
 
@@ -89,6 +130,35 @@ namespace InTheHand.Devices.Bluetooth
             [MarshalAs(UnmanagedType.LPWStr)]
             internal string pcszDescription;
         }
+
+        [DllImport(bthDll, SetLastError = true)]
+        internal static extern IntPtr BluetoothFindFirstDevice(
+                ref BLUETOOTH_DEVICE_SEARCH_PARAMS pbtsp,
+                ref BLUETOOTH_DEVICE_INFO pbtdi);
+
+        [DllImport(bthDll, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool BluetoothFindNextDevice(
+            IntPtr hFind,
+            ref BLUETOOTH_DEVICE_INFO pbtdi);
+
+        [DllImport(bthDll, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool BluetoothFindDeviceClose(IntPtr hFind);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct BLUETOOTH_DEVICE_SEARCH_PARAMS
+        {
+            internal int dwSize;
+            internal bool fReturnAuthenticated;
+            internal bool fReturnRemembered;
+            internal bool fReturnUnknown;
+            internal bool fReturnConnected;
+            internal bool fIssueInquiry;
+            internal ushort cTimeoutMultiplier;
+            internal IntPtr hRadio;
+        }
+
 
         [DllImport(bthDll, SetLastError = true)]
         internal static extern int BluetoothGetDeviceInfo(IntPtr hRadio,  ref BLUETOOTH_DEVICE_INFO pbtdi);

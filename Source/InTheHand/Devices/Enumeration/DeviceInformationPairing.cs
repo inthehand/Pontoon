@@ -46,19 +46,6 @@ namespace InTheHand.Devices.Enumeration
         {
             _deviceInfo = info;
         }
-
-        internal static class NativeMethods
-        {
-            [DllImport("IrProps.cpl")]
-            internal static extern int BluetoothAuthenticateDeviceEx(IntPtr hwndParentIn, 
-                IntPtr hRadioIn, 
-                ref BLUETOOTH_DEVICE_INFO pbtdiInout, 
-                IntPtr pbtOobData, 
-                int /* AUTHENTICATION_REQUIREMENTS*/ authenticationRequirement);
-
-            [DllImport("IrProps.cpl")]
-            internal static extern int BluetoothRemoveDevice(ref ulong pAddress);
-        }
 #endif
 
         /// <summary>

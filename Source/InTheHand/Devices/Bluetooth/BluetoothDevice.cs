@@ -129,7 +129,7 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP
             return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelectorFromPairingState(pairingState);
 #elif WIN32
-            return "bluetoothpaired:" + pairingState.ToString();
+            return "bluetoothPairingState:" + pairingState.ToString();
 #else
             return string.Empty;
 #endif
@@ -167,7 +167,7 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if _WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _device.BluetoothAddress;
-#elif __ANDROID__ || Win32
+#elif __ANDROID__ || WIN32
                 return GetBluetoothAddress();
 #else
                 return 0;

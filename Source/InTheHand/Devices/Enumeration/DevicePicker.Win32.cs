@@ -26,7 +26,7 @@ namespace InTheHand.Devices.Enumeration
             {
                 foreach(string filter in Filter.SupportedDeviceSelectors)
                 {
-                    if(filter.StartsWith("bluetoothClassOfDevice:"))
+                    if(filter.StartsWith("bluetoothClassOfDevice:") && sdp.numOfClasses == 0)
                     {
                         int codMask = 0;
                         if (int.TryParse(filter.Substring(23), global::System.Globalization.NumberStyles.HexNumber, null, out codMask))
@@ -40,18 +40,32 @@ namespace InTheHand.Devices.Enumeration
                         
                         
                     }
+                    else if(filter.StartsWith("bluetoothPairingState:"))
+                    {
+                        bool pairingState = bool.Parse(filter.Substring(22));
+                        if (pairingState)
+                        {
+                            sdp.fShowAuthenticated = true;
+                            sdp.fShowUnknown = false;
+                        }
+                        else
+                        { 
+                            sdp.fShowAuthenticated = false;
+                            sdp.fShowUnknown = true;
+                        }
+                    }
                 }
             }
 
             sdp.hwndParent = NativeMethods.GetForegroundWindow();
 
-            if (Filter.SupportedDeviceSelectors.Count > 0)
+            /*if (Filter.SupportedDeviceSelectors.Count > 0)
             {
                 _callback = new NativeMethods.PFN_DEVICE_CALLBACK(FilterDevices);
                 sdp.pfnDeviceCallback = _callback;
                 //sdp.pvParam = Marshal.AllocHGlobal(4);
                 //Marshal.WriteInt32(sdp.pvParam, 1);
-            }
+            }*/
 
             bool success = NativeMethods.BluetoothSelectDevices(ref sdp);
 
@@ -150,7 +164,7 @@ namespace InTheHand.Devices.Enumeration
                 [MarshalAs(UnmanagedType.Bool)]
                 bool fShowRemembered;
                 [MarshalAs(UnmanagedType.Bool)]
-                bool fShowUnknown;
+                internal bool fShowUnknown;
                 [MarshalAs(UnmanagedType.Bool)]
                 bool fAddNewDeviceWizard;
                 [MarshalAs(UnmanagedType.Bool)]
