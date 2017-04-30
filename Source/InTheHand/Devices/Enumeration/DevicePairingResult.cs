@@ -53,6 +53,10 @@ namespace InTheHand.Devices.Enumeration
                     _status = DevicePairingResultStatus.PairingCanceled;
                     break;
 
+                case 1244: /*ERROR_NOT_AUTHENTICATED*/
+                    _status = DevicePairingResultStatus.AuthenticationFailure;
+                    break;
+
                 default:
                     _status = DevicePairingResultStatus.Failed;
                     break;

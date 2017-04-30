@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using InTheHand.Devices.Enumeration;
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -42,13 +43,20 @@ namespace InTheHand.Devices.Bluetooth
         private short millisecond;
     }
 
+    [return:MarshalAs(UnmanagedType.Bool)]
+    internal delegate bool PFN_AUTHENTICATION_CALLBACK_EX(IntPtr pvParam, ref NativeMethods.BLUETOOTH_AUTHENTICATION_CALLBACK_PARAMS pAuthCallbackParams);
+
     internal static class NativeMethods
     {
         private const string bthDll = "bthprops.cpl";
 
         private const int BLUETOOTH_MAX_NAME_SIZE = 248;
-        
+
         // Pairing
+
+        [DllImport(bthDll)]
+        internal static extern int BluetoothAuthenticateDevice(IntPtr hwndParent, IntPtr hRadio, ref BLUETOOTH_DEVICE_INFO pbtdi, string pszPasskey, int ulPasskeyLength);
+
         [DllImport(bthDll)]
         internal static extern int BluetoothAuthenticateDeviceEx(IntPtr hwndParentIn,
                 IntPtr hRadioIn,
@@ -57,7 +65,43 @@ namespace InTheHand.Devices.Bluetooth
                 AUTHENTICATION_REQUIREMENTS authenticationRequirement);
 
         [DllImport(bthDll)]
+        internal static extern int BluetoothRegisterForAuthenticationEx(ref BLUETOOTH_DEVICE_INFO pbtdiln, out IntPtr phRegHandleOut, PFN_AUTHENTICATION_CALLBACK_EX pfnCallbackIn, IntPtr pvParam);
+
+        [DllImport(bthDll, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool BluetoothUnregisterAuthentication(IntPtr hRegHandle);
+
+        [DllImport(bthDll)]
+        internal static extern int BluetoothSendAuthenticationResponseEx(IntPtr hRadioIn, ref BLUETOOTH_AUTHENTICATE_RESPONSE pauthResponse);
+
+        [DllImport(bthDll)]
         internal static extern int BluetoothRemoveDevice(ref ulong pAddress);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct BLUETOOTH_AUTHENTICATION_CALLBACK_PARAMS
+        {
+            internal BLUETOOTH_DEVICE_INFO deviceInfo;
+            internal BLUETOOTH_AUTHENTICATION_METHOD authenticationMethod;
+            internal BLUETOOTH_IO_CAPABILITY ioCapability;
+            internal AUTHENTICATION_REQUIREMENTS authenticationRequirements;
+            internal uint Numeric_Value_Passkey;
+        };
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct BLUETOOTH_AUTHENTICATE_RESPONSE
+        {
+            ulong bthAddressRemote;
+            BLUETOOTH_AUTHENTICATION_METHOD authMethod;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
+            byte[] pairingInfo;
+            /*union {
+            BLUETOOTH_PIN_INFO pinInfo; //17
+            BLUETOOTH_OOB_DATA oobInfo; //32
+            BLUETOOTH_NUMERIC_COMPARISON_INFO numericCompInfo; //8
+            BLUETOOTH_PASSKEY_INFO passkeyInfo; // 8
+            };*/
+            byte negativeResponse;
+        }
 
         internal enum AUTHENTICATION_REQUIREMENTS
         {
@@ -77,6 +121,27 @@ namespace InTheHand.Devices.Bluetooth
             NUMERIC_COMPARISON,
             PASSKEY_NOTIFICATION,
             PASSKEY,
+        }
+
+        internal static DevicePairingKinds BluetoothAuthenticationMethodToDevicePairingKinds(BLUETOOTH_AUTHENTICATION_METHOD authenticationMethod)
+        {
+            switch(authenticationMethod)
+            {
+                case BLUETOOTH_AUTHENTICATION_METHOD.LEGACY:
+                    return DevicePairingKinds.ProvidePin;
+
+                case BLUETOOTH_AUTHENTICATION_METHOD.NUMERIC_COMPARISON:
+                    return DevicePairingKinds.ConfirmPinMatch;
+
+                case BLUETOOTH_AUTHENTICATION_METHOD.PASSKEY_NOTIFICATION:
+                    return DevicePairingKinds.DisplayPin;
+
+                case BLUETOOTH_AUTHENTICATION_METHOD.PASSKEY:
+                    return DevicePairingKinds.ProvidePin;
+
+                default:
+                    return DevicePairingKinds.None;
+            }
         }
 
         internal enum BLUETOOTH_IO_CAPABILITY
@@ -106,7 +171,7 @@ namespace InTheHand.Devices.Bluetooth
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool BluetoothFindRadioClose(IntPtr hFind);
 
-        
+
         [DllImport(bthDll, SetLastError = true)]
         internal static extern int BluetoothGetRadioInfo(IntPtr hRadio, ref BLUETOOTH_RADIO_INFO pRadioInfo);
 
@@ -161,6 +226,6 @@ namespace InTheHand.Devices.Bluetooth
 
 
         [DllImport(bthDll, SetLastError = true)]
-        internal static extern int BluetoothGetDeviceInfo(IntPtr hRadio,  ref BLUETOOTH_DEVICE_INFO pbtdi);
+        internal static extern int BluetoothGetDeviceInfo(IntPtr hRadio, ref BLUETOOTH_DEVICE_INFO pbtdi);
     }
 }

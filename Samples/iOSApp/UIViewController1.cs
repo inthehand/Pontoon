@@ -83,6 +83,8 @@ namespace ApplicationModel.iOS
 
         private async void B_TouchUpInside(object sender, EventArgs e)
         {
+            var prof = InTheHand.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile();
+
             //UIApplication.SharedApplication.OpenUrl(NSUrl.FromString("App-Prefs:root=BLUETOOTH"));
             //await InTheHand.System.Launcher.LaunchUriAsync(new Uri("App-Prefs:root=AIRPLANE_MODE"));
            

@@ -284,8 +284,17 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs">
       <Link>Devices\Enumeration\DeviceInformationCollection.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCustomPairing.cs">
+      <Link>Devices\Enumeration\DeviceInformationCustomPairing.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.cs">
       <Link>Devices\Enumeration\DeviceInformationPairing.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingKinds.cs">
+      <Link>Devices\Enumeration\DevicePairingKinds.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingRequestedEventArgs.cs">
+      <Link>Devices\Enumeration\DevicePairingRequestedEventArgs.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingResult.cs">
       <Link>Devices\Enumeration\DevicePairingResult.cs</Link>

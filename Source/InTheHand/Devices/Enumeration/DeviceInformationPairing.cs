@@ -49,6 +49,41 @@ namespace InTheHand.Devices.Enumeration
 #endif
 
         /// <summary>
+        /// Gets a value that indicates whether the device can be paired.
+        /// </summary>
+        /// <value>True if the device can be paired, otherwise false.</value>
+        public bool CanPair
+        {
+            get
+            {
+#if WINDOWS_UWP
+                return _pairing.CanPair;
+#elif WIN32
+                return !IsPaired;
+#else
+                return false;
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="DeviceInformationCustomPairing"/> object necessary for custom pairing.
+        /// </summary>
+        public DeviceInformationCustomPairing Custom
+        {
+            get
+            {
+#if WINDOWS_UWP
+                return _pairing.Custom;
+#elif WIN32
+                return new DeviceInformationCustomPairing(_deviceInfo);
+#else
+                return null;
+#endif              
+            }
+        }
+
+        /// <summary>
         /// Gets a value that indicates whether the device is currently paired.
         /// </summary>
         /// <value>True if the device is currently paired, otherwise false.</value>
@@ -75,7 +110,13 @@ namespace InTheHand.Devices.Enumeration
 #if WINDOWS_UWP
             return await _pairing.PairAsync();
 #elif WIN32
-            int result = NativeMethods.BluetoothAuthenticateDeviceEx(IntPtr.Zero, IntPtr.Zero, ref _deviceInfo, IntPtr.Zero, 0);
+            int result = NativeMethods.BluetoothAuthenticateDevice(IntPtr.Zero, IntPtr.Zero, ref _deviceInfo, null, 0);
+
+            if(result == 0)
+            {
+                _deviceInfo.fAuthenticated = true;
+            }
+
             return new DevicePairingResult(result);
 #else
             return null;

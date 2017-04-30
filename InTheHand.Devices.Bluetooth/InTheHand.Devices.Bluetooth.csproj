@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FE30DA10-3D59-4010-B201-60C4C9D3B93F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InTheHand.Devices.Bluetooth</RootNamespace>
+    <AssemblyName>InTheHand.Devices.Bluetooth</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\InTheHand\InTheHand.Portable\InTheHand.Portable.csproj">
+      <Project>{16831f73-b197-4306-8209-f45bd8a9a6d9}</Project>
+      <Name>InTheHand.Portable</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs">
+      <Link>Bluetooth\BluetoothAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
+      <Link>Bluetooth\BluetoothClassOfDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs">
+      <Link>Bluetooth\BluetoothConnectionStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.cs">
+      <Link>Bluetooth\BluetoothDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
+      <Link>Bluetooth\BluetoothLEDevice.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
+      <Link>Bluetooth\BluetoothMajorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothMinorClass.cs">
+      <Link>Bluetooth\BluetoothMinorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
+      <Link>Bluetooth\BluetoothServiceCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattPresentationFormatTypes.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattPresentationFormatTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattServiceUuids.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
+      <Link>Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
+      <Link>Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
+      <Link>Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
+      <Link>Enumeration\DeviceInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceInformationCustomPairing.cs">
+      <Link>Enumeration\DeviceInformationCustomPairing.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.cs">
+      <Link>Enumeration\DeviceInformationPairing.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePairingKinds.cs">
+      <Link>Enumeration\DevicePairingKinds.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePairingRequestedEventArgs.cs">
+      <Link>Enumeration\DevicePairingRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePairingResult.cs">
+      <Link>Enumeration\DevicePairingResult.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
+      <Link>Enumeration\DevicePicker.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
+      <Link>Enumeration\DevicePickerAppearance.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
+      <Link>Enumeration\DevicePickerFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
+      <Link>Enumeration\DeviceSelectedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs">
+      <Link>Enumeration\DeviceUnpairingResult.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -54,7 +54,7 @@ namespace Silverlight81App
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            //InTheHand.UI.ApplicationSettings.SettingsPane.Show();
+            InTheHand.UI.ApplicationSettings.SettingsPane.Show();
            /* MessageDialog md1 = new MessageDialog("hello1");
             md1.Commands.Add(new Windows.UI.Popups.UICommand("one", async (c) =>
             {
