@@ -138,8 +138,7 @@ namespace InTheHand.Devices.Radios
 #if WINDOWS_UWP
             return (RadioAccessStatus)((int)await Windows.Devices.Radios.Radio.RequestAccessAsync());
 #elif WIN32
-            // desktop apps have full access and no permissions are required
-            return RadioAccessStatus.Allowed;
+            return await RequestAccessAsyncImpl();
 #else
             return RadioAccessStatus.Unspecified;
 #endif

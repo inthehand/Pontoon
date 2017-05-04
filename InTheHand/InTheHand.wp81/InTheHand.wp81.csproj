@@ -194,6 +194,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
     </Compile>
@@ -343,6 +346,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
       <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Sockets\NetworkStream.cs">
+      <Link>Networking\Sockets\NetworkStream.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\OperatingSystem.cs">
       <Link>OperatingSystem.cs</Link>

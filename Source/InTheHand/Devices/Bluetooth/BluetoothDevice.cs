@@ -5,8 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth
@@ -51,11 +54,11 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceId);
 #elif WIN32
-            if(deviceId.StartsWith("bluetooth:"))
+            if (deviceId.StartsWith("bluetooth:"))
             {
                 string addrString = deviceId.Substring(10);
                 ulong addr = 0;
-                if(ulong.TryParse(addrString, global::System.Globalization.NumberStyles.HexNumber, null, out addr))
+                if (ulong.TryParse(addrString, global::System.Globalization.NumberStyles.HexNumber, null, out addr))
                 {
                     return await FromBluetoothAddressAsync(addr);
                 }
@@ -154,7 +157,7 @@ namespace InTheHand.Devices.Bluetooth
         }
 
 #elif WIN32
-        
+
 #else
 #endif
 
@@ -243,6 +246,29 @@ namespace InTheHand.Devices.Bluetooth
 #else
                 return string.Empty;
 #endif
+            }
+        }
+
+        /// <summary>
+        /// Gets the read-only list of RFCOMM services supported by the device.
+        /// </summary>
+        public IReadOnlyList<RfcommDeviceService> RfcommServices
+        {
+            get
+            {
+                var list = new List<RfcommDeviceService>();
+
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+                foreach(Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service in _device.RfcommServices)
+                {
+                    list.Add(service);
+                }
+
+#elif WIN32
+                GetRfcommServices(list);
+
+#endif
+                return list.AsReadOnly();
             }
         }
     }

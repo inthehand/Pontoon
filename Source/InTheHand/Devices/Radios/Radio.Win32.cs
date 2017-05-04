@@ -34,16 +34,33 @@ namespace InTheHand.Devices.Radios
             return string.Empty;
         }
 
+        private static async Task<RadioAccessStatus> RequestAccessAsyncImpl()
+        {
+            if (s_type10 != null)
+            {
+                object rta = s_type10.GetMethod("RequestAccessAsync").Invoke(null, new object[] { });
+                Type tras = Type.GetType("Windows.Devices.Radios.RadioAccessStatus, Windows, ContentType=WindowsRuntime");
+                Type tr = typeof(Windows.Foundation.IAsyncOperation<>).MakeGenericType(tras);
+                object result = tr.GetMethod("GetResults").Invoke(rta, new object[] { });
+                return (RadioAccessStatus)((int)result);
+            }
+            else
+            {
+                // Only add a Radio if support is present.
+                return RadioAccessStatus.Allowed;
+            }
+        }
+
         private static void GetRadiosAsyncImpl(List<Radio> radios)
         {
-            /*if (s_type10 != null)
+            if (s_type10 != null)
             {
                 object rta = s_type10.GetMethod("GetRadiosAsync").Invoke(null, new object[] { });
-                var aa = rta as Windows.Foundation.IAsyncInfo;
                 Type ivv = Type.GetType("Windows.Foundation.Collections.IVectorView`1, Windows, ContentType=WindowsRuntime");
                 Type t = ivv.MakeGenericType(s_type10);
                 Type tr = typeof(Windows.Foundation.IAsyncOperation<>).MakeGenericType(t);
                 object results = tr.GetMethod("GetResults").Invoke(rta, new object[] { });
+                uint count = (uint)t.GetProperty("Size").GetValue(results);
                 IEnumerable il = results as IEnumerable;
                 foreach(object o in il)
                 {
@@ -51,13 +68,13 @@ namespace InTheHand.Devices.Radios
                 }
             }
             else
-            {*/
+            {
                 // Only add a Radio if support is present.
                 if (NativeMethods.BluetoothIsVersionAvailable(2, 0))
                 {
                     radios.Add(new Radio());
                 }
-            //}
+            }
         }
 
         private Task<RadioAccessStatus> SetStateAsyncImpl(RadioState state)

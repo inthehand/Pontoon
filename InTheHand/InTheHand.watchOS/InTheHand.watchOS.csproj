@@ -6,8 +6,8 @@
     <ProjectGuid>{9938A987-FC53-491D-8601-43910D180E36}</ProjectGuid>
     <ProjectTypeGuids>{FC940695-DFE0-4552-9F25-99AF4A5619A1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>InTheHand.watchOS</RootNamespace>
-    <AssemblyName>InTheHand.watchOS</AssemblyName>
+    <RootNamespace>InTheHand</RootNamespace>
+    <AssemblyName>InTheHand</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,7 +29,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\..\NuGet\InTheHand\lib\xamarinwatchos\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -42,6 +42,7 @@
     </MtouchHttpClientHandler>
     <MtouchTlsProvider>
     </MtouchTlsProvider>
+    <DocumentationFile>..\..\NuGet\InTheHand\lib\xamarinwatchos\InTheHand.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -7,6 +7,7 @@
 
 using InTheHand.Devices.Enumeration;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -53,6 +54,28 @@ namespace InTheHand.Devices.Bluetooth
         private string GetName()
         {
             return _info.szName;
+        }
+
+        private void GetRfcommServices(List<Rfcomm.RfcommDeviceService> services)
+        {
+            int num = 0;
+            int result = NativeMethods.BluetoothEnumerateInstalledServices(IntPtr.Zero, ref _info, ref num, null);
+            if (num > 0)
+            {
+                byte[] buffer = new byte[16 * num];
+
+                result = NativeMethods.BluetoothEnumerateInstalledServices(IntPtr.Zero, ref _info, ref num, buffer);
+                if (result == 0)
+                {
+                    for (int i = 0; i < num; i++)
+                    {
+                        byte[] gb = new byte[16];
+                        Buffer.BlockCopy(buffer, i * 16, gb, 0, 16);
+
+                        services.Add(new Rfcomm.RfcommDeviceService(_info.Address, Rfcomm.RfcommServiceId.FromUuid(new Guid(gb))));
+                    }
+                }
+            }
         }
     }
 }

@@ -6,6 +6,14 @@
 //-----------------------------------------------------------------------
 
 using System;
+using System.IO;
+using System.Threading.Tasks;
+
+#if WIN32
+using System.Net.Sockets;
+using InTheHand.Net;
+using InTheHand.Net.Sockets;
+#endif
 
 namespace InTheHand.Devices.Bluetooth.Rfcomm
 {
@@ -51,7 +59,14 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
 #else
-        private RfcommServiceId _id;
+        private ulong _address;
+        private RfcommServiceId _service;
+
+        internal RfcommDeviceService(ulong address, RfcommServiceId service)
+        {
+            _address = address;
+            _service = service;
+        }
 #endif
 
         /// <summary>
@@ -66,9 +81,35 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
                 return _service.ServiceId;
 
 #else
-                return _id;
+                return _service;
 #endif
             }
+        }
+
+        /// <summary>
+        /// Connects to the remote service and returns a read/write Stream to communicate over.
+        /// </summary>
+        /// <returns>A <see cref="Stream"/> for reading and writing from the remote service. 
+        /// Remember to Dispose of this Stream when you've finished working.</returns>
+        public Task<Stream> OpenStreamAsync()
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return Task.Run<Stream>(async () =>
+            {
+                Windows.Networking.Sockets.StreamSocket socket = new Windows.Networking.Sockets.StreamSocket();
+                await socket.ConnectAsync(_service.ConnectionHostName, _service.ConnectionServiceName);
+                return new InTheHand.Networking.Sockets.NetworkStream(socket);
+            });
+#elif WIN32
+            return Task.Run<Stream>(() =>
+            {
+                var socket = new Socket(AddressFamily32.Bluetooth, SocketType.Stream, BluetoothProtocolType.RFComm);
+                socket.Connect(new BluetoothEndPoint(_address, _service.Uuid));
+                return new NetworkStream(socket);
+            });
+#else
+                return Task.FromResult<Stream>(null);
+#endif
         }
     }
 }

@@ -225,7 +225,13 @@ namespace InTheHand.Devices.Bluetooth
         }
 
 
-        [DllImport(bthDll, SetLastError = true)]
+        [DllImport(bthDll)]
         internal static extern int BluetoothGetDeviceInfo(IntPtr hRadio, ref BLUETOOTH_DEVICE_INFO pbtdi);
+
+        [DllImport(bthDll)]
+        internal static extern int BluetoothEnumerateInstalledServices(IntPtr hRadio,
+            ref BLUETOOTH_DEVICE_INFO pbtdi,
+            ref int pcServices, 
+            byte[] pGuidServices);
     }
 }

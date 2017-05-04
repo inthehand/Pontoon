@@ -54,6 +54,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\BluetoothAddress.cs">
+      <Link>Devices\Bluetooth\BluetoothAddress.cs</Link>
+    </Compile>
+    <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\BluetoothEndPoint.cs">
+      <Link>Devices\Bluetooth\BluetoothEndPoint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\Sockets\AddressFamily.cs">
+      <Link>Devices\Bluetooth\AddressFamily.cs</Link>
+    </Compile>
+    <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\Sockets\BluetoothProtocolType.cs">
+      <Link>Devices\Bluetooth\BluetoothProtocolType.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
     </Compile>
@@ -164,6 +176,21 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.cs">
+      <Link>Devices\Radios\Radio.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.Win32.cs">
+      <Link>Devices\Radios\Radio.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioAccessState.cs">
+      <Link>Devices\Radios\RadioAccessState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioKind.cs">
+      <Link>Devices\Radios\RadioKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioState.cs">
+      <Link>Devices\Radios\RadioState.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs">
       <Link>Graphics\Display\DisplayInformation.cs</Link>
@@ -490,9 +517,7 @@
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Devices\Radios\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
