@@ -5,6 +5,9 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+#if __ANDROID__
+using Android.OS;
+#endif
 using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
 using System;
@@ -33,12 +36,32 @@ namespace InTheHand.Devices.Bluetooth
         /// </summary>
         /// <param name="address">The address of the Bluetooth device.</param>
         /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object with the given BluetoothAddress or null if the address does not resolve to a valid device.</returns>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+        /// </remarks>
         public static async Task<BluetoothDevice> FromBluetoothAddressAsync(ulong address)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if __ANDROID__
+            byte[] buffer = new byte[6];
+            var addressBytes = BitConverter.GetBytes(address);
+            for(int i=0; i< 6; i++)
+            {
+                buffer[i] = addressBytes[i];
+            }
+            return new BluetoothDevice(DeviceInformation.Manager.Adapter.GetRemoteDevice(buffer));
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromBluetoothAddressAsync(address);
+
 #elif WIN32
             return await FromBluetoothAddressAsyncImpl(address);
+
 #else
             return null;
 #endif
@@ -47,16 +70,19 @@ namespace InTheHand.Devices.Bluetooth
         /// <summary>
         /// Returns a <see cref="BluetoothDevice"/> object for the given Id.
         /// </summary>
-        /// <param name="deviceId">The DeviceId value that identifies the BluetoothDevice instance.</param>
-        /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object identified by the given DeviceId.</returns>
+        /// <param name="deviceId">The DeviceId value that identifies the <see cref="BluetoothDevice"/> instance.</param>
+        /// <returns>After the asynchronous operation completes, returns the <see cref="BluetoothDevice"/> object identified by the given DeviceId.</returns>
         public static async Task<BluetoothDevice> FromIdAsync(string deviceId)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceId);
+
 #elif WIN32
-            if (deviceId.StartsWith("bluetooth:"))
+            if (deviceId.StartsWith("bluetooth#"))
             {
-                string addrString = deviceId.Substring(10);
+                var parts = deviceId.Split('#');
+
+                string addrString = parts[1];
                 ulong addr = 0;
                 if (ulong.TryParse(addrString, global::System.Globalization.NumberStyles.HexNumber, null, out addr))
                 {
@@ -77,11 +103,14 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object identified by the given DeviceInformation.</returns>
         public static async Task<BluetoothDevice> FromDeviceInformationAsync(DeviceInformation deviceInformation)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if __ANDROID__
+            return new BluetoothDevice(deviceInformation._device);
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceInformation.Id);
 
 #elif WIN32
-            return new Bluetooth.BluetoothDevice(deviceInformation._deviceInfo);
+            return new BluetoothDevice(deviceInformation._deviceInfo);
 
 #else
             return null;
@@ -267,6 +296,12 @@ namespace InTheHand.Devices.Bluetooth
 #elif WIN32
                 GetRfcommServices(list);
 
+#elif __ANDROID__
+                bool success = _device.FetchUuidsWithSdp();
+                foreach(ParcelUuid g in _device.GetUuids())
+                {
+                    list.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
+                }
 #endif
                 return list.AsReadOnly();
             }

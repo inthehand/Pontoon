@@ -8,8 +8,13 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Globalization;
+using InTheHand.Networking.Sockets;
 
-#if WIN32
+#if WINDOWS_UWP
+using Windows.UI.Core;
+#elif WIN32
 using System.Net.Sockets;
 using InTheHand.Net;
 using InTheHand.Net.Sockets;
@@ -22,6 +27,27 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
     /// </summary>
     public sealed class RfcommDeviceService
     {
+        public static async Task<RfcommDeviceService> FromIdAsync(string deviceId)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return await Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService.FromIdAsync(deviceId);
+
+#elif WIN32
+            if(deviceId.StartsWith("bluetooth#"))
+            {
+                var parts = deviceId.Split('#');
+                var addr = parts[1];
+                var uuid = parts[2];
+                var device  = await BluetoothDevice.FromBluetoothAddressAsync(ulong.Parse(addr, NumberStyles.HexNumber));
+                var service = RfcommServiceId.FromUuid(new Guid(uuid));
+
+                return new Rfcomm.RfcommDeviceService(device, service);
+            }
+
+#endif
+            return null;
+        }
+
         /// <summary>
         /// Gets an Advanced Query Syntax (AQS) string for identifying instances of an RFCOMM service.
         /// </summary>
@@ -33,7 +59,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService.GetDeviceSelector(serviceId);
 
 #elif WIN32
-            return serviceId.Uuid.ToString();
+            return "service:" + serviceId.Uuid.ToString();
 
 #else
             return string.Empty;
@@ -59,13 +85,30 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
 #else
-        private ulong _address;
+        private BluetoothDevice _device;
         private RfcommServiceId _service;
 
-        internal RfcommDeviceService(ulong address, RfcommServiceId service)
+        internal RfcommDeviceService(BluetoothDevice device, RfcommServiceId service)
         {
-            _address = address;
+            _device = device;
             _service = service;
+        }
+#endif
+
+#if !WINDOWS_APP && !WINDOWS_PHONE_APP && !WINDOWS_PHONE_81
+        /// <summary>
+        /// Gets the <see cref="BluetoothDevice"/> object describing the device associated with the current <see cref="RfcommDeviceService"/> object.
+        /// </summary>
+        public BluetoothDevice Device
+        {
+            get
+            {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+                return _service.Device;
+#else
+                return _device;
+#endif
+            }
         }
 #endif
 
@@ -93,9 +136,22 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// Remember to Dispose of this Stream when you've finished working.</returns>
         public Task<Stream> OpenStreamAsync()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if __ANDROID__
+            return Task.Run<Stream>(() =>
+            {
+                var socket = _device._device.CreateRfcommSocketToServiceRecord(Java.Util.UUID.FromString(_service.Uuid.ToString()));
+                return new NetworkStream(socket);
+            });
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Task.Run<Stream>(async () =>
             {
+#if WINDOWS_UWP
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    await _service.RequestAccessAsync();
+                });
+#endif
                 Windows.Networking.Sockets.StreamSocket socket = new Windows.Networking.Sockets.StreamSocket();
                 await socket.ConnectAsync(_service.ConnectionHostName, _service.ConnectionServiceName);
                 return new InTheHand.Networking.Sockets.NetworkStream(socket);
@@ -104,11 +160,11 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return Task.Run<Stream>(() =>
             {
                 var socket = new Socket(AddressFamily32.Bluetooth, SocketType.Stream, BluetoothProtocolType.RFComm);
-                socket.Connect(new BluetoothEndPoint(_address, _service.Uuid));
+                socket.Connect(new BluetoothEndPoint(_device.BluetoothAddress, _service.Uuid));
                 return new NetworkStream(socket);
             });
 #else
-                return Task.FromResult<Stream>(null);
+            return Task.FromResult<Stream>(null);
 #endif
         }
     }

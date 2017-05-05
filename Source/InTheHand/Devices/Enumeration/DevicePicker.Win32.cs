@@ -80,6 +80,22 @@ namespace InTheHand.Devices.Enumeration
                 BLUETOOTH_DEVICE_INFO info = Marshal.PtrToStructure<BLUETOOTH_DEVICE_INFO>(sdp.pDevices);
                 NativeMethods.BluetoothSelectDevicesFree(ref sdp);
 
+                foreach(string query in Filter.SupportedDeviceSelectors)
+                {
+                    if(query.StartsWith("service:"))
+                    {
+                        Guid serviceUuid = Guid.Parse(query.Substring(8));
+                        foreach(Guid g in BluetoothDevice.GetRfcommServices(ref info))
+                        {
+                            if(g == serviceUuid)
+                            {
+                                return new DeviceInformation(info, serviceUuid);
+                            }
+                        }
+
+                        return null;
+                    }
+                }
                 return new DeviceInformation(info);
             }
 

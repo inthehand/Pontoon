@@ -12,7 +12,15 @@ namespace InTheHand.Devices.Enumeration
     /// </summary>
     public sealed class DeviceUnpairingResult
     {
-#if WINDOWS_UWP
+#if __ANDROID__
+        private DeviceUnpairingResultStatus _status;
+
+        internal DeviceUnpairingResult()
+        {
+            _status = DeviceUnpairingResultStatus.Failed;
+        }
+
+#elif WINDOWS_UWP
         private Windows.Devices.Enumeration.DeviceUnpairingResult _result;
 
         private DeviceUnpairingResult(Windows.Devices.Enumeration.DeviceUnpairingResult result)
@@ -48,10 +56,10 @@ namespace InTheHand.Devices.Enumeration
         }
 #endif
 
-        /// <summary>
-        /// Gets the paired status of the device after the unpairing action completed.
-        /// </summary>
-        /// <value>The paired status of the device.</value>
+            /// <summary>
+            /// Gets the paired status of the device after the unpairing action completed.
+            /// </summary>
+            /// <value>The paired status of the device.</value>
         public DeviceUnpairingResultStatus Status
         {
             get

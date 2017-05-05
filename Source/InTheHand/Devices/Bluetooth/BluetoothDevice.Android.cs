@@ -14,7 +14,7 @@ namespace InTheHand.Devices.Bluetooth
 {
     public sealed partial class BluetoothDevice
     {
-        private Android.Bluetooth.BluetoothDevice _device;
+        internal Android.Bluetooth.BluetoothDevice _device;
 
         private BluetoothDevice(Android.Bluetooth.BluetoothDevice device)
         {

@@ -170,7 +170,7 @@ namespace InTheHand.Devices.Enumeration
         /// <returns></returns>
         public Task<DeviceInformation> PickSingleDeviceAsync()
         {
-            return PickSingleDeviceAsync(new Rect(), Placement.Default);
+            return PickSingleDeviceAsync(new Rect(0,0,1,1), Placement.Default);
         }
 
         /// <summary>

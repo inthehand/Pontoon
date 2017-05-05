@@ -21,6 +21,7 @@ namespace InTheHand.Networking.Sockets
     /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item></list>
@@ -41,6 +42,11 @@ namespace InTheHand.Networking.Sockets
         }
 #elif __ANDROID__
         private BluetoothSocket _socket;
+
+        public NetworkStream(Android.Bluetooth.BluetoothSocket socket)
+        {
+            _socket = socket;
+        }
 #endif
 
         public override bool CanRead

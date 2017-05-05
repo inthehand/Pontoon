@@ -12,7 +12,15 @@ namespace InTheHand.Devices.Enumeration
     /// </summary>
     public sealed class DevicePairingResult
     {
-#if WINDOWS_UWP
+#if __ANDROID__
+        private DevicePairingResultStatus _status;
+
+        internal DevicePairingResult(bool success)
+        {
+            _status = success ? DevicePairingResultStatus.Paired : DevicePairingResultStatus.Failed;
+        }
+
+#elif WINDOWS_UWP
         private Windows.Devices.Enumeration.DevicePairingResult _result;
 
         private DevicePairingResult(Windows.Devices.Enumeration.DevicePairingResult result)

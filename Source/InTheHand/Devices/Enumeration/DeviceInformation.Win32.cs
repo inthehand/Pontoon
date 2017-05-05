@@ -17,6 +17,12 @@ namespace InTheHand.Devices.Enumeration
     {
 
         internal BLUETOOTH_DEVICE_INFO _deviceInfo;
+        internal Guid _service;
+
+        internal DeviceInformation(BLUETOOTH_DEVICE_INFO info, Guid service) : this(info)
+        {
+            _service = service;
+        }
 
         internal DeviceInformation(BLUETOOTH_DEVICE_INFO info)
         {
@@ -50,7 +56,11 @@ namespace InTheHand.Devices.Enumeration
 
         private string GetId()
         {
-            return "bluetooth:" + _deviceInfo.Address.ToString("X12");
+            if(_service != Guid.Empty)
+            {
+                return "bluetooth#" + _deviceInfo.Address.ToString("X12") + "#" + _service.ToString();
+            }
+            return "bluetooth#" + _deviceInfo.Address.ToString("X12");
         }
 
         private string GetName()

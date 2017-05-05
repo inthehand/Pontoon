@@ -49,13 +49,29 @@ namespace InTheHand.Devices.Enumeration
         }
 
 #elif __ANDROID__
-        private static BluetoothLeScanner _scanner;
+        private static BluetoothManager _manager;
+
         static DeviceInformation()
         {
-            BluetoothManager bluetoothManager = (BluetoothManager)global::Android.App.Application.Context.GetSystemService(global::Android.App.Application.BluetoothService);
-            _scanner = bluetoothManager.Adapter.BluetoothLeScanner;
+            _manager = (BluetoothManager)global::Android.App.Application.Context.GetSystemService(Android.App.Application.BluetoothService);
 
         }
+
+        internal static BluetoothManager Manager
+        {
+            get
+            {
+                return _manager;
+            }
+        }
+
+        internal Android.Bluetooth.BluetoothDevice _device;
+
+        internal DeviceInformation(Android.Bluetooth.BluetoothDevice device)
+        {
+            _device = device;
+        }
+
 #elif __UNIFIED__
         internal CBPeripheral _peripheral;
         private static CBCentralManager _manager;
@@ -172,7 +188,14 @@ namespace InTheHand.Devices.Enumeration
         {
             List<DeviceInformation> all = new List<DeviceInformation>();
 
-#if __UNIFIED__
+#if __ANDROID__
+            // Step 1: Return all paired devices
+            foreach(Android.Bluetooth.BluetoothDevice d in _manager.Adapter.BondedDevices)
+            {
+                all.Add(new DeviceInformation(d));
+            }
+
+#elif __UNIFIED__
             return await Task.Run<IReadOnlyCollection<DeviceInformation>>(async () =>
             {
                 if (_manager.State != CBCentralManagerState.PoweredOn)
@@ -250,7 +273,10 @@ namespace InTheHand.Devices.Enumeration
         {
             get
             {
-#if __UNIFIED__
+#if __ANDROID__
+                return _device.Address;
+
+#elif __UNIFIED__
                 return _peripheral.Identifier.AsString();
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
@@ -275,7 +301,10 @@ namespace InTheHand.Devices.Enumeration
         {
             get
             {
-#if __UNIFIED__
+#if __ANDROID__
+                return _device.Name;
+
+#elif __UNIFIED__
                 if (string.IsNullOrEmpty(_peripheral.Name))
                 {
                     return _name;
@@ -295,7 +324,7 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 
-#if WINDOWS_UWP || WIN32
+#if __ANDROID__ || WINDOWS_UWP || WIN32
         /// <summary>
         /// Gets the information about the capabilities for this device to pair.
         /// </summary>
@@ -304,7 +333,10 @@ namespace InTheHand.Devices.Enumeration
         {
             get
             {
-#if WINDOWS_UWP 
+#if __ANDROID__
+                return new DeviceInformationPairing(_device);
+
+#elif WINDOWS_UWP
                 return _deviceInformation.Pairing;
 
 #elif WIN32
