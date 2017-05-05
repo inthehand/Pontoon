@@ -17,12 +17,12 @@ namespace InTheHand.Graphics.Display
             var hMonitor = NativeMethods.MonitorFromWindow(NativeMethods.GetActiveWindow(), NativeMethods.MONITOR_DEFAULTTO.NEAREST);
             if(hMonitor != IntPtr.Zero)
             {
-                NativeMethods.MONITORINFOEX mi = new Display.DisplayInformation.NativeMethods.MONITORINFOEX();
+                NativeMethods.MONITORINFOEX mi = new NativeMethods.MONITORINFOEX();
                 mi.cbSize = Marshal.SizeOf(mi);
 
                 if(NativeMethods.GetMonitorInfo(hMonitor, ref mi))
                 {
-                    DisplayInformation di = new Display.DisplayInformation();
+                    DisplayInformation di = new DisplayInformation();
 
                     var dc = NativeMethods.CreateDC(mi.szDevice, null, null, IntPtr.Zero);
 

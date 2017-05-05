@@ -1,9 +1,10 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PowerManager.Win32.cs" company="In The Hand Ltd">
-//   Copyright (c) 2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2016-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System;
 using System.Runtime.InteropServices;
 
 namespace InTheHand.System.Power
@@ -19,7 +20,7 @@ namespace InTheHand.System.Power
 
         private static class NativeMethods
         {
-            [global::System.Runtime.InteropServices.DllImport("kernel32.dll")]
+            [DllImport("Kernel32")]
             internal static extern bool GetSystemPowerStatus(out SYSTEM_POWER_STATUS systemPowerStatus);
 
             internal struct SYSTEM_POWER_STATUS
@@ -42,6 +43,7 @@ namespace InTheHand.System.Power
                 UNKNOWN = 0xFF,
             }
 
+            [Flags]
             internal enum BATTERY_FLAG : byte
             {
                 /// <summary>

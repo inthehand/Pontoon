@@ -30,7 +30,9 @@ namespace InTheHand.Graphics.Display
     /// </remarks>
     public sealed partial class DisplayInformation
     {
+#if !WINDOWS_UWP && !WINDOWS_APP && !WINDOWS_PHONE_APP && !WIN32 && !__MAC__
         private static DisplayInformation s_current;
+#endif
 
         /// <summary>
         /// Gets the current physical display information.

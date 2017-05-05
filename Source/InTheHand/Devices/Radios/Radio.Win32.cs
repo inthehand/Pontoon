@@ -79,17 +79,31 @@ namespace InTheHand.Devices.Radios
 
         private Task<RadioAccessStatus> SetStateAsyncImpl(RadioState state)
         {
+            bool success = false;
             bool enable = state == RadioState.On;
-            /*int result = NativeMethods.BthpEnableRadioSoftware(enable);
-            bool success = result == 0;*/
 
-            if(!enable)
+            string path = Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\BTHPORT\\Parameters\\Radio Support", "SupportDLL", string.Empty).ToString();
+            if (!string.IsNullOrEmpty(path))
             {
-                bool discoverySuccess = NativeMethods.BluetoothEnableDiscovery(IntPtr.Zero, false);
+                //load dll
+                IntPtr hmodule = NativeMethods.LoadLibrary(path);
+                if (hmodule != IntPtr.Zero)
+                {
+                    //call function
+                    IntPtr addr = NativeMethods.GetProcAddress(hmodule, "BluetoothEnableRadio");
+
+                    if (addr != IntPtr.Zero)
+                    {
+                        NativeMethods.BluetoothEnableRadio deleg = Marshal.GetDelegateForFunctionPointer<NativeMethods.BluetoothEnableRadio>(addr);
+                        int result = deleg.Invoke(enable);
+                        success = result == 0;
+                    }
+
+                    //free dll
+                    NativeMethods.FreeLibrary(hmodule);
+                }
             }
-
-            bool success = NativeMethods.BluetoothEnableIncomingConnections(IntPtr.Zero, state == RadioState.On);
-
+            
             return Task.FromResult<RadioAccessStatus>(success ? RadioAccessStatus.Allowed : RadioAccessStatus.Unspecified);
         }
 
@@ -107,23 +121,42 @@ namespace InTheHand.Devices.Radios
 
         private RadioState GetStateImpl()
         {
-            /*bool state;
-            int result = NativeMethods.BthpIsRadioSoftwareEnabled(out state);
-
-            if (result != 0)
-                return RadioState.Unknown;
-
-            return state ? RadioState.On : RadioState.Off;*/
+            RadioState state = RadioState.Unknown;
 
             try
             {
-                bool state = NativeMethods.BluetoothIsConnectable(IntPtr.Zero);
-                return state ? RadioState.On : RadioState.Off;
+                string path = Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\BTHPORT\\Parameters\\Radio Support", "SupportDLL", string.Empty).ToString();
+                if (!string.IsNullOrEmpty(path))
+                {
+                    //load dll
+                    IntPtr hmodule = NativeMethods.LoadLibrary(path);
+                    if (hmodule != IntPtr.Zero)
+                    {
+                        //call function
+                        IntPtr addr = NativeMethods.GetProcAddress(hmodule, "IsBluetoothRadioEnabled");
+
+                        if (addr != IntPtr.Zero)
+                        {
+                            bool enabled = false;
+                            NativeMethods.IsBluetoothRadioEnabled deleg = Marshal.GetDelegateForFunctionPointer<NativeMethods.IsBluetoothRadioEnabled>(addr);
+                            int result = deleg.Invoke(ref enabled);
+                            if (result == 0)
+                            {
+                                state = enabled ? RadioState.On : RadioState.Off;
+                            }
+                        }
+
+                        //free dll
+                        NativeMethods.FreeLibrary(hmodule);
+                    }
+                }
+                
             }
             catch
             {
-                return RadioState.Unknown;
             }
+
+            return state;
         }
 
         private static class NativeMethods
@@ -143,6 +176,20 @@ namespace InTheHand.Devices.Radios
             [DllImport("BluetoothApis")]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool BluetoothIsVersionAvailable(byte MajorVersion, byte MinorVersion);
+
+            [DllImport("Kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+            internal static extern IntPtr LoadLibrary(string lpFileName);
+
+            [DllImport("Kernel32", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            internal static extern bool FreeLibrary(IntPtr hModule);
+
+            [DllImport("Kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+            internal static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+
+            internal delegate int BluetoothEnableRadio([MarshalAs(UnmanagedType.Bool)] bool fEnable);
+
+            internal delegate int IsBluetoothRadioEnabled([MarshalAs(UnmanagedType.Bool)] ref bool pfEnabled);
 
             /*[DllImport("BluetoothApis", SetLastError = false)]
             internal static extern int BthpIsRadioSoftwareEnabled(out bool value);
