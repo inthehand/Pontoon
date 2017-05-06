@@ -58,9 +58,9 @@ namespace InTheHand.Devices.Enumeration
         {
             if(_service != Guid.Empty)
             {
-                return "bluetooth#" + _deviceInfo.Address.ToString("X12") + "#" + _service.ToString();
+                return "BLUETOOTH#" + _deviceInfo.Address.ToString("X12") + "#" + _service.ToString();
             }
-            return "bluetooth#" + _deviceInfo.Address.ToString("X12");
+            return "BLUETOOTH#" + _deviceInfo.Address.ToString("X12");
         }
 
         private string GetName()

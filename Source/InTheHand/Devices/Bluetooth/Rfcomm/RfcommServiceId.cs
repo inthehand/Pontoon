@@ -355,5 +355,10 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return _uuid.ToString();
 #endif
         }
+
+        public override string ToString()
+        {
+            return AsString();
+        }
     }
 }

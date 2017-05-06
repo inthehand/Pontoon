@@ -194,7 +194,9 @@ namespace InTheHand.Devices.Enumeration
         /// <returns></returns>
         public async Task<DeviceInformation> PickSingleDeviceAsync(Rect selection, Placement placement)
         {
-#if WINDOWS_UWP
+#if __ANDROID__
+            return await DoPickSingleDeviceAsync();
+#elif WINDOWS_UWP
             return await _devicePicker.PickSingleDeviceAsync(selection, (Windows.UI.Popups.Placement)((int)placement));
 #elif WINDOWS_PHONE_APP
             _dialog = new DevicePickerDialog(this);

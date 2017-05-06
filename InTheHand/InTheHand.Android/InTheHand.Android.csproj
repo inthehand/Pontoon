@@ -252,6 +252,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCustomPairing.cs">
       <Link>Devices\Enumeration\DeviceInformationCustomPairing.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.Android.cs">
+      <Link>Devices\Enumeration\DeviceInformationPairing.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.cs">
       <Link>Devices\Enumeration\DeviceInformationPairing.cs</Link>
     </Compile>
@@ -264,8 +267,26 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingResult.cs">
       <Link>Devices\Enumeration\DevicePairingResult.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.Android.cs">
+      <Link>Devices\Enumeration\DevicePicker.Android.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
+      <Link>Devices\Enumeration\DevicePicker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
+      <Link>Devices\Enumeration\DevicePickerAppearance.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
+      <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
+      <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs">
       <Link>Devices\Enumeration\DeviceUnpairingResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResultStatus.cs">
+      <Link>Devices\Enumeration\DeviceUnpairingResultStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
@@ -522,6 +543,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
       <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
+      <Link>UI\Popups\Placement.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>

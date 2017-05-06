@@ -290,6 +290,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.cs">
       <Link>Devices\Enumeration\DeviceInformationPairing.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.Uwp.cs">
+      <Link>Devices\Enumeration\DeviceInformationPairing.Uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingKinds.cs">
       <Link>Devices\Enumeration\DevicePairingKinds.cs</Link>
     </Compile>
@@ -313,6 +316,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs">
       <Link>Devices\Enumeration\DeviceUnpairingResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResultStatus.cs">
+      <Link>Devices\Enumeration\DeviceUnpairingResultStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
       <Link>Devices\Environment.cs</Link>

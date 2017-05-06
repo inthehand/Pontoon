@@ -7,12 +7,6 @@
 
 using System.Threading.Tasks;
 using System;
-#if WINDOWS_UWP
-using System.Runtime.InteropServices.WindowsRuntime;
-#elif WIN32
-using System.Runtime.InteropServices;
-using InTheHand.Devices.Bluetooth;
-#endif
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -26,43 +20,8 @@ namespace InTheHand.Devices.Enumeration
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
-    public sealed class DeviceInformationPairing
+    public sealed partial class DeviceInformationPairing
     {
-#if __ANDROID__
-        private Android.Bluetooth.BluetoothDevice _device;
-
-        internal DeviceInformationPairing(Android.Bluetooth.BluetoothDevice device)
-        {
-            _device = device;
-        }
-
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-        private Windows.Devices.Enumeration.DeviceInformationPairing _pairing;
-
-        private DeviceInformationPairing(Windows.Devices.Enumeration.DeviceInformationPairing pairing)
-        {
-            _pairing = pairing;
-        }
-
-        public static implicit operator Windows.Devices.Enumeration.DeviceInformationPairing(DeviceInformationPairing pairing)
-        {
-            return pairing._pairing;
-        }
-
-        public static implicit operator DeviceInformationPairing(Windows.Devices.Enumeration.DeviceInformationPairing pairing)
-        {
-            return new DeviceInformationPairing(pairing);
-        }
-
-#elif WIN32
-        private BLUETOOTH_DEVICE_INFO _deviceInfo;
-
-        internal DeviceInformationPairing(BLUETOOTH_DEVICE_INFO info)
-        {
-            _deviceInfo = info;
-        }
-#endif
-
         /// <summary>
         /// Gets a value that indicates whether the device can be paired.
         /// </summary>
@@ -79,7 +38,7 @@ namespace InTheHand.Devices.Enumeration
             get
             {
 #if WINDOWS_UWP
-                return _pairing.CanPair;
+                return GetCanPair();
 #elif __ANDROID__ || WIN32
                 return !IsPaired;
 #else
@@ -101,10 +60,8 @@ namespace InTheHand.Devices.Enumeration
         {
             get
             {
-#if WINDOWS_UWP
-                return _pairing.Custom;
-#elif WIN32
-                return new DeviceInformationCustomPairing(_deviceInfo);
+#if WINDOWS_UWP || WIN32
+                return GetCustom();
 #else
                 return null;
 #endif              
@@ -126,14 +83,8 @@ namespace InTheHand.Devices.Enumeration
         {
             get
             {
-#if __ANDROID__
-                return _device.BondState == Android.Bluetooth.Bond.Bonded;
-
-#elif WINDOWS_UWP
-                return _pairing.IsPaired;
-
-#elif WIN32
-                return _deviceInfo.fAuthenticated;
+#if __ANDROID__ || WINDOWS_UWP || WIN32
+                return GetIsPaired();
 
 #else
                 return false;
@@ -148,30 +99,20 @@ namespace InTheHand.Devices.Enumeration
         /// <remarks>
         /// <para/><list type="table">
         /// <listheader><term>Platform</term><description>Version supported</description></listheader>
-        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+        /// <item><term>Android</term><description>Android 4.4 and later (Requires BLUETOOTH_ADMIN permission)</description></item>
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
-        public async Task<DevicePairingResult> PairAsync()
+        public Task<DevicePairingResult> PairAsync()
         {
-#if __ANDROID__
-            return new DevicePairingResult(_device.CreateBond());
+#if __ANDROID__ ||  WIN32
+            return Task.FromResult<DevicePairingResult>(DoPair());
 
 #elif WINDOWS_UWP
-            return await _pairing.PairAsync();
-
-#elif WIN32
-            int result = NativeMethods.BluetoothAuthenticateDevice(IntPtr.Zero, IntPtr.Zero, ref _deviceInfo, null, 0);
-
-            if(result == 0)
-            {
-                _deviceInfo.fAuthenticated = true;
-            }
-
-            return new DevicePairingResult(result);
+            return DoPairAsync();
 
 #else
-            return null;
+            return Task.FromResult<DevicePairingResult>(null);
 #endif
         }
 
@@ -185,20 +126,16 @@ namespace InTheHand.Devices.Enumeration
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
-        public async Task<DeviceUnpairingResult> UnpairAsync()
+        public Task<DeviceUnpairingResult> UnpairAsync()
         {
-#if __ANDROID__
-            return new DeviceUnpairingResult();
+#if __ANDROID__ || WIN32
+            return Task.FromResult<DeviceUnpairingResult>(DoUnpair());
 
 #elif WINDOWS_UWP
-            return await _pairing.UnpairAsync();
+            return DoUnpairAsync();
 
-#elif WIN32
-            ulong addr = _deviceInfo.Address;
-            int result = NativeMethods.BluetoothRemoveDevice(ref addr);
-            return new DeviceUnpairingResult(result);
 #else
-            return null;
+            return Task.FromResult<DeviceUnpairingResult>(null);
 #endif
         }
     }

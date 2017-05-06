@@ -147,6 +147,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.cs">
       <Link>Devices\Enumeration\DeviceInformationPairing.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.Win32.cs">
+      <Link>Devices\Enumeration\DeviceInformationPairing.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingKinds.cs">
       <Link>Devices\Enumeration\DevicePairingKinds.cs</Link>
     </Compile>
@@ -173,6 +176,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs">
       <Link>Devices\Enumeration\DeviceUnpairingResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResultStatus.cs">
+      <Link>Devices\Enumeration\DeviceUnpairingResultStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>

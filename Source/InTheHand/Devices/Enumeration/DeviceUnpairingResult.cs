@@ -12,15 +12,7 @@ namespace InTheHand.Devices.Enumeration
     /// </summary>
     public sealed class DeviceUnpairingResult
     {
-#if __ANDROID__
-        private DeviceUnpairingResultStatus _status;
-
-        internal DeviceUnpairingResult()
-        {
-            _status = DeviceUnpairingResultStatus.Failed;
-        }
-
-#elif WINDOWS_UWP
+#if WINDOWS_UWP
         private Windows.Devices.Enumeration.DeviceUnpairingResult _result;
 
         private DeviceUnpairingResult(Windows.Devices.Enumeration.DeviceUnpairingResult result)
@@ -37,9 +29,15 @@ namespace InTheHand.Devices.Enumeration
         {
             return new DeviceUnpairingResult(result);
         }
-
-#elif WIN32
+#else
         private DeviceUnpairingResultStatus _status;
+
+        internal DeviceUnpairingResult()
+        {
+            _status = DeviceUnpairingResultStatus.Failed;
+        }
+
+#if WIN32
 
         internal DeviceUnpairingResult(int error)
         {
@@ -55,56 +53,24 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 #endif
+#endif
 
-            /// <summary>
-            /// Gets the paired status of the device after the unpairing action completed.
-            /// </summary>
-            /// <value>The paired status of the device.</value>
+        /// <summary>
+        /// Gets the paired status of the device after the unpairing action completed.
+        /// </summary>
+        /// <value>The paired status of the device.</value>
         public DeviceUnpairingResultStatus Status
         {
             get
             {
 #if WINDOWS_UWP
                 return (DeviceUnpairingResultStatus)((int)_result.Status);
-#elif WIN32
-                return _status;
+
 #else
-                return DeviceUnpairingResultStatus.Failed;
+                return _status;
 #endif
             }
         }
 
-
-    }
-
-    /// <summary>
-    /// The result of the unpairing action.
-    /// </summary>
-    public enum DeviceUnpairingResultStatus
-    {
-        /// <summary>
-        /// The device object is successfully unpaired.
-        /// </summary>
-        Unpaired = 0,
-
-        /// <summary>
-        /// The device object was already unpaired.
-        /// </summary>
-        AlreadyUnpaired = 1,
-
-        /// <summary>
-        /// The device object is currently in the middle of either a pairing or unpairing action.
-        /// </summary>
-        OperationAlreadyInProgress = 2,
-
-        /// <summary>
-        /// The caller does not have sufficient permissions to unpair the device.
-        /// </summary>
-        AccessDenied = 3,
-
-        /// <summary>
-        /// An unknown failure occurred.
-        /// </summary>
-        Failed = 4,
     }
 }

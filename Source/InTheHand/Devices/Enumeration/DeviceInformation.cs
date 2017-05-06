@@ -67,9 +67,19 @@ namespace InTheHand.Devices.Enumeration
 
         internal Android.Bluetooth.BluetoothDevice _device;
 
-        internal DeviceInformation(Android.Bluetooth.BluetoothDevice device)
+        private DeviceInformation(Android.Bluetooth.BluetoothDevice device)
         {
             _device = device;
+        }
+
+        public static implicit operator Android.Bluetooth.BluetoothDevice(DeviceInformation deviceInformation)
+        {
+            return deviceInformation._device;
+        }
+
+        public static implicit operator DeviceInformation(Android.Bluetooth.BluetoothDevice device)
+        {
+            return new DeviceInformation(device);
         }
 
 #elif __UNIFIED__
@@ -274,7 +284,7 @@ namespace InTheHand.Devices.Enumeration
             get
             {
 #if __ANDROID__
-                return _device.Address;
+                return "BLUETOOTH#" + _device.Address;
 
 #elif __UNIFIED__
                 return _peripheral.Identifier.AsString();
@@ -348,5 +358,10 @@ namespace InTheHand.Devices.Enumeration
             }
         }
 #endif
+
+        public override string ToString()
+        {
+            return Id;
+        }
     }
 }

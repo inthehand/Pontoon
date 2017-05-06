@@ -78,7 +78,7 @@ namespace InTheHand.Devices.Bluetooth
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceId);
 
 #elif WIN32
-            if (deviceId.StartsWith("bluetooth#"))
+            if (deviceId.StartsWith("BLUETOOTH#"))
             {
                 var parts = deviceId.Split('#');
 
@@ -104,7 +104,7 @@ namespace InTheHand.Devices.Bluetooth
         public static async Task<BluetoothDevice> FromDeviceInformationAsync(DeviceInformation deviceInformation)
         {
 #if __ANDROID__
-            return new BluetoothDevice(deviceInformation._device);
+            return deviceInformation._device;
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceInformation.Id);
@@ -119,7 +119,7 @@ namespace InTheHand.Devices.Bluetooth
 
         /// <summary>
         /// Gets an Advanced Query Syntax (AQS) string for identifying all Bluetooth devices.
-        /// This string is passed to the FindAllAsync or CreateWatcher method in order to get a list of Bluetooth devices.
+        /// This string is passed to the <see cref="DeviceInformation.FindAllAsync"/> or CreateWatcher method in order to get a list of Bluetooth devices.
         /// </summary>
         /// <returns></returns>
         public static string GetDeviceSelector()
@@ -150,7 +150,7 @@ namespace InTheHand.Devices.Bluetooth
 
         /// <summary>
         /// Creates an Advanced Query Syntax (AQS) filter string that contains a query for Bluetooth devices that are either paired or unpaired.
-        /// The AQS string is passed into the CreateWatcher method to return a collection of DeviceInformation objects.
+        /// The AQS string is passed into the CreateWatcher method to return a collection of <see cref="DeviceInformation"/> objects.
         /// </summary>
         /// <param name="pairingState">The current pairing state for Bluetooth devices used for constructing the AQS string.
         /// Bluetooth devices can be either paired (true) or unpaired (false).
@@ -298,13 +298,25 @@ namespace InTheHand.Devices.Bluetooth
 
 #elif __ANDROID__
                 bool success = _device.FetchUuidsWithSdp();
-                foreach(ParcelUuid g in _device.GetUuids())
+                if (success)
                 {
-                    list.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
+                    ParcelUuid[] uuids = _device.GetUuids();
+                    if (uuids != null)
+                    {
+                        foreach (ParcelUuid g in uuids)
+                        {
+                            list.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
+                        }
+                    }
                 }
 #endif
                 return list.AsReadOnly();
             }
+        }
+
+        public override string ToString()
+        {
+            return "BLUETOOTH#" + BluetoothAddress.ToString("X12");
         }
     }
 }

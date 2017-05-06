@@ -167,5 +167,14 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return Task.FromResult<Stream>(null);
 #endif
         }
+
+        public override string ToString()
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+            return _service.ConnectionServiceName;
+#else
+            return _device.ToString() + "#" + _service.ToString();
+#endif
+        }
     }
 }
