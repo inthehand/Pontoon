@@ -19,7 +19,7 @@ namespace InTheHand.Storage.Pickers
             _picker = new Windows.Storage.Pickers.FileSavePicker();
         }
 
-        private async Task<StorageFile> PickSaveFileAsyncImpl()
+        private async Task<StorageFile> DoPickSaveFileAsync()
         {
             _picker.DefaultFileExtension = DefaultFileExtension;
             return await _picker.PickSaveFileAsync();

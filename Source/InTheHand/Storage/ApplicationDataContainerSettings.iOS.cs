@@ -57,12 +57,12 @@ namespace InTheHand.Storage
             }
         }
 
-        private void AddImpl(string key, object value)
+        private void DoAdd(string key, object value)
         {
             this[key] = value;
         }
         
-        private bool ContainsKeyImpl(string key)
+        private bool DoContainsKey(string key)
         {
             if (IsRoaming)
             {
@@ -75,7 +75,7 @@ namespace InTheHand.Storage
             }
         }
         
-        private bool RemoveImpl(string key)
+        private bool DoRemove(string key)
         {
             if (IsRoaming)
             {
@@ -89,7 +89,7 @@ namespace InTheHand.Storage
             return true;
         }
         
-        private bool TryGetValueImpl(string key, out object value)
+        private bool DoTryGetValue(string key, out object value)
         {
             NSObject obj = null;
             if (IsRoaming)
@@ -204,7 +204,7 @@ namespace InTheHand.Storage
             }
         }
         
-        private void ClearImpl()
+        private void DoClear()
         {
 #if __IOS__ || __TVOS__
             if (IsRoaming)
@@ -218,9 +218,9 @@ namespace InTheHand.Storage
 #endif
         }
        
-        private bool ContainsImpl(string key, object value)
+        private bool DoContains(string key, object value)
         {
-            if(ContainsKeyImpl(key))
+            if(DoContainsKey(key))
             {
                 if(GetItem(key) == value)
                 {

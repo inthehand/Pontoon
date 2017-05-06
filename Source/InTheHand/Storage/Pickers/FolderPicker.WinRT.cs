@@ -19,7 +19,7 @@ namespace InTheHand.Storage.Pickers
             _picker = new Windows.Storage.Pickers.FolderPicker();
         }
 
-        private async Task<StorageFolder> PickSingleFolderAsyncImpl()
+        private async Task<StorageFolder> DoPickSingleFolderAsync()
         {
             return await _picker.PickSingleFolderAsync();
         }

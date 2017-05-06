@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FolderPicker.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -26,11 +26,11 @@ namespace InTheHand.Storage.Pickers
         /// <returns>When the call to this method completes successfully, it returns a <see cref="StorageFolder"/> object that represents the folder that the user picked.</returns>
         public Task<StorageFolder> PickSingleFolderAsync()
         {
-            return PickSingleFolderAsyncImpl();
+            return DoPickSingleFolderAsync();
         }
 
 #if PCL
-        private Task<StorageFolder> PickSingleFolderAsyncImpl()
+        private Task<StorageFolder> DoPickSingleFolderAsync()
         {
             return null;
         }

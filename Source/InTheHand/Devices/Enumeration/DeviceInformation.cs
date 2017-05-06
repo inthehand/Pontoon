@@ -28,6 +28,15 @@ namespace InTheHand.Devices.Enumeration
     /// <summary>
     /// Represents a picker flyout that contains a list of devices for the user to choose from.
     /// </summary>
+    /// <remarks>
+    /// <para/><list type="table">
+    /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+    /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item>
+    /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+    /// </remarks>
     public sealed partial class DeviceInformation
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE

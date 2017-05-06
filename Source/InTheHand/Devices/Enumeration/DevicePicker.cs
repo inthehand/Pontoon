@@ -21,6 +21,7 @@ namespace InTheHand.Devices.Enumeration
     /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -194,10 +195,12 @@ namespace InTheHand.Devices.Enumeration
         /// <returns></returns>
         public async Task<DeviceInformation> PickSingleDeviceAsync(Rect selection, Placement placement)
         {
-#if __ANDROID__
+#if __ANDROID__ || WIN32
             return await DoPickSingleDeviceAsync();
+
 #elif WINDOWS_UWP
             return await _devicePicker.PickSingleDeviceAsync(selection, (Windows.UI.Popups.Placement)((int)placement));
+
 #elif WINDOWS_PHONE_APP
             _dialog = new DevicePickerDialog(this);
             Windows.UI.Xaml.Controls.ContentDialogResult result = await _dialog.ShowAsync();
@@ -213,8 +216,6 @@ namespace InTheHand.Devices.Enumeration
             _popup.IsOpen = true;
             return await Task.Run<DeviceInformation>(() => { return dpc.WaitForSelection(); });
 
-#elif WIN32
-            return await PickSingleDeviceAsyncImpl();
 #else
             return null;
 #endif

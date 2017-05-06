@@ -50,7 +50,7 @@ namespace InTheHand.Devices.Bluetooth
 #if __ANDROID__
             byte[] buffer = new byte[6];
             var addressBytes = BitConverter.GetBytes(address);
-            for(int i=0; i< 6; i++)
+            for (int i = 0; i < 6; i++)
             {
                 buffer[i] = addressBytes[i];
             }
@@ -160,7 +160,7 @@ namespace InTheHand.Devices.Bluetooth
         {
 #if WINDOWS_UWP
             return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelectorFromPairingState(pairingState);
-#elif WIN32
+#elif __ANDROID__ || WIN32
             return "bluetoothPairingState:" + pairingState.ToString();
 #else
             return string.Empty;
@@ -297,16 +297,12 @@ namespace InTheHand.Devices.Bluetooth
                 GetRfcommServices(list);
 
 #elif __ANDROID__
-                bool success = _device.FetchUuidsWithSdp();
-                if (success)
+                ParcelUuid[] uuids = _device.GetUuids();
+                if (uuids != null)
                 {
-                    ParcelUuid[] uuids = _device.GetUuids();
-                    if (uuids != null)
+                    foreach (ParcelUuid g in uuids)
                     {
-                        foreach (ParcelUuid g in uuids)
-                        {
-                            list.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
-                        }
+                        list.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
                     }
                 }
 #endif

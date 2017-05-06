@@ -16,7 +16,7 @@ namespace InTheHand.Devices.Enumeration
     {
         private NativeMethods.PFN_DEVICE_CALLBACK _callback;
 
-        private async Task<DeviceInformation> PickSingleDeviceAsyncImpl()
+        private async Task<DeviceInformation> DoPickSingleDeviceAsync()
         {
             NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS sdp = new NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS();
             sdp.dwSize = Marshal.SizeOf(sdp);

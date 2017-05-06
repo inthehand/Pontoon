@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FileOpenPicker.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ namespace InTheHand.Storage.Pickers
         /// <returns>When the call to this method completes successfully, it returns a <see cref="StorageFile"/> object that represents the file that the user picked.</returns>
         public Task<StorageFile> PickSingleFileAsync()
         {
-            return PickSingleFileAsyncImpl();
+            return DoPickSingleFileAsync();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace InTheHand.Storage.Pickers
         }
 
 #if PCL
-        private Task<StorageFile> PickSingleFileAsyncImpl()
+        private Task<StorageFile> DoPickSingleFileAsync()
         {
             return null;
         }

@@ -85,8 +85,10 @@ namespace InTheHand.Devices.Radios
         {
 #if WINDOWS_UWP
             return Windows.Devices.Radios.Radio.GetDeviceSelector();
+
 #elif WIN32
-            return GetDeviceSelectorImpl();
+            return DoGetDeviceSelector();
+
 #else
             return string.Empty;
 #endif
@@ -116,8 +118,10 @@ namespace InTheHand.Devices.Radios
             {
                 radios.Add(r);
             }
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_PHONE_APP || WINDOWS_PHONE
-            GetRadiosAsyncImpl(radios);
+            DoGetRadiosAsync(radios);
+
 #endif
             return radios.AsReadOnly();
         }
@@ -137,8 +141,10 @@ namespace InTheHand.Devices.Radios
         {
 #if WINDOWS_UWP
             return (RadioAccessStatus)((int)await Windows.Devices.Radios.Radio.RequestAccessAsync());
+
 #elif WIN32
-            return await RequestAccessAsyncImpl();
+            return await DoRequestAccessAsync();
+
 #else
             return RadioAccessStatus.Unspecified;
 #endif
@@ -164,8 +170,10 @@ namespace InTheHand.Devices.Radios
         {
 #if WINDOWS_UWP
             return (RadioAccessStatus)((int)await _radio.SetStateAsync((Windows.Devices.Radios.RadioState)((int)value)));
+
 #elif __ANDROID__ || WIN32
-            return await SetStateAsyncImpl(value);
+            return await DoSetStateAsync(value);
+
 #else
             return RadioAccessStatus.Unspecified;
 #endif
@@ -193,8 +201,10 @@ namespace InTheHand.Devices.Radios
             {
 #if WINDOWS_UWP 
                 return (RadioKind)((int)_radio.Kind);
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return GetKindImpl();
+                return GetKind();
+
 #else
                 return RadioKind.Other;
 #endif
@@ -223,8 +233,10 @@ namespace InTheHand.Devices.Radios
             {
 #if WINDOWS_UWP 
                 return _radio.Name;
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return GetNameImpl();
+                return GetName();
+
 #else
                 return string.Empty;
 #endif
@@ -253,8 +265,9 @@ namespace InTheHand.Devices.Radios
             {
 #if WINDOWS_UWP 
                 return (RadioState)((int)_radio.State);
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
-                return GetStateImpl();
+                return GetState();
 #else
                 return RadioState.Unknown;
 #endif

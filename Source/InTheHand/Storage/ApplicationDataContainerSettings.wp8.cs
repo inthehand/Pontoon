@@ -42,7 +42,7 @@ namespace InTheHand.Storage
             _applicationSettings.Save();
         }
 
-        private void AddImpl(string key, object value)
+        private void DoAdd(string key, object value)
         {
             if (value is DateTimeOffset)
             {
@@ -53,14 +53,14 @@ namespace InTheHand.Storage
             _applicationSettings.Add(key, value);
         }
 
-        private bool ContainsKeyImpl(string key)
+        private bool DoContainsKey(string key)
         {
             return _applicationSettings.Contains(key);
         }
 
-        private bool ContainsImpl(string key, object value)
+        private bool DoContains(string key, object value)
         {
-            if(ContainsKeyImpl(key))
+            if(DoContainsKey(key))
             {
                 if(GetItem(key) == value)
                 {
@@ -83,12 +83,12 @@ namespace InTheHand.Storage
                 return genericKeys;
         }
         
-        private bool RemoveImpl(string key)
+        private bool DoRemove(string key)
         {
             return _applicationSettings.Remove(key);
         }
         
-        private bool TryGetValueImpl(string key, out object value)
+        private bool DoTryGetValue(string key, out object value)
         {
             return _applicationSettings.TryGetValue<object>(key, out value);
         }
@@ -137,11 +137,11 @@ namespace InTheHand.Storage
             else
             {
                 // if not present add a new value (matches RT behaviour)
-                AddImpl(key, value);
+                DoAdd(key, value);
             }
         }
 
-        private void ClearImpl()
+        private void DoClear()
         {
             _applicationSettings.Clear();
         }
@@ -151,7 +151,7 @@ namespace InTheHand.Storage
             return _applicationSettings.Count;
         }
 
-        private IEnumerator<KeyValuePair<string, object>> GetEnumeratorImpl()
+        private IEnumerator<KeyValuePair<string, object>> DoGetEnumerator()
         {
             return new ApplicationDataContainerEnumerator();
         }

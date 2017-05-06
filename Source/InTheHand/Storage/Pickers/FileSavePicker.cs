@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FileSavePicker.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ namespace InTheHand.Storage.Pickers
         /// The file name, extension, and location of this storageFile match those specified by the user, but the file has no content.</returns>
         public Task<StorageFile> PickSaveFileAsync()
         {
-            return PickSaveFileAsyncImpl();
+            return DoPickSaveFileAsync();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace InTheHand.Storage.Pickers
         }
 
 #if PCL
-        private Task<StorageFile> PickSaveFileAsyncImpl()
+        private Task<StorageFile> DoPickSaveFileAsync()
         {
             return null;
         }

@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FolderPicker.Win32.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace InTheHand.Storage.Pickers
 {
     public sealed partial class FolderPicker
     {
-        private async Task<StorageFolder> PickSingleFolderAsyncImpl()
+        private async Task<StorageFolder> DoPickSingleFolderAsync()
         {
             NativeMethods.BROWSEINFO pbi = new NativeMethods.BROWSEINFO();
             pbi.ulFlags = 0x41;

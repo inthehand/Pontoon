@@ -121,8 +121,10 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _settings.Add(key,value);
+
 #elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
-            AddImpl(key, value);
+            DoAdd(key, value);
+
 #elif TIZEN
             Preference.Set(key, value);
 #else
@@ -140,8 +142,10 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return _settings.ContainsKey(key);
+
 #elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
-            return ContainsKeyImpl(key);
+            return DoContainsKey(key);
+
 #elif TIZEN
             return Preference.Contains(key);
 #else
@@ -159,8 +163,10 @@ namespace InTheHand.Storage
                 ICollection<string> genericKeys = new Collection<string>();
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings.Keys;
+
 #elif __ANDROID__ || WINDOWS_PHONE
                 return GetKeys();
+
 #elif TIZEN
                 genericKeys = new List<string>(Preference.Keys);
 #endif
@@ -181,7 +187,7 @@ namespace InTheHand.Storage
             removed = _settings.Remove(key);
 
 #elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
-            removed = RemoveImpl(key);
+            removed = DoRemove(key);
 
 #elif TIZEN
             Preference.Remove(key);
@@ -211,7 +217,7 @@ namespace InTheHand.Storage
             return _settings.TryGetValue(key, out value);
 
 #elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
-            return TryGetValueImpl(key, out value);
+            return DoTryGetValue(key, out value);
 
 #elif TIZEN
             try
@@ -321,7 +327,7 @@ namespace InTheHand.Storage
             _settings.Clear();
 
 #elif __ANDROID__ || WINDOWS_PHONE || __UNIFIED__
-            ClearImpl();
+            DoClear();
 
 #elif TIZEN
             Preference.RemoveAll();
@@ -342,7 +348,7 @@ namespace InTheHand.Storage
             return _settings.Contains(item);
 
 #elif __ANDROID__ || WINDOWS_PHONE
-            return ContainsImpl(item.Key, item.Value);
+            return DoContains(item.Key, item.Value);
 
 #else
             if(ContainsKey(item.Key))
@@ -444,7 +450,7 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return ((IEnumerable<KeyValuePair<string,object>>)_settings).GetEnumerator();
 #elif WINDOWS_PHONE
-            return GetEnumeratorImpl();
+            return DoGetEnumerator();
 #else
             throw new NotSupportedException();
 #endif
@@ -460,7 +466,7 @@ namespace InTheHand.Storage
             return ((IEnumerable)_settings).GetEnumerator();
 
 #elif WINDOWS_PHONE
-            return GetEnumeratorImpl();
+            return DoGetEnumerator();
 
 #else
             throw new NotSupportedException();

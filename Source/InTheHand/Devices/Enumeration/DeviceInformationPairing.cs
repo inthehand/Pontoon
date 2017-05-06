@@ -62,6 +62,7 @@ namespace InTheHand.Devices.Enumeration
             {
 #if WINDOWS_UWP || WIN32
                 return GetCustom();
+
 #else
                 return null;
 #endif              

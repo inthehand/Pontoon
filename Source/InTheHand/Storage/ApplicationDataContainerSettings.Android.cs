@@ -42,7 +42,7 @@ namespace InTheHand.Storage
             _mapChanged?.Invoke(this, new ApplicationDataMapChangedEventArgs(key, CollectionChange.Reset));
         }
 
-        private void AddImpl(string key, object value)
+        private void DoAdd(string key, object value)
         {
             ISharedPreferencesEditor editor = _preferences.Edit();
             List<string> pkg = new List<string>();
@@ -52,10 +52,10 @@ namespace InTheHand.Storage
             editor.Commit();
         }
         
-        private bool ContainsKeyImpl(string key)
+        private bool DoContainsKey(string key)
         {
             object o = null;
-            bool success = TryGetValueImpl(key, out o);
+            bool success = DoTryGetValue(key, out o);
             return success;
         }
 
@@ -71,14 +71,14 @@ namespace InTheHand.Storage
             return genericKeys;
         }
 
-        private bool RemoveImpl(string key)
+        private bool DoRemove(string key)
         {            
             ISharedPreferencesEditor editor = _preferences.Edit();
             editor.Remove(key);
             return editor.Commit();  
         }
         
-        private bool TryGetValueImpl(string key, out object value)
+        private bool DoTryGetValue(string key, out object value)
         {
             ICollection<string> vals = _preferences.GetStringSet(key, new List<string> { "null", "" });
             string type = string.Empty;
@@ -213,21 +213,21 @@ namespace InTheHand.Storage
 
         private void SetItem(string key, object value)
         {
-            AddImpl(key, value);
+            DoAdd(key, value);
         }
         
-        private void ClearImpl()
+        private void DoClear()
         {
             ISharedPreferencesEditor editor = _preferences.Edit();
             editor.Clear();
             editor.Commit();
         }
         
-        private bool ContainsImpl(string key, object value)
+        private bool DoContains(string key, object value)
         {
             object o = null;
 
-            if (TryGetValueImpl(key, out o))
+            if (DoTryGetValue(key, out o))
             {
                 return value == o;
             }

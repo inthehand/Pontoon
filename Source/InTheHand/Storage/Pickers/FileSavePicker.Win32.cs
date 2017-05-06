@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FileSavePicker.Win32.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -15,7 +15,7 @@ namespace InTheHand.Storage.Pickers
 {
     public sealed partial class FileSavePicker
     {
-        private async Task<StorageFile> PickSaveFileAsyncImpl()
+        private async Task<StorageFile> DoPickSaveFileAsync()
         {
             NativeMethods.OPENFILENAME ofn = new FileSavePicker.NativeMethods.OPENFILENAME();
             StringBuilder sb = new StringBuilder();

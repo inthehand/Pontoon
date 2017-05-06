@@ -42,8 +42,10 @@ namespace InTheHand.Graphics.Display
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
             return new Display.DisplayInformation(Windows.Graphics.Display.DisplayInformation.GetForCurrentView());
+
 #elif __MAC__ || WIN32
-            return GetForCurrentViewImpl();
+            return DoGetForCurrentView();
+
 #else
             if (s_current == null)
             {
@@ -81,6 +83,7 @@ namespace InTheHand.Graphics.Display
         {
 #if __ANDROID__
             _metrics = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics;
+
 #elif __IOS__ || __TVOS__
             _screen = UIApplication.SharedApplication.KeyWindow.Screen;
 #endif
@@ -109,10 +112,13 @@ namespace InTheHand.Graphics.Display
             {
 #if __ANDROID__
                 return _metrics.WidthPixels > _metrics.HeightPixels ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+
 #elif __IOS__ || __TVOS__
                 return _screen.Bounds.Width > _screen.Bounds.Height ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
+
 #elif __MAC__
                 return GetCurrentOrientation();
+
 #elif TIZEN
                 int orientation;
 
@@ -138,6 +144,7 @@ namespace InTheHand.Graphics.Display
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                 return (DisplayOrientations)((int)_information.CurrentOrientation);
+
 #elif WINDOWS_PHONE
                 return global::System.Windows.Application.Current.Host.Content.ActualWidth > global::System.Windows.Application.Current.Host.Content.ActualHeight ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 #elif WIN32
@@ -173,10 +180,13 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     rawDpiX = _metrics.Xdpi;
+
 #elif __IOS__ || __TVOS__
                     rawDpiX = (float?)_screen.NativeScale;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     return _information.RawDpiX;
+
 #elif WINDOWS_PHONE
                     object temp;
                     if(Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiX", out temp))
@@ -221,10 +231,13 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     rawDpiY = _metrics.Ydpi;
+
 #elif __IOS__ || __TVOS__
                     rawDpiY = (float?)_screen.NativeScale;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     return _information.RawDpiY;
+
 #elif WINDOWS_PHONE
                     object temp;
                     if (Microsoft.Phone.Info.DeviceExtendedProperties.TryGetValue("RawDpiY", out temp))
@@ -267,12 +280,16 @@ namespace InTheHand.Graphics.Display
                 {
 #if __ANDROID__
                     _rawPixelsPerViewPixel = _metrics.Density;
+
 #elif __IOS__ || __TVOS__
                     _rawPixelsPerViewPixel = (float?)_screen.Scale;
+
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
                     return _information.RawPixelsPerViewPixel;
+
 #elif WINDOWS_APP
                     return (int)_information.ResolutionScale / 100;
+
 #elif WINDOWS_PHONE
                     int scaleFactor = global::System.Windows.Application.Current.Host.Content.ScaleFactor;
 

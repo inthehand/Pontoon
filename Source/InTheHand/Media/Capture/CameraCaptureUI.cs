@@ -118,14 +118,15 @@ namespace InTheHand.Media.Capture
             protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
             {
                 base.OnActivityResult(requestCode, resultCode, data);
-                Finish();
-
+                
                 if(resultCode == Result.Ok)
                 {
                     _path = _file.AbsolutePath;
                 }
 
                 _handle.Set();
+
+                Finish();
             }
         }
 
@@ -158,7 +159,8 @@ namespace InTheHand.Media.Capture
             return Task.FromResult<StorageFile>(null);
 
 #elif __IOS__
-            return CaptureFileAsyncImpl(mode); 
+            return DoCaptureFileAsync(mode); 
+
 #elif WINDOWS_UWP || WINDOWS_APP
             return Task.Run<StorageFile>(async ()=>{
                 var f = await _cc.CaptureFileAsync((Windows.Media.Capture.CameraCaptureUIMode)((int)mode));

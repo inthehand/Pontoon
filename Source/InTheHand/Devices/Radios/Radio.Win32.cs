@@ -24,7 +24,7 @@ namespace InTheHand.Devices.Radios
             _object10 = o10;
         }
 
-        private static string GetDeviceSelectorImpl()
+        private static string DoGetDeviceSelector()
         {
             if (s_type10 != null)
             {
@@ -34,7 +34,7 @@ namespace InTheHand.Devices.Radios
             return string.Empty;
         }
 
-        private static async Task<RadioAccessStatus> RequestAccessAsyncImpl()
+        private static async Task<RadioAccessStatus> DoRequestAccessAsync()
         {
             if (s_type10 != null)
             {
@@ -51,7 +51,7 @@ namespace InTheHand.Devices.Radios
             }
         }
 
-        private static void GetRadiosAsyncImpl(List<Radio> radios)
+        private static void DoGetRadiosAsync(List<Radio> radios)
         {
             if (s_type10 != null)
             {
@@ -77,7 +77,7 @@ namespace InTheHand.Devices.Radios
             }
         }
 
-        private Task<RadioAccessStatus> SetStateAsyncImpl(RadioState state)
+        private Task<RadioAccessStatus> DoSetStateAsync(RadioState state)
         {
             bool success = false;
             bool enable = state == RadioState.On;
@@ -108,18 +108,18 @@ namespace InTheHand.Devices.Radios
         }
 
         // only supporting Bluetooth radio
-        private RadioKind GetKindImpl()
+        private RadioKind GetKind()
         {
             return RadioKind.Bluetooth;
         }
 
         // matching the UWP behaviour (although we could have used the radio name)
-        private string GetNameImpl()
+        private string GetName()
         {
-            return "Bluetooth";
+            return RadioKind.Bluetooth.ToString();
         }
 
-        private RadioState GetStateImpl()
+        private RadioState GetState()
         {
             RadioState state = RadioState.Unknown;
 

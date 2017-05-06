@@ -10,14 +10,18 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Globalization;
-using InTheHand.Networking.Sockets;
 
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_81
 #if WINDOWS_UWP
 using Windows.UI.Core;
+#endif
+using InTheHand.Networking.Sockets;
 #elif WIN32
 using System.Net.Sockets;
 using InTheHand.Net;
 using InTheHand.Net.Sockets;
+#elif __ANDROID__
+using InTheHand.Networking.Sockets;
 #endif
 
 namespace InTheHand.Devices.Bluetooth.Rfcomm

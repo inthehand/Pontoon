@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="FileOpenPicker.Win32.cs" company="In The Hand Ltd">
-//     Copyright © 2016 In The Hand Ltd. All rights reserved.
+//     Copyright © 2016-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -14,7 +14,7 @@ namespace InTheHand.Storage.Pickers
 {
     public sealed partial class FileOpenPicker
     {
-        private async Task<StorageFile> PickSingleFileAsyncImpl()
+        private async Task<StorageFile> DoPickSingleFileAsync()
         {
             if(_filter.Count == 0)
             {

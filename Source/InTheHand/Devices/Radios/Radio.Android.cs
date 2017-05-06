@@ -20,7 +20,7 @@ namespace InTheHand.Devices.Radios
             _manager = manager;
         }
 
-        private static void GetRadiosAsyncImpl(List<Radio> radios)
+        private static void DoGetRadiosAsync(List<Radio> radios)
         {
             BluetoothManager manager = (BluetoothManager)Android.App.Application.Context.GetSystemService(Android.Content.Context.BluetoothService);
             if (manager != null)
@@ -28,20 +28,20 @@ namespace InTheHand.Devices.Radios
                 radios.Add(new Radio(manager));
             }
         }
-        
+
         // only supporting Bluetooth radio
-        private RadioKind GetKindImpl()
+        private RadioKind GetKind()
         {
             return RadioKind.Bluetooth;
         }
 
         // matching the UWP behaviour (although we could have used the radio name)
-        private string GetNameImpl()
+        private string GetName()
         {
-            return "Bluetooth";
+            return RadioKind.Bluetooth.ToString();
         }
 
-        private RadioState GetStateImpl()
+        private RadioState GetState()
         {
             try
             {
@@ -53,10 +53,10 @@ namespace InTheHand.Devices.Radios
             }
         }
 
-        private Task<RadioAccessStatus> SetStateAsyncImpl(RadioState state)
+        private Task<RadioAccessStatus> DoSetStateAsync(RadioState state)
         {
             bool success = false;
-            switch(state)
+            switch (state)
             {
                 case RadioState.On:
                     success = _manager.Adapter.Enable();
@@ -69,6 +69,5 @@ namespace InTheHand.Devices.Radios
 
             return Task<RadioAccessStatus>.FromResult(success ? RadioAccessStatus.Allowed : RadioAccessStatus.DeniedBySystem);
         }
-
-        }
+    }
 }

@@ -61,7 +61,7 @@ namespace InTheHand.Media.Capture
             });
         }
 
-        private Task<StorageFile> CaptureFileAsyncImpl(CameraCaptureUIMode mode)
+        private Task<StorageFile> DoCaptureFileAsync(CameraCaptureUIMode mode)
         {
             return Task.Run<StorageFile>(async () =>
             {

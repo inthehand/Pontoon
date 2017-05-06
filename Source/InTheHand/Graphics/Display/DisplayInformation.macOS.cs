@@ -17,7 +17,7 @@ namespace InTheHand.Graphics.Display
             return d._screen;
         }
 
-        private static DisplayInformation GetForCurrentViewImpl()
+        private static DisplayInformation DoGetForCurrentView()
         {
             DisplayInformation di = new DisplayInformation();
             di._screen = NSApplication.SharedApplication.MainWindow.Screen;

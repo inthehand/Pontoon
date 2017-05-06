@@ -1,79 +1,97 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DevicePicker.Android.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2017 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
-using InTheHand.Foundation;
-using InTheHand.UI.Popups;
-using Android.Content;
 using Android.App;
+using Android.Content;
+using Android.Content.PM;
+using Android.OS;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Enumeration
 {
     partial class DevicePicker
     {
-        //private static DevicePickerReceiver s_devicePickerReceiver = new DevicePickerReceiver();
-        //private static IntentFilter s_intentFilter = new IntentFilter("android.bluetooth.devicepicker.action.DEVICE_SELECTED");
-        internal EventWaitHandle _handle = new EventWaitHandle(false, EventResetMode.AutoReset);
+        internal static EventWaitHandle s_handle = new EventWaitHandle(false, EventResetMode.AutoReset);
+        internal static DevicePicker s_current;
         internal Android.Bluetooth.BluetoothDevice _device;
-        internal static DevicePicker _current;
-
-        static DevicePicker()
-        {
-            //Application.Context.RegisterReceiver(s_devicePickerReceiver, s_intentFilter);
-        }
-
+        
         private Task<DeviceInformation> DoPickSingleDeviceAsync()
         {
-            _current = this;
+            s_current = this;
+
+            Intent i = new Intent(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity, typeof(DevicePickerActivity));
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(i);
 
             return Task.Run<DeviceInformation>(() =>
+            {                
+                s_handle.WaitOne();
+
+                if (_device != null)
+                {
+                    return Task.FromResult<DeviceInformation>(_device);
+                }
+                else
+                {
+                    return Task.FromResult<DeviceInformation>(null);
+                }
+            });
+        }
+
+        [Activity(NoHistory = false, LaunchMode = LaunchMode.Multiple)]
+        private sealed class DevicePickerActivity : Activity
+        {
+            protected override void OnCreate(Bundle savedInstanceState)
             {
+                base.OnCreate(savedInstanceState);
+
                 bool paired = true;
                 // parse filters
-                foreach (string filter in Filter.SupportedDeviceSelectors)
+                foreach (string filter in s_current.Filter.SupportedDeviceSelectors)
                 {
                     var parts = filter.Split(':');
                     switch (parts[0])
                     {
-                        case "bluetoothPairing":
+                        case "bluetoothPairingState":
                             paired = bool.Parse(parts[1]);
                             break;
                     }
                 }
                 Intent i = new Intent("android.bluetooth.devicepicker.action.LAUNCH");
                 i.PutExtra("android.bluetooth.devicepicker.extra.LAUNCH_PACKAGE", Application.Context.PackageName);
-                //TODO: how to get this identifier programmatically
+                // TODO: how to get this identifier programmatically
                 i.PutExtra("android.bluetooth.devicepicker.extra.DEVICE_PICKER_LAUNCH_CLASS", "md55064263052223d9e87420d8cd886ad7c.DevicePickerReceiver");
-                if (!paired)
-                {
-                    i.PutExtra("android.bluetooth.devicepicker.extra.NEED_AUTH", false);
-                }
-                Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivityForResult(i,1);
-                _handle.WaitOne();
+                i.PutExtra("android.bluetooth.devicepicker.extra.NEED_AUTH", paired);
 
-                return Task.FromResult<DeviceInformation>(_device);
-            });
+                Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivityForResult(i, 1);
+
+            }
+
+            // set the handle when the picker has completed and return control straight back to the calling activity
+            protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+            {
+                base.OnActivityResult(requestCode, resultCode, data);
+                
+                s_handle.Set();
+
+                Finish();
+            }
         }
 
-
-       
     }
 
     [BroadcastReceiver(Enabled = true)]
-    [IntentFilter(new[] { "android.bluetooth.devicepicker.action.DEVICE_SELECTED" })]
     internal class DevicePickerReceiver : BroadcastReceiver
     {
+        // receive broadcast if a device is selected and store the device.
         public override void OnReceive(Context context, Intent intent)
         {
             var dev = (Android.Bluetooth.BluetoothDevice)intent.Extras.Get("android.bluetooth.device.extra.DEVICE");
-            DevicePicker._current._device = dev;
-            DevicePicker._current._handle.Set();
+            DevicePicker.s_current._device = dev;
         }
     }
 }

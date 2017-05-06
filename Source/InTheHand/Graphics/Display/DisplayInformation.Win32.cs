@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DisplayInformation.Win32.cs" company="In The Hand Ltd">
-//     Copyright © 2013-16 In The Hand Ltd. All rights reserved.
+//     Copyright © 2013-17 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ namespace InTheHand.Graphics.Display
 {
     public sealed partial class DisplayInformation
     {
-        private static DisplayInformation GetForCurrentViewImpl()
+        private static DisplayInformation DoGetForCurrentView()
         {
             var hMonitor = NativeMethods.MonitorFromWindow(NativeMethods.GetActiveWindow(), NativeMethods.MONITOR_DEFAULTTO.NEAREST);
             if(hMonitor != IntPtr.Zero)

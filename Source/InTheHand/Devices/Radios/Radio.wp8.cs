@@ -14,24 +14,24 @@ namespace InTheHand.Devices.Radios
 {
     public sealed partial class Radio
     {
-        private static void GetRadiosAsyncImpl(List<Radio> radios)
+        private static void DoGetRadiosAsync(List<Radio> radios)
         {
             radios.Add(new Radio());
         }
         
         // only supporting Bluetooth radio
-        private RadioKind GetKindImpl()
+        private RadioKind GetKind()
         {
             return RadioKind.Bluetooth;
         }
 
         // matching the UWP behaviour (although we could have used the radio name)
-        private string GetNameImpl()
+        private string GetName()
         {
-            return "Bluetooth";
+            return GetKind().ToString();
         }
 
-        private RadioState GetStateImpl()
+        private RadioState GetState()
         {
             RadioState state = RadioState.Unknown;
 
