@@ -15,7 +15,7 @@ namespace InTheHand.Devices.Bluetooth
 {
     public sealed partial class BluetoothDevice
     {
-        private static Task<BluetoothDevice> FromBluetoothAddressAsyncImpl(ulong address)
+        private static Task<BluetoothDevice> DoFromBluetoothAddressAsync(ulong address)
         {
             BLUETOOTH_DEVICE_INFO info = new BLUETOOTH_DEVICE_INFO();
             info.dwSize = global::System.Runtime.InteropServices.Marshal.SizeOf(info);
@@ -49,6 +49,11 @@ namespace InTheHand.Devices.Bluetooth
         private BluetoothConnectionStatus GetConnectionStatus()
         {
             return _info.fConnected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
+        }
+
+        private string GetDeviceId()
+        {
+            return "BLUETOOTH#" + BluetoothAddress.ToString("X12");
         }
 
         private string GetName()

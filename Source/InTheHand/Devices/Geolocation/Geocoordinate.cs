@@ -43,6 +43,7 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geolocation.Geocoordinate(gc);
         }
+
 #endif
         /// <summary>
         /// The accuracy of the location in meters.
@@ -206,4 +207,3 @@ namespace InTheHand.Devices.Geolocation
         }
     }
 }
-//#endif

@@ -43,9 +43,9 @@ namespace InTheHand.Devices.Geolocation
         }
 #endif
         /// <summary>
-        /// 
+        /// Create a geographic point object for the given position.
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">Create a geographic point object for the given position.</param>
         public Geopoint(BasicGeoposition position)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81

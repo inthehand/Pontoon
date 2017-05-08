@@ -30,7 +30,13 @@ namespace InTheHand.Devices.Bluetooth
         {
             return new BluetoothDevice(device);
         }
-        
+
+
+        private static async Task<BluetoothLEDevice> FromIdAsyncImpl(string deviceId)
+        {
+            return Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(deviceId);
+        }
+
         private ulong GetBluetoothAddress()
         {
             return ulong.Parse(_device.Address.Replace(":", ""), NumberStyles.HexNumber);
@@ -40,7 +46,12 @@ namespace InTheHand.Devices.Bluetooth
         {
             return new BluetoothClassOfDevice((uint)_device.BluetoothClass.DeviceClass);
         }
-        
+
+        private string GetDeviceId()
+        {
+            return _device.Address;
+        }
+
         private string GetName()
         {
             return _device.Name;

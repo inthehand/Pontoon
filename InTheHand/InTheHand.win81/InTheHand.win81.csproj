@@ -215,6 +215,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
     </Compile>
@@ -227,8 +230,14 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.uwp.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>
@@ -248,24 +257,24 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
       <Link>Devices\Enumeration\DevicePicker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
       <Link>Devices\Enumeration\DevicePickerAppearance.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerControl.xaml.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerControl.xaml.cs">
       <Link>Devices\Enumeration\DevicePickerControl.xaml.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
       <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
       <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceViewModel.cs">
+    </None>
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceViewModel.cs">
       <Link>Devices\Enumeration\DeviceViewModel.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>
@@ -353,9 +362,6 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Collections\IObservableMap.cs">
       <Link>Foundation\Collections\IObservableMap.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\FoundationContract.cs">
-      <Link>Foundation\FoundationContract.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncAction.cs">
       <Link>Foundation\IAsyncAction.cs</Link>
     </Compile>
@@ -365,32 +371,8 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\IAsyncOperation.cs">
       <Link>Foundation\IAsyncOperation.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\AllowMultipleAttribute.cs">
-      <Link>Foundation\Metadata\AllowMultipleAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiContractAttribute.cs">
-      <Link>Foundation\Metadata\ApiContractAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs">
       <Link>Foundation\Metadata\ApiInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ContractVersionAttribute.cs">
-      <Link>Foundation\Metadata\ContractVersionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ExclusiveToAttribute.cs">
-      <Link>Foundation\Metadata\ExclusiveToAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\GuidAttribute.cs">
-      <Link>Foundation\Metadata\GuidAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\MarshallingBehaviorAttribute.cs">
-      <Link>Foundation\Metadata\MarshallingBehaviorAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\OverloadAttribute.cs">
-      <Link>Foundation\Metadata\OverloadAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\StaticAttribute.cs">
-      <Link>Foundation\Metadata\StaticAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs">
       <Link>Foundation\Point.cs</Link>
@@ -400,9 +382,6 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs">
       <Link>Foundation\TypedEventHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Foundation\UniversalApiContract.cs">
-      <Link>Foundation\UniversalApiContract.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Globalization\ApplicationLanguages.cs">
       <Link>Globalization\ApplicationLanguages.cs</Link>
@@ -673,11 +652,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerControl.xaml">
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerControl.xaml">
       <Link>Devices\Enumeration\DevicePickerControl.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </None>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

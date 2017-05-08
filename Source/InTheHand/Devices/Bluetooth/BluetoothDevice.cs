@@ -60,7 +60,7 @@ namespace InTheHand.Devices.Bluetooth
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromBluetoothAddressAsync(address);
 
 #elif WIN32
-            return await FromBluetoothAddressAsyncImpl(address);
+            return await DoFromBluetoothAddressAsync(address);
 
 #else
             return null;
@@ -126,6 +126,7 @@ namespace InTheHand.Devices.Bluetooth
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelector();
+
 #else
             return string.Empty;
 #endif
@@ -184,10 +185,6 @@ namespace InTheHand.Devices.Bluetooth
         {
             return new BluetoothDevice(device);
         }
-
-#elif WIN32
-
-#else
 #endif
 
         /// <summary>
@@ -199,6 +196,7 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if _WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _device.BluetoothAddress;
+
 #elif __ANDROID__ || WIN32
                 return GetBluetoothAddress();
 #else
@@ -234,8 +232,10 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);
+
 #elif WIN32
                 return GetConnectionStatus();
+
 #else
                 return BluetoothConnectionStatus.Disconnected;
 #endif
@@ -253,6 +253,10 @@ namespace InTheHand.Devices.Bluetooth
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _device.DeviceId;
+
+#elif __ANDROID__ || WIN32
+                return GetDeviceId();
+
 #else
                 return string.Empty;
 #endif
@@ -272,6 +276,7 @@ namespace InTheHand.Devices.Bluetooth
 
 #elif __ANDROID__ || WIN32
                 return GetName();
+
 #else
                 return string.Empty;
 #endif

@@ -178,7 +178,12 @@ namespace InTheHand.Devices.Enumeration
             _name = name;
         }
 
-        internal sealed class DeviceInformationCentralManagerDelegate : CoreBluetooth.CBCentralManagerDelegate
+        public static implicit operator CBPeripheral(DeviceInformation deviceInformation)
+        {
+            return deviceInformation._peripheral;
+        }
+
+        internal sealed class DeviceInformationCentralManagerDelegate : CBCentralManagerDelegate
         {
             public override void UpdatedState(CBCentralManager central)
             {

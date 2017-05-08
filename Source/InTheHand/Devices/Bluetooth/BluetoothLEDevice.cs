@@ -22,6 +22,11 @@ namespace InTheHand.Devices.Bluetooth
     /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+    /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+    /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -36,39 +41,37 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns></returns>
         public static Task<BluetoothLEDevice> FromBluetoothAddressAsync(ulong bluetoothAddress)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return FromBluetoothAddressAsyncImpl(bluetoothAddress);
-#else
-            return Task.FromResult<BluetoothLEDevice>(null);
-#endif
         }
 
         /// <summary>
-        /// Returns a BluetoothLEDevice object for the given Id.
+        /// Returns a <see cref="BluetoothLEDevice"/> object for the given Id.
         /// </summary>
         /// <param name="deviceId"></param>
         /// <returns></returns>
         public static Task<BluetoothLEDevice> FromIdAsync(string deviceId)
         {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return FromIdAsyncImpl(deviceId);
-#else
-            return Task.FromResult<BluetoothLEDevice>(null);
-#endif
+        }
+
+        /// <summary>
+        /// Returns a <see cref="BluetoothLEDevice"/> object for the given DeviceInformation.
+        /// </summary>
+        /// <param name="deviceInformation">The DeviceInformation value that identifies the <see cref="BluetoothLEDevice"/> instance.</param>
+        /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object identified by the given DeviceInformation.</returns>
+        public static async Task<BluetoothLEDevice> FromDeviceInformationAsync(DeviceInformation deviceInformation)
+        {
+            return await FromDeviceInformationAsyncImpl(deviceInformation);
         }
 
         /// <summary>
         /// Gets an Advanced Query Syntax (AQS) string for identifying all Bluetooth Low Energy (LE) devices.
-        /// This string is passed to the FindAllAsync or CreateWatcher method in order to get a list of Bluetooth LE devices.
+        /// This string is passed to the <see cref="DeviceInformation.FindAllAsync"/> or CreateWatcher method in order to get a list of Bluetooth LE devices.
         /// </summary>
         /// <returns></returns>
         public static string GetDeviceSelector()
         {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return GetDeviceSelectorImpl();
-#else
-            return string.Empty;
-#endif
         }
 
         private event TypedEventHandler<BluetoothLEDevice, object> _nameChanged;
@@ -110,28 +113,25 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return GetBluetoothAddress();
-#else
-                return 0;
-#endif
             }
         }
 
+        /// <summary>
+        /// Gets the connection status of the device.
+        /// </summary>
         public BluetoothConnectionStatus ConnectionStatus
         {
             get
             {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return GetConnectionStatus();
-#else
-                return BluetoothConnectionStatus.Disconnected;
-#endif
             }
         }
 
         private event TypedEventHandler<BluetoothLEDevice, object> _connectionStatusChanged;
-
+        /// <summary>
+        /// Occurs when the connection status for the device has changed.
+        /// </summary>
         public event TypedEventHandler<BluetoothLEDevice, object> ConnectionStatusChanged
         {
             add
@@ -166,27 +166,24 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return GetDeviceId();
-#else
-                return string.Empty;
-#endif
             }
         }
 
         /// <summary>
-        /// 
+        /// Gets the read-only list of GATT services supported by the device.
         /// </summary>
         public IReadOnlyList<GattDeviceService> GattServices
         {
             get
             {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return GetGattServices();
-#else
-                return null;
-#endif
             }
+        }
+
+        public override string ToString()
+        {
+            return DeviceId;
         }
     }
 }

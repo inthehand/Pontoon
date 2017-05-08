@@ -49,6 +49,7 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geoposition(gp);
         }
+
 #elif __UNIFIED__
         // constructor from CoreLocation location
         internal Geoposition(CLLocation location)
@@ -102,9 +103,9 @@ namespace InTheHand.Devices.Geolocation
         }
 #endif
 
-                /// <summary>
-                /// The latitude and longitude associated with a geographic location.
-                /// </summary>
+        /// <summary>
+        /// The latitude and longitude associated with a geographic location.
+        /// </summary>
         public Geocoordinate Coordinate
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE

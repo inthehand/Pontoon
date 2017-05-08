@@ -35,7 +35,7 @@ namespace InTheHand.Devices.Geolocation
 
         /// <summary>
         /// An operation to retrieve location has not yet been initialized.
-        /// LocationStatus will have this value if the application has not yet called GetGeopositionAsync or registered an event handler for the PositionChanged event.
+        /// LocationStatus will have this value if the application has not yet called <see cref="Geolocator.GetGeopositionAsync"/> or registered an event handler for the <see cref="Geolocator.PositionChanged"/> event.
         /// LocationStatus may also have this value if your app doesn’t have permission to access location.
         /// </summary>
         NotInitialized = 4,

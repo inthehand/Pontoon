@@ -9,14 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using InTheHand.Foundation;
-using System.Diagnostics;
-#if __UNIFIED__
-using CoreBluetooth;
-using Foundation;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-using Windows.Devices.Enumeration;
-using System.Runtime.InteropServices.WindowsRuntime;
-#endif
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
@@ -35,79 +27,18 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
-    public sealed class GattCharacteristic
+    public sealed partial class GattCharacteristic
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic _characteristic;
-
-        private GattCharacteristic(Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic)
-        {
-            _characteristic = characteristic;
-        }
-
-        public static implicit operator Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic(GattCharacteristic characteristic)
-        {
-            return characteristic._characteristic;
-        }
-
-        public static implicit operator GattCharacteristic(Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic characteristic)
-        {
-            return new GattCharacteristic(characteristic);
-        }
-
-#elif __UNIFIED__
-        private CBCharacteristic _characteristic;
-        private CBPeripheral _peripheral;
-        
-        internal GattCharacteristic(CBCharacteristic characteristic, CBPeripheral peripheral)
-        {
-            _characteristic = characteristic;
-            _peripheral = peripheral;
-            _peripheral.DiscoveredDescriptor += _peripheral_DiscoveredDescriptor;
-        }
-
-        ~GattCharacteristic()
-        {
-            _peripheral.DiscoveredDescriptor -= _peripheral_DiscoveredDescriptor;
-        }
-
-        private void _peripheral_DiscoveredDescriptor(object sender, CBCharacteristicEventArgs e)
-        {
-            if(e.Characteristic == _characteristic)
-            {
-                Debug.WriteLine(DateTimeOffset.Now.ToString() + " DiscoveredDescriptor");
-            }
-        }
-
-        public static implicit operator CBCharacteristic(GattCharacteristic characteristic)
-        {
-            return characteristic._characteristic;
-        }
-#endif
+        /// <summary>
+        /// Gets the collection of all descriptors belonging to this GattCharacteristic instance.
+        /// </summary>
+        /// <returns></returns>
         public IReadOnlyList<GattDescriptor> GetAllDescriptors()
         {
             List<GattDescriptor> descriptors = new List<GattDescriptor>();
 
-#if __UNIFIED__
-            _peripheral.DiscoverDescriptors(_characteristic);
+            GetAllDescriptors(descriptors);
 
-            foreach (CBDescriptor d in _characteristic.Descriptors)
-            {
-                descriptors.Add(d);
-            }
-
-#elif WINDOWS_UWP || WINDOWS_PHONE_APP
-            foreach(GattDescriptor d in _characteristic.GetAllDescriptors())
-            {
-                descriptors.Add(d);
-            }
-#elif WINDOWS_APP || WINDOWS_PHONE_81
-            // TODO: GetAll is missing from SL8.1 so test this workaround
-            foreach (GattDescriptor d in _characteristic.GetDescriptors(Guid.Empty))
-            {
-                descriptors.Add(d);
-            }
-#endif
             return descriptors.AsReadOnly();
         }
 
@@ -120,22 +51,8 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             List<GattDescriptor> descriptors = new List<GattDescriptor>();
 
-#if __UNIFIED__
-            foreach (CBDescriptor d in _characteristic.Descriptors)
-            {
-                if (d.UUID.ToGuid() == descriptorUuid)
-                {
-                    descriptors.Add(d);
-                }
-            }
+            GetDescriptors(descriptorUuid, descriptors);
 
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            foreach(GattDescriptor d in _characteristic.GetDescriptors(descriptorUuid))
-            {
-                descriptors.Add(d);
-            }
-
-#endif
             return descriptors.AsReadOnly();
         }
 
@@ -143,15 +60,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         /// Performs a Characteristic Value read from the value cache maintained by Windows.
         /// </summary>
         /// <returns></returns>
-        public async Task<GattReadResult> ReadValueAsync()
+        public Task<GattReadResult> ReadValueAsync()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return await _characteristic.ReadValueAsync().AsTask();
-#elif __UNIFIED__
-            return new GattReadResult(_characteristic.Value.ToArray());
-#else
-                return null;
-#endif
+            return DoReadValueAsync();
         }
 
         /// <summary>
@@ -159,23 +70,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         /// </summary>
         /// <param name="value">A byte array object which contains the data to be written to the Bluetooth LE device.</param>
         /// <returns>The object that manages the asynchronous operation, which, upon completion, returns the status with which the operation completed.</returns>
-        public async Task<GattCommunicationStatus> WriteValueAsync(byte[] value)
+        public Task<GattCommunicationStatus> WriteValueAsync(byte[] value)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return await _characteristic.WriteValueAsync(value.AsBuffer()).AsTask() == Windows.Devices.Bluetooth.GenericAttributeProfile.GattCommunicationStatus.Success ? GattCommunicationStatus.Success : GattCommunicationStatus.Unreachable;
-#elif __UNIFIED__
-            try
-            {
-                _characteristic.Value = NSData.FromArray(value);
-                return GattCommunicationStatus.Success;
-            }
-            catch
-            {
-                return GattCommunicationStatus.Unreachable;
-            }
-#else
-                throw new PlatformNotSupportedException();
-#endif
+            return DoWriteValueAsync(value);
         }
 
 
@@ -186,13 +83,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             get
             {
-#if __UNIFIED__
-                return _characteristic.Properties.ToGattCharacteristicProperties();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return (GattCharacteristicProperties)((uint)_characteristic.CharacteristicProperties);
-#else
-                return GattCharacteristicProperties.None;
-#endif
+                return GetCharacteristicProperties();
             }
         }
 
@@ -203,22 +94,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             get
             {
-#if __UNIFIED__
-                foreach(CBDescriptor desc in _characteristic.Descriptors)
-                {
-                    if(desc.UUID.ToGuid() == GattDescriptorUuids.CharacteristicUserDescription)
-                    {
-                        return desc.Value.ToString();
-                    }
-                }
-
-                return string.Empty;
-
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _characteristic.UserDescription;
-#else
-                return string.Empty;
-#endif
+                return GetUserDescription();
             }
         }
 
@@ -229,13 +105,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             get
             {
-#if __UNIFIED__
-                return _characteristic.UUID.ToGuid();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _characteristic.Uuid;
-#else
-                return Guid.Empty;
-#endif
+                return GetUuid();
             }
         }
 
@@ -277,17 +147,5 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
         }
         
-
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private void _characteristic_ValueChanged(Windows.Devices.Bluetooth.GenericAttributeProfile.GattCharacteristic sender, Windows.Devices.Bluetooth.GenericAttributeProfile.GattValueChangedEventArgs args)
-        {
-            valueChanged?.Invoke(this, args);
-        }
-#elif __UNIFIED__
-        private void _peripheral_UpdatedCharacterteristicValue(object sender, CBCharacteristicEventArgs e)
-        {
-            valueChanged?.Invoke(this, new GattValueChangedEventArgs(e.Characteristic.Value.ToArray(), DateTimeOffset.Now));
-        }
-#endif
     }
 }

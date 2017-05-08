@@ -62,6 +62,7 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geolocation.Geocircle(gc);
         }
+
 #elif TIZEN
         private Tizen.Location.CircleBoundary _boundary;
 
@@ -79,6 +80,7 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geocircle(b);
         }
+
 #else
         private BasicGeoposition _position;
         private double _radius;

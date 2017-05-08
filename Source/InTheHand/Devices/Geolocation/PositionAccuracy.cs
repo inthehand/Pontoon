@@ -9,6 +9,7 @@ namespace InTheHand.Devices.Geolocation
     /// <summary>
     /// Indicates the requested accuracy level for the location data that the application uses.
     /// </summary>
+    /// <seealso cref="Geolocator.DesiredAccuracy"/>
     public enum PositionAccuracy
     {
         /// <summary>

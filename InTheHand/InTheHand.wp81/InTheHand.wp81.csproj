@@ -170,6 +170,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
     </Compile>
@@ -182,8 +185,14 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.uwp.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>

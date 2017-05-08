@@ -127,8 +127,8 @@ namespace InTheHand.ApplicationModel.Calls
 #elif __IOS__
             if (UIKit.UIDevice.CurrentDevice.Model != "iPhone")
             {
-                UIKit.UIAlertView av = new UIKit.UIAlertView("Phone", "Dial " + phoneNumber, null, "Done");
-                av.Show();
+                MessageDialog dialog = new MessageDialog("Dial " + phoneNumber, "Phone");
+                dialog.ShowAsync();
             }
             else
             {

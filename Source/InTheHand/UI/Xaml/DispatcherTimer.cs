@@ -59,12 +59,18 @@ namespace InTheHand.UI.Xaml
             }
         }
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-        private Windows.UI.Xaml.DispatcherTimer _timer;
+        private Windows.UI.Xaml.DispatcherTimer _dispatcherTimer;
 
-        private void _timer_Tick(object sender, object e)
+        private void _dispatcherTimer_Tick(object sender, object e)
         {
            Tick?.Invoke(this, null);
         }
+
+        public static implicit operator Windows.UI.Xaml.DispatcherTimer(DispatcherTimer dispatcherTimer)
+        {
+            return dispatcherTimer._dispatcherTimer;
+        }
+
 #elif WINDOWS_PHONE
         private global::System.Windows.Threading.DispatcherTimer _dispatcherTimer;
 
@@ -72,6 +78,12 @@ namespace InTheHand.UI.Xaml
         {
            Tick?.Invoke(this, null);
         }
+
+        public static implicit operator global::System.Windows.Threading.DispatcherTimer(DispatcherTimer dispatcherTimer)
+        {
+            return dispatcherTimer._dispatcherTimer;
+        }
+
 #endif
 
         /// <summary>
@@ -84,8 +96,8 @@ namespace InTheHand.UI.Xaml
             _timer.AutoReset = true;
             _timer.Elapsed += _timer_Elapsed;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            _timer = new Windows.UI.Xaml.DispatcherTimer();
-            _timer.Tick +=_timer_Tick;
+            _dispatcherTimer = new Windows.UI.Xaml.DispatcherTimer();
+            _dispatcherTimer.Tick += _dispatcherTimer_Tick;
 #elif WINDOWS_PHONE
             _dispatcherTimer = new global::System.Windows.Threading.DispatcherTimer();
             _dispatcherTimer.Tick += _dispatcherTimer_Tick;
@@ -106,10 +118,10 @@ namespace InTheHand.UI.Xaml
             {
 #if __ANDROID__ || __UNIFIED__  || WIN32
                 return TimeSpan.FromMilliseconds(_timer.Interval);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-                return _timer.Interval;
-#elif WINDOWS_PHONE
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _dispatcherTimer.Interval;
+
 #else
                 return TimeSpan.Zero;
 #endif
@@ -119,9 +131,8 @@ namespace InTheHand.UI.Xaml
             {
 #if __ANDROID__ || __UNIFIED__  || WIN32
                 _timer.Interval = value.TotalMilliseconds;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-                _timer.Interval = value;
-#elif WINDOWS_PHONE
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 _dispatcherTimer.Interval = value;
 #endif
             }
@@ -137,10 +148,10 @@ namespace InTheHand.UI.Xaml
             {
 #if __ANDROID__ || __UNIFIED__  || WIN32
                 return _timer.Enabled;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-                return _timer.IsEnabled;
-#elif WINDOWS_PHONE
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _dispatcherTimer.IsEnabled;
+
 #else
                 return false;
 #endif
@@ -160,9 +171,8 @@ namespace InTheHand.UI.Xaml
             }
 
             _timer.Start();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            _timer.Start();
-#elif WINDOWS_PHONE
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _dispatcherTimer.Start();
 #endif
         }
@@ -172,13 +182,25 @@ namespace InTheHand.UI.Xaml
         /// </summary>
         public void Stop()
         {
-#if __ANDROID__ || __UNIFIED__  || WIN32
+#if __ANDROID__ || __UNIFIED__ || WIN32
             _timer.Stop();
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            _timer.Stop();
-#elif WINDOWS_PHONE
+
+#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _dispatcherTimer.Stop();
 #endif
         }
     }
+
+#if WIN32
+    internal interface IDispatcherTimer
+    {
+        TimeSpan Interval { get; set; }
+
+        bool IsEnabled {get;}
+
+        void Start();
+
+        void Stop();
+    }
+#endif
 }

@@ -39,11 +39,17 @@ namespace InTheHand.Devices.Geolocation
     public sealed partial class Geolocator
     {
 #if __UNIFIED__
-        CLLocationManager manager = new CLLocationManager();
+        CLLocationManager _manager = new CLLocationManager();
 #elif TIZEN
         Locator _locator = new Locator(LocationType.Hybrid);
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
         private Windows.Devices.Geolocation.Geolocator _locator = new Windows.Devices.Geolocation.Geolocator();
+
+        public static implicit operator Windows.Devices.Geolocation.Geolocator(Geolocator geolocator)
+        {
+            return geolocator._locator;
+        }
+
 #elif WIN32
         GeoCoordinateWatcher _watcher;
 #endif
@@ -56,17 +62,17 @@ namespace InTheHand.Devices.Geolocation
         {
             LocationStatus = PositionStatus.NotInitialized;
 #if __UNIFIED__
-            manager.DesiredAccuracy = CLLocation.AccuracyBest;
+            _manager.DesiredAccuracy = CLLocation.AccuracyBest;
 #if __IOS__ || __MAC__
 #if __IOS__
-            manager.ActivityType = CLActivityType.Other;
+            _manager.ActivityType = CLActivityType.Other;
             
-            manager.PausesLocationUpdatesAutomatically = false;
-            manager.AuthorizationChanged += manager_AuthorizationChanged;
+            _manager.PausesLocationUpdatesAutomatically = false;
+            _manager.AuthorizationChanged += manager_AuthorizationChanged;
 #endif
-            manager.LocationUpdatesPaused += Manager_LocationUpdatesPaused;
-            manager.LocationUpdatesResumed += Manager_LocationUpdatesResumed;
-            manager.DeferredUpdatesFinished += Manager_DeferredUpdatesFinished;
+            _manager.LocationUpdatesPaused += Manager_LocationUpdatesPaused;
+            _manager.LocationUpdatesResumed += Manager_LocationUpdatesResumed;
+            _manager.DeferredUpdatesFinished += Manager_DeferredUpdatesFinished;
 #endif
             if (CLLocationManager.LocationServicesEnabled)
             {
@@ -74,15 +80,15 @@ namespace InTheHand.Devices.Geolocation
                 // ask for the authorization based on what is in the app manifest.
                 if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("NSLocationAlwaysUsageDescription")))
                 {
-                    manager.AllowsBackgroundLocationUpdates = true;
-                    manager.InvokeOnMainThread(manager.RequestAlwaysAuthorization);
+                    _manager.AllowsBackgroundLocationUpdates = true;
+                    _manager.InvokeOnMainThread(_manager.RequestAlwaysAuthorization);
                 }
                 else
                 {
-                    manager.InvokeOnMainThread(manager.RequestWhenInUseAuthorization);
+                    _manager.InvokeOnMainThread(_manager.RequestWhenInUseAuthorization);
                 }
 #elif __TVOS__
-                manager.InvokeOnMainThread(manager.RequestWhenInUseAuthorization);
+                _manager.InvokeOnMainThread(_manager.RequestWhenInUseAuthorization);
 #endif
             }
             else
@@ -123,29 +129,29 @@ namespace InTheHand.Devices.Geolocation
             if(ReportInterval == 1000 && MovementThreshold > 0)
             {
 #if __IOS__
-                manager.DisallowDeferredLocationUpdates();
+                _manager.DisallowDeferredLocationUpdates();
 #endif
                 if (MovementThreshold > 0)
                 {
-                    manager.DistanceFilter = MovementThreshold;
+                    _manager.DistanceFilter = MovementThreshold;
                 }
                 else
                 {
-                    manager.DistanceFilter = CLLocationDistance.FilterNone;
+                    _manager.DistanceFilter = CLLocationDistance.FilterNone;
                 }
             }
             else
             {
                 if (!isDeferred
 #if __IOS__
-                                && manager.AllowsBackgroundLocationUpdates
+                                && _manager.AllowsBackgroundLocationUpdates
 #endif
                     )
                 {
-                    manager.DistanceFilter = CLLocationDistance.FilterNone;
+                    _manager.DistanceFilter = CLLocationDistance.FilterNone;
                     double dist = MovementThreshold == 0.0 ? CLLocationDistance.MaxDistance : MovementThreshold;
 #if __IOS__
-                    manager.AllowDeferredLocationUpdatesUntil(dist, ReportInterval / 1000);
+                    _manager.AllowDeferredLocationUpdatesUntil(dist, ReportInterval / 1000);
 #endif
                     isDeferred = true;
                 }
@@ -167,7 +173,7 @@ namespace InTheHand.Devices.Geolocation
             get
             {
 #if __UNIFIED__
-                return manager.DesiredAccuracy == CLLocation.AccuracyBest ? PositionAccuracy.High : PositionAccuracy.Default;
+                return _manager.DesiredAccuracy == CLLocation.AccuracyBest ? PositionAccuracy.High : PositionAccuracy.Default;
 #elif TIZEN
                 return _locator.LocationType == LocationType.Gps ? PositionAccuracy.High : PositionAccuracy.Default;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -183,7 +189,7 @@ namespace InTheHand.Devices.Geolocation
             {
 #if __UNIFIED__
                 // TODO: check that Kilometer is a suitable equivalent for cell-tower location
-                manager.DesiredAccuracy = value == PositionAccuracy.High ? CLLocation.AccuracyBest : CLLocation.AccuracyKilometer;
+                _manager.DesiredAccuracy = value == PositionAccuracy.High ? CLLocation.AccuracyBest : CLLocation.AccuracyKilometer;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _locator.DesiredAccuracy = (Windows.Devices.Geolocation.PositionAccuracy)((int)value);
 #elif WIN32
@@ -238,10 +244,7 @@ namespace InTheHand.Devices.Geolocation
                 if(_locationStatus != value)
                 {
                     _locationStatus = value;
-                    if(StatusChanged !=null)
-                    {
-                        StatusChanged(this, new StatusChangedEventArgs(value));
-                    }
+                    StatusChanged?.Invoke(this, new StatusChangedEventArgs(value));
                 }
             }
         }
@@ -258,7 +261,7 @@ namespace InTheHand.Devices.Geolocation
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _locator.MovementThreshold;
 #elif __UNIFIED__
-                return manager.DistanceFilter;
+                return _manager.DistanceFilter;
 #elif TIZEN
                 return _locator.Distance;
 #else
@@ -277,7 +280,7 @@ namespace InTheHand.Devices.Geolocation
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _locator.MovementThreshold = value;
 #elif __UNIFIED__
-                manager.DistanceFilter = value;
+                _manager.DistanceFilter = value;
 #elif TIZEN
                 if(0 > value || value > 120)
                 {
@@ -344,9 +347,9 @@ namespace InTheHand.Devices.Geolocation
             return g == null ? null : g;
 #elif __UNIFIED__
 #if __IOS__ || __TVOS__
-            manager.RequestLocation();
+            _manager.RequestLocation();
 #endif
-            CLLocation current = manager.Location;
+            CLLocation current = _manager.Location;
 
             Geoposition pos = new Geoposition(current);
 
@@ -385,11 +388,11 @@ namespace InTheHand.Devices.Geolocation
                 {
                     isUpdating = true;
 #if __IOS__ || __MAC__
-                    manager.LocationsUpdated += manager_LocationsUpdated;
+                    _manager.LocationsUpdated += manager_LocationsUpdated;
                     
                     Debug.WriteLine("StartUpdatingLocation");
-                    manager.StartUpdatingLocation();
-                    manager.StartMonitoringSignificantLocationChanges();
+                    _manager.StartUpdatingLocation();
+                    _manager.StartMonitoringSignificantLocationChanges();
 #elif TIZEN
                     _locator.LocationChanged += _locator_LocationChanged;
                     _locator.Start();
@@ -417,10 +420,10 @@ namespace InTheHand.Devices.Geolocation
                 {
                     isUpdating = false;
 #if __IOS__ || __MAC__
-                    manager.LocationsUpdated -= manager_LocationsUpdated;
+                    _manager.LocationsUpdated -= manager_LocationsUpdated;
                     Debug.WriteLine("StopUpdatingLocation");      
-                    manager.StopUpdatingLocation();
-                    manager.StopMonitoringSignificantLocationChanges();
+                    _manager.StopUpdatingLocation();
+                    _manager.StopMonitoringSignificantLocationChanges();
 #elif TIZEN
                     _locator.LocationChanged -= _locator_LocationChanged;
                     _locator.Stop();

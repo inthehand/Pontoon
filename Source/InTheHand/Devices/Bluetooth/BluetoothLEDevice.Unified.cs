@@ -5,27 +5,35 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.Threading.Tasks;
-using InTheHand.Devices.Enumeration;
-using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using InTheHand.Foundation;
-using System.Threading;
 using CoreBluetooth;
 using Foundation;
+using InTheHand.Devices.Bluetooth.GenericAttributeProfile;
+using InTheHand.Devices.Enumeration;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth
 {
-    public sealed partial class BluetoothLEDevice
+    partial class BluetoothLEDevice
     {
         private CBPeripheral _peripheral;
 
-        internal BluetoothLEDevice(CBPeripheral peripheral)
+        private BluetoothLEDevice(CBPeripheral peripheral)
         {
             _peripheral = peripheral;
             
+        }
+
+        public static implicit operator CBPeripheral(BluetoothLEDevice device)
+        {
+            return device._peripheral;
+        }
+
+        public static implicit operator BluetoothLEDevice(CBPeripheral peripheral)
+        {
+            return new BluetoothLEDevice(peripheral);
         }
 
         private void Manager_DisconnectedPeripheral(object sender, CBPeripheralErrorEventArgs e)
@@ -44,6 +52,11 @@ namespace InTheHand.Devices.Bluetooth
             }
         }
 
+        private static Task<BluetoothLEDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
+        {
+            return Task.FromResult<BluetoothLEDevice>(null);
+        }
+
         private static async Task<BluetoothLEDevice> FromIdAsyncImpl(string deviceId)
         {
             var peripherals = DeviceInformation.Manager.RetrievePeripheralsWithIdentifiers(new NSUuid(deviceId));
@@ -54,6 +67,11 @@ namespace InTheHand.Devices.Bluetooth
             }
 
             return null;
+        }
+    
+        private static async Task<BluetoothLEDevice> FromDeviceInformationAsyncImpl(DeviceInformation deviceInformation)
+        {
+            return deviceInformation._peripheral;
         }
 
         private static string GetDeviceSelectorImpl()

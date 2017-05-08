@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using InTheHand.Foundation;
 using System.Threading;
-using Windows.Devices.Enumeration;
 
 namespace InTheHand.Devices.Bluetooth
 {
@@ -44,6 +43,11 @@ namespace InTheHand.Devices.Bluetooth
         private static async Task<BluetoothLEDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
         {
             return await Windows.Devices.Bluetooth.BluetoothLEDevice.FromBluetoothAddressAsync(bluetoothAddress);
+        }
+
+        private static async Task<BluetoothLEDevice> FromDeviceInformationAsyncImpl(DeviceInformation deviceInformation)
+        {
+            return await Windows.Devices.Bluetooth.BluetoothLEDevice.FromIdAsync(deviceInformation.Id);
         }
 
         private static async Task<BluetoothLEDevice> FromIdAsyncImpl(string deviceId)
