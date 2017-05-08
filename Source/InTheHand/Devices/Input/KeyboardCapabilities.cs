@@ -22,10 +22,8 @@ namespace InTheHand.Devices.Input
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
-    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+    /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows 8 or later</description></item></list></remarks>
-    /// </remarks>
-    /// <seealso cref="global::System.Environment"/>
     public sealed class KeyboardCapabilities
     {
 

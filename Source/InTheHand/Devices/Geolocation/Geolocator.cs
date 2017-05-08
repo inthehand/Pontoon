@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Geolocator.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-16 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -56,10 +56,11 @@ namespace InTheHand.Devices.Geolocation
         {
             LocationStatus = PositionStatus.NotInitialized;
 #if __UNIFIED__
+            manager.DesiredAccuracy = CLLocation.AccuracyBest;
 #if __IOS__ || __MAC__
 #if __IOS__
             manager.ActivityType = CLActivityType.Other;
-            manager.AllowsBackgroundLocationUpdates = true;
+            
             manager.PausesLocationUpdatesAutomatically = false;
             manager.AuthorizationChanged += manager_AuthorizationChanged;
 #endif
@@ -73,6 +74,7 @@ namespace InTheHand.Devices.Geolocation
                 // ask for the authorization based on what is in the app manifest.
                 if (NSBundle.MainBundle.InfoDictionary.ContainsKey(new NSString("NSLocationAlwaysUsageDescription")))
                 {
+                    manager.AllowsBackgroundLocationUpdates = true;
                     manager.InvokeOnMainThread(manager.RequestAlwaysAuthorization);
                 }
                 else
@@ -134,7 +136,11 @@ namespace InTheHand.Devices.Geolocation
             }
             else
             {
-                if (!isDeferred)
+                if (!isDeferred
+#if __IOS__
+                                && manager.AllowsBackgroundLocationUpdates
+#endif
+                    )
                 {
                     manager.DistanceFilter = CLLocationDistance.FilterNone;
                     double dist = MovementThreshold == 0.0 ? CLLocationDistance.MaxDistance : MovementThreshold;
@@ -465,15 +471,12 @@ namespace InTheHand.Devices.Geolocation
             foreach(CLLocation l in e.Locations)
             {
                 // only update if over the movement threshold or report interval
-                if(_lastLocation == null || InTheHand.Devices.Geolocation.BasicGeopositionExtensions.GetDistance(l.Coordinate.Latitude, l.Coordinate.Longitude, _lastLocation.Coordinate.Latitude, _lastLocation.Coordinate.Longitude) >= MovementThreshold || _lastLocation.Timestamp == NSDate.DistantPast || l.Timestamp.SecondsSinceReferenceDate >= _lastLocation.Timestamp.AddSeconds((double)ReportInterval / 1000.0).SecondsSinceReferenceDate)
+                if(_lastLocation == null || (MovementThreshold > 0 && BasicGeopositionExtensions.GetDistance(l.Coordinate.Latitude, l.Coordinate.Longitude, _lastLocation.Coordinate.Latitude, _lastLocation.Coordinate.Longitude) >= MovementThreshold) || _lastLocation.Timestamp == NSDate.DistantPast || l.Timestamp.SecondsSinceReferenceDate >= _lastLocation.Timestamp.AddSeconds((double)ReportInterval / 1000.0).SecondsSinceReferenceDate)
                 {
                     _lastLocation = l;
             
                     Geoposition p = new Geoposition(l);
-                    if (_positionChanged != null)
-                    {
-                        _positionChanged(this, new PositionChangedEventArgs(p));
-                    }
+                    _positionChanged?.Invoke(this, new PositionChangedEventArgs(p));
                 }
             }
 

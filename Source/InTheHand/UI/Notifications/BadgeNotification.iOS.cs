@@ -8,7 +8,7 @@ using UserNotifications;
 
 namespace InTheHand.UI.Notifications
 {
-    public sealed partial class BadgeNotification
+    partial class BadgeNotification
     {
         internal UNMutableNotificationContent _content;
 
@@ -17,7 +17,7 @@ namespace InTheHand.UI.Notifications
             _content = content;
         }
 
-        public BadgeNotification(uint value)
+        internal BadgeNotification(uint value)
         {
             _content = new UNMutableNotificationContent();
             _content.Badge = value;

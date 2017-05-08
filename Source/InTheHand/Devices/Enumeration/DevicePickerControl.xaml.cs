@@ -5,7 +5,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 
-
 namespace InTheHand.Devices.Enumeration
 {
     internal sealed partial class DevicePickerControl : UserControl
