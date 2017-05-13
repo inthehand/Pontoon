@@ -21,11 +21,11 @@ namespace InTheHand.Devices.Bluetooth
         [MarshalAs(UnmanagedType.Bool)]
         internal bool fConnected;
         [MarshalAs(UnmanagedType.Bool)]
-        internal bool fRemembered;
+        private bool fRemembered;
         [MarshalAs(UnmanagedType.Bool)]
         internal bool fAuthenticated;
-        internal SYSTEMTIME stLastSeen;
-        internal SYSTEMTIME stLastUsed;
+        private SYSTEMTIME stLastSeen;
+        private SYSTEMTIME stLastUsed;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 248)]
         internal string szName;
     }

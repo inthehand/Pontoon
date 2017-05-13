@@ -14,8 +14,14 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattDeviceService
     {
+        private BluetoothLEDevice _device;
         private BluetoothGattService _service;
         
+        internal GattDeviceService(BluetoothLEDevice device, BluetoothGattService service) : this(service)
+        {
+            _device = device;
+        }
+
         private GattDeviceService(BluetoothGattService service)
         {
             _service = service;
@@ -66,9 +72,21 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
         }
 
+        private BluetoothLEDevice GetDevice()
+        {
+            return _device;
+        }
+
         private Guid GetUuid()
         {
             return _service.Uuid.ToGuid();
+        }
+
+        private void DoDispose()
+        {
+            _device = null;
+            _service.Dispose();
+            _service = null;
         }
     }
 }

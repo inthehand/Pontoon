@@ -34,6 +34,16 @@ namespace InTheHand.Devices.Geolocation
         {
             return new BasicGeoposition { Altitude = bg.Altitude, Latitude = bg.Latitude, Longitude = bg.Longitude };
         }
+#elif __UNIFIED__
+        public static implicit operator CoreLocation.CLLocationCoordinate2D(BasicGeoposition bg)
+        {
+            return new CoreLocation.CLLocationCoordinate2D { Latitude = bg.Latitude, Longitude = bg.Longitude };
+        }
+
+        public static implicit operator BasicGeoposition(CoreLocation.CLLocationCoordinate2D c)
+        {
+            return new BasicGeoposition { Latitude = c.Latitude, Longitude = c.Longitude };
+        }
 #elif TIZEN
         public static implicit operator Tizen.Location.Coordinate(BasicGeoposition bg)
         {
@@ -63,5 +73,11 @@ namespace InTheHand.Devices.Geolocation
         /// For example, a longitude of 183.0 degrees would become -177.0 degrees.
         /// </summary>
         public double Longitude;
+
+
+        public override string ToString()
+        {
+            return Latitude.ToString("f6") + "," + Longitude.ToString("f6");
+        }
     }
 }

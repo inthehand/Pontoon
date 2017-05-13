@@ -14,11 +14,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using InTheHand.Foundation;
 using System.Threading;
+using Android.Bluetooth;
 
 namespace InTheHand.Devices.Bluetooth
 {
     partial class BluetoothLEDevice
     {
+
+
         private static async Task<BluetoothLEDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
         {
             return Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(BitConverter.GetBytes(bluetoothAddress));
@@ -40,6 +43,8 @@ namespace InTheHand.Devices.Bluetooth
         }
 
         internal Android.Bluetooth.BluetoothDevice _device;
+        private BluetoothGatt _bluetoothGatt;
+        private GattCallback _gattCallback;
 
         private BluetoothLEDevice(Android.Bluetooth.BluetoothDevice device)
         {
@@ -56,7 +61,7 @@ namespace InTheHand.Devices.Bluetooth
             return new BluetoothLEDevice(device);
         }
 
-      
+
 
         private ulong GetBluetoothAddress()
         {
@@ -74,10 +79,26 @@ namespace InTheHand.Devices.Bluetooth
         {
             return _device.Address;
         }
-        
+
         private IReadOnlyList<GattDeviceService> GetGattServices()
         {
+            if (_bluetoothGatt == null)
+            {
+                _gattCallback = new GattCallback(this);
+                _bluetoothGatt = _device.ConnectGatt(Android.App.Application.Context, true, _gattCallback);
+            }
             return null;
+        }
+
+    }
+
+    internal class GattCallback : BluetoothGattCallback
+    {
+        private BluetoothLEDevice _owner;
+
+        internal GattCallback(BluetoothLEDevice owner)
+        {
+            _owner = owner;
         }
     }
 }

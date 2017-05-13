@@ -18,6 +18,7 @@ namespace InTheHand.Devices.Bluetooth
 {
     public sealed partial class BluetoothLEDevice
     {
+#if !WINDOWS_APP
         private Windows.Devices.Bluetooth.BluetoothLEDevice _device;
 
         private BluetoothLEDevice(Windows.Devices.Bluetooth.BluetoothLEDevice device)
@@ -39,7 +40,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             _connectionStatusChanged?.Invoke(this, null);
         }
-
+#endif
         private static async Task<BluetoothLEDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
         {
             return await Windows.Devices.Bluetooth.BluetoothLEDevice.FromBluetoothAddressAsync(bluetoothAddress);
@@ -62,7 +63,9 @@ namespace InTheHand.Devices.Bluetooth
         
         private void NameChangedAdd()
         {
+#if !WINDOWS_APP
             _device.NameChanged += _device_NameChanged;
+#endif
         }
 
         private void _device_NameChanged(Windows.Devices.Bluetooth.BluetoothLEDevice sender, object args)
@@ -106,7 +109,12 @@ namespace InTheHand.Devices.Bluetooth
 
             foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service in _device.GattServices)
             {
+#if WINDOWS_PHONE
+                _services.Add(new GattDeviceService(_device, service));
+
+#else
                 _services.Add(service);
+#endif
             }
 
             return _services.AsReadOnly();

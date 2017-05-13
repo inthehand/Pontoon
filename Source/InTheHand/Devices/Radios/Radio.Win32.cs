@@ -53,7 +53,7 @@ namespace InTheHand.Devices.Radios
 
         private static void DoGetRadiosAsync(List<Radio> radios)
         {
-            if (s_type10 != null)
+            /*if (s_type10 != null)
             {
                 object rta = s_type10.GetMethod("GetRadiosAsync").Invoke(null, new object[] { });
                 Type ivv = Type.GetType("Windows.Foundation.Collections.IVectorView`1, Windows, ContentType=WindowsRuntime");
@@ -64,17 +64,17 @@ namespace InTheHand.Devices.Radios
                 IEnumerable il = results as IEnumerable;
                 foreach(object o in il)
                 {
-                    radios.Add(new Radios.Radio(o));
+                    radios.Add(new Radio(o));
                 }
             }
             else
-            {
+            {*/
                 // Only add a Radio if support is present.
                 if (NativeMethods.BluetoothIsVersionAvailable(2, 0))
                 {
                     radios.Add(new Radio());
                 }
-            }
+            //}
         }
 
         private Task<RadioAccessStatus> DoSetStateAsync(RadioState state)
@@ -110,51 +110,72 @@ namespace InTheHand.Devices.Radios
         // only supporting Bluetooth radio
         private RadioKind GetKind()
         {
-            return RadioKind.Bluetooth;
+            /*if (s_type10 != null)
+            {
+                return (RadioKind)((int)s_type10.GetProperty("Kind").GetValue(_object10));
+            }
+            else
+            {*/
+                return RadioKind.Bluetooth;
+            //}
         }
 
         // matching the UWP behaviour (although we could have used the radio name)
         private string GetName()
         {
-            return RadioKind.Bluetooth.ToString();
+            /*if (s_type10 != null)
+            {
+                return s_type10.GetProperty("Name").GetValue(_object10).ToString();
+            }
+            else
+            {*/
+                return RadioKind.Bluetooth.ToString();
+            //}
         }
 
         private RadioState GetState()
         {
             RadioState state = RadioState.Unknown;
 
-            try
+            /*if (s_type10 != null)
             {
-                string path = Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\BTHPORT\\Parameters\\Radio Support", "SupportDLL", string.Empty).ToString();
-                if (!string.IsNullOrEmpty(path))
+                return (RadioState)((int)s_type10.GetProperty("State").GetValue(_object10));
+            }
+            else
+            {*/
+                try
                 {
-                    //load dll
-                    IntPtr hmodule = NativeMethods.LoadLibrary(path);
-                    if (hmodule != IntPtr.Zero)
+                    string path = Microsoft.Win32.Registry.GetValue("HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\BTHPORT\\Parameters\\Radio Support", "SupportDLL", string.Empty).ToString();
+                    if (!string.IsNullOrEmpty(path))
                     {
-                        //call function
-                        IntPtr addr = NativeMethods.GetProcAddress(hmodule, "IsBluetoothRadioEnabled");
-
-                        if (addr != IntPtr.Zero)
+                        //load dll
+                        IntPtr hmodule = NativeMethods.LoadLibrary(path);
+                        if (hmodule != IntPtr.Zero)
                         {
-                            bool enabled = false;
-                            NativeMethods.IsBluetoothRadioEnabled deleg = Marshal.GetDelegateForFunctionPointer<NativeMethods.IsBluetoothRadioEnabled>(addr);
-                            int result = deleg.Invoke(ref enabled);
-                            if (result == 0)
-                            {
-                                state = enabled ? RadioState.On : RadioState.Off;
-                            }
-                        }
+                            //call function
+                            IntPtr addr = NativeMethods.GetProcAddress(hmodule, "IsBluetoothRadioEnabled");
 
-                        //free dll
-                        NativeMethods.FreeLibrary(hmodule);
+                            if (addr != IntPtr.Zero)
+                            {
+                                bool enabled = false;
+                                NativeMethods.IsBluetoothRadioEnabled deleg = Marshal.GetDelegateForFunctionPointer<NativeMethods.IsBluetoothRadioEnabled>(addr);
+                                int result = deleg.Invoke(ref enabled);
+                                if (result == 0)
+                                {
+                                    state = enabled ? RadioState.On : RadioState.Off;
+                                }
+                            }
+
+                            //free dll
+                            NativeMethods.FreeLibrary(hmodule);
+                        }
                     }
+
                 }
-                
-            }
-            catch
-            {
-            }
+                catch
+                {
+                }
+            //}
 
             return state;
         }

@@ -192,6 +192,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.Portable.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.Portable.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.Bytes.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.Bytes.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>
     </Compile>
@@ -206,6 +209,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceAccessState.cs">
+      <Link>Devices\Enumeration\DeviceAccessState.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>

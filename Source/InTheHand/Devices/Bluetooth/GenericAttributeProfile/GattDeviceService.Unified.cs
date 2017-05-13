@@ -73,9 +73,21 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
         }
 
+        private BluetoothLEDevice GetDevice()
+        {
+            return _peripheral;
+        }
+
         private Guid GetUuid()
         {
             return _service.UUID.ToGuid();
+        }
+
+        private void DoDispose()
+        {
+            _peripheral = null;
+            _service.Dispose();
+            _service = null;
         }
     }
 }

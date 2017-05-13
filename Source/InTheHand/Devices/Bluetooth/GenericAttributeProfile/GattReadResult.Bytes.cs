@@ -5,10 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
-
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattReadResult

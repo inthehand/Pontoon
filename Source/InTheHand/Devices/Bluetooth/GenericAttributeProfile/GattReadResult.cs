@@ -30,34 +30,18 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
-    public sealed class GattReadResult
+    public sealed partial class GattReadResult
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult _result;
-
-        internal GattReadResult(Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult result)
+        /// <summary>
+        /// 
+        /// </summary>
+        public GattCommunicationStatus Status
         {
-            _result = result;
+            get
+            {
+                return GetStatus();
+            }
         }
-
-        public static implicit operator Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult(GattReadResult result)
-        {
-            return result._result;
-        }
-
-        public static implicit operator GattReadResult(Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult result)
-        {
-            return new GattReadResult(result);
-        }
-
-#elif __UNIFIED__
-        private byte[] _value;
-      
-        internal GattReadResult(byte[] value)
-        {
-            _value = value;
-        }
-#endif
 
         /// <summary>
         /// Gets the GATT Descriptor UUID for this GattDescriptor.
@@ -66,15 +50,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                byte[] buffer = new byte[_result.Value.Length];
-                Windows.Storage.Streams.DataReader.FromBuffer(_result.Value).ReadBytes(buffer);
-                return buffer;
-#elif __UNIFIED__
-                return _value;
-#else
-                return null;
-#endif
+                return GetValue();
             }
         }
     }

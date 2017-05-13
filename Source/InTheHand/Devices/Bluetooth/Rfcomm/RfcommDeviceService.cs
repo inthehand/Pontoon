@@ -63,7 +63,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService.GetDeviceSelector(serviceId);
 
 #elif WIN32
-            return "service:" + serviceId.Uuid.ToString();
+            return "bluetoothService:" + serviceId.Uuid.ToString();
 
 #else
             return string.Empty;

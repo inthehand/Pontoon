@@ -52,6 +52,11 @@ namespace InTheHand.Devices.Geolocation
 
 #elif WIN32
         GeoCoordinateWatcher _watcher;
+
+        public static implicit operator GeoCoordinateWatcher(Geolocator geolocator)
+        {
+            return geolocator._watcher;
+        }
 #endif
         private bool isUpdating = false;
 
@@ -497,12 +502,8 @@ namespace InTheHand.Devices.Geolocation
         private void _watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
         {
             Geoposition p = new Geoposition(e.Position);
-            if (_positionChanged != null)
-            {
-                _positionChanged(this, new PositionChangedEventArgs(p));
-            }
+            _positionChanged?.Invoke(this, new PositionChangedEventArgs(p));
         }
-
 #endif
 
     }

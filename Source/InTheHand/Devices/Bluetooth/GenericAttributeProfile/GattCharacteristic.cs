@@ -18,6 +18,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>

@@ -90,16 +90,18 @@ namespace InTheHand.Devices.Geolocation
             Coordinate.Speed = location.Speed;
         }
 #elif WIN32
+
+        private GeoPosition<GeoCoordinate> _position;
         internal Geoposition(GeoPosition<GeoCoordinate> position)
         {
-            Coordinate = new Geocoordinate();
-            Coordinate.Point = new Geopoint(new BasicGeoposition() { Latitude = position.Location.Latitude, Longitude = position.Location.Longitude, Altitude = position.Location.Altitude });
-            Coordinate.Accuracy = position.Location.HorizontalAccuracy;
+            _position = position;
             Coordinate.Timestamp = position.Timestamp;
-            Coordinate.AltitudeAccuracy = position.Location.VerticalAccuracy;
-            Coordinate.Heading = position.Location.Course;
-            Coordinate.Speed = position.Location.Speed;
             Coordinate.PositionSource = PositionSource.Unknown;
+        }
+
+        public static implicit operator GeoPosition<GeoCoordinate>(Geoposition position)
+        {
+            return new GeoPosition<GeoCoordinate>(position.Coordinate.Timestamp, position.Coordinate);
         }
 #endif
 
@@ -112,6 +114,13 @@ namespace InTheHand.Devices.Geolocation
             get
             {
                 return _position.Coordinate;
+            }
+#elif WIN32
+            get
+            {
+                Geocoordinate coordinate = _position.Location;
+                coordinate.Timestamp = _position.Timestamp;
+                return coordinate;
             }
 #else
             get;

@@ -7,7 +7,7 @@
 namespace InTheHand.Devices.Geolocation
 {
     /// <summary>
-    /// Indicates the ability of the Geolocator object to provide location data. 
+    /// Indicates the ability of the <see cref="Geolocator"/> object to provide location data. 
     /// </summary>
     public enum PositionStatus
     {

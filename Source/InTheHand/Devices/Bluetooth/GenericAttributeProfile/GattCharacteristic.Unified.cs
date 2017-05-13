@@ -71,7 +71,14 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         
         private async Task<GattReadResult> DoReadValueAsync()
         {
-            return new GattReadResult(_characteristic.Value.ToArray());
+            try
+            {
+                return new GattReadResult(GattCommunicationStatus.Success, _characteristic.Value.ToArray());
+            }
+            catch
+            {
+                return new GattReadResult(GattCommunicationStatus.Unreachable, null);
+            }
         }
 
         private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)

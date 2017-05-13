@@ -43,7 +43,29 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geolocation.Geocoordinate(gc);
         }
+#elif WIN32
+        private global::System.Device.Location.GeoCoordinate _coordinate;
 
+        /*internal Geocoordinate(DateTimeOffset timestamp, global::System.Device.Location.GeoCoordinate coordinate)
+        {
+            Timestamp = timestamp;
+            _coordinate = coordinate;
+        }*/
+
+        private Geocoordinate(global::System.Device.Location.GeoCoordinate coordinate)
+        {
+            _coordinate = coordinate;
+        }
+
+        public static implicit operator global::System.Device.Location.GeoCoordinate(Geocoordinate gc)
+        {
+            return gc._coordinate;
+        }
+
+        public static implicit operator Geocoordinate(global::System.Device.Location.GeoCoordinate gc)
+        {
+            return new Geocoordinate(gc);
+        }
 #endif
         /// <summary>
         /// The accuracy of the location in meters.
@@ -61,6 +83,11 @@ namespace InTheHand.Devices.Geolocation
             get
             {
                 return _coordinate.Accuracy;
+            }
+#elif WIN32
+            get
+            {
+                return _coordinate.HorizontalAccuracy;
             }
 #else
             get;
@@ -82,6 +109,16 @@ namespace InTheHand.Devices.Geolocation
             {
                 return _coordinate.AltitudeAccuracy;
             }
+#elif WIN32
+            get
+            {
+                if (!double.IsNaN(_coordinate.VerticalAccuracy))
+                {
+                    return _coordinate.VerticalAccuracy;
+                }
+
+                return null;
+            }
 #else
             get;
             internal set;
@@ -101,6 +138,11 @@ namespace InTheHand.Devices.Geolocation
             get
             {
                 return _coordinate.Heading;
+            }
+#elif WIN32
+            get
+            {
+                return _coordinate.Course;
             }
 #else
             get;
@@ -123,6 +165,11 @@ namespace InTheHand.Devices.Geolocation
             get
             {
                 return new Geopoint(new BasicGeoposition() { Altitude = _coordinate.Altitude.HasValue ? _coordinate.Altitude.Value : double.NaN, Latitude = _coordinate.Latitude, Longitude = _coordinate.Longitude });
+            }
+#elif WIN32
+            get
+            {
+                return new Geopoint(new BasicGeoposition() { Altitude = _coordinate.Altitude, Latitude = _coordinate.Latitude, Longitude = _coordinate.Longitude });
             }
 #else
             get;
@@ -182,6 +229,16 @@ namespace InTheHand.Devices.Geolocation
             get
             {
                 return _coordinate.Speed;
+            }
+#elif WIN32
+            get
+            {
+                if (!double.IsNaN(_coordinate.Speed))
+                {
+                    return _coordinate.Speed;
+                }
+
+                return null;
             }
 #else
             get;

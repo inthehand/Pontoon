@@ -200,14 +200,14 @@
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
-    </None>
-    <None Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.uwp.cs">
-      <Link>Devices\Bluetooth\BluetoothLEDevice.uwp.cs</Link>
-    </None>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs">
       <Link>Devices\Bluetooth\BluetoothConnectionStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Win81.cs">
+      <Link>Devices\Bluetooth\BluetoothLEDevice.Win81.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
       <Link>Devices\Bluetooth\BluetoothServiceCapabilities.cs</Link>
@@ -242,6 +242,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs</Link>
     </Compile>
@@ -253,6 +256,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceAccessState.cs">
+      <Link>Devices\Enumeration\DeviceAccessState.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GattReadResult.cs" company="In The Hand Ltd">
+// <copyright file="GattReadResult.uwp.cs" company="In The Hand Ltd">
 //   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
@@ -8,10 +8,8 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using Windows.Devices.Enumeration;
 using Windows.Foundation;
-#endif
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
@@ -30,9 +28,8 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
-    public sealed class GattReadResult
+    partial class GattReadResult
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         private Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult _result;
 
         internal GattReadResult(Windows.Devices.Bluetooth.GenericAttributeProfile.GattReadResult result)
@@ -50,32 +47,16 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return new GattReadResult(result);
         }
 
-#elif __UNIFIED__
-        private byte[] _value;
-      
-        internal GattReadResult(byte[] value)
+        private GattCommunicationStatus GetStatus()
         {
-            _value = value;
+            return (GattCommunicationStatus)((int)_result.Status);
         }
-#endif
 
-        /// <summary>
-        /// Gets the GATT Descriptor UUID for this GattDescriptor.
-        /// </summary>
-        public byte[] Value
+        private byte[] GetValue()
         {
-            get
-            {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                byte[] buffer = new byte[_result.Value.Length];
-                Windows.Storage.Streams.DataReader.FromBuffer(_result.Value).ReadBytes(buffer);
-                return buffer;
-#elif __UNIFIED__
-                return _value;
-#else
-                return null;
-#endif
-            }
+            byte[] buffer = new byte[_result.Value.Length];
+            Windows.Storage.Streams.DataReader.FromBuffer(_result.Value).ReadBytes(buffer);
+            return buffer;
         }
     }
 }

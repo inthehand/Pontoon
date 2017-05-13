@@ -235,14 +235,13 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
                 return FromShortId(0x1402);
             }
         }
-
-
+        
         /// <summary>
         /// Creates a RfcommServiceId object from a 32-bit service id.
         /// </summary>
         /// <param name="shortId">The 32-bit service id.</param>
         /// <returns>The RfcommServiceId object.</returns>
-        public static RfcommServiceId FromShortId(UInt32 shortId)
+        public static RfcommServiceId FromShortId(uint shortId)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId.FromShortId(shortId);

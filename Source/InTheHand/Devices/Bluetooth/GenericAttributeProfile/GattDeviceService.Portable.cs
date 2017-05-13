@@ -33,9 +33,16 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private void GetCharacteristics(Guid characteristicUuid, List<GattCharacteristic> characteristics) { }
 
+        private BluetoothLEDevice GetDevice()
+        {
+            return null;
+        }
+
         private Guid GetUuid()
         {
             return Guid.Empty;
         }
+
+        private void DoDispose() { }
     }
 }

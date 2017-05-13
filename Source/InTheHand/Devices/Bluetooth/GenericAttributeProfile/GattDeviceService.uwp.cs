@@ -8,6 +8,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using InTheHand.Devices.Enumeration;
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
@@ -15,6 +16,15 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     {
         private Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService  _service;
 
+#if WINDOWS_PHONE
+        private Windows.Devices.Bluetooth.BluetoothLEDevice _device;
+
+        internal GattDeviceService(Windows.Devices.Bluetooth.BluetoothLEDevice device, Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service)
+        {
+            _device = device;
+            _service = service;
+        }
+#endif
         private GattDeviceService(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService service)
         {
             _service = service;
@@ -70,9 +80,33 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
         }
 
+        /*private async Task<DeviceAccessStatus> RequestAccessAsync()
+        {
+            return (DeviceAccessStatus)((int)await _service.RequestAccessAsync());
+        }*/
+
+        private BluetoothLEDevice GetDevice()
+        {
+#if WINDOWS_APP
+            return null;
+
+#elif WINDOWS_PHONE
+            return _device;
+
+#else
+            return _service.Device;
+#endif
+        }
+
         private Guid GetUuid()
         {
             return _service.Uuid;
+        }
+
+        private void DoDispose()
+        {
+            _service.Dispose();
+            _service = null;
         }
     }
 }

@@ -32,7 +32,8 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private async Task<GattReadResult> DoReadValueAsync()
         {
-            return new GattReadResult(_descriptor.GetValue());
+            byte[] value = _descriptor.GetValue();
+            return new GattReadResult(GattCommunicationStatus.Success, _descriptor.GetValue());
         }
         
         private Guid GetUuid()

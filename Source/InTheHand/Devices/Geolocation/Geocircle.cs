@@ -62,7 +62,31 @@ namespace InTheHand.Devices.Geolocation
         {
             return new Geolocation.Geocircle(gc);
         }
+#elif __UNIFIED__
+        internal CoreLocation.CLRegion _region;
 
+        private Geocircle(CoreLocation.CLRegion region)
+        {
+            _region = region;
+        }
+
+        public static implicit operator CoreLocation.CLRegion(Geocircle c)
+        {
+            return c._region;
+        }
+
+        public static implicit operator Geocircle(CoreLocation.CLRegion region)
+        {
+            return new Geocircle(region);
+        }
+
+        internal string Id
+        {
+            get
+            {
+                return _region.Identifier;
+            }
+        }
 #elif TIZEN
         private Tizen.Location.CircleBoundary _boundary;
 
@@ -94,6 +118,10 @@ namespace InTheHand.Devices.Geolocation
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             _circle = new Windows.Devices.Geolocation.Geocircle(position, radius);
+
+#elif __UNIFIED__
+            _region = new CoreLocation.CLRegion(position, radius, Guid.NewGuid().ToString());
+
 #elif TIZEN
             _boundary = new Tizen.Location.CircleBoundary(position, radius);
 #else
@@ -111,8 +139,13 @@ namespace InTheHand.Devices.Geolocation
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _circle.Center;
+
+#elif __UNIFIED__
+                return _region.Center;
+
 #elif TIZEN
                 return _boundary.Center;
+
 #else
                 return _position;
 #endif
@@ -143,8 +176,13 @@ namespace InTheHand.Devices.Geolocation
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _circle.Radius;
+
+#elif __UNIFIED__
+                return _region.Radius;
+
 #elif TIZEN
                 return _boundary.Radius;
+
 #else
                 return _radius;
 #endif

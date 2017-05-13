@@ -53,23 +53,16 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #elif __UNIFIED__
         private Geocircle _shape;
 
-
-        private CLRegion _region;
-
-        private Geofence(CLRegion region)
-        {
-            _region = region;
-        }
-
         public static implicit operator CLRegion(Geofence g)
         {
-            return g._region;
+            return g._shape;
         }
 
         public static implicit operator Geofence(CLRegion r)
         {
-            return new Geofence(r);
+            return new Geofence(r.Identifier, (Geocircle)r);
         }
+
 #elif TIZEN
         private string _id;
         private Geocircle _shape;
@@ -92,13 +85,17 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             _fence = new Windows.Devices.Geolocation.Geofencing.Geofence(id, (Windows.Devices.Geolocation.Geocircle)((Geocircle)geoshape));
 #elif __UNIFIED__
             _shape = (Geocircle)geoshape;
-
             if(_shape.Radius > GeofenceMonitor.Current.maxRegion)
             {
                 throw new PlatformNotSupportedException("Geofence Radius is greater than the maximum supported on this platform");
             }
 
-            _region = new CLCircularRegion(new CLLocationCoordinate2D(_shape.Center.Latitude, _shape.Center.Longitude), _shape.Radius, id);
+            if (id != _shape.Id)
+            {
+                // replace with correctly named CLRegion
+                _shape = new CLCircularRegion(new CLLocationCoordinate2D(_shape.Center.Latitude, _shape.Center.Longitude), _shape.Radius, id);
+            }
+
 #elif TIZEN
             _id = id;
             _shape = ((Geocircle)geoshape);
@@ -118,10 +115,6 @@ namespace InTheHand.Devices.Geolocation.Geofencing
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return (Geocircle)(Windows.Devices.Geolocation.Geocircle)_fence.Geoshape;
 #elif __UNIFIED__
-                if (_shape == null)
-                {
-                    _shape = new Geocircle(new BasicGeoposition() { Latitude= _region.Center.Latitude, Longitude = _region.Center.Longitude }, _region.Radius);
-                }
 
                 return _shape;
 #elif TIZEN
@@ -141,8 +134,10 @@ namespace InTheHand.Devices.Geolocation.Geofencing
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _fence.Id;
+
 #elif __UNIFIED__
-                return _region.Identifier;
+                return _shape.Id;
+
 #elif TIZEN
                 return _id;
 #else
@@ -174,10 +169,13 @@ namespace InTheHand.Devices.Geolocation.Geofencing
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return _fence.GetHashCode();
+
 #elif __UNIFIED__
-            return _region.GetHashCode();
+            return ((CLRegion)_shape).GetHashCode();
+
 #elif TIZEN
             return _shape.GetHashCode();
+
 #else
             return base.GetHashCode();
 #endif

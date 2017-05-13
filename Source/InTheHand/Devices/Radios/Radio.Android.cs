@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Radios
 {
-    public sealed partial class Radio
+    partial class Radio
     {
         private BluetoothManager _manager;
 
