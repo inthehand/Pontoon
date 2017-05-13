@@ -120,13 +120,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
                 if(valueChanged == null)
                 {
-#if __UNIFIED__
-                    _peripheral.SetNotifyValue(true, _characteristic);
-                    _peripheral.UpdatedCharacterteristicValue += _peripheral_UpdatedCharacterteristicValue;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                    _characteristic.ValueChanged += _characteristic_ValueChanged;
-#endif
-
+                    ValueChangedAdd();
                 }
 
                 valueChanged += value;
@@ -138,12 +132,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
                 if (valueChanged == null)
                 {
-#if __UNIFIED__
-                    _peripheral.UpdatedCharacterteristicValue -= _peripheral_UpdatedCharacterteristicValue;
-                    _peripheral.SetNotifyValue(false, _characteristic);
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                    _characteristic.ValueChanged -= _characteristic_ValueChanged;
-#endif
+                    ValueChangedRemove();
                 }
             }
         }

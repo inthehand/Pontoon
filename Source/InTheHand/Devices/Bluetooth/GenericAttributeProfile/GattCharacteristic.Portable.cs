@@ -43,5 +43,13 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             return Guid.Empty;
         }
+
+        private void ValueChangedAdd()
+        {
+        }
+
+        private void ValueChangedRemove()
+        {
+        }
     }
 }

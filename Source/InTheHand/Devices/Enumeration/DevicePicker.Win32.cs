@@ -11,6 +11,8 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using InTheHand.Devices.Bluetooth;
 using System.Diagnostics;
+using InTheHand.Foundation;
+using InTheHand.UI.Popups;
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -18,11 +20,15 @@ namespace InTheHand.Devices.Enumeration
     {
         //private NativeMethods.PFN_DEVICE_CALLBACK _callback;
 
-        private async Task<DeviceInformation> DoPickSingleDeviceAsync()
+        private async Task<DeviceInformation> DoPickSingleDeviceAsync(Rect selection, Placement placement)
         {
             NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS sdp = new NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS();
             sdp.dwSize = Marshal.SizeOf(sdp);
             sdp.numDevices = 1;
+            if(!string.IsNullOrEmpty(Appearance.Title))
+            {
+                sdp.info = Appearance.Title;
+            }
             //sdp.fShowAuthenticated = true;
 
             if(Filter.SupportedDeviceSelectors.Count > 0)
@@ -176,7 +182,7 @@ namespace InTheHand.Devices.Enumeration
                 internal uint numOfClasses;
                 internal IntPtr prgClassOfDevices;
                 [MarshalAs(UnmanagedType.LPWStr)]
-                string info;
+                internal string info;
                 internal IntPtr hwndParent;
                 [MarshalAs(UnmanagedType.Bool)]
                 bool fForceAuthentication;

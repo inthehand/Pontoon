@@ -49,7 +49,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return new GattValueChangedEventArgs(args);
         }
 
-#elif __UNIFIED__
+#elif __ANDROID__ || __UNIFIED__
         private byte[] _value;
         private DateTimeOffset _timestamp;
       
@@ -69,7 +69,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _args.CharacteristicValue.ToArray();
-#elif __UNIFIED__
+#elif __ANDROID__ || __UNIFIED__
                 return _value;
 #else
                 return null;
@@ -86,7 +86,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _args.Timestamp;
-#elif __UNIFIED__
+#elif __ANDROID__ || __UNIFIED__
                 return _timestamp;
 #else
                 return DateTimeOffset.MinValue;

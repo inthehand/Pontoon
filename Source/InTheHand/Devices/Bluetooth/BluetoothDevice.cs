@@ -5,9 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-#if __ANDROID__
-using Android.OS;
-#endif
 using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
 using System;
@@ -187,6 +184,11 @@ namespace InTheHand.Devices.Bluetooth
         }
 #endif
 
+        /*public Task<RfcommDeviceServicesResult> GetRfcommServicesAsync()
+        {
+
+        }*/
+
         /// <summary>
         /// Gets the device address.
         /// </summary>
@@ -283,6 +285,7 @@ namespace InTheHand.Devices.Bluetooth
             }
         }
 
+        
         /// <summary>
         /// Gets the read-only list of RFCOMM services supported by the device.
         /// </summary>
@@ -298,18 +301,9 @@ namespace InTheHand.Devices.Bluetooth
                     list.Add(service);
                 }
 
-#elif WIN32
+#elif WIN32 || __ANDROID__
                 GetRfcommServices(list);
 
-#elif __ANDROID__
-                ParcelUuid[] uuids = _device.GetUuids();
-                if (uuids != null)
-                {
-                    foreach (ParcelUuid g in uuids)
-                    {
-                        list.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
-                    }
-                }
 #endif
                 return list.AsReadOnly();
             }

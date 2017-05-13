@@ -41,7 +41,9 @@ namespace InTheHand.Devices.Enumeration
 #else
         public DevicePickerAppearance()
         {
-#if WINDOWS_PHONE_APP
+#if WINDOWS_UWP
+            _appearance = new Windows.Devices.Enumeration.DevicePickerAppearance();
+#elif WINDOWS_PHONE_APP
             AccentColor = ((Windows.UI.Xaml.Media.SolidColorBrush)Windows.UI.Xaml.Application.Current.Resources["PhoneAccentBrush"]).Color;
             BackgroundColor = (Color)Windows.UI.Xaml.Application.Current.Resources["PhoneBackgroundColor"];
             ForegroundColor = (Color)Windows.UI.Xaml.Application.Current.Resources["PhoneForegroundColor"];
@@ -82,5 +84,30 @@ namespace InTheHand.Devices.Enumeration
         /// Gets and sets the foreground color of the picker UI.
         /// </summary>
         public Color SelectedForegroundColor { get; set; }
+
+        private string _title;
+        /// <summary>
+        /// The title of the picker UI.
+        /// </summary>
+        /// <remarks>For Windows Desktop apps this is used as the info text below the device list.</remarks>
+        public string Title
+        {
+            get
+            {
+#if WINDOWS_UWP
+                return _appearance.Title;
+#else
+                return _title;
+#endif
+            }
+            set
+            {
+#if WINDOWS_UWP
+                _appearance.Title = value;
+#else
+                _title = value;
+#endif
+            }
+        }
     }
 }

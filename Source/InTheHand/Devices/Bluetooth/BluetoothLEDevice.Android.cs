@@ -20,8 +20,6 @@ namespace InTheHand.Devices.Bluetooth
 {
     partial class BluetoothLEDevice
     {
-
-
         private static async Task<BluetoothLEDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
         {
             return Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(BitConverter.GetBytes(bluetoothAddress));
@@ -43,8 +41,8 @@ namespace InTheHand.Devices.Bluetooth
         }
 
         internal Android.Bluetooth.BluetoothDevice _device;
-        private BluetoothGatt _bluetoothGatt;
-        private GattCallback _gattCallback;
+        internal BluetoothGatt _bluetoothGatt;
+        internal GattCallback _gattCallback;
 
         private BluetoothLEDevice(Android.Bluetooth.BluetoothDevice device)
         {
@@ -82,12 +80,20 @@ namespace InTheHand.Devices.Bluetooth
 
         private IReadOnlyList<GattDeviceService> GetGattServices()
         {
+            List<GattDeviceService> services = new List<GattDeviceService>();
             if (_bluetoothGatt == null)
             {
+
                 _gattCallback = new GattCallback(this);
                 _bluetoothGatt = _device.ConnectGatt(Android.App.Application.Context, true, _gattCallback);
             }
-            return null;
+
+            foreach (BluetoothGattService service in _bluetoothGatt.Services)
+            {
+                services.Add(new GattDeviceService(this, service));
+            }
+
+            return services.AsReadOnly();
         }
 
     }
@@ -99,6 +105,15 @@ namespace InTheHand.Devices.Bluetooth
         internal GattCallback(BluetoothLEDevice owner)
         {
             _owner = owner;
+        }
+
+        public event EventHandler<BluetoothGattCharacteristic> CharacteristicChanged;
+
+        public override void OnCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
+        {
+            CharacteristicChanged?.Invoke(this, characteristic);
+
+            base.OnCharacteristicChanged(gatt, characteristic);
         }
     }
 }

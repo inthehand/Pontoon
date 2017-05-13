@@ -67,7 +67,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
                 if (characteristic.Uuid.ToGuid() == characteristicUuid)
                 {
-                    characteristics.Add(characteristic);
+                    characteristics.Add(new GattCharacteristic(this.Device, characteristic));
                 }
             }
         }

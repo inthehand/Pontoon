@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="GattCharacteristic.Android.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2017 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
@@ -14,10 +14,16 @@ using Android.Bluetooth;
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
-
     partial class GattCharacteristic
     {
+        private BluetoothLEDevice _device;
         private BluetoothGattCharacteristic _characteristic;
+
+        internal GattCharacteristic(BluetoothLEDevice device, BluetoothGattCharacteristic characteristic)
+        {
+            _device = device;
+            _characteristic = characteristic;
+        }
 
         private GattCharacteristic(BluetoothGattCharacteristic characteristic)
         {
@@ -55,7 +61,12 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         
         private async Task<GattReadResult> DoReadValueAsync()
         {
-            return new GattReadResult(GattCommunicationStatus.Success, _characteristic.GetValue());
+            if (_device._bluetoothGatt.ReadCharacteristic(_characteristic))
+            {
+                return new GattReadResult(GattCommunicationStatus.Success, _characteristic.GetValue());
+            }
+
+            return new GattReadResult(GattCommunicationStatus.Unreachable, null);
         }
 
         /// <summary>
@@ -66,7 +77,12 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)
         {
             bool success = _characteristic.SetValue(value);
-            return success ? GattCommunicationStatus.Success : GattCommunicationStatus.Unreachable;
+            if (_device._bluetoothGatt.WriteCharacteristic(_characteristic))
+            {
+                return GattCommunicationStatus.Success;
+            }
+            
+            return GattCommunicationStatus.Unreachable;
         }
         
         private GattCharacteristicProperties GetCharacteristicProperties()
@@ -90,6 +106,30 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private Guid GetUuid()
         {
             return _characteristic.Uuid.ToGuid();
+        }
+
+        private void ValueChangedAdd()
+        {
+            if(_device._bluetoothGatt.SetCharacteristicNotification(_characteristic, true))
+            {
+                _device._gattCallback.CharacteristicChanged += _gattCallback_CharacteristicChanged;
+            }
+        }
+
+        private void ValueChangedRemove()
+        {
+            if (_device._bluetoothGatt.SetCharacteristicNotification(_characteristic, false))
+            {
+                _device._gattCallback.CharacteristicChanged -= _gattCallback_CharacteristicChanged;
+            }
+        }
+
+        private void _gattCallback_CharacteristicChanged(object sender, BluetoothGattCharacteristic e)
+        {
+            if (e == _characteristic)
+            {
+                valueChanged?.Invoke(this, new GattValueChangedEventArgs(_characteristic.GetValue(), DateTimeOffset.Now));
+            }
         }
     }
 }

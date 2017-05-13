@@ -320,6 +320,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
       <Link>Devices\Enumeration\DevicePicker.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.uwp.cs">
+      <Link>Devices\Enumeration\DevicePicker.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
       <Link>Devices\Enumeration\DevicePickerAppearance.cs</Link>
     </Compile>

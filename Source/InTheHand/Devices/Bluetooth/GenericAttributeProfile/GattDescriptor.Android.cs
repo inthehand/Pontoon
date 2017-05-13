@@ -13,7 +13,14 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattDescriptor
     {
+        private BluetoothLEDevice _device;
         private BluetoothGattDescriptor _descriptor;
+
+        internal GattDescriptor(BluetoothLEDevice device, BluetoothGattDescriptor descriptor)
+        {
+            _device = device;
+            _descriptor = descriptor;
+        }
 
         private GattDescriptor(BluetoothGattDescriptor descriptor)
         {
@@ -32,13 +39,19 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private async Task<GattReadResult> DoReadValueAsync()
         {
-            byte[] value = _descriptor.GetValue();
-            return new GattReadResult(GattCommunicationStatus.Success, _descriptor.GetValue());
+            if (_device._bluetoothGatt.ReadDescriptor(_descriptor))
+            {
+                return new GattReadResult(GattCommunicationStatus.Success, _descriptor.GetValue());
+            }
+
+            return new GattReadResult(GattCommunicationStatus.Unreachable, null);
         }
         
         private Guid GetUuid()
         {
             return _descriptor.Uuid.ToGuid();
         }
+
+
     }
 }

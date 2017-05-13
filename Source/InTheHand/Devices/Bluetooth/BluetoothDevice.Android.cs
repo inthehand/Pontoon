@@ -5,8 +5,11 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Android.OS;
+using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -41,7 +44,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             return ulong.Parse(_device.Address.Replace(":", ""), NumberStyles.HexNumber);
         }
-        
+
         private BluetoothClassOfDevice GetClassOfDevice()
         {
             return new BluetoothClassOfDevice((uint)_device.BluetoothClass.DeviceClass);
@@ -55,6 +58,18 @@ namespace InTheHand.Devices.Bluetooth
         private string GetName()
         {
             return _device.Name;
+        }
+
+        private void GetRfcommServices(List<RfcommDeviceService> services)
+        {
+            ParcelUuid[] uuids = _device.GetUuids();
+            if (uuids != null)
+            {
+                foreach (ParcelUuid g in uuids)
+                {
+                    services.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
+                }
+            }
         }
     }
 }

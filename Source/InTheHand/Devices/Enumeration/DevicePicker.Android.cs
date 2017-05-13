@@ -9,6 +9,8 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
+using InTheHand.Foundation;
+using InTheHand.UI.Popups;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +22,7 @@ namespace InTheHand.Devices.Enumeration
         internal static DevicePicker s_current;
         internal Android.Bluetooth.BluetoothDevice _device;
         
-        private Task<DeviceInformation> DoPickSingleDeviceAsync()
+        private Task<DeviceInformation> DoPickSingleDeviceAsync(Rect selection, Placement placement)
         {
             s_current = this;
 
@@ -63,8 +65,7 @@ namespace InTheHand.Devices.Enumeration
                 }
                 Intent i = new Intent("android.bluetooth.devicepicker.action.LAUNCH");
                 i.PutExtra("android.bluetooth.devicepicker.extra.LAUNCH_PACKAGE", Application.Context.PackageName);
-                // TODO: how to get this identifier programmatically
-                i.PutExtra("android.bluetooth.devicepicker.extra.DEVICE_PICKER_LAUNCH_CLASS", "md55064263052223d9e87420d8cd886ad7c.DevicePickerReceiver");
+                i.PutExtra("android.bluetooth.devicepicker.extra.DEVICE_PICKER_LAUNCH_CLASS", Java.Lang.Class.FromType(typeof(DevicePickerReceiver)).Name);
                 i.PutExtra("android.bluetooth.devicepicker.extra.NEED_AUTH", paired);
 
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivityForResult(i, 1);
