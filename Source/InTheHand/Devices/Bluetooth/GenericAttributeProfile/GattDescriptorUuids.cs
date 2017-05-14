@@ -14,10 +14,19 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// </summary>
     public static class GattDescriptorUuids
     {
+        /// <summary>
+        /// Gets the Bluetooth SIG-defined Characteristic Aggregate Format Descriptor UUID.
+        /// </summary>
         public static readonly Guid CharacteristicAggregateFormat = new Guid(0x00002905, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
+        /// <summary>
+        /// Gets the Bluetooth SIG-defined Characteristic Extended Properties Descriptor UUID.
+        /// </summary>
         public static readonly Guid CharacteristicExtendedProperties = new Guid(0x00002900, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
+        /// <summary>
+        /// Gets the Bluetooth SIG-defined Characteristic Presentation Format Descriptor UUID.
+        /// </summary>
         public static readonly Guid CharacteristicPresentationFormat = new Guid(0x00002904, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
         /// <summary>
@@ -25,8 +34,14 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         /// </summary>
         public static readonly Guid CharacteristicUserDescription = new Guid(0x00002901, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
+        /// <summary>
+        /// Gets the Bluetooth SIG-defined Client Characteristic Configuration Descriptor UUID.
+        /// </summary>
         public static readonly Guid ClientCharacteristicConfiguration = new Guid(0x00002902, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static readonly Guid EnvironmentalSensingConfiguration = new Guid(0x0000290B, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
         public static readonly Guid EnvironmentalSensingMeasurement = new Guid(0x0000290C, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
@@ -39,6 +54,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         public static readonly Guid ReportReference = new Guid(0x00002908, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
+        /// <summary>
+        /// Gets the Bluetooth SIG-defined Server Characteristic Configuration Descriptor UUID.
+        /// </summary>
         public static readonly Guid ServerCharacteristicConfiguration = new Guid(0x00002903, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
         public static readonly Guid TimeTriggerSetting = new Guid(0x0000290E, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);

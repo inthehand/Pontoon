@@ -39,7 +39,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return string.Empty;
         }
 
-        public Guid GetUuid()
+        private Guid GetUuid()
         {
             return Guid.Empty;
         }

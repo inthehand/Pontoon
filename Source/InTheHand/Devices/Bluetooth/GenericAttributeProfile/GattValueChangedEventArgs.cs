@@ -6,9 +6,7 @@
 //-----------------------------------------------------------------------
 
 using System;
-#if __UNIFIED__
-using CoreBluetooth;
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
 using System.Runtime.InteropServices.WindowsRuntime;
 #endif
 

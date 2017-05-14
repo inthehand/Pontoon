@@ -30,6 +30,11 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// </remarks>
     public sealed partial class GattCharacteristic
     {
+        /*public Task<GattDescriptorsResult> GetDescriptorsForUuidAsync(Guid descriptorUuid)
+        {
+
+        }*/
+
         /// <summary>
         /// Gets the collection of all descriptors belonging to this GattCharacteristic instance.
         /// </summary>
