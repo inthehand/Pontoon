@@ -55,9 +55,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
         }
         
-        private async Task<GattReadResult> DoReadValueAsync()
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
-            return await _characteristic.ReadValueAsync().AsTask();
+            return await _characteristic.ReadValueAsync((Windows.Devices.Bluetooth.BluetoothCacheMode)((int)cacheMode)).AsTask();
         }
 
         private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)
@@ -73,6 +73,15 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private string GetUserDescription()
         {
             return _characteristic.UserDescription;
+        }
+
+        private GattDeviceService GetService()
+        {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+            return _characteristic.Service;
+#else
+            return null;
+#endif
         }
 
         private Guid GetUuid()

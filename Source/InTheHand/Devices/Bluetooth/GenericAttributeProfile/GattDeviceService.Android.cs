@@ -57,7 +57,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             foreach(BluetoothGattCharacteristic characteristic in _service.Characteristics)
             {
-                characteristics.Add(characteristic);
+                characteristics.Add(new GattCharacteristic(this, characteristic));
             }
         }
 
@@ -67,7 +67,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
                 if (characteristic.Uuid.ToGuid() == characteristicUuid)
                 {
-                    characteristics.Add(new GattCharacteristic(this.Device, characteristic));
+                    characteristics.Add(new GattCharacteristic(this, characteristic));
                 }
             }
         }

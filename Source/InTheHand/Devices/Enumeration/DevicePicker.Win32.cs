@@ -35,33 +35,34 @@ namespace InTheHand.Devices.Enumeration
             {
                 foreach(string filter in Filter.SupportedDeviceSelectors)
                 {
-                    if(filter.StartsWith("bluetoothClassOfDevice:") && sdp.numOfClasses == 0)
+                    var parts = filter.Split(':');
+                    switch(parts[0])
                     {
-                        int codMask = 0;
-                        if (int.TryParse(filter.Substring(23), NumberStyles.HexNumber, null, out codMask))
-                        {
-                            // only support one COD mask
-                            sdp.numOfClasses = 1;
-                            sdp.prgClassOfDevices = Marshal.AllocHGlobal(8);
-                            Marshal.WriteInt32(sdp.prgClassOfDevices, codMask);
+                        case "bluetoothClassOfDevice":
+                            int codMask = 0;
+                            if (int.TryParse(parts[1], NumberStyles.HexNumber, null, out codMask))
+                            {
+                                // only support one COD mask
+                                sdp.numOfClasses = 1;
+                                sdp.prgClassOfDevices = Marshal.AllocHGlobal(8);
+                                Marshal.WriteInt32(sdp.prgClassOfDevices, codMask);
+                                break;
+                            }
                             break;
-                        }
-                        
-                        
-                    }
-                    else if(filter.StartsWith("bluetoothPairingState:"))
-                    {
-                        bool pairingState = bool.Parse(filter.Substring(22));
-                        if (pairingState)
-                        {
-                            sdp.fShowAuthenticated = true;
-                            sdp.fShowUnknown = false;
-                        }
-                        else
-                        { 
-                            sdp.fShowAuthenticated = false;
-                            sdp.fShowUnknown = true;
-                        }
+
+                        case "bluetoothPairingState":
+                            bool pairingState = bool.Parse(parts[1]);
+                            if (pairingState)
+                            {
+                                sdp.fShowAuthenticated = true;
+                                sdp.fShowUnknown = false;
+                            }
+                            else
+                            {
+                                sdp.fShowAuthenticated = false;
+                                sdp.fShowUnknown = true;
+                            }
+                            break;
                     }
                 }
             }
@@ -91,9 +92,11 @@ namespace InTheHand.Devices.Enumeration
 
                 foreach(string query in Filter.SupportedDeviceSelectors)
                 {
-                    if(query.StartsWith("bluetoothService:"))
+                    var parts = query.Split(':');
+
+                    if(parts[0] == "bluetoothService")
                     {
-                        Guid serviceUuid = Guid.Parse(query.Substring(8));
+                        Guid serviceUuid = Guid.Parse(parts[1]);
                         foreach(Guid g in BluetoothDevice.GetRfcommServices(ref info))
                         {
                             if(g == serviceUuid)

@@ -17,11 +17,13 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattCharacteristic
     {
+        private GattDeviceService _service;
         private CBCharacteristic _characteristic;
         private CBPeripheral _peripheral;
         
-        internal GattCharacteristic(CBCharacteristic characteristic, CBPeripheral peripheral)
+        internal GattCharacteristic(GattDeviceService service, CBCharacteristic characteristic, CBPeripheral peripheral)
         {
+            _service = service;
             _characteristic = characteristic;
             _peripheral = peripheral;
             _peripheral.DiscoveredDescriptor += _peripheral_DiscoveredDescriptor;
@@ -69,7 +71,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
         }
         
-        private async Task<GattReadResult> DoReadValueAsync()
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
             try
             {
@@ -97,6 +99,11 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private GattCharacteristicProperties GetCharacteristicProperties()
         {
             return _characteristic.Properties.ToGattCharacteristicProperties();
+        }
+
+        private GattDeviceService GetService()
+        {
+            return _service;
         }
 
         private string GetUserDescription()

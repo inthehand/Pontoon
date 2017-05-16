@@ -5,46 +5,45 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Android.Bluetooth;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
-using InTheHand.Foundation;
-using System.Diagnostics;
-using Android.Bluetooth;
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattCharacteristic
     {
-        private BluetoothLEDevice _device;
+        private GattDeviceService _service;
         private BluetoothGattCharacteristic _characteristic;
 
-        internal GattCharacteristic(BluetoothLEDevice device, BluetoothGattCharacteristic characteristic)
+        internal GattCharacteristic(GattDeviceService service, BluetoothGattCharacteristic characteristic)
         {
-            _device = device;
+            _service = service;
             _characteristic = characteristic;
+            _service.Device.CharacteristicRead += _device_CharacteristicRead;
         }
 
-        private GattCharacteristic(BluetoothGattCharacteristic characteristic)
+        private void _device_CharacteristicRead(object sender, BluetoothGattCharacteristic e)
         {
-            _characteristic = characteristic;
+            if(e == _characteristic)
+            {
+                _readHandle.Set();
+            }
         }
+
 
         public static implicit operator BluetoothGattCharacteristic(GattCharacteristic characteristic)
         {
             return characteristic._characteristic;
         }
 
-        public static implicit operator GattCharacteristic(BluetoothGattCharacteristic characteristic)
-        {
-            return new GattCharacteristic(characteristic);
-        }
-
         private void GetAllDescriptors(List<GattDescriptor> descriptors)
         {
             foreach(BluetoothGattDescriptor descriptor in _characteristic.Descriptors)
             {
-                descriptors.Add(descriptor);
+                descriptors.Add(new GattDescriptor(this, descriptor));
             }
         }
         
@@ -54,19 +53,23 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
                 if (descriptor.Uuid.ToGuid() == descriptorUuid)
                 {
-                    descriptors.Add(descriptor);
+                    descriptors.Add(new GattDescriptor(this, descriptor));
                 }
             }
         }
-        
-        private async Task<GattReadResult> DoReadValueAsync()
+
+        private EventWaitHandle _readHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
+
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
-            if (_device._bluetoothGatt.ReadCharacteristic(_characteristic))
+            bool success = true;
+            if(cacheMode == BluetoothCacheMode.Uncached)
             {
-                return new GattReadResult(GattCommunicationStatus.Success, _characteristic.GetValue());
+                success = _service.Device._bluetoothGatt.ReadCharacteristic(_characteristic);
+                _readHandle.WaitOne();
             }
 
-            return new GattReadResult(GattCommunicationStatus.Unreachable, null);
+            return new GattReadResult(success ? GattCommunicationStatus.Success : GattCommunicationStatus.Unreachable, _characteristic.GetValue()); 
         }
 
         /// <summary>
@@ -77,7 +80,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)
         {
             bool success = _characteristic.SetValue(value);
-            if (_device._bluetoothGatt.WriteCharacteristic(_characteristic))
+            if (_service.Device._bluetoothGatt.WriteCharacteristic(_characteristic))
             {
                 return GattCommunicationStatus.Success;
             }
@@ -88,6 +91,11 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private GattCharacteristicProperties GetCharacteristicProperties()
         {
             return (GattCharacteristicProperties)((int)_characteristic.Properties);
+        }
+
+        private GattDeviceService GetService()
+        {
+            return _service;
         }
 
         private string GetUserDescription()
@@ -110,17 +118,17 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private void ValueChangedAdd()
         {
-            if(_device._bluetoothGatt.SetCharacteristicNotification(_characteristic, true))
+            if(_service.Device._bluetoothGatt.SetCharacteristicNotification(_characteristic, true))
             {
-                _device._gattCallback.CharacteristicChanged += _gattCallback_CharacteristicChanged;
+                _service.Device._gattCallback.CharacteristicChanged += _gattCallback_CharacteristicChanged;
             }
         }
 
         private void ValueChangedRemove()
         {
-            if (_device._bluetoothGatt.SetCharacteristicNotification(_characteristic, false))
+            if (_service.Device._bluetoothGatt.SetCharacteristicNotification(_characteristic, false))
             {
-                _device._gattCallback.CharacteristicChanged -= _gattCallback_CharacteristicChanged;
+                _service.Device._gattCallback.CharacteristicChanged -= _gattCallback_CharacteristicChanged;
             }
         }
 

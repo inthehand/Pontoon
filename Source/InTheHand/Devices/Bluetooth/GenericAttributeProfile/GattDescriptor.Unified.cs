@@ -31,7 +31,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return new GattDescriptor(descriptor);
         }
 
-        private async Task<GattReadResult> DoReadValueAsync()
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
             catch
             {
-                return new GenericAttributeProfile.GattReadResult(GattCommunicationStatus.Unreachable, null);
+                return new GattReadResult(GattCommunicationStatus.Unreachable, null);
             }
         }
         

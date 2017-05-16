@@ -44,20 +44,11 @@ namespace InTheHand.Devices.Bluetooth
         /// </remarks>
         public static async Task<BluetoothDevice> FromBluetoothAddressAsync(ulong address)
         {
-#if __ANDROID__
-            byte[] buffer = new byte[6];
-            var addressBytes = BitConverter.GetBytes(address);
-            for (int i = 0; i < 6; i++)
-            {
-                buffer[i] = addressBytes[i];
-            }
-            return new BluetoothDevice(DeviceInformation.Manager.Adapter.GetRemoteDevice(buffer));
-
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromBluetoothAddressAsync(address);
 
-#elif WIN32
-            return await DoFromBluetoothAddressAsync(address);
+#elif __ANDROID__ || WIN32
+            return await FromBluetoothAddressAsyncImpl(address);
 
 #else
             return null;
@@ -74,20 +65,9 @@ namespace InTheHand.Devices.Bluetooth
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceId);
 
-#elif WIN32
-            if (deviceId.StartsWith("BLUETOOTH#"))
-            {
-                var parts = deviceId.Split('#');
+#elif __ANDROID__ || WIN32
+            return await FromIdAsyncImpl(deviceId);
 
-                string addrString = parts[1];
-                ulong addr = 0;
-                if (ulong.TryParse(addrString, global::System.Globalization.NumberStyles.HexNumber, null, out addr))
-                {
-                    return await FromBluetoothAddressAsync(addr);
-                }
-            }
-
-            return null;
 #else
             return null;
 #endif
@@ -182,6 +162,29 @@ namespace InTheHand.Devices.Bluetooth
         {
             return new BluetoothDevice(device);
         }
+
+        private void ConnectionStatusChangedAdd()
+        {
+            _device.ConnectionStatusChanged += _device_ConnectionStatusChanged;
+        }
+
+        private void _device_ConnectionStatusChanged(Windows.Devices.Bluetooth.BluetoothDevice sender, object args)
+        {
+            _connectionStatusChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ConnectionStatusChangedRemove()
+        {
+            _device.ConnectionStatusChanged -= _device_ConnectionStatusChanged;
+        }
+#elif __ANDROID__ || PCL
+        private void ConnectionStatusChangedAdd()
+        {
+        }
+
+        private void ConnectionStatusChangedRemove()
+        {
+        }
 #endif
 
         /*public Task<RfcommDeviceServicesResult> GetRfcommServicesAsync()
@@ -244,6 +247,33 @@ namespace InTheHand.Devices.Bluetooth
             }
         }
 
+        private event EventHandler _connectionStatusChanged;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public event EventHandler ConnectionStatusChanged
+        {
+            add
+            {
+                if(_connectionStatusChanged == null)
+                {
+                    ConnectionStatusChangedAdd();
+                }
+
+                _connectionStatusChanged += value;
+            }
+            remove
+            {
+                _connectionStatusChanged -= value;
+
+                if (_connectionStatusChanged == null)
+                {
+                    ConnectionStatusChangedRemove();
+                }
+
+            }
+        }
 
         /// <summary>
         /// Gets the device Id.

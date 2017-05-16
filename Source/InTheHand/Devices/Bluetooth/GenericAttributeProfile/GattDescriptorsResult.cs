@@ -1,17 +1,18 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GattDescriptor.cs" company="In The Hand Ltd">
-//   Copyright (c) 2015-17 In The Hand Ltd, All rights reserved.
+// <copyright file="GattDescriptorsResult.cs" company="In The Hand Ltd">
+//   Copyright (c) 2017 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
 //-----------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     /// <summary>
-    /// Represents a Descriptor of a GATT Characteristic.
+    /// The result of descriptor operations like <see cref="GattCharacteristic.GetDescriptorsAsync"/>.
     /// </summary>
     /// <remarks>
     /// <para/><list type="table">
@@ -26,36 +27,21 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item></list>
     /// </remarks>
-    public sealed partial class GattDescriptor
+    public sealed partial class GattDescriptorsResult
     {
         /// <summary>
-        /// Performs a Descriptor Value read from a value cache maintained by the system.
+        /// Gets a vector of the GATT descriptors.
         /// </summary>
-        /// <returns></returns>
-        public Task<GattReadResult> ReadValueAsync()
-        {
-            return ReadValueAsync(BluetoothCacheMode.Cached);
-        }
+        public IReadOnlyList<GattDescriptor> Descriptors { get; }
 
         /// <summary>
-        /// Performs a Descriptor Value read either from the value cache maintained by the system, or directly from the device.
+        /// Gets the GATT protocol error.
         /// </summary>
-        /// <param name="cacheMode">Specifies whether to read the value directly from the device or from a value cache maintained by the system.</param>
-        /// <returns></returns>
-        public async Task<GattReadResult> ReadValueAsync(BluetoothCacheMode cacheMode)
-        {
-            return await DoReadValueAsync(cacheMode);
-        }
+        public byte? ProtocolError { get; }
 
         /// <summary>
-        /// Gets the GATT Descriptor UUID for this GattDescriptor.
+        /// Gets the status of the operation.
         /// </summary>
-        public Guid Uuid
-        {
-            get
-            {
-                return GetUuid();
-            }
-        }
+        public GattCommunicationStatus Status { get; }
     }
 }

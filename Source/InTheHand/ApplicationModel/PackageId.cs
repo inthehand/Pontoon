@@ -60,10 +60,22 @@ namespace InTheHand.ApplicationModel
         {
             return new PackageId(id);
         }
+
 #elif __ANDROID__
         PackageInfo _packageInfo;
+
+        public static implicit operator PackageInfo(PackageId id)
+        {
+            return id._packageInfo;
+        }
+
 #elif TIZEN
         Tizen.Applications.ApplicationInfo _info;
+
+        public static implicit operator Tizen.Applications.ApplicationInfo(PackageId id)
+        {
+            return id._info;
+        }
 #endif
 
         internal PackageId()
@@ -102,12 +114,16 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return Android.App.Application.Context.PackageName;
+
 #elif __UNIFIED__
                 return NSBundle.MainBundle.InfoDictionary["CFBundleIdentifier"].ToString();
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _packageId.FullName;
+
 #elif WIN32
                 return AssemblyManifest.Current.Guid.ToString();
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -133,6 +149,8 @@ namespace InTheHand.ApplicationModel
                 return WMAppManifest.Current.DisplayName;
 #elif WIN32
                 return AssemblyManifest.Current.Title;
+#elif TIZEN
+                return _info.Label;
 #else
                 throw new PlatformNotSupportedException();
 #endif

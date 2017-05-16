@@ -15,7 +15,7 @@ namespace InTheHand.Devices.Bluetooth
 {
     public sealed partial class BluetoothDevice
     {
-        private static Task<BluetoothDevice> DoFromBluetoothAddressAsync(ulong address)
+        private static Task<BluetoothDevice> FromBluetoothAddressAsyncImpl(ulong address)
         {
             BLUETOOTH_DEVICE_INFO info = new BLUETOOTH_DEVICE_INFO();
             info.dwSize = global::System.Runtime.InteropServices.Marshal.SizeOf(info);
@@ -27,6 +27,23 @@ namespace InTheHand.Devices.Bluetooth
             }
 
             return Task.FromResult<BluetoothDevice>(null);
+        }
+
+        private static async Task<BluetoothDevice> FromIdAsyncImpl(string deviceId)
+        {
+            if (deviceId.StartsWith("BLUETOOTH#"))
+            {
+                var parts = deviceId.Split('#');
+
+                string addrString = parts[1];
+                ulong addr = 0;
+                if (ulong.TryParse(addrString, NumberStyles.HexNumber, null, out addr))
+                {
+                    return await FromBluetoothAddressAsync(addr);
+                }
+            }
+
+            return null;
         }
 
         private BLUETOOTH_DEVICE_INFO _info;
@@ -48,7 +65,30 @@ namespace InTheHand.Devices.Bluetooth
 
         private BluetoothConnectionStatus GetConnectionStatus()
         {
+            NativeMethods.BluetoothGetDeviceInfo(IntPtr.Zero, ref _info);
             return _info.fConnected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
+        }
+
+        private void ConnectionStatusChangedAdd()
+        {
+            var t = BluetoothAdapter.GetDefaultAsync();
+            t.Wait();
+            t.Result.ConnectionChanged += Result_ConnectionChanged;
+        }
+
+        private void ConnectionStatusChangedRemove()
+        {
+            var t = BluetoothAdapter.GetDefaultAsync();
+            t.Wait();
+            t.Result.ConnectionChanged -= Result_ConnectionChanged;
+        }
+
+        private void Result_ConnectionChanged(object sender, ulong e)
+        {
+            if (e == this.BluetoothAddress)
+            {
+                _connectionStatusChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private string GetDeviceId()

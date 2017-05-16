@@ -63,12 +63,21 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         }
 
         /// <summary>
-        /// Performs a Characteristic Value read from the value cache maintained by Windows.
+        /// Performs a Characteristic Value read from the value cache maintained by the system.
         /// </summary>
         /// <returns></returns>
         public Task<GattReadResult> ReadValueAsync()
         {
-            return DoReadValueAsync();
+            return ReadValueAsync(BluetoothCacheMode.Cached);
+        }
+
+        /// <summary>
+        /// Performs a Characteristic Value read either from the value cache maintained by the system, or directly from the device.
+        /// </summary>
+        /// <returns></returns>
+        public Task<GattReadResult> ReadValueAsync(BluetoothCacheMode cacheMode)
+        {
+            return DoReadValueAsync(cacheMode);
         }
 
         /// <summary>
@@ -90,6 +99,17 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             get
             {
                 return GetCharacteristicProperties();
+            }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="GattDeviceService"/> of which this characteristic is a member.
+        /// </summary>
+        public GattDeviceService Service
+        {
+            get
+            {
+                return GetService();
             }
         }
 

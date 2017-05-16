@@ -29,9 +29,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return new GattDescriptor(descriptor);
         }
 
-        private async Task<GattReadResult> DoReadValueAsync()
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
-            return await _descriptor.ReadValueAsync();
+            return await _descriptor.ReadValueAsync((Windows.Devices.Bluetooth.BluetoothCacheMode)((int)cacheMode));
         }
 
         private Guid GetUuid()

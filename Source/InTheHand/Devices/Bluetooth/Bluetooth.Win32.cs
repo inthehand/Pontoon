@@ -7,7 +7,10 @@
 
 using InTheHand.Devices.Enumeration;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth
@@ -43,7 +46,7 @@ namespace InTheHand.Devices.Bluetooth
         private short millisecond;
     }
 
-    [return:MarshalAs(UnmanagedType.Bool)]
+    [return: MarshalAs(UnmanagedType.Bool)]
     internal delegate bool PFN_AUTHENTICATION_CALLBACK_EX(IntPtr pvParam, ref NativeMethods.BLUETOOTH_AUTHENTICATION_CALLBACK_PARAMS pAuthCallbackParams);
 
     internal static class NativeMethods
@@ -125,7 +128,7 @@ namespace InTheHand.Devices.Bluetooth
 
         internal static DevicePairingKinds BluetoothAuthenticationMethodToDevicePairingKinds(BLUETOOTH_AUTHENTICATION_METHOD authenticationMethod)
         {
-            switch(authenticationMethod)
+            switch (authenticationMethod)
             {
                 case BLUETOOTH_AUTHENTICATION_METHOD.LEGACY:
                     return DevicePairingKinds.ProvidePin;
@@ -188,6 +191,116 @@ namespace InTheHand.Devices.Bluetooth
             internal ushort manufacturer;
         }
 
+        // notifications
+        internal const int WM_DEVICECHANGE = 0x219;
+
+        [DllImport("User32", CharSet = CharSet.Unicode, SetLastError = true)]
+        internal static extern uint RegisterClass(ref WNDCLASS lpWndClass);
+
+        internal delegate int WindowProc(IntPtr hwnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+
+        [StructLayout(LayoutKind.Sequential, CharSet =CharSet.Unicode)]
+        internal struct WNDCLASS
+        {
+            internal uint style;
+            internal WindowProc lpfnWndProc;
+            int cbClsExtra;
+            int cbWndExtra;
+            internal IntPtr hInstance;
+            IntPtr hIcon;
+            IntPtr hCursor;
+            IntPtr hbrBackground;
+            IntPtr lpszMenuName;
+            internal string lpszClassName;
+        }
+
+        internal static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+
+        [DllImport("User32", CharSet=CharSet.Unicode, SetLastError =true)]
+        internal static extern IntPtr CreateWindowEx(uint exStyle, string lpClassName, 
+            string lpWindowName, 
+            uint dwStyle,
+            int x, int y, 
+            int nWidth, int nHeight,
+            IntPtr hWndParent,
+            IntPtr hMenu,
+            IntPtr hInstance,
+            IntPtr lpParam);
+
+        [DllImport("User32", SetLastError = true)]
+        [return:MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("User32", SetLastError = true)]
+        internal static extern int SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+   
+        [DllImport("User32", SetLastError = true)]
+        internal static extern int GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+
+        [DllImport("User32", SetLastError = true)]
+        internal static extern int DispatchMessage(ref MSG lpmsg);
+
+        [DllImport("User32", SetLastError = true)]
+        internal static extern IntPtr GetWindowLong(IntPtr hWnd, int index);
+
+        [DllImport("User32", SetLastError = true)]
+        internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, WindowProc newProc);
+
+        internal struct MSG
+        {
+            internal IntPtr hwnd;
+            internal uint message;
+            internal IntPtr wParam;
+            internal IntPtr lParam;
+            internal uint time;
+            internal ulong pt;
+        }
+
+        [DllImport("User32")]
+        internal static extern int RegisterDeviceNotification(IntPtr handle, ref DEV_BROADCAST_HANDLE notificationFilter, DEVICE_NOTIFY flags);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct DEV_BROADCAST_HANDLE
+        {
+            internal int dbch_size;
+            internal DBT_DEVTYP dbch_devicetype;
+            private uint dbch_reserved;
+            internal IntPtr dbch_handle;
+            internal IntPtr dbch_hdevnotify;
+            internal Guid dbch_eventguid;
+            internal int nameoffset;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct BTH_HCI_EVENT_INFO
+        {
+            internal ulong bthAddress;
+            byte connectionType;
+            internal byte connected;
+        }
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct BTH_L2CAP_EVENT_INFO
+        {
+            internal ulong bthAddress;
+            internal ushort psm;
+            internal byte connected;
+            internal byte initiated;
+        }
+
+        internal static readonly Guid GUID_BLUETOOTH_L2CAP_EVENT = new Guid("7EAE4030-B709-4AA8-AC55-E953829C9DAA");
+        internal static readonly Guid GUID_BLUETOOTH_HCI_EVENT = new Guid("FC240062-1541-49BE-B463-84C4DCD7BF7F");
+
+        internal enum DBT_DEVTYP
+        {
+            HANDLE = 0x6,
+        }
+
+        internal enum DEVICE_NOTIFY
+        {
+            WINDOWS_HANDLE = 0,
+            SERVICE_HANDLE = 1,
+        }
+
         [StructLayout(LayoutKind.Sequential, Size = 8)]
         internal class BLUETOOTH_COD_PAIRS
         {
@@ -231,7 +344,96 @@ namespace InTheHand.Devices.Bluetooth
         [DllImport(bthDll)]
         internal static extern int BluetoothEnumerateInstalledServices(IntPtr hRadio,
             ref BLUETOOTH_DEVICE_INFO pbtdi,
-            ref int pcServices, 
+            ref int pcServices,
             byte[] pGuidServices);
+    }
+
+    internal sealed class BluetoothMessageWindow
+    {
+        private static uint s_registration;
+        private static NativeMethods.WindowProc s_wndProc;
+        private static IntPtr s_hwnd;
+        private static Thread _pumpThread;
+
+        static BluetoothMessageWindow()
+        {
+            //_pumpThread = new Thread(MessagePump);
+            s_wndProc = new Bluetooth.NativeMethods.WindowProc(WindowProc);
+            NativeMethods.WNDCLASS cls = new Bluetooth.NativeMethods.WNDCLASS();
+            cls.lpszClassName = "InTheHand.Devices.Bluetooth";
+            cls.hInstance = Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().ManifestModule);
+            cls.lpfnWndProc = s_wndProc;
+            s_registration = NativeMethods.RegisterClass(ref cls);
+            s_hwnd = NativeMethods.CreateWindowEx(0, cls.lpszClassName, cls.lpszClassName, 0, 0, 0, 0, 0, NativeMethods.HWND_MESSAGE, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            //_pumpThread.Start();
+            NativeMethods.SetWindowLong(s_hwnd, -4, s_wndProc);
+            int success = NativeMethods.SendMessage(s_hwnd, 0x4000, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        /*private static void MessagePump(object param)
+        {
+            NativeMethods.MSG m;
+            int result;
+            while ((result = NativeMethods.GetMessage(out m, s_hwnd, 0, 0)) != 0)
+            {
+                if (result == -1)
+                {
+                    Debug.WriteLine(Marshal.GetLastWin32Error());
+                }
+                else
+                {
+                    NativeMethods.DispatchMessage(ref m);
+                }
+            }
+            Debug.WriteLine(Marshal.GetLastWin32Error());
+        }*/
+
+        internal static IntPtr Handle
+        {
+            get
+            {
+                return s_hwnd;
+            }
+        }
+
+        internal static event EventHandler<ulong> ConnectionStateChanged;
+
+        static int WindowProc(IntPtr hwnd, uint uMsg, IntPtr wParam, IntPtr lParam)
+        {
+            Debug.WriteLine(uMsg);
+            switch(uMsg)
+            {
+                case NativeMethods.WM_DEVICECHANGE:
+                    if (lParam != IntPtr.Zero)
+                    {
+                        NativeMethods.DEV_BROADCAST_HANDLE dbh = Marshal.PtrToStructure<NativeMethods.DEV_BROADCAST_HANDLE>(lParam);
+                        if (dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_HCI_EVENT)
+                        {
+                            //BTH_HCI_EVENT_INFO
+                            IntPtr bthhci = IntPtr.Add(lParam, 40);
+                            NativeMethods.BTH_HCI_EVENT_INFO ei = Marshal.PtrToStructure<NativeMethods.BTH_HCI_EVENT_INFO>(bthhci);
+                            Debug.WriteLine(ei.bthAddress + (ei.connected > 0 ? " connected" : " disconnected"));
+                            ConnectionStateChanged?.Invoke(null, ei.bthAddress);
+                        }
+                        else if(dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_HCI_EVENT)
+                        {
+                            //BTH_L2CAP_EVENT_INFO
+                            IntPtr bthl2cap = IntPtr.Add(lParam, 40);
+                            NativeMethods.BTH_L2CAP_EVENT_INFO ei = Marshal.PtrToStructure<NativeMethods.BTH_L2CAP_EVENT_INFO>(bthl2cap);
+                            Debug.WriteLine(ei.bthAddress + (ei.connected > 0 ? " connected" : " disconnected"));
+                            ConnectionStateChanged?.Invoke(null, ei.bthAddress);
+                        }
+                    }
+
+                    return 0;
+
+                case 1:
+                case 0x83:
+                    return 0;
+
+                default:
+                    return -1;
+            }
+        }
     }
 }

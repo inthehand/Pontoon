@@ -52,6 +52,7 @@ namespace InTheHand.Devices.Enumeration
                 base.OnCreate(savedInstanceState);
 
                 bool paired = true;
+                int filterType = 0;
                 // parse filters
                 foreach (string filter in s_current.Filter.SupportedDeviceSelectors)
                 {
@@ -61,12 +62,40 @@ namespace InTheHand.Devices.Enumeration
                         case "bluetoothPairingState":
                             paired = bool.Parse(parts[1]);
                             break;
+
+                        case "bluetoothClassOfDevice":
+                            uint cod = uint.Parse(parts[1]);
+                            var bcod = Bluetooth.BluetoothClassOfDevice.FromRawValue(cod);
+                            switch(bcod.ServiceCapabilities)
+                            {
+                                case Bluetooth.BluetoothServiceCapabilities.AudioService:
+                                    filterType = 1;
+                                    break;
+
+                                case Bluetooth.BluetoothServiceCapabilities.ObjectTransferService:
+                                    filterType = 2;
+                                    break;
+
+                                case Bluetooth.BluetoothServiceCapabilities.NetworkingService:
+                                    filterType = 3;
+                                    break;
+                            }
+
+                            switch(bcod.MajorClass)
+                            {
+                                case Bluetooth.BluetoothMajorClass.NetworkAccessPoint:
+                                    filterType = 4;
+                                    break;
+                            }
+                            break;
                     }
                 }
+
                 Intent i = new Intent("android.bluetooth.devicepicker.action.LAUNCH");
                 i.PutExtra("android.bluetooth.devicepicker.extra.LAUNCH_PACKAGE", Application.Context.PackageName);
                 i.PutExtra("android.bluetooth.devicepicker.extra.DEVICE_PICKER_LAUNCH_CLASS", Java.Lang.Class.FromType(typeof(DevicePickerReceiver)).Name);
                 i.PutExtra("android.bluetooth.devicepicker.extra.NEED_AUTH", paired);
+                i.PutExtra("android.bluetooth.devicepicker.extra.FILTER_TYPE", filterType);
 
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivityForResult(i, 1);
 

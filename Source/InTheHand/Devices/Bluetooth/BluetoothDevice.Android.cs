@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Android.Bluetooth;
 using Android.OS;
 using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
@@ -34,10 +35,35 @@ namespace InTheHand.Devices.Bluetooth
             return new BluetoothDevice(device);
         }
 
-
-        private static async Task<BluetoothLEDevice> FromIdAsyncImpl(string deviceId)
+        private static async Task<BluetoothDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
         {
-            return Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(deviceId);
+            byte[] buffer = new byte[6];
+            var addressBytes = BitConverter.GetBytes(bluetoothAddress);
+            for (int i = 0; i < 6; i++)
+            {
+                buffer[i] = addressBytes[i];
+            }
+
+            var device = DeviceInformation.Manager.Adapter.GetRemoteDevice(buffer);
+
+            if (device.Type.HasFlag(BluetoothDeviceType.Classic))
+            {
+                return device;
+            }
+
+            return null;
+        }
+
+        private static async Task<BluetoothDevice> FromIdAsyncImpl(string deviceId)
+        {
+            var device = Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(deviceId);
+
+            if (device.Type.HasFlag(BluetoothDeviceType.Classic))
+            {
+                return device;
+            }
+
+            return null;
         }
 
         private ulong GetBluetoothAddress()

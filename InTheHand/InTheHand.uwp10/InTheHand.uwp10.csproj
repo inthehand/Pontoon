@@ -215,6 +215,9 @@
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
+      <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
       <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
     </Compile>

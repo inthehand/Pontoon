@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Storage.Pickers
 {
-    public sealed partial class FolderPicker
+    partial class FolderPicker
     {
         private async Task<StorageFolder> DoPickSingleFolderAsync()
         {

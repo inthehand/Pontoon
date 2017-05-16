@@ -12,9 +12,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattDescriptor
     {
-        private async Task<GattReadResult> DoReadValueAsync()
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
-            return null;
+            return new GattReadResult(GattCommunicationStatus.Unreachable, null);
         }
 
         private Guid GetUuid()

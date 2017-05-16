@@ -19,7 +19,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private void GetDescriptors(Guid descriptorUuid, List<GattDescriptor> descriptors)
         { }
 
-        private async Task<GattReadResult> DoReadValueAsync()
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
             throw new PlatformNotSupportedException();
         }
@@ -32,6 +32,11 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         private GattCharacteristicProperties GetCharacteristicProperties()
         {
             return GattCharacteristicProperties.None;
+        }
+
+        private GattDeviceService GetService()
+        {
+            return null;
         }
 
         private string GetUserDescription()

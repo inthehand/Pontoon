@@ -12,7 +12,7 @@ using System.Text;
 
 namespace InTheHand.Storage.Pickers
 {
-    public sealed partial class FileOpenPicker
+    partial class FileOpenPicker
     {
         private async Task<StorageFile> DoPickSingleFileAsync()
         {

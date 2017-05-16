@@ -8,23 +8,26 @@
 using System;
 using System.Threading.Tasks;
 using Android.Bluetooth;
+using System.Threading;
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattDescriptor
     {
-        private BluetoothLEDevice _device;
+        private GattCharacteristic _characteristic;
         private BluetoothGattDescriptor _descriptor;
 
-        internal GattDescriptor(BluetoothLEDevice device, BluetoothGattDescriptor descriptor)
+        internal GattDescriptor(GattCharacteristic characteristic, BluetoothGattDescriptor descriptor)
         {
-            _device = device;
+            _characteristic = characteristic;
             _descriptor = descriptor;
+            _characteristic.Service.Device.DescriptorRead += _device_DescriptorRead;
         }
 
-        private GattDescriptor(BluetoothGattDescriptor descriptor)
+        private void _device_DescriptorRead(object sender, BluetoothGattDescriptor e)
         {
-            _descriptor = descriptor;
+            if (e == _descriptor)
+                _readHandle.Set();
         }
 
         public static implicit operator BluetoothGattDescriptor(GattDescriptor descriptor)
@@ -32,19 +35,19 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return descriptor._descriptor;
         }
 
-        public static implicit operator GattDescriptor(BluetoothGattDescriptor descriptor)
-        {
-            return new GattDescriptor(descriptor);
-        }
+        private EventWaitHandle _readHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
-        private async Task<GattReadResult> DoReadValueAsync()
+        private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
-            if (_device._bluetoothGatt.ReadDescriptor(_descriptor))
+            bool success = true;
+
+            if (cacheMode == BluetoothCacheMode.Uncached)
             {
-                return new GattReadResult(GattCommunicationStatus.Success, _descriptor.GetValue());
+                success = _characteristic.Service.Device._bluetoothGatt.ReadDescriptor(_descriptor);
+                _readHandle.WaitOne();
             }
 
-            return new GattReadResult(GattCommunicationStatus.Unreachable, null);
+            return new GattReadResult(success ? GattCommunicationStatus.Success : GattCommunicationStatus.Unreachable, _descriptor.GetValue());
         }
         
         private Guid GetUuid()

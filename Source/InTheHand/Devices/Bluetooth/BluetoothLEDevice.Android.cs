@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using InTheHand.Foundation;
 using System.Threading;
 using Android.Bluetooth;
+using Android.Runtime;
 
 namespace InTheHand.Devices.Bluetooth
 {
@@ -22,17 +23,41 @@ namespace InTheHand.Devices.Bluetooth
     {
         private static async Task<BluetoothLEDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
         {
-            return Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(BitConverter.GetBytes(bluetoothAddress));
+            byte[] buffer = new byte[6];
+            var addressBytes = BitConverter.GetBytes(bluetoothAddress);
+            for (int i = 0; i < 6; i++)
+            {
+                buffer[i] = addressBytes[i];
+            }
+
+            var device = Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(buffer);
+            if (device.Type.HasFlag(BluetoothDeviceType.Le))
+            {
+                return device;
+            }
+
+            return null;
         }
 
         private static async Task<BluetoothLEDevice> FromIdAsyncImpl(string deviceId)
         {
-            return Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(deviceId);
+            var device = Android.Bluetooth.BluetoothAdapter.DefaultAdapter.GetRemoteDevice(deviceId);
+            if (device.Type.HasFlag(BluetoothDeviceType.Le))
+            {
+                return device;
+            }
+
+            return null;
         }
 
         private static async Task<BluetoothLEDevice> FromDeviceInformationAsyncImpl(DeviceInformation deviceInformation)
         {
-            return deviceInformation._device;
+            if (deviceInformation._device.Type.HasFlag(BluetoothDeviceType.Le))
+            {
+                return deviceInformation._device;
+            }
+
+            return null;
         }
 
         private static string GetDeviceSelectorImpl()
@@ -68,8 +93,8 @@ namespace InTheHand.Devices.Bluetooth
 
         private BluetoothConnectionStatus GetConnectionStatus()
         {
-            Android.Bluetooth.ProfileState state = DeviceInformation.Manager.GetConnectionState(_device, Android.Bluetooth.ProfileType.Gatt);
-            return state == Android.Bluetooth.ProfileState.Connected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
+            ProfileState state = DeviceInformation.Manager.GetConnectionState(_device, ProfileType.Gatt);
+            return state == ProfileState.Connected ? BluetoothConnectionStatus.Connected : BluetoothConnectionStatus.Disconnected;
         }
 
 
@@ -77,6 +102,8 @@ namespace InTheHand.Devices.Bluetooth
         {
             return _device.Address;
         }
+
+        internal EventWaitHandle _discoveryHandle = new EventWaitHandle(false, EventResetMode.AutoReset);
 
         private IReadOnlyList<GattDeviceService> GetGattServices()
         {
@@ -86,6 +113,12 @@ namespace InTheHand.Devices.Bluetooth
 
                 _gattCallback = new GattCallback(this);
                 _bluetoothGatt = _device.ConnectGatt(Android.App.Application.Context, true, _gattCallback);
+                _discoveryHandle.WaitOne();
+            }
+
+            if (_bluetoothGatt.DiscoverServices())
+            {
+                _discoveryHandle.WaitOne();
             }
 
             foreach (BluetoothGattService service in _bluetoothGatt.Services)
@@ -96,6 +129,26 @@ namespace InTheHand.Devices.Bluetooth
             return services.AsReadOnly();
         }
 
+        internal event EventHandler<BluetoothGattCharacteristic> CharacteristicRead;
+
+        internal void RaiseCharacteristicRead(BluetoothGattCharacteristic characteristic)
+        {
+            CharacteristicRead?.Invoke(this, characteristic);
+        }
+
+        internal event EventHandler<BluetoothGattCharacteristic> CharacteristicWrite;
+
+        internal void RaiseCharacteristicWrite(BluetoothGattCharacteristic characteristic)
+        {
+            CharacteristicWrite?.Invoke(this, characteristic);
+        }
+
+        internal event EventHandler<BluetoothGattDescriptor> DescriptorRead;
+
+        internal void RaiseDescriptorRead(BluetoothGattDescriptor descriptor)
+        {
+            DescriptorRead?.Invoke(this, descriptor);
+        }
     }
 
     internal class GattCallback : BluetoothGattCallback
@@ -107,13 +160,38 @@ namespace InTheHand.Devices.Bluetooth
             _owner = owner;
         }
 
+        public override void OnConnectionStateChange(BluetoothGatt gatt, GattStatus status, ProfileState newState)
+        {
+            if(status == GattStatus.Success)
+                _owner._discoveryHandle.Set();
+
+            global::System.Diagnostics.Debug.WriteLine(status);
+        }
+
         public event EventHandler<BluetoothGattCharacteristic> CharacteristicChanged;
 
         public override void OnCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic)
         {
             CharacteristicChanged?.Invoke(this, characteristic);
+        }
 
-            base.OnCharacteristicChanged(gatt, characteristic);
+        public override void OnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, GattStatus status)
+        {
+            _owner.RaiseCharacteristicRead(characteristic);
+        }
+
+        public override void OnCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, GattStatus status)
+        {
+        }
+
+        public override void OnDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, GattStatus status)
+        {
+            _owner.RaiseDescriptorRead(descriptor);
+        }
+
+        public override void OnServicesDiscovered(BluetoothGatt gatt, GattStatus status)
+        {
+            _owner._discoveryHandle.Set();
         }
     }
 }
