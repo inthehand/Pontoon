@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace InTheHand.Graphics.Display
 {
-    public sealed partial class DisplayInformation
+    partial class DisplayInformation
     {
         private static DisplayInformation DoGetForCurrentView()
         {

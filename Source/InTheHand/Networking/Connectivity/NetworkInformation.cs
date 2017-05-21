@@ -44,14 +44,13 @@ namespace InTheHand.Networking.Connectivity
         {
             OnNetworkStatusChanged();
         }
+
 #elif __UNIFIED__
         private static NetworkReachability _reachability;
         private static void ReachabilityNotification(NetworkReachabilityFlags flags)
         {
             OnNetworkStatusChanged();
         }
-#elif TIZEN
-        private static Tizen.Network.Connection.ConnectionManager _manager = new Tizen.Network.Connection.ConnectionManager();
 #endif
 
         static NetworkInformation()
@@ -59,6 +58,7 @@ namespace InTheHand.Networking.Connectivity
 #if __ANDROID__
             _manager = ConnectivityManager.FromContext(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity);
             //_manager = ConnectivityManager.FromContext(InTheHand.Platform.Android.ContextManager.Context);
+
 #elif __UNIFIED__
             _reachability = new NetworkReachability("www.apple.com");
 #endif
@@ -73,6 +73,7 @@ namespace InTheHand.Networking.Connectivity
         {
 #if __ANDROID__
             return new ConnectionProfile(_manager.ActiveNetworkInfo);
+
 #elif __UNIFIED__
             NetworkReachabilityFlags flags;
             if(_reachability.TryGetFlags(out flags))
@@ -89,11 +90,13 @@ namespace InTheHand.Networking.Connectivity
                 }
 #endif
             }
+
 #elif TIZEN
-            return _manager.CurrentConnection;
+            return Tizen.Network.Connection.ConnectionManager.CurrentConnection;
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return new ConnectionProfile(Windows.Networking.Connectivity.NetworkInformation.GetInternetConnectionProfile());
+
 #elif WIN32
             foreach(var i in NetworkInterface.GetAllNetworkInterfaces())
             {

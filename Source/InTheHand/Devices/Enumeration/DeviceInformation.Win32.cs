@@ -13,7 +13,7 @@ using InTheHand.Devices.Bluetooth;
 
 namespace InTheHand.Devices.Enumeration
 {
-    public sealed partial class DeviceInformation
+    partial class DeviceInformation
     {
 
         internal BLUETOOTH_DEVICE_INFO _deviceInfo;
@@ -30,7 +30,7 @@ namespace InTheHand.Devices.Enumeration
         }
 
 
-        private static void FindAllAsyncImpl(string aqsFilter, List<DeviceInformation> list)
+        private static async Task FindAllAsyncImpl(string aqsFilter, List<DeviceInformation> list)
         {
             NativeMethods.BLUETOOTH_DEVICE_SEARCH_PARAMS searchParams = new NativeMethods.BLUETOOTH_DEVICE_SEARCH_PARAMS();
             searchParams.dwSize = Marshal.SizeOf(searchParams);

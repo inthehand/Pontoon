@@ -10,7 +10,7 @@ using UserNotifications;
 
 namespace InTheHand.UI.Notifications
 {
-    public sealed partial class ScheduledToastNotification
+    partial class ScheduledToastNotification
     {
         internal UNMutableNotificationContent _content;
         internal UNCalendarNotificationTrigger _trigger;

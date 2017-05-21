@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace InTheHand.UI.Popups
 {
-    public sealed partial class MessageDialog
+    partial class MessageDialog
     {
         private IUICommand ShowTaskDialog()
         {

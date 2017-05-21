@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace InTheHand.ApplicationModel.Email
 {
-    public static partial class EmailManager
+    partial class EmailManager
     {
         private static void ShowComposeNewEmailImpl(EmailMessage message)
         {

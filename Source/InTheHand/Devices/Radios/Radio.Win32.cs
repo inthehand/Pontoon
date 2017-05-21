@@ -14,7 +14,7 @@ using System.Collections;
 
 namespace InTheHand.Devices.Radios
 {
-    public sealed partial class Radio
+    partial class Radio
     {
         private static Type s_type10 = Type.GetType("Windows.Devices.Radios.Radio, Windows, ContentType=WindowsRuntime");
         private object _object10 = null;

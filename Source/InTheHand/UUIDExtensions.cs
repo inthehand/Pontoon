@@ -19,6 +19,11 @@ namespace InTheHand
     /// </remarks>
     public static class UUIDExtensions
     {
+        /// <summary>
+        /// Converts a <see cref="UUID"/> to a .NET <see cref="Guid"/> .
+        /// </summary>
+        /// <param name="uuid"></param>
+        /// <returns></returns>
         public static Guid ToGuid(this UUID uuid)
         {
             return new Guid(uuid.ToString());

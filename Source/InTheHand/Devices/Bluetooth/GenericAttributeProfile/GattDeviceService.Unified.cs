@@ -45,12 +45,12 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private static string GetDeviceSelectorFromShortIdImpl(ushort serviceShortId)
         {
-            return CBUUID.FromPartial(serviceShortId).ToString();
+            return "bluetoothService:" + BluetoothUuidHelper.FromShortId(serviceShortId).ToString();
         }
 
         private static string GetDeviceSelectorFromUuidImpl(Guid serviceUuid)
         {
-            return CBUUID.FromBytes(serviceUuid.ToByteArray()).ToString();
+            return "bluetoothService:" + serviceUuid.ToString();
         }
 
 
@@ -58,7 +58,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         {
             foreach (CBCharacteristic characteristic in _service.Characteristics)
             {
-                characteristics.Add(new GattCharacteristic(characteristic, _service.Peripheral));
+                characteristics.Add(new GattCharacteristic(this, characteristic));
             }
         }
 
@@ -68,7 +68,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             {
                 if (characteristic.UUID.ToGuid() == characteristicUuid)
                 {
-                    characteristics.Add(new GattCharacteristic(characteristic, _service.Peripheral));
+                    characteristics.Add(new GattCharacteristic(this, characteristic));
                 }
             }
         }

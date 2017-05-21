@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------
 
 using Android.Bluetooth;
+using Android.Content;
 using Android.OS;
 using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth
 {
-    public sealed partial class BluetoothDevice
+    partial class BluetoothDevice
     {
         internal Android.Bluetooth.BluetoothDevice _device;
 
@@ -66,6 +67,26 @@ namespace InTheHand.Devices.Bluetooth
             return null;
         }
 
+        private static async Task<BluetoothDevice> FromDeviceInformationAsyncImpl(DeviceInformation deviceInformation)
+        {
+            return deviceInformation._device;
+        }
+
+        private static string GetDeviceSelectorImpl()
+        {
+            return string.Empty;
+        }
+
+        private static string GetDeviceSelectorFromClassOfDeviceImpl(BluetoothClassOfDevice classOfDevice)
+        {
+            return "bluetoothClassOfDevice:" + classOfDevice.RawValue.ToString("X12");
+        }
+
+        private static string GetDeviceSelectorFromPairingStateImpl(bool pairingState)
+        {
+            return "bluetoothPairingState:" + pairingState.ToString();
+        }
+
         private ulong GetBluetoothAddress()
         {
             return ulong.Parse(_device.Address.Replace(":", ""), NumberStyles.HexNumber);
@@ -74,6 +95,12 @@ namespace InTheHand.Devices.Bluetooth
         private BluetoothClassOfDevice GetClassOfDevice()
         {
             return new BluetoothClassOfDevice((uint)_device.BluetoothClass.DeviceClass);
+        }
+
+        private BluetoothConnectionStatus _connectionStatus = BluetoothConnectionStatus.Disconnected;
+        private BluetoothConnectionStatus GetConnectionStatus()
+        {
+            return _connectionStatus;
         }
 
         private string GetDeviceId()
@@ -94,6 +121,51 @@ namespace InTheHand.Devices.Bluetooth
                 foreach (ParcelUuid g in uuids)
                 {
                     services.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
+                }
+            }
+        }
+
+        private BluetoothDeviceReceiver _connectedStateReceiver;
+        private void ConnectionStatusChangedAdd()
+        {
+            IntentFilter filter = new IntentFilter();
+            filter.AddAction("ACTION_ACL_CONNECTED");
+            filter.AddAction("ACTION_ACL_DISCONNECTED");
+            _connectedStateReceiver = new BluetoothDeviceReceiver(this);
+            Android.App.Application.Context.RegisterReceiver(_connectedStateReceiver, filter);
+        }
+
+        private void ConnectionStatusChangedRemove()
+        {
+            if(_connectedStateReceiver != null)
+            {
+                Android.App.Application.Context.UnregisterReceiver(_connectedStateReceiver);
+                _connectedStateReceiver = null;
+            }
+        }
+
+        private sealed class BluetoothDeviceReceiver : BroadcastReceiver
+        {
+            private BluetoothDevice _parent;
+
+            internal BluetoothDeviceReceiver(BluetoothDevice parent)
+            {
+                _parent = parent;
+            }
+
+            public override void OnReceive(Context context, Intent intent)
+            {
+                switch(intent.Action)
+                {
+                    case "ACTION_ACL_CONNECTED":
+                        _parent._connectionStatus = BluetoothConnectionStatus.Connected;
+                        _parent.RaiseConnectionStatusChanged();
+                        break;
+
+                    case "ACTION_ACL_DISCONNECTED":
+                        _parent._connectionStatus = BluetoothConnectionStatus.Disconnected;
+                        _parent.RaiseConnectionStatusChanged();
+                        break;
                 }
             }
         }

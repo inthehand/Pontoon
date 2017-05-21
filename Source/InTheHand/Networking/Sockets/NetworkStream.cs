@@ -34,6 +34,10 @@ namespace InTheHand.Networking.Sockets
         private Stream _inputStream;
         private Stream _outputStream;
 
+        /// <summary>
+        /// Creates a new instance of the NetworkStream for the specified <see cref="StreamSocket"/>
+        /// </summary>
+        /// <param name="socket"></param>
         public NetworkStream(StreamSocket socket)
         {
             _socket = socket;
@@ -43,12 +47,19 @@ namespace InTheHand.Networking.Sockets
 #elif __ANDROID__
         private BluetoothSocket _socket;
 
-        public NetworkStream(Android.Bluetooth.BluetoothSocket socket)
+        /// <summary>
+        /// Creates a new instance of the NetworkStream for the specified <see cref="BluetoothSocket"/>
+        /// </summary>
+        /// <param name="socket"></param>
+        public NetworkStream(BluetoothSocket socket)
         {
             _socket = socket;
         }
 #endif
 
+        /// <summary>
+        /// Gets a value that indicates whether the NetworkStream supports reading.
+        /// </summary>
         public override bool CanRead
         {
             get
@@ -63,6 +74,9 @@ namespace InTheHand.Networking.Sockets
             }
         }
 
+        /// <summary>
+        /// Gets a value that indicates whether the stream supports seeking. This property is not currently supported.This property always returns false.
+        /// </summary>
         public override bool CanSeek
         {
             get
@@ -71,6 +85,9 @@ namespace InTheHand.Networking.Sockets
             }
         }
 
+        /// <summary>
+        /// Gets a value that indicates whether the NetworkStream supports writing.
+        /// </summary>
         public override bool CanWrite
         {
             get
@@ -85,6 +102,10 @@ namespace InTheHand.Networking.Sockets
             }
         }
 
+        /// <summary>
+        /// Gets the length of the data available on the stream. 
+        /// This property is not currently supported and always throws a NotSupportedException.
+        /// </summary>
         public override long Length
         {
             get
@@ -99,6 +120,10 @@ namespace InTheHand.Networking.Sockets
             }
         }
 
+        /// <summary>
+        /// Gets or sets the current position in the stream.
+        /// This property is not currently supported and always throws a NotSupportedException.
+        /// </summary>
         public override long Position
         {
             get
@@ -112,6 +137,9 @@ namespace InTheHand.Networking.Sockets
             }
         }
 
+        /// <summary>
+        /// Flushes data from the stream.
+        /// </summary>
         public override void Flush()
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -121,6 +149,13 @@ namespace InTheHand.Networking.Sockets
 #endif
         }
 
+        /// <summary>
+        /// Reads data from the NetworkStream.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -132,16 +167,34 @@ namespace InTheHand.Networking.Sockets
 #endif
         }
 
+        /// <summary>
+        /// Sets the current position of the stream to the given value.
+        /// This method is not currently supported and always throws a NotSupportedException.
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="origin"></param>
+        /// <returns></returns>
         public override long Seek(long offset, SeekOrigin origin)
         {
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Sets the length of the stream. 
+        /// This method always throws a NotSupportedException.
+        /// </summary>
+        /// <param name="value"></param>
         public override void SetLength(long value)
         {
             throw new NotSupportedException();
         }
 
+        /// <summary>
+        /// Writes data to the NetworkStream.
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="offset"></param>
+        /// <param name="count"></param>
         public override void Write(byte[] buffer, int offset, int count)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -151,6 +204,10 @@ namespace InTheHand.Networking.Sockets
 #endif
         }
 
+        /// <summary>
+        /// Releases the unmanaged resources used by the NetworkStream and optionally releases the managed resources.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
@@ -161,6 +218,7 @@ namespace InTheHand.Networking.Sockets
             _socket?.Dispose();
             _socket = null;
 #elif __ANDROID__
+            _socket?.Close();
             _socket?.Dispose();
             _socket = null;
 #endif

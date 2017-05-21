@@ -12,7 +12,7 @@ using System.Globalization;
 
 namespace InTheHand.Devices.Bluetooth
 {
-    public sealed partial class BluetoothAdapter
+    partial class BluetoothAdapter
     {
         private static Task<BluetoothAdapter> GetDefaultAsyncImpl()
         {
@@ -38,7 +38,17 @@ namespace InTheHand.Devices.Bluetooth
         {
             return new BluetoothClassOfDevice(0);
         }
-        
+
+        private bool GetIsClassicSupported()
+        {
+            return true;
+        }
+
+        private bool GetIsLowEnergySupported()
+        {
+            return false;
+        }
+
         private string GetName()
         {
             return _adapter.Name;

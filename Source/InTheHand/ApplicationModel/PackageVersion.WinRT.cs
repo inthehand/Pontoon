@@ -6,7 +6,7 @@
 
 namespace InTheHand.ApplicationModel
 {
-    public partial struct PackageVersion
+    partial struct PackageVersion
     {
         public static implicit operator Windows.ApplicationModel.PackageVersion(PackageVersion pv)
         {

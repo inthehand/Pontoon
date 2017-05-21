@@ -19,19 +19,17 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     {
         private GattDeviceService _service;
         private CBCharacteristic _characteristic;
-        private CBPeripheral _peripheral;
         
-        internal GattCharacteristic(GattDeviceService service, CBCharacteristic characteristic, CBPeripheral peripheral)
+        internal GattCharacteristic(GattDeviceService service, CBCharacteristic characteristic)
         {
             _service = service;
             _characteristic = characteristic;
-            _peripheral = peripheral;
-            _peripheral.DiscoveredDescriptor += _peripheral_DiscoveredDescriptor;
+            _service.Device.Peripheral.DiscoveredDescriptor += _peripheral_DiscoveredDescriptor;
         }
 
         ~GattCharacteristic()
         {
-            _peripheral.DiscoveredDescriptor -= _peripheral_DiscoveredDescriptor;
+            _service.Device.Peripheral.DiscoveredDescriptor -= _peripheral_DiscoveredDescriptor;
         }
 
         private void _peripheral_DiscoveredDescriptor(object sender, CBCharacteristicEventArgs e)
@@ -50,7 +48,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private void GetAllDescriptors(List<GattDescriptor> descriptors)
         {
-            _peripheral.DiscoverDescriptors(_characteristic);
+            _service.Device.Peripheral.DiscoverDescriptors(_characteristic);
 
             foreach (CBDescriptor d in _characteristic.Descriptors)
             {
@@ -60,7 +58,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private void GetDescriptors(Guid descriptorUuid, List<GattDescriptor> descriptors)
         {
-            _peripheral.DiscoverDescriptors(_characteristic);
+            _service.Device.Peripheral.DiscoverDescriptors(_characteristic);
 
             foreach (CBDescriptor descriptor in _characteristic.Descriptors)
             {
@@ -126,14 +124,14 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 
         private void ValueChangedAdd()
         {
-            _peripheral.SetNotifyValue(true, _characteristic);
-            _peripheral.UpdatedCharacterteristicValue += _peripheral_UpdatedCharacterteristicValue;
+            _service.Device.Peripheral.SetNotifyValue(true, _characteristic);
+            _service.Device.Peripheral.UpdatedCharacterteristicValue += _peripheral_UpdatedCharacterteristicValue;
         }
 
         private void ValueChangedRemove()
         {
-            _peripheral.UpdatedCharacterteristicValue -= _peripheral_UpdatedCharacterteristicValue;
-            _peripheral.SetNotifyValue(false, _characteristic);
+            _service.Device.Peripheral.UpdatedCharacterteristicValue -= _peripheral_UpdatedCharacterteristicValue;
+            _service.Device.Peripheral.SetNotifyValue(false, _characteristic);
         }
        
 

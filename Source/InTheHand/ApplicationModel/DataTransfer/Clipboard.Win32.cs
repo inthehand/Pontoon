@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace InTheHand.ApplicationModel.DataTransfer
 {
-    public static partial class Clipboard
+    partial class Clipboard
     {
         private static void EmptyClipboard()
         {

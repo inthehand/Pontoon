@@ -42,6 +42,9 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
+      <Link>ApplicationModel\DesignMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs">
       <Link>ApplicationModel\Package.cs</Link>
     </Compile>
@@ -60,6 +63,12 @@
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs">
+      <Link>Devices\Bluetooth\BluetoothAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.Unified.cs">
+      <Link>Devices\Bluetooth\BluetoothAdapter.Unified.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
       <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
     </Compile>
@@ -71,6 +80,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Unified.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.Unified.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothUuidHelper.cs">
+      <Link>Devices\Bluetooth\BluetoothUuidHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\CBUUIDExtensions.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\CBUUIDExtensions.cs</Link>
@@ -122,6 +134,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.Unified.cs">
+      <Link>Devices\Enumeration\DeviceInformation.Unified.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
       <Link>Devices\Environment.cs</Link>

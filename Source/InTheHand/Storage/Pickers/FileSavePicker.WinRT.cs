@@ -10,7 +10,7 @@ using System;
 
 namespace InTheHand.Storage.Pickers
 {
-    public sealed partial class FileSavePicker
+    partial class FileSavePicker
     {
         private Windows.Storage.Pickers.FileSavePicker _picker;
 

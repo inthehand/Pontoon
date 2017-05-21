@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth
 {
-    public sealed partial class BluetoothLEDevice
+    partial class BluetoothLEDevice
     {
         private static Task<BluetoothLEDevice> FromBluetoothAddressAsyncImpl(ulong bluetoothAddress)
         {

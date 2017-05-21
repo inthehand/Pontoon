@@ -1,9 +1,10 @@
 ﻿{
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
-    "Tizen.Library": "1.0.0-pre2",
-    "Tizen.Location": "1.0.4",
-    "Tizen.Location.Geofence": "1.0.0"
+    "NETStandard.Library": "1.6.1",
+    "Tizen.Applications": "1.3.2",
+    "Tizen.Library": "1.0.0-pre3",
+    "Tizen.Location": "1.0.7",
+    "Tizen.Location.Geofence": "1.0.2"
   },
   "frameworks": {
     "netstandard1.3": {}

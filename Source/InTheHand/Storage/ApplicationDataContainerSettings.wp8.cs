@@ -14,7 +14,7 @@ using System.IO.IsolatedStorage;
 
 namespace InTheHand.Storage
 {
-    public sealed partial class ApplicationDataContainerSettings :
+    partial class ApplicationDataContainerSettings :
         IPropertySet, IDictionary<string, object>, IEnumerable<KeyValuePair<string, object>>, IObservableMap<string, object>
     {
         internal void Initialize()

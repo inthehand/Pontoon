@@ -37,7 +37,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return await Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService.FromIdAsync(deviceId);
 
 #elif WIN32
-            if(deviceId.StartsWith("bluetooth#"))
+            if(deviceId.StartsWith("BLUETOOTH#"))
             {
                 var parts = deviceId.Split('#');
                 var addr = parts[1];
@@ -144,6 +144,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return Task.Run<Stream>(() =>
             {
                 var socket = _device._device.CreateRfcommSocketToServiceRecord(Java.Util.UUID.FromString(_service.Uuid.ToString()));
+                socket.Connect();
                 return new NetworkStream(socket);
             });
 

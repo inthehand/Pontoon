@@ -63,7 +63,10 @@ namespace InTheHand.UI.Notifications
             ShowImpl(notification);
 
 #elif TIZEN
-            Tizen.Applications.Notifications.NotificationManager.PostToastMessage(notification.Title + "\r\n" + notification.Content);
+            Tizen.Applications.Notifications.Notification not = new Tizen.Applications.Notifications.EventNotification();
+            not.Content = notification.Content;
+            not.Title = notification.Title;
+            Tizen.Applications.Notifications.NotificationManager.Post(not);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _notifier.Show(notification);

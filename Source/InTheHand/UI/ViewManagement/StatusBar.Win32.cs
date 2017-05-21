@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace InTheHand.UI.ViewManagement
 {
-    public sealed partial class StatusBar
+    partial class StatusBar
     {
         private IntPtr _handle;
 

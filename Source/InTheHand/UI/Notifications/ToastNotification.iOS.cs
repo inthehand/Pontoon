@@ -9,7 +9,7 @@ using UserNotifications;
 
 namespace InTheHand.UI.Notifications
 {
-    public sealed partial class ToastNotification
+    partial class ToastNotification
     {
         internal UNMutableNotificationContent _content;
         internal UNNotificationRequest _request;

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace InTheHand.UI.ViewManagement
 {
-    public sealed partial class StatusBarProgressIndicator
+    partial class StatusBarProgressIndicator
     {
         private IntPtr _handle;
         private ITaskbarList3 _taskbarList = (ITaskbarList3)new TaskbarInstance();

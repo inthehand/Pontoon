@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth
 {
-    public sealed partial class BluetoothDevice
+    partial class BluetoothDevice
     {
         private static Task<BluetoothDevice> FromBluetoothAddressAsyncImpl(ulong address)
         {
@@ -44,6 +44,26 @@ namespace InTheHand.Devices.Bluetooth
             }
 
             return null;
+        }
+
+        private static async Task<BluetoothDevice> FromDeviceInformationAsyncImpl(DeviceInformation deviceInformation)
+        {
+            return new BluetoothDevice(deviceInformation._deviceInfo);
+        }
+
+        private static string GetDeviceSelectorImpl()
+        {
+            return string.Empty;
+        }
+
+        private static string GetDeviceSelectorFromClassOfDeviceImpl(BluetoothClassOfDevice classOfDevice)
+        {
+            return "bluetoothClassOfDevice:" + classOfDevice.RawValue.ToString("X12");
+        }
+
+        private static string GetDeviceSelectorFromPairingStateImpl(bool pairingState)
+        {
+            return "bluetoothPairingState:" + pairingState.ToString();
         }
 
         private BLUETOOTH_DEVICE_INFO _info;

@@ -12,7 +12,7 @@ using UIKit;
 
 namespace InTheHand.System
 {
-    public static partial class Launcher
+    static partial class Launcher
     {
 #if !__TVOS__
         private static Task<bool> LaunchFileAsyncImpl(IStorageFile file)

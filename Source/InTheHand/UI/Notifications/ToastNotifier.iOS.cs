@@ -10,7 +10,7 @@ using Foundation;
 
 namespace InTheHand.UI.Notifications
 {
-    public sealed partial class ToastNotifier
+    partial class ToastNotifier
     {
         private static bool s_granted;
 

@@ -20,6 +20,7 @@ namespace InTheHand.Devices.Bluetooth
     /// <remarks>
     /// <para/><list type="table">
     /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+    /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
@@ -42,17 +43,9 @@ namespace InTheHand.Devices.Bluetooth
         /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.1 or later</description></item>
         /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
         /// </remarks>
-        public static async Task<BluetoothDevice> FromBluetoothAddressAsync(ulong address)
+        public static Task<BluetoothDevice> FromBluetoothAddressAsync(ulong address)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return await Windows.Devices.Bluetooth.BluetoothDevice.FromBluetoothAddressAsync(address);
-
-#elif __ANDROID__ || WIN32
-            return await FromBluetoothAddressAsyncImpl(address);
-
-#else
-            return null;
-#endif
+            return FromBluetoothAddressAsyncImpl(address);
         }
 
         /// <summary>
@@ -60,17 +53,9 @@ namespace InTheHand.Devices.Bluetooth
         /// </summary>
         /// <param name="deviceId">The DeviceId value that identifies the <see cref="BluetoothDevice"/> instance.</param>
         /// <returns>After the asynchronous operation completes, returns the <see cref="BluetoothDevice"/> object identified by the given DeviceId.</returns>
-        public static async Task<BluetoothDevice> FromIdAsync(string deviceId)
+        public static Task<BluetoothDevice> FromIdAsync(string deviceId)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceId);
-
-#elif __ANDROID__ || WIN32
-            return await FromIdAsyncImpl(deviceId);
-
-#else
-            return null;
-#endif
+            return FromIdAsyncImpl(deviceId);
         }
 
         /// <summary>
@@ -78,20 +63,9 @@ namespace InTheHand.Devices.Bluetooth
         /// </summary>
         /// <param name="deviceInformation">The DeviceInformation value that identifies the BluetoothDevice instance.</param>
         /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object identified by the given DeviceInformation.</returns>
-        public static async Task<BluetoothDevice> FromDeviceInformationAsync(DeviceInformation deviceInformation)
+        public static Task<BluetoothDevice> FromDeviceInformationAsync(DeviceInformation deviceInformation)
         {
-#if __ANDROID__
-            return deviceInformation._device;
-
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return await Windows.Devices.Bluetooth.BluetoothDevice.FromIdAsync(deviceInformation.Id);
-
-#elif WIN32
-            return new BluetoothDevice(deviceInformation._deviceInfo);
-
-#else
-            return null;
-#endif
+            return FromDeviceInformationAsyncImpl(deviceInformation);
         }
 
         /// <summary>
@@ -101,12 +75,7 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns></returns>
         public static string GetDeviceSelector()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelector();
-
-#else
-            return string.Empty;
-#endif
+            return GetDeviceSelectorImpl();
         }
 
         /// <summary>
@@ -117,13 +86,7 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns>An AQS string that can be passed as a parameter to the CreateWatcher method.</returns>
         public static string GetDeviceSelectorFromClassOfDevice(BluetoothClassOfDevice classOfDevice)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
-            return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelectorFromClassOfDevice(classOfDevice);
-#elif WIN32
-            return "bluetoothClassOfDevice:" + classOfDevice.RawValue.ToString("X12");
-#else
-            return string.Empty;
-#endif
+            return GetDeviceSelectorFromClassOfDeviceImpl(classOfDevice);
         }
 
         /// <summary>
@@ -136,56 +99,8 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns>An AQS string that can be passed as a parameter to the CreateWatcher method.</returns>
         public static string GetDeviceSelectorFromPairingState(bool pairingState)
         {
-#if WINDOWS_UWP
-            return Windows.Devices.Bluetooth.BluetoothDevice.GetDeviceSelectorFromPairingState(pairingState);
-#elif __ANDROID__ || WIN32
-            return "bluetoothPairingState:" + pairingState.ToString();
-#else
-            return string.Empty;
-#endif
+            return GetDeviceSelectorFromPairingStateImpl(pairingState);
         }
-
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private Windows.Devices.Bluetooth.BluetoothDevice _device;
-
-        private BluetoothDevice(Windows.Devices.Bluetooth.BluetoothDevice device)
-        {
-            _device = device;
-        }
-
-        public static implicit operator Windows.Devices.Bluetooth.BluetoothDevice(BluetoothDevice device)
-        {
-            return device._device;
-        }
-
-        public static implicit operator BluetoothDevice(Windows.Devices.Bluetooth.BluetoothDevice device)
-        {
-            return new BluetoothDevice(device);
-        }
-
-        private void ConnectionStatusChangedAdd()
-        {
-            _device.ConnectionStatusChanged += _device_ConnectionStatusChanged;
-        }
-
-        private void _device_ConnectionStatusChanged(Windows.Devices.Bluetooth.BluetoothDevice sender, object args)
-        {
-            _connectionStatusChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ConnectionStatusChangedRemove()
-        {
-            _device.ConnectionStatusChanged -= _device_ConnectionStatusChanged;
-        }
-#elif __ANDROID__ || PCL
-        private void ConnectionStatusChangedAdd()
-        {
-        }
-
-        private void ConnectionStatusChangedRemove()
-        {
-        }
-#endif
 
         /*public Task<RfcommDeviceServicesResult> GetRfcommServicesAsync()
         {
@@ -199,14 +114,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if _WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _device.BluetoothAddress;
-
-#elif __ANDROID__ || WIN32
                 return GetBluetoothAddress();
-#else
-                return 0;
-#endif
             }
         }
 
@@ -217,14 +125,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if _WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _device.ClassOfDevice;
-
-#elif __ANDROID__ || WIN32
                 return GetClassOfDevice();
-#else
-                return null;
-#endif
             }
         }
 
@@ -235,16 +136,13 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);
-
-#elif WIN32
                 return GetConnectionStatus();
-
-#else
-                return BluetoothConnectionStatus.Disconnected;
-#endif
             }
+        }
+
+        private void RaiseConnectionStatusChanged()
+        {
+            _connectionStatusChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private event EventHandler _connectionStatusChanged;
@@ -283,15 +181,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _device.DeviceId;
-
-#elif __ANDROID__ || WIN32
                 return GetDeviceId();
-
-#else
-                return string.Empty;
-#endif
             }
         }
 
@@ -303,15 +193,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _device.Name;
-
-#elif __ANDROID__ || WIN32
                 return GetName();
-
-#else
-                return string.Empty;
-#endif
             }
         }
 
@@ -324,17 +206,9 @@ namespace InTheHand.Devices.Bluetooth
             get
             {
                 var list = new List<RfcommDeviceService>();
-
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                foreach(Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service in _device.RfcommServices)
-                {
-                    list.Add(service);
-                }
-
-#elif WIN32 || __ANDROID__
+                
                 GetRfcommServices(list);
 
-#endif
                 return list.AsReadOnly();
             }
         }

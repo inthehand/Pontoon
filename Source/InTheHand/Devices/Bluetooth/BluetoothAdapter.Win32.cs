@@ -8,13 +8,14 @@
 using System;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace InTheHand.Devices.Bluetooth
 {
     partial class BluetoothAdapter
     {
         private static BluetoothAdapter s_default;
-
+        
         private static Task<BluetoothAdapter> GetDefaultAsyncImpl()
         {
             return Task.Run(() =>
@@ -44,24 +45,29 @@ namespace InTheHand.Devices.Bluetooth
 
         private IntPtr _handle;
         private NativeMethods.BLUETOOTH_RADIO_INFO _radioInfo;
+        private BluetoothMessageWindow _messageWindow;
         private int _notifyHandle;
 
         internal BluetoothAdapter(IntPtr radioHandle, NativeMethods.BLUETOOTH_RADIO_INFO radioInfo)
         {
             _handle = radioHandle;
             _radioInfo = radioInfo;
+            _messageWindow = new BluetoothMessageWindow();
 
             // register for connection events
-            NativeMethods.DEV_BROADCAST_HANDLE filter = new Bluetooth.NativeMethods.DEV_BROADCAST_HANDLE();
+            NativeMethods.DEV_BROADCAST_HANDLE filter = new NativeMethods.DEV_BROADCAST_HANDLE();
             filter.dbch_size = Marshal.SizeOf(filter);
             filter.dbch_handle = radioHandle;
             filter.dbch_devicetype = NativeMethods.DBT_DEVTYP.HANDLE;
             filter.dbch_eventguid = NativeMethods.GUID_BLUETOOTH_L2CAP_EVENT;
 
-            _notifyHandle = NativeMethods.RegisterDeviceNotification(BluetoothMessageWindow.Handle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
+            _notifyHandle = NativeMethods.RegisterDeviceNotification(_messageWindow.Handle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
+            filter.dbch_eventguid = NativeMethods.GUID_BLUETOOTH_HCI_EVENT;
+            int notifyHandle = NativeMethods.RegisterDeviceNotification(_messageWindow.Handle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
+            NativeMethods.PostMessage(_messageWindow.Handle, 0x401, IntPtr.Zero, IntPtr.Zero);
 
-            bool success = NativeMethods.PostMessage(BluetoothMessageWindow.Handle, 0x401, IntPtr.Zero, IntPtr.Zero);
         }
+
 
         private event EventHandler<ulong> _connectionChanged;
 
@@ -71,7 +77,7 @@ namespace InTheHand.Devices.Bluetooth
             {
                 if(_connectionChanged == null)
                 {
-                    BluetoothMessageWindow.ConnectionStateChanged += BluetoothMessageWindow_ConnectionStateChanged;
+                    _messageWindow.ConnectionStateChanged += BluetoothMessageWindow_ConnectionStateChanged;
                 }
 
                 _connectionChanged += value;
@@ -82,7 +88,7 @@ namespace InTheHand.Devices.Bluetooth
 
                 if (_connectionChanged == null)
                 {
-                    BluetoothMessageWindow.ConnectionStateChanged -= BluetoothMessageWindow_ConnectionStateChanged;
+                    _messageWindow.ConnectionStateChanged -= BluetoothMessageWindow_ConnectionStateChanged;
                 }
             }
         }
@@ -101,7 +107,17 @@ namespace InTheHand.Devices.Bluetooth
         {
             return new BluetoothClassOfDevice(_radioInfo.ulClassofDevice);
         }
-        
+
+        private bool GetIsClassicSupported()
+        {
+            return true;
+        }
+
+        private bool GetIsLowEnergySupported()
+        {
+            return false;
+        }
+
         private string GetName()
         {
             return _radioInfo.szName;

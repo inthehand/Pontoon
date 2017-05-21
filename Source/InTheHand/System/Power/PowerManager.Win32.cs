@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 namespace InTheHand.System.Power
 {
-    public static partial class PowerManager
+    partial class PowerManager
     {
         private static NativeMethods.SYSTEM_POWER_STATUS _status;
 

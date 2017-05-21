@@ -75,6 +75,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
       <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
+      <Link>ApplicationModel\DesignMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailAttachment.cs">
       <Link>ApplicationModel\Email\EmailAttachment.cs</Link>
     </Compile>
@@ -126,6 +129,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
       <Link>Devices\Bluetooth\BluetoothServiceCapabilities.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothUuidHelper.cs">
+      <Link>Devices\Bluetooth\BluetoothUuidHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
     </Compile>
@@ -137,9 +143,6 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.Win32.cs">
       <Link>Devices\Enumeration\DeviceInformation.Win32.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs">
-      <Link>Devices\Enumeration\DeviceInformationCollection.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCustomPairing.cs">
       <Link>Devices\Enumeration\DeviceInformationCustomPairing.cs</Link>
@@ -279,6 +282,9 @@
     <None Include="..\..\Source\InTheHand\UI\Color.WPF.cs">
       <Link>UI\Color.WPF.cs</Link>
     </None>
+    <Compile Include="..\..\Source\InTheHand\UI\Core\CoreWindow.cs">
+      <Link>UI\Core\CoreWindow.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
       <Link>UI\Popups\Placement.cs</Link>
     </Compile>

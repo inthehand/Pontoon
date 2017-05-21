@@ -247,9 +247,8 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId.FromShortId(shortId);
 
 #else
-            byte[] guidBytes = BluetoothBase.ToByteArray();
-            BitConverter.GetBytes(shortId).CopyTo(guidBytes, 0);
-            return new RfcommServiceId(new Guid(guidBytes));  
+            Guid g = BluetoothUuidHelper.FromShortId(shortId);
+            return new RfcommServiceId(g);  
 #endif 
         }
 
@@ -294,11 +293,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             _uuid = uuid;
         }
 #endif
-
-
-
-
-
+        
        
         /// <summary>
         /// Retrieves the 128-bit service id.
@@ -325,19 +320,8 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             return _id.AsShortId();
 
 #else
-            var bytes = _uuid.ToByteArray();
-            var baseBytes = BluetoothBase.ToByteArray();
-            bool match = true;
-            for(int i = 4; i < 16; i++)
-            {
-                if(bytes[i] != baseBytes[i])
-                {
-                    match = false;
-                    break;
-                }
-            }
-
-            return match ? BitConverter.ToUInt32(bytes, 0) : 0;
+            var shortId = BluetoothUuidHelper.TryGetShortId(_uuid);
+            return shortId.HasValue ? shortId.Value: 0;
 #endif
         }
 
@@ -353,6 +337,22 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
 #else
             return _uuid.ToString();
 #endif
+        }
+
+        public override int GetHashCode()
+        {
+            return Uuid.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            RfcommServiceId other = obj as RfcommServiceId;
+            if(other != null)
+            {
+                return this.Uuid == other.Uuid;
+            }
+
+            return base.Equals(obj);
         }
 
         public override string ToString()

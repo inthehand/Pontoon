@@ -78,6 +78,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\StandardDataFormats.cs">
       <Link>ApplicationModel\DataTransfer\StandardDataFormats.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
+      <Link>ApplicationModel\DesignMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailManager.cs">
       <Link>ApplicationModel\Email\EmailManager.cs</Link>
     </Compile>
@@ -105,6 +108,12 @@
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs">
       <Link>DateTimeOffsetExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs">
+      <Link>Devices\Bluetooth\BluetoothAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.Unified.cs">
+      <Link>Devices\Bluetooth\BluetoothAdapter.Unified.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
       <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
     </Compile>
@@ -116,6 +125,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Unified.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.Unified.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothUuidHelper.cs">
+      <Link>Devices\Bluetooth\BluetoothUuidHelper.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\CBUUIDExtensions.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\CBUUIDExtensions.cs</Link>
@@ -168,17 +180,41 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
       <Link>Devices\Enumeration\DeviceInformation.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.Unified.cs">
+      <Link>Devices\Enumeration\DeviceInformation.Unified.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs">
       <Link>Devices\Geolocation\BasicGeoposition.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeopositionExtensions.cs">
       <Link>Devices\Geolocation\BasicGeopositionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocircle.cs">
+      <Link>Devices\Geolocation\Geocircle.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geocoordinate.cs">
       <Link>Devices\Geolocation\Geocoordinate.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\GeocoordinateExtensions.cs">
       <Link>Devices\Geolocation\GeocoordinateExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\Geofence.cs">
+      <Link>Devices\Geolocation\Geofencing\Geofence.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitor.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceMonitorStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceState.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs">
+      <Link>Devices\Geolocation\Geofencing\GeofenceStateChangeReport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geofencing\MonitoredGeofenceStates.cs">
+      <Link>Devices\Geolocation\Geofencing\MonitoredGeofenceStates.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\Geolocator.cs">
       <Link>Devices\Geolocation\Geolocator.cs</Link>
@@ -427,8 +463,6 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Devices\Geolocation\Geofencing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

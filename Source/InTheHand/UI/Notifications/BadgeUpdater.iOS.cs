@@ -10,7 +10,7 @@ using UserNotifications;
 
 namespace InTheHand.UI.Notifications
 {
-    public sealed partial class BadgeUpdater
+    partial class BadgeUpdater
     {
         private static bool s_granted;
 

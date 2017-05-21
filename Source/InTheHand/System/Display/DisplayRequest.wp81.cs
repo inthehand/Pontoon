@@ -9,7 +9,7 @@ using Microsoft.Phone.Shell;
 
 namespace InTheHand.System.Display
 {
-    public sealed partial class DisplayRequest
+    partial class DisplayRequest
     {
         private void RequestActiveImpl()
         {

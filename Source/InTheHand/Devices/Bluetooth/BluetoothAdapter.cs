@@ -27,12 +27,7 @@ namespace InTheHand.Devices.Bluetooth
         /// <returns>An asynchronous operation that completes with a BluetoothAdapter.</returns>
         public static Task<BluetoothAdapter> GetDefaultAsync()
         {
-#if __ANDROID__ || WIN32
             return GetDefaultAsyncImpl();
-
-#else
-            return Task.FromResult<BluetoothAdapter>(null);
-#endif
         }
 
         /// <summary>
@@ -42,16 +37,10 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if __ANDROID__ || WIN32
                 return GetBluetoothAddress();
-#else
-                return 0;
-#endif
-
             }
         }
-
-        /*
+        
         /// <summary>
         /// Gets a boolean indicating if the adapter supports the Bluetooth Classic transport type.
         /// </summary>
@@ -59,9 +48,20 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-                return true;
+                return GetIsClassicSupported();
             }
-        }*/
+        }
+
+        /// <summary>
+        /// Gets a boolean indicating if the adapater supports Low Energy Bluetooth Transport type.
+        /// </summary>
+        public bool IsLowEnergySupported
+        {
+            get
+            {
+                return GetIsLowEnergySupported();
+            }
+        }
 
         /// <summary>
         /// Gets the Name of the adapter.
@@ -71,13 +71,8 @@ namespace InTheHand.Devices.Bluetooth
         {
             get
             {
-#if __ANDROID__ || WIN32
                 return GetName();
-#else
-                return string.Empty;
-#endif
             }
         }
-
     }
 }

@@ -16,7 +16,7 @@ using System.Threading;
 
 namespace InTheHand.Devices.Bluetooth
 {
-    public sealed partial class BluetoothLEDevice
+    ppartial class BluetoothLEDevice
     {
 #if !WINDOWS_APP
         private Windows.Devices.Bluetooth.BluetoothLEDevice _device;

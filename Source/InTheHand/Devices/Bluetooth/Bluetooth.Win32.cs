@@ -231,20 +231,26 @@ namespace InTheHand.Devices.Bluetooth
         [return:MarshalAs(UnmanagedType.Bool)]
         internal static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-        [DllImport("User32", SetLastError = true)]
-        internal static extern int SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+        //[DllImport("User32", SetLastError = true)]
+        //internal static extern int SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
    
-        [DllImport("User32", SetLastError = true)]
-        internal static extern int GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
+        //[DllImport("User32", SetLastError = true)]
+        //internal static extern int GetMessage(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
-        [DllImport("User32", SetLastError = true)]
-        internal static extern int DispatchMessage(ref MSG lpmsg);
+        //[DllImport("User32", SetLastError = true)]
+        //internal static extern int DispatchMessage(ref MSG lpmsg);
 
         [DllImport("User32", SetLastError = true)]
         internal static extern IntPtr GetWindowLong(IntPtr hWnd, int index);
 
         [DllImport("User32", SetLastError = true)]
         internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, WindowProc newProc);
+
+        [DllImport("User32", SetLastError = true)]
+        internal static extern int DefWindowProc(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("User32", SetLastError = true)]
+        internal static extern int CallWindowProc(IntPtr lpPrevWndFunc, IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         internal struct MSG
         {
@@ -346,59 +352,93 @@ namespace InTheHand.Devices.Bluetooth
             ref BLUETOOTH_DEVICE_INFO pbtdi,
             ref int pcServices,
             byte[] pGuidServices);
+
+        [DllImport("User32", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetGUIThreadInfo(int idThread, ref GUITHREADINFO lpgui);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct GUITHREADINFO
+        {
+            internal int cbSize;
+            internal int flags;
+            internal IntPtr hwndActive;
+            internal IntPtr hwndFocus;
+            internal IntPtr hwndCapture;
+            internal IntPtr hwndMenuOwner;
+            internal IntPtr hwndMoveSize;
+            internal IntPtr hwndCaret;
+            internal RECT rcCaret;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct RECT
+        {
+            internal int left;
+            internal int top;
+            internal int right;
+            internal int bottom;
+        }
     }
 
     internal sealed class BluetoothMessageWindow
     {
-        private static uint s_registration;
-        private static NativeMethods.WindowProc s_wndProc;
-        private static IntPtr s_hwnd;
-        private static Thread _pumpThread;
+        private NativeMethods.WindowProc _wndProc;
+        private IntPtr _hwnd;
+        private IntPtr _prevWndProc;
+            //private Thread _pumpThread;
 
-        static BluetoothMessageWindow()
+        internal BluetoothMessageWindow()
         {
             //_pumpThread = new Thread(MessagePump);
-            s_wndProc = new Bluetooth.NativeMethods.WindowProc(WindowProc);
-            NativeMethods.WNDCLASS cls = new Bluetooth.NativeMethods.WNDCLASS();
+            //_pumpThread.IsBackground = true;
+            _wndProc = new NativeMethods.WindowProc(WindowProc);
+            NativeMethods.WNDCLASS cls = new NativeMethods.WNDCLASS();
             cls.lpszClassName = "InTheHand.Devices.Bluetooth";
             cls.hInstance = Marshal.GetHINSTANCE(Assembly.GetExecutingAssembly().ManifestModule);
-            cls.lpfnWndProc = s_wndProc;
-            s_registration = NativeMethods.RegisterClass(ref cls);
-            s_hwnd = NativeMethods.CreateWindowEx(0, cls.lpszClassName, cls.lpszClassName, 0, 0, 0, 0, 0, NativeMethods.HWND_MESSAGE, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            cls.lpfnWndProc = _wndProc;
+            uint registration = NativeMethods.RegisterClass(ref cls);
+            _hwnd = NativeMethods.CreateWindowEx(0, cls.lpszClassName, cls.lpszClassName, 0, 0, 0, 0, 0, NativeMethods.HWND_MESSAGE, IntPtr.Zero, cls.hInstance, IntPtr.Zero);
             //_pumpThread.Start();
-            NativeMethods.SetWindowLong(s_hwnd, -4, s_wndProc);
-            int success = NativeMethods.SendMessage(s_hwnd, 0x4000, IntPtr.Zero, IntPtr.Zero);
+            _prevWndProc = NativeMethods.GetWindowLong(_hwnd, -4);
+
+            NativeMethods.SetWindowLong(_hwnd, -4, _wndProc);
+            bool success = NativeMethods.PostMessage(_hwnd, 0x6, IntPtr.Zero, IntPtr.Zero);
         }
 
-        /*private static void MessagePump(object param)
+        /*private void MessagePump(object param)
         {
             NativeMethods.MSG m;
             int result;
-            while ((result = NativeMethods.GetMessage(out m, s_hwnd, 0, 0)) != 0)
+            while ((result = NativeMethods.GetMessage(out m, _hwnd, 0, 0)) != 0)
             {
                 if (result == -1)
                 {
+                    Debug.WriteLine("error");
                     Debug.WriteLine(Marshal.GetLastWin32Error());
                 }
                 else
                 {
-                    NativeMethods.DispatchMessage(ref m);
+                    Debug.WriteLine("dispatched");
+                    int d = NativeMethods.DispatchMessage(ref m);
+                    Debug.WriteLine(d);
                 }
             }
+            Debug.WriteLine("loop exited");
             Debug.WriteLine(Marshal.GetLastWin32Error());
         }*/
 
-        internal static IntPtr Handle
+        internal IntPtr Handle
         {
             get
             {
-                return s_hwnd;
+                return _hwnd;
             }
         }
 
-        internal static event EventHandler<ulong> ConnectionStateChanged;
+        internal event EventHandler<ulong> ConnectionStateChanged;
 
-        static int WindowProc(IntPtr hwnd, uint uMsg, IntPtr wParam, IntPtr lParam)
+        private int WindowProc(IntPtr hwnd, uint uMsg, IntPtr wParam, IntPtr lParam)
         {
             Debug.WriteLine(uMsg);
             switch(uMsg)
@@ -415,7 +455,7 @@ namespace InTheHand.Devices.Bluetooth
                             Debug.WriteLine(ei.bthAddress + (ei.connected > 0 ? " connected" : " disconnected"));
                             ConnectionStateChanged?.Invoke(null, ei.bthAddress);
                         }
-                        else if(dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_HCI_EVENT)
+                        else if(dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_L2CAP_EVENT)
                         {
                             //BTH_L2CAP_EVENT_INFO
                             IntPtr bthl2cap = IntPtr.Add(lParam, 40);
@@ -427,12 +467,21 @@ namespace InTheHand.Devices.Bluetooth
 
                     return 0;
 
+                case 0x81:
+                    return -1;
+
                 case 1:
                 case 0x83:
                     return 0;
+            }
 
-                default:
-                    return -1;
+            if (_prevWndProc != IntPtr.Zero)
+            {
+                return NativeMethods.CallWindowProc(_prevWndProc, hwnd, uMsg, wParam, lParam);
+            }
+            else
+            {
+                return NativeMethods.DefWindowProc(hwnd, uMsg, wParam, lParam);
             }
         }
     }

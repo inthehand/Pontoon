@@ -84,7 +84,7 @@ namespace InTheHand.Devices.Geolocation
         {
             Coordinate = new Geolocation.Geocoordinate();
             Coordinate.Point = new Geolocation.Geopoint(new Geolocation.BasicGeoposition() { Latitude = location.Latitude, Longitude = location.Longitude, Altitude = location.Altitude });
-            Coordinate.Accuracy = location.HorizontalAccuracy;
+            Coordinate.Accuracy = location.Accuracy;
             Coordinate.Timestamp = new DateTimeOffset(location.Timestamp);
             Coordinate.Heading = location.Direction;
             Coordinate.Speed = location.Speed;

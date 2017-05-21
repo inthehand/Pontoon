@@ -12,7 +12,7 @@ using System;
 
 namespace InTheHand.Devices.Radios
 {
-    public sealed partial class Radio
+    partial class Radio
     {
         private static void DoGetRadiosAsync(List<Radio> radios)
         {

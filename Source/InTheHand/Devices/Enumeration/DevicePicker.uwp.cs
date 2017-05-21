@@ -63,7 +63,8 @@ namespace InTheHand.Devices.Enumeration
 
         private async Task<DeviceInformation> DoPickSingleDeviceAsync(Rect selection, Placement placement)
         {
-            return await _devicePicker.PickSingleDeviceAsync(selection, (Windows.UI.Popups.Placement)((int)placement));
+            var d = await _devicePicker.PickSingleDeviceAsync(selection, (Windows.UI.Popups.Placement)((int)placement));
+            return d == null ? null : d;
         }
 
 

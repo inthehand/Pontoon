@@ -53,7 +53,8 @@ namespace InTheHand.UI.Notifications
             ClearImpl();
 
 #elif TIZEN
-            Tizen.Applications.BadgeControl.Remove(Tizen.Applications.Application.Current.ApplicationInfo.ApplicationId);
+            //Tizen.Applications.BadgeControl.Remove(Tizen.Applications.Application.Current.ApplicationInfo.ApplicationId);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _updater.Clear();
 #endif
@@ -85,7 +86,7 @@ namespace InTheHand.UI.Notifications
             UpdateImpl(notification);
 
 #elif TIZEN
-            Tizen.Applications.BadgeControl.Update(Tizen.Applications.Application.Current.ApplicationInfo.ApplicationId, (int)notification.Value);
+            //Tizen.Applications.Update(Tizen.Applications.Application.Current.ApplicationInfo.ApplicationId, (int)notification.Value);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _updater.Update(notification);

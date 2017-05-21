@@ -16,7 +16,7 @@ using InTheHand.UI.Popups;
 
 namespace InTheHand.Devices.Enumeration
 {
-    public sealed partial class DevicePicker
+    partial class DevicePicker
     {
         //private NativeMethods.PFN_DEVICE_CALLBACK _callback;
 
@@ -24,6 +24,7 @@ namespace InTheHand.Devices.Enumeration
         {
             NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS sdp = new NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS();
             sdp.dwSize = Marshal.SizeOf(sdp);
+            sdp.hwndParent = InTheHand.UI.Core.CoreWindow.GetForCurrentThread().Handle;
             sdp.numDevices = 1;
             if(!string.IsNullOrEmpty(Appearance.Title))
             {

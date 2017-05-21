@@ -13,7 +13,7 @@ namespace InTheHand.System
     /// <summary>
     /// Starts the default app associated with the specified file or URI.
     /// </summary>
-    public static partial class Launcher
+    partial class Launcher
     {
         private static bool Launch(string applicationName, string commandLine)
         {

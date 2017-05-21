@@ -19,6 +19,7 @@ namespace InTheHand.Devices.Bluetooth
     partial class BluetoothLEDevice
     {
         private CBPeripheral _peripheral;
+        
 
         private BluetoothLEDevice(CBPeripheral peripheral)
         {
@@ -36,17 +37,17 @@ namespace InTheHand.Devices.Bluetooth
             return new BluetoothLEDevice(peripheral);
         }
 
-        private void Manager_DisconnectedPeripheral(object sender, CBPeripheralErrorEventArgs e)
+        internal CBPeripheral Peripheral
         {
-            if (e.Peripheral == _peripheral)
+            get
             {
-                _connectionStatusChanged?.Invoke(this, null);
+                return _peripheral;
             }
         }
-
-        private void Manager_ConnectedPeripheral(object sender, CBPeripheralEventArgs e)
+        
+        private void BluetoothAdapter_ConnectionStateChanged(object sender, CBPeripheral peripheral)
         {
-            if (e.Peripheral == _peripheral)
+            if (peripheral == _peripheral)
             {
                 _connectionStatusChanged?.Invoke(this, null);
             }
@@ -59,7 +60,7 @@ namespace InTheHand.Devices.Bluetooth
 
         private static async Task<BluetoothLEDevice> FromIdAsyncImpl(string deviceId)
         {
-            var peripherals = DeviceInformation.Manager.RetrievePeripheralsWithIdentifiers(new NSUuid(deviceId));
+            var peripherals = BluetoothAdapter.Default.Manager.RetrievePeripheralsWithIdentifiers(new NSUuid(deviceId));
 
             if (peripherals.Length > 0)
             {
@@ -106,14 +107,12 @@ namespace InTheHand.Devices.Bluetooth
 
         private void ConnectionStatusChangedAdd()
         {
-            DeviceInformation.Manager.ConnectedPeripheral += Manager_ConnectedPeripheral;
-            DeviceInformation.Manager.DisconnectedPeripheral += Manager_DisconnectedPeripheral;
+            BluetoothAdapter.Default.ConnectionStateChanged += BluetoothAdapter_ConnectionStateChanged;
         }
 
         private void ConnectionStatusChangedRemove()
         {
-            DeviceInformation.Manager.ConnectedPeripheral -= Manager_ConnectedPeripheral;
-            DeviceInformation.Manager.DisconnectedPeripheral -= Manager_DisconnectedPeripheral;
+            BluetoothAdapter.Default.ConnectionStateChanged -= BluetoothAdapter_ConnectionStateChanged;
         }
 
         private string GetDeviceId()
@@ -132,7 +131,7 @@ namespace InTheHand.Devices.Bluetooth
                     var state = _peripheral.State;
                     if(state == CBPeripheralState.Disconnected)
                     {
-                        InTheHand.Devices.Enumeration.DeviceInformation.Manager.ConnectPeripheral(_peripheral);
+                        BluetoothAdapter.Default.Manager.ConnectPeripheral(_peripheral);
                         Thread.Sleep(1000);
                     }
 
@@ -160,5 +159,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             _servicesHandle.Set();
         }
+
+        
     }
 }
