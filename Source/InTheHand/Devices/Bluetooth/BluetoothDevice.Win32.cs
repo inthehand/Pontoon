@@ -111,6 +111,14 @@ namespace InTheHand.Devices.Bluetooth
             }
         }
 
+        private void NameChangedAdd()
+        {
+        }
+
+        private void NameChangedRemove()
+        {
+        }
+
         private string GetDeviceId()
         {
             return "BLUETOOTH#" + BluetoothAddress.ToString("X12");

@@ -85,7 +85,22 @@ namespace InTheHand.Devices.Bluetooth
         {
             _device.ConnectionStatusChanged -= _device_ConnectionStatusChanged;
         }
-        
+
+        private void NameChangedAdd()
+        {
+            _device.NameChanged += _device_NameChanged;
+        }
+
+        private void _device_NameChanged(Windows.Devices.Bluetooth.BluetoothDevice sender, object args)
+        {
+            RaiseNameChanged();
+        }
+
+        private void NameChangedRemove()
+        {
+            _device.NameChanged -= _device_NameChanged;
+        }
+
         private ulong GetBluetoothAddress()
         {
             return _device.BluetoothAddress;

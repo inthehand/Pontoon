@@ -7,6 +7,7 @@
 
 using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
+using InTheHand.Foundation;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -197,7 +198,37 @@ namespace InTheHand.Devices.Bluetooth
             }
         }
 
-        
+        private void RaiseNameChanged()
+        {
+            _nameChanged?.Invoke(this, null);
+        }
+
+        private event TypedEventHandler<BluetoothDevice, object> _nameChanged;
+
+        /// <summary>
+        /// Occurs when the name of the device has changed.
+        /// </summary>
+        public event TypedEventHandler<BluetoothDevice, object> NameChanged
+        {
+            add
+            {
+                if(_nameChanged == null)
+                {
+                    NameChangedAdd();
+                }
+
+                _nameChanged += value;
+            }
+            remove
+            {
+                _nameChanged -= value;
+                if(_nameChanged == null)
+                {
+                    NameChangedRemove();
+                }
+            }
+        }
+
         /// <summary>
         /// Gets the read-only list of RFCOMM services supported by the device.
         /// </summary>

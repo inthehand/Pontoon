@@ -129,8 +129,8 @@ namespace InTheHand.Devices.Bluetooth
         private void ConnectionStatusChangedAdd()
         {
             IntentFilter filter = new IntentFilter();
-            filter.AddAction("ACTION_ACL_CONNECTED");
-            filter.AddAction("ACTION_ACL_DISCONNECTED");
+            filter.AddAction(Android.Bluetooth.BluetoothDevice.ActionAclConnected);
+            filter.AddAction(Android.Bluetooth.BluetoothDevice.ActionAclDisconnected);
             _connectedStateReceiver = new BluetoothDeviceReceiver(this);
             Android.App.Application.Context.RegisterReceiver(_connectedStateReceiver, filter);
         }
@@ -141,6 +141,24 @@ namespace InTheHand.Devices.Bluetooth
             {
                 Android.App.Application.Context.UnregisterReceiver(_connectedStateReceiver);
                 _connectedStateReceiver = null;
+            }
+        }
+
+        private BluetoothDeviceReceiver _nameChangedReceiver;
+        private void NameChangedAdd()
+        {
+            IntentFilter filter = new IntentFilter();
+            filter.AddAction(Android.Bluetooth.BluetoothDevice.ActionNameChanged);
+            _nameChangedReceiver = new BluetoothDeviceReceiver(this);
+            Android.App.Application.Context.RegisterReceiver(_nameChangedReceiver, filter);
+        }
+
+        private void NameChangedRemove()
+        {
+            if (_nameChangedReceiver != null)
+            {
+                Android.App.Application.Context.UnregisterReceiver(_nameChangedReceiver);
+                _nameChangedReceiver = null;
             }
         }
 
@@ -157,14 +175,18 @@ namespace InTheHand.Devices.Bluetooth
             {
                 switch(intent.Action)
                 {
-                    case "ACTION_ACL_CONNECTED":
+                    case Android.Bluetooth.BluetoothDevice.ActionAclConnected:
                         _parent._connectionStatus = BluetoothConnectionStatus.Connected;
                         _parent.RaiseConnectionStatusChanged();
                         break;
 
-                    case "ACTION_ACL_DISCONNECTED":
+                    case Android.Bluetooth.BluetoothDevice.ActionAclDisconnected:
                         _parent._connectionStatus = BluetoothConnectionStatus.Disconnected;
                         _parent.RaiseConnectionStatusChanged();
+                        break;
+
+                    case Android.Bluetooth.BluetoothDevice.ActionNameChanged:
+                        _parent.RaiseNameChanged();
                         break;
                 }
             }

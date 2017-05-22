@@ -82,5 +82,13 @@ namespace InTheHand.Devices.Bluetooth
         private void ConnectionStatusChangedRemove()
         {
         }
+
+        private void NameChangedAdd()
+        {
+        }
+
+        private void NameChangedRemove()
+        {
+        }
     }
 }
