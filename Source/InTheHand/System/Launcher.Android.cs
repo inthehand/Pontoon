@@ -26,7 +26,7 @@ namespace InTheHand.System
                     Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(viewIntent);
                     return true;
                 }
-                catch (ActivityNotFoundException e)
+                catch (ActivityNotFoundException)
                 {
                     return false;
                 }
@@ -66,7 +66,7 @@ namespace InTheHand.System
 
                     return LaunchQuerySupportStatus.AppNotInstalled;
                 }
-                catch (ActivityNotFoundException e)
+                catch (ActivityNotFoundException)
                 {
                     return LaunchQuerySupportStatus.NotSupported;
                 }

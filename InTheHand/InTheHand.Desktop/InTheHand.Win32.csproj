@@ -44,9 +44,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETCore\v4.5.1\System.Runtime.WindowsRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Windows">
@@ -108,6 +106,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.Win32.cs">
       <Link>Devices\Bluetooth\BluetoothAdapter.Win32.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
+      <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
       <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
     </Compile>
@@ -119,6 +120,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.Win32.cs">
       <Link>Devices\Bluetooth\BluetoothDevice.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothError.cs">
+      <Link>Devices\Bluetooth\BluetoothError.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
       <Link>Devices\Bluetooth\BluetoothMajorClass.cs</Link>
@@ -134,6 +138,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.Win32.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>

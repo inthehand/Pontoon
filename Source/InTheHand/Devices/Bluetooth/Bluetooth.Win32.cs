@@ -214,6 +214,12 @@ namespace InTheHand.Devices.Bluetooth
             internal string lpszClassName;
         }
 
+        [DllImport("Comctl32", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetWindowSubclass(IntPtr hWnd, SUBCLASSPROC pfnSubclass, uint uIdSubclass, IntPtr dwRefData);
+
+        internal delegate int SUBCLASSPROC(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData);
+
         internal static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
 
         [DllImport("User32", CharSet=CharSet.Unicode, SetLastError =true)]

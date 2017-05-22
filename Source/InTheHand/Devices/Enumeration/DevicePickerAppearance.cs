@@ -39,7 +39,7 @@ namespace InTheHand.Devices.Enumeration
             return new DevicePickerAppearance(a);
         }
 #else
-        public DevicePickerAppearance()
+        internal DevicePickerAppearance()
         {
 #if WINDOWS_UWP
             _appearance = new Windows.Devices.Enumeration.DevicePickerAppearance();

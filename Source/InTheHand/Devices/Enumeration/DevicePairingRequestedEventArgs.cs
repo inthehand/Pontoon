@@ -21,7 +21,7 @@ namespace InTheHand.Devices.Enumeration
     /// </summary>
     public sealed class DevicePairingRequestedEventArgs
     {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+#if WINDOWS_UWP
         private Windows.Devices.Enumeration.DevicePairingRequestedEventArgs _args;
 
         private DevicePairingRequestedEventArgs(Windows.Devices.Enumeration.DevicePairingRequestedEventArgs args)
@@ -48,17 +48,33 @@ namespace InTheHand.Devices.Enumeration
         }
 #endif
 
+        /// <summary>
+        /// Gets the <see cref="DeviceInformation"/> object associated with this pairing request.
+        /// </summary>
         public DeviceInformation DeviceInformation { get; private set; }
 
+        /// <summary>
+        /// Gets the kind of pairing associated with this pairing event.
+        /// </summary>
         public DevicePairingKinds PairingKind { get; private set; }
 
+        /// <summary>
+        /// Gets the pin associated with a pairing request.
+        /// </summary>
         public string Pin { get; private set; }
 
+        /// <summary>
+        /// Accepts a PairingRequested event and pairs the device with the application.
+        /// </summary>
         public void Accept()
         {
             
         }
 
+        /// <summary>
+        /// Accepts a PairingRequested event and pairs the device with the application. Requires a pin for pairing purposes.
+        /// </summary>
+        /// <param name="pin">The pin to use for attempting to pair a device.</param>
         public void Accept(string pin)
         {
 

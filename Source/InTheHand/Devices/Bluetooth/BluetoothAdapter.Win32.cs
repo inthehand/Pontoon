@@ -52,7 +52,9 @@ namespace InTheHand.Devices.Bluetooth
         {
             _handle = radioHandle;
             _radioInfo = radioInfo;
-            _messageWindow = new BluetoothMessageWindow();
+            NativeMethods.SetWindowSubclass(Process.GetCurrentProcess().MainWindowHandle, SubclassProc, 1, IntPtr.Zero);
+
+            //_messageWindow = new BluetoothMessageWindow();
 
             // register for connection events
             NativeMethods.DEV_BROADCAST_HANDLE filter = new NativeMethods.DEV_BROADCAST_HANDLE();
@@ -61,43 +63,50 @@ namespace InTheHand.Devices.Bluetooth
             filter.dbch_devicetype = NativeMethods.DBT_DEVTYP.HANDLE;
             filter.dbch_eventguid = NativeMethods.GUID_BLUETOOTH_L2CAP_EVENT;
 
-            _notifyHandle = NativeMethods.RegisterDeviceNotification(_messageWindow.Handle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
+            _notifyHandle = NativeMethods.RegisterDeviceNotification(Process.GetCurrentProcess().MainWindowHandle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
             filter.dbch_eventguid = NativeMethods.GUID_BLUETOOTH_HCI_EVENT;
-            int notifyHandle = NativeMethods.RegisterDeviceNotification(_messageWindow.Handle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
-            NativeMethods.PostMessage(_messageWindow.Handle, 0x401, IntPtr.Zero, IntPtr.Zero);
+            int notifyHandle = NativeMethods.RegisterDeviceNotification(Process.GetCurrentProcess().MainWindowHandle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
+            NativeMethods.PostMessage(Process.GetCurrentProcess().MainWindowHandle, 0x401, IntPtr.Zero, IntPtr.Zero);
 
         }
 
-
-        private event EventHandler<ulong> _connectionChanged;
-
-        internal event EventHandler<ulong> ConnectionChanged
+        private int SubclassProc(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam, uint uIdSubclass, IntPtr dwRefData)
         {
-            add
+            switch (uMsg)
             {
-                if(_connectionChanged == null)
-                {
-                    _messageWindow.ConnectionStateChanged += BluetoothMessageWindow_ConnectionStateChanged;
-                }
+                case NativeMethods.WM_DEVICECHANGE:
+                    if (lParam != IntPtr.Zero)
+                    {
+                        NativeMethods.DEV_BROADCAST_HANDLE dbh = Marshal.PtrToStructure<NativeMethods.DEV_BROADCAST_HANDLE>(lParam);
+                        if (dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_HCI_EVENT)
+                        {
+                            //BTH_HCI_EVENT_INFO
+                            IntPtr bthhci = IntPtr.Add(lParam, 40);
+                            NativeMethods.BTH_HCI_EVENT_INFO ei = Marshal.PtrToStructure<NativeMethods.BTH_HCI_EVENT_INFO>(bthhci);
+                            Debug.WriteLine(ei.bthAddress + (ei.connected > 0 ? " connected" : " disconnected"));
+                            ConnectionStatusChanged?.Invoke(null, ei.bthAddress);
+                        }
+                        else if (dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_L2CAP_EVENT)
+                        {
+                            //BTH_L2CAP_EVENT_INFO
+                            IntPtr bthl2cap = IntPtr.Add(lParam, 40);
+                            NativeMethods.BTH_L2CAP_EVENT_INFO ei = Marshal.PtrToStructure<NativeMethods.BTH_L2CAP_EVENT_INFO>(bthl2cap);
+                            Debug.WriteLine(ei.bthAddress + (ei.connected > 0 ? " connected" : " disconnected"));
+                            ConnectionStatusChanged?.Invoke(null, ei.bthAddress);
+                        }
+                    }
 
-                _connectionChanged += value;
+                    return 0;
             }
-            remove
-            {
-                _connectionChanged -= value;
 
-                if (_connectionChanged == null)
-                {
-                    _messageWindow.ConnectionStateChanged -= BluetoothMessageWindow_ConnectionStateChanged;
-                }
-            }
+            return 0;
         }
 
-        private void BluetoothMessageWindow_ConnectionStateChanged(object sender, ulong e)
-        {
-            _connectionChanged?.Invoke(this, e);
-        }
+        
 
+        internal event EventHandler<ulong> ConnectionStatusChanged;
+
+        
         private ulong GetBluetoothAddress()
         {
             return _radioInfo.address;

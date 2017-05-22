@@ -113,8 +113,16 @@ namespace InTheHand.Devices.Bluetooth
             return _device.Name;
         }
 
-        private void GetRfcommServices(List<RfcommDeviceService> services)
+        private async Task<RfcommDeviceServicesResult> GetRfcommServicesAsyncImpl(BluetoothCacheMode cacheMode)
         {
+            BluetoothError error = BluetoothError.Success;
+            List<RfcommDeviceService> services = new List<RfcommDeviceService>();
+
+            if (cacheMode == BluetoothCacheMode.Uncached)
+            {
+                error = _device.FetchUuidsWithSdp() ? BluetoothError.Success : BluetoothError.DeviceNotConnected;
+            }
+
             ParcelUuid[] uuids = _device.GetUuids();
             if (uuids != null)
             {
@@ -123,6 +131,8 @@ namespace InTheHand.Devices.Bluetooth
                     services.Add(new RfcommDeviceService(this, RfcommServiceId.FromUuid(new Guid(g.Uuid.ToString()))));
                 }
             }
+
+            return new RfcommDeviceServicesResult(error, services.AsReadOnly());
         }
 
         private BluetoothDeviceReceiver _connectedStateReceiver;

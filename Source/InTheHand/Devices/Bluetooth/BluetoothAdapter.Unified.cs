@@ -121,7 +121,11 @@ namespace InTheHand.Devices.Bluetooth
 
         private string GetName()
         {
+#if __IOS__
+            return UIKit.UIDevice.CurrentDevice.Name;
+#else
             return string.Empty;
+#endif
         }
     }
 }

@@ -204,6 +204,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.cs">
       <Link>Devices\Bluetooth\BluetoothDevice.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothError.cs">
+      <Link>Devices\Bluetooth\BluetoothError.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Android.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.Android.cs</Link>
     </Compile>
@@ -264,8 +267,14 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.Android.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>

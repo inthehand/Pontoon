@@ -11,16 +11,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Globalization;
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_81
-#if WINDOWS_UWP
-using Windows.UI.Core;
-#endif
-using InTheHand.Networking.Sockets;
-#elif WIN32
-using System.Net.Sockets;
-using InTheHand.Net;
-using InTheHand.Net.Sockets;
-#elif __ANDROID__
+#if __ANDROID__
 using InTheHand.Networking.Sockets;
 #endif
 
@@ -29,27 +20,11 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
     /// <summary>
     /// Represents an instance of a service on a remote Bluetooth device.
     /// </summary>
-    public sealed class RfcommDeviceService
+    public sealed partial class RfcommDeviceService
     {
-        public static async Task<RfcommDeviceService> FromIdAsync(string deviceId)
+        public static Task<RfcommDeviceService> FromIdAsync(string deviceId)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return await Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService.FromIdAsync(deviceId);
-
-#elif WIN32
-            if(deviceId.StartsWith("BLUETOOTH#"))
-            {
-                var parts = deviceId.Split('#');
-                var addr = parts[1];
-                var uuid = parts[2];
-                var device  = await BluetoothDevice.FromBluetoothAddressAsync(ulong.Parse(addr, NumberStyles.HexNumber));
-                var service = RfcommServiceId.FromUuid(new Guid(uuid));
-
-                return new Rfcomm.RfcommDeviceService(device, service);
-            }
-
-#endif
-            return null;
+            return FromIdAsyncImpl(deviceId);
         }
 
         /// <summary>
@@ -59,45 +34,10 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// <returns>An AQS string for identifying RFCOMM service instances.</returns>
         public static string GetDeviceSelector(RfcommServiceId serviceId)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService.GetDeviceSelector(serviceId);
-
-#elif WIN32
-            return "bluetoothService:" + serviceId.Uuid.ToString();
-
-#else
-            return string.Empty;
-#endif
+            return GetDeviceSelectorImpl(serviceId);
         }
 
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService _service;
 
-        private RfcommDeviceService(Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service)
-        {
-            _service = service;
-        }
-
-        public static implicit operator Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService(RfcommDeviceService service)
-        {
-            return service._service;
-        }
-
-        public static implicit operator RfcommDeviceService(Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service)
-        {
-            return new RfcommDeviceService(service);
-        }
-
-#else
-        private BluetoothDevice _device;
-        private RfcommServiceId _service;
-
-        internal RfcommDeviceService(BluetoothDevice device, RfcommServiceId service)
-        {
-            _device = device;
-            _service = service;
-        }
-#endif
 
 #if !WINDOWS_APP && !WINDOWS_PHONE_APP && !WINDOWS_PHONE_81
         /// <summary>
@@ -107,11 +47,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-                return _service.Device;
-#else
-                return _device;
-#endif
+                return GetDevice();
             }
         }
 #endif
@@ -124,12 +60,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _service.ServiceId;
-
-#else
-                return _service;
-#endif
+                return GetServiceId();
             }
         }
 
@@ -140,39 +71,13 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// Remember to Dispose of this Stream when you've finished working.</returns>
         public Task<Stream> OpenStreamAsync()
         {
-#if __ANDROID__
-            return Task.Run<Stream>(() =>
-            {
-                var socket = _device._device.CreateRfcommSocketToServiceRecord(Java.Util.UUID.FromString(_service.Uuid.ToString()));
-                socket.Connect();
-                return new NetworkStream(socket);
-            });
-
-#elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return Task.Run<Stream>(async () =>
-            {
-#if WINDOWS_UWP
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    await _service.RequestAccessAsync();
-                });
-#endif
-                Windows.Networking.Sockets.StreamSocket socket = new Windows.Networking.Sockets.StreamSocket();
-                await socket.ConnectAsync(_service.ConnectionHostName, _service.ConnectionServiceName);
-                return new InTheHand.Networking.Sockets.NetworkStream(socket);
-            });
-#elif WIN32
-            return Task.Run<Stream>(() =>
-            {
-                var socket = new Socket(AddressFamily32.Bluetooth, SocketType.Stream, BluetoothProtocolType.RFComm);
-                socket.Connect(new BluetoothEndPoint(_device.BluetoothAddress, _service.Uuid));
-                return new NetworkStream(socket);
-            });
-#else
-            return Task.FromResult<Stream>(null);
-#endif
+            return OpenStreamAsyncImpl();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81

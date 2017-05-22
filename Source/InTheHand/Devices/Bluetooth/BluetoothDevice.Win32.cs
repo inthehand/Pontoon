@@ -5,6 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
 using System;
 using System.Collections.Generic;
@@ -93,17 +94,17 @@ namespace InTheHand.Devices.Bluetooth
         {
             var t = BluetoothAdapter.GetDefaultAsync();
             t.Wait();
-            t.Result.ConnectionChanged += Result_ConnectionChanged;
+            t.Result.ConnectionStatusChanged += Result_ConnectionStatusChanged;
         }
 
         private void ConnectionStatusChangedRemove()
         {
             var t = BluetoothAdapter.GetDefaultAsync();
             t.Wait();
-            t.Result.ConnectionChanged -= Result_ConnectionChanged;
+            t.Result.ConnectionStatusChanged -= Result_ConnectionStatusChanged;
         }
 
-        private void Result_ConnectionChanged(object sender, ulong e)
+        private void Result_ConnectionStatusChanged(object sender, ulong e)
         {
             if (e == this.BluetoothAddress)
             {
@@ -155,12 +156,19 @@ namespace InTheHand.Devices.Bluetooth
             return services.AsReadOnly();
         }
 
-        private void GetRfcommServices(List<Rfcomm.RfcommDeviceService> services)
+        private async Task<RfcommDeviceServicesResult> GetRfcommServicesAsyncImpl(BluetoothCacheMode cacheMode)
         {
-            foreach(Guid g in GetRfcommServices(ref _info))
+            BluetoothError error = BluetoothError.Success;
+            List<RfcommDeviceService> services = new List<Rfcomm.RfcommDeviceService>();
+
+            foreach (Guid g in GetRfcommServices(ref _info))
             {
                 services.Add(new Rfcomm.RfcommDeviceService(this, Rfcomm.RfcommServiceId.FromUuid(g)));
             }
+
+            return new Rfcomm.RfcommDeviceServicesResult(error, services.AsReadOnly());
         }
+
+        
     }
 }

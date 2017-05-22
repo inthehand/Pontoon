@@ -63,7 +63,10 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return GetDeviceSelectorFromUuidImpl(serviceUuid);
         }
 
-
+        /// <summary>
+        /// Gets the collection of all characteristics belonging to this GattDeviceService instance.
+        /// </summary>
+        /// <returns>The collection of all characteristics belonging to this GattDeviceService instance.</returns>
         public IReadOnlyList<GattCharacteristic> GetAllCharacteristics()
         {
             List<GattCharacteristic> characteristics = new List<GattCharacteristic>();
@@ -73,6 +76,11 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return characteristics.AsReadOnly();
         }
 
+        /// <summary>
+        /// Returns a vector of characteristics, that are identified by the specified UUID and belong to this GattDeviceService instance.
+        /// </summary>
+        /// <param name="characteristicUuid">The UUID for the characteristics to be retrieved.</param>
+        /// <returns>A collection of GattCharacteristic objects whose UUIDs match characteristicUuid.</returns>
         public IReadOnlyList<GattCharacteristic> GetCharacteristics(Guid characteristicUuid)
         {
             List<GattCharacteristic> characteristics = new List<GattCharacteristic>();

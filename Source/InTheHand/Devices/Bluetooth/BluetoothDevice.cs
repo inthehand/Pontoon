@@ -230,20 +230,28 @@ namespace InTheHand.Devices.Bluetooth
         }
 
         /// <summary>
-        /// Gets the read-only list of RFCOMM services supported by the device.
+        /// Retrieves all Rfcomm Services on the remote Bluetooth Device.
         /// </summary>
-        public IReadOnlyList<RfcommDeviceService> RfcommServices
+        /// <returns></returns>
+        public Task<RfcommDeviceServicesResult> GetRfcommServicesAsync()
         {
-            get
-            {
-                var list = new List<RfcommDeviceService>();
-                
-                GetRfcommServices(list);
-
-                return list.AsReadOnly();
-            }
+            return GetRfcommServicesAsyncImpl(BluetoothCacheMode.Cached);
         }
 
+        /// <summary>
+        /// Retrieves all cached Rfcomm Services on the remote Bluetooth Device.
+        /// </summary>
+        /// <param name="cacheMode">The cache mode.</param>
+        /// <returns></returns>
+        public Task<RfcommDeviceServicesResult> GetRfcommServicesAsync(BluetoothCacheMode cacheMode)
+        {
+            return GetRfcommServicesAsyncImpl(cacheMode);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return "BLUETOOTH#" + BluetoothAddress.ToString("X12");

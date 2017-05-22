@@ -159,6 +159,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.Portable.cs">
       <Link>Devices\Bluetooth\BluetoothDevice.Portable.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothError.cs">
+      <Link>Devices\Bluetooth\BluetoothError.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
     </Compile>
@@ -222,6 +225,12 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.Portable.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.Portable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
     </Compile>
@@ -258,9 +267,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
       <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
+    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
       <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
-    </Compile>
+    </None>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs">
       <Link>Devices\Enumeration\DeviceUnpairingResult.cs</Link>
     </Compile>

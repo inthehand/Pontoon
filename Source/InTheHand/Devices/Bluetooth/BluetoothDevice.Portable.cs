@@ -75,6 +75,11 @@ namespace InTheHand.Devices.Bluetooth
         {
         }
 
+        private Task<RfcommDeviceServicesResult> GetRfcommServicesAsyncImpl(BluetoothCacheMode cacheMode)
+        {
+            return Task.FromResult(new RfcommDeviceServicesResult(BluetoothError.NotSupported, new List<RfcommDeviceService>().AsReadOnly()));
+        }
+
         private void ConnectionStatusChangedAdd()
         {
         }

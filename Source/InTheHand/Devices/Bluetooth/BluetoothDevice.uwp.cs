@@ -9,7 +9,6 @@ using InTheHand.Devices.Bluetooth.Rfcomm;
 using InTheHand.Devices.Enumeration;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth
@@ -125,13 +124,27 @@ namespace InTheHand.Devices.Bluetooth
         {
             return _device.Name;
         }
-        
-        private void GetRfcommServices(List<RfcommDeviceService> list)
+
+        private async Task<RfcommDeviceServicesResult> GetRfcommServicesAsyncImpl(BluetoothCacheMode cacheMode)
         {
-            foreach (Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service in _device.RfcommServices)
+            BluetoothError error = BluetoothError.Success;
+            List<RfcommDeviceService> services = new List<RfcommDeviceService>();
+
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE
+            foreach(RfcommDeviceService service in _device.RfcommServices)
             {
-                list.Add(service);
+                services.Add(service);
             }
+#else
+            var result = await _device.GetRfcommServicesAsync((Windows.Devices.Bluetooth.BluetoothCacheMode)((int)cacheMode));
+
+            error = (BluetoothError)((int)result.Error);
+            foreach(Windows.Devices.Bluetooth.Rfcomm.RfcommDeviceService service in result.Services)
+            {
+                services.Add(service);
+            }
+#endif
+            return new RfcommDeviceServicesResult(error, services.AsReadOnly());
         }
     }
 }
