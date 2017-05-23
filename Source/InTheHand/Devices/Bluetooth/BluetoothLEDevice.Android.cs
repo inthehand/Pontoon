@@ -149,6 +149,53 @@ namespace InTheHand.Devices.Bluetooth
         {
             DescriptorRead?.Invoke(this, descriptor);
         }
+
+
+        private void ConnectionStatusChangedAdd()
+        {
+            BluetoothAdapter.Default.DeviceConnected += Default_DeviceConnected;
+            BluetoothAdapter.Default.DeviceDisconnected += Default_DeviceDisconnected;
+        }
+
+        private void Default_DeviceDisconnected(object sender, ulong e)
+        {
+            if (e == BluetoothAddress)
+            {
+                RaiseConnectionStatusChanged();
+            }
+        }
+
+        private void Default_DeviceConnected(object sender, ulong e)
+        {
+            if (e == BluetoothAddress)
+            {
+                RaiseConnectionStatusChanged();
+            }
+        }
+
+        private void ConnectionStatusChangedRemove()
+        {
+            BluetoothAdapter.Default.DeviceConnected -= Default_DeviceConnected;
+            BluetoothAdapter.Default.DeviceDisconnected -= Default_DeviceDisconnected;
+        }
+
+        private void NameChangedAdd()
+        {
+            BluetoothAdapter.Default.NameChanged += Default_NameChanged;
+        }
+
+        private void NameChangedRemove()
+        {
+            BluetoothAdapter.Default.NameChanged -= Default_NameChanged;
+        }
+
+        private void Default_NameChanged(object sender, ulong e)
+        {
+            if (e == BluetoothAddress)
+            {
+                RaiseNameChanged();
+            }
+        }
     }
 
     internal class GattCallback : BluetoothGattCallback
@@ -193,5 +240,6 @@ namespace InTheHand.Devices.Bluetooth
         {
             _owner._discoveryHandle.Set();
         }
+
     }
 }

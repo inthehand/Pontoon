@@ -21,6 +21,8 @@ namespace InTheHand.Devices.Bluetooth
     /// </remarks>
     public sealed partial class BluetoothAdapter
     {
+        private static BluetoothAdapter s_default;
+
         /// <summary>
         /// Gets the default BluetoothAdapter.
         /// </summary>
@@ -28,6 +30,21 @@ namespace InTheHand.Devices.Bluetooth
         public static Task<BluetoothAdapter> GetDefaultAsync()
         {
             return GetDefaultAsyncImpl();
+        }
+
+        internal static BluetoothAdapter Default
+        {
+            get
+            {
+                if(s_default == null)
+                {
+                    var t = GetDefaultAsync();
+                    t.Wait();
+                    s_default = t.Result;
+                }
+
+                return s_default;
+            }
         }
 
         /// <summary>

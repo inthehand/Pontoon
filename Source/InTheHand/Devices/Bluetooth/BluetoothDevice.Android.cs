@@ -134,71 +134,52 @@ namespace InTheHand.Devices.Bluetooth
 
             return new RfcommDeviceServicesResult(error, services.AsReadOnly());
         }
-
-        private BluetoothDeviceReceiver _connectedStateReceiver;
+        
         private void ConnectionStatusChangedAdd()
         {
-            IntentFilter filter = new IntentFilter();
-            filter.AddAction(Android.Bluetooth.BluetoothDevice.ActionAclConnected);
-            filter.AddAction(Android.Bluetooth.BluetoothDevice.ActionAclDisconnected);
-            _connectedStateReceiver = new BluetoothDeviceReceiver(this);
-            Android.App.Application.Context.RegisterReceiver(_connectedStateReceiver, filter);
+            BluetoothAdapter.Default.DeviceConnected += Default_DeviceConnected;
+            BluetoothAdapter.Default.DeviceDisconnected += Default_DeviceDisconnected;
+        }
+
+        private void Default_DeviceDisconnected(object sender, ulong e)
+        {
+            if(e == BluetoothAddress)
+            {
+                _connectionStatus = BluetoothConnectionStatus.Disconnected;
+                RaiseConnectionStatusChanged();
+            }
+        }
+
+        private void Default_DeviceConnected(object sender, ulong e)
+        {
+            if (e == BluetoothAddress)
+            {
+                _connectionStatus = BluetoothConnectionStatus.Connected;
+                RaiseConnectionStatusChanged();
+            }
         }
 
         private void ConnectionStatusChangedRemove()
         {
-            if(_connectedStateReceiver != null)
-            {
-                Android.App.Application.Context.UnregisterReceiver(_connectedStateReceiver);
-                _connectedStateReceiver = null;
-            }
+            BluetoothAdapter.Default.DeviceConnected -= Default_DeviceConnected;
+            BluetoothAdapter.Default.DeviceDisconnected -= Default_DeviceDisconnected;
         }
-
-        private BluetoothDeviceReceiver _nameChangedReceiver;
+        
         private void NameChangedAdd()
         {
-            IntentFilter filter = new IntentFilter();
-            filter.AddAction(Android.Bluetooth.BluetoothDevice.ActionNameChanged);
-            _nameChangedReceiver = new BluetoothDeviceReceiver(this);
-            Android.App.Application.Context.RegisterReceiver(_nameChangedReceiver, filter);
+            BluetoothAdapter.Default.NameChanged += Default_NameChanged;
         }
 
         private void NameChangedRemove()
         {
-            if (_nameChangedReceiver != null)
-            {
-                Android.App.Application.Context.UnregisterReceiver(_nameChangedReceiver);
-                _nameChangedReceiver = null;
-            }
+            BluetoothAdapter.Default.NameChanged -= Default_NameChanged;
         }
 
-        private sealed class BluetoothDeviceReceiver : BroadcastReceiver
+        private void Default_NameChanged(object sender, ulong e)
         {
-            private BluetoothDevice _parent;
-
-            internal BluetoothDeviceReceiver(BluetoothDevice parent)
+            if (e == BluetoothAddress)
             {
-                _parent = parent;
-            }
-
-            public override void OnReceive(Context context, Intent intent)
-            {
-                switch(intent.Action)
-                {
-                    case Android.Bluetooth.BluetoothDevice.ActionAclConnected:
-                        _parent._connectionStatus = BluetoothConnectionStatus.Connected;
-                        _parent.RaiseConnectionStatusChanged();
-                        break;
-
-                    case Android.Bluetooth.BluetoothDevice.ActionAclDisconnected:
-                        _parent._connectionStatus = BluetoothConnectionStatus.Disconnected;
-                        _parent.RaiseConnectionStatusChanged();
-                        break;
-
-                    case Android.Bluetooth.BluetoothDevice.ActionNameChanged:
-                        _parent.RaiseNameChanged();
-                        break;
-                }
+                RaiseNameChanged();
             }
         }
     }

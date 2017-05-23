@@ -11,8 +11,6 @@ namespace InTheHand.Devices.Bluetooth
 {
     partial class BluetoothAdapter
     {
-        private static BluetoothAdapter s_default;
-
         private static Task<BluetoothAdapter> GetDefaultAsyncImpl()
         {
             return Task.Run<BluetoothAdapter>(() =>

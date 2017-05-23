@@ -149,7 +149,7 @@ namespace InTheHand.Devices.Bluetooth
         private event EventHandler _connectionStatusChanged;
 
         /// <summary>
-        /// 
+        /// Occurs when the connection status for the device has changed.
         /// </summary>
         public event EventHandler ConnectionStatusChanged
         {

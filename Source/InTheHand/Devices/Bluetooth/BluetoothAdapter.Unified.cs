@@ -19,8 +19,6 @@ namespace InTheHand.Devices.Bluetooth
 {
     partial class BluetoothAdapter
     {
-        private static BluetoothAdapter s_default;
-
         private static Task<BluetoothAdapter> GetDefaultAsyncImpl()
         {
             return Task.Run<BluetoothAdapter>(() =>
@@ -32,19 +30,6 @@ namespace InTheHand.Devices.Bluetooth
 
                 return s_default;
             });
-        }
-
-        internal static BluetoothAdapter Default
-        {
-            get
-            {
-                if(s_default == null)
-                {
-                    s_default = new BluetoothAdapter();
-                }
-
-                return s_default;
-            }
         }
 
         private CBCentralManager _manager;

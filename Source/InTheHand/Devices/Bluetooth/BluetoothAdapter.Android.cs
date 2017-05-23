@@ -7,8 +7,8 @@
 
 using System;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 using System.Globalization;
+using Android.Content;
 
 namespace InTheHand.Devices.Bluetooth
 {
@@ -21,19 +21,23 @@ namespace InTheHand.Devices.Bluetooth
                 return new BluetoothAdapter(Android.Bluetooth.BluetoothAdapter.DefaultAdapter);
             });
         }
-        
+
         private Android.Bluetooth.BluetoothAdapter _adapter;
 
         internal BluetoothAdapter(Android.Bluetooth.BluetoothAdapter adapter)
         {
             _adapter = adapter;
+            IntentFilter filter = new IntentFilter();
+            filter.AddAction(Android.Bluetooth.BluetoothDevice.ActionNameChanged);
+            _deviceReceiver = new BluetoothDeviceReceiver(this);
+            Android.App.Application.Context.RegisterReceiver(_deviceReceiver, filter);
         }
-        
+
         private ulong GetBluetoothAddress()
         {
             return ulong.Parse(_adapter.Address.Replace(":", ""), NumberStyles.HexNumber);
         }
-        
+
         private BluetoothClassOfDevice GetClassOfDevice()
         {
             return new BluetoothClassOfDevice(0);
@@ -46,12 +50,58 @@ namespace InTheHand.Devices.Bluetooth
 
         private bool GetIsLowEnergySupported()
         {
-            return false;
+            return true;
         }
 
         private string GetName()
         {
             return _adapter.Name;
+        }
+
+
+        internal event EventHandler<ulong> DeviceConnected;
+
+        internal event EventHandler<ulong> DeviceDisconnected;
+
+        internal event EventHandler<ulong> NameChanged;
+
+
+        private BluetoothDeviceReceiver _deviceReceiver;
+
+
+        private sealed class BluetoothDeviceReceiver : BroadcastReceiver
+        {
+            private BluetoothAdapter _parent;
+
+            internal BluetoothDeviceReceiver(BluetoothAdapter parent)
+            {
+                _parent = parent;
+            }
+
+            public override void OnReceive(Context context, Intent intent)
+            {
+                ulong address = 0;
+                var device = intent.Extras.GetParcelable(Android.Bluetooth.BluetoothDevice.ExtraDevice) as Android.Bluetooth.BluetoothDevice;
+                if (device != null)
+                {
+                    address = ulong.Parse(device.Address.Replace(":", ""), NumberStyles.HexNumber);
+                }
+
+                switch (intent.Action)
+                {
+                    case Android.Bluetooth.BluetoothDevice.ActionAclConnected:
+                        _parent.DeviceConnected?.Invoke(_parent,address);
+                        break;
+
+                    case Android.Bluetooth.BluetoothDevice.ActionAclDisconnected:
+                        _parent.DeviceDisconnected?.Invoke(_parent, address);
+                        break;
+
+                    case Android.Bluetooth.BluetoothDevice.ActionNameChanged:
+                        _parent.NameChanged?.Invoke(_parent, address);
+                        break;
+                }
+            }
         }
     }
 }

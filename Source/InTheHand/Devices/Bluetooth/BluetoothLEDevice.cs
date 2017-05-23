@@ -84,9 +84,7 @@ namespace InTheHand.Devices.Bluetooth
             {
                 if (_nameChanged == null)
                 {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     NameChangedAdd();
-#endif
                 }
 
                 _nameChanged += value;
@@ -99,11 +97,14 @@ namespace InTheHand.Devices.Bluetooth
 
                 if (_nameChanged == null)
                 {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     NameChangedRemove();
-#endif
                 }
             }
+        }
+
+        private void RaiseNameChanged()
+        {
+            _nameChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -128,6 +129,11 @@ namespace InTheHand.Devices.Bluetooth
             }
         }
 
+        private void RaiseConnectionStatusChanged()
+        {
+            _connectionStatusChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         private event TypedEventHandler<BluetoothLEDevice, object> _connectionStatusChanged;
         /// <summary>
         /// Occurs when the connection status for the device has changed.
@@ -138,9 +144,7 @@ namespace InTheHand.Devices.Bluetooth
             {
                 if(_connectionStatusChanged == null)
                 {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     ConnectionStatusChangedAdd();
-#endif
                 }
 
                 _connectionStatusChanged += value;
@@ -151,9 +155,7 @@ namespace InTheHand.Devices.Bluetooth
 
                 if (_connectionStatusChanged == null)
                 {
-#if __UNIFIED__ || WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                     ConnectionStatusChangedRemove();
-#endif
                 }
             }
         }
