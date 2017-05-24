@@ -14,9 +14,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// <summary>
     /// Provides conversion support for CBUUID.
     /// </summary>
-    public static class CBUUIDExtensions
+    internal static class CBUUIDExtensions
     {
-        public static Guid ToGuid(this CBUUID uuid)
+        internal static Guid ToGuid(this CBUUID uuid)
         {
             byte[] b = new byte[16];
 
