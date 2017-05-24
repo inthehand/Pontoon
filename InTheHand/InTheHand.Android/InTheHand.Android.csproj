@@ -189,6 +189,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs">
       <Link>Devices\Bluetooth\BluetoothAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAddressType.cs">
+      <Link>Devices\Bluetooth\BluetoothAddressType.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
       <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
     </Compile>
@@ -266,6 +269,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.Android.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.Android.cs</Link>

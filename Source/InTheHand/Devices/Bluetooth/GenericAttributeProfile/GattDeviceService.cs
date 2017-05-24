@@ -31,33 +31,26 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     {
         private static readonly Guid BluetoothBase = new Guid(0x00000000, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
 
-        /// <summary>
-        /// Converts a Bluetooth SIG defined short Id to a full GATT UUID.
-        /// </summary>
-        /// <param name="shortId">A 16-bit Bluetooth GATT Service UUID.</param>
-        /// <returns>The corresponding 128-bit GATT Service UUID, that uniquely identifies this service.</returns>
-        public static Guid ConvertShortIdToUuid(ushort shortId)
-        {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return Windows.Devices.Bluetooth.GenericAttributeProfile.GattDeviceService.ConvertShortIdToUuid(shortId);
-
-#else
-            byte[] guidBytes = BluetoothBase.ToByteArray();
-            BitConverter.GetBytes(shortId).CopyTo(guidBytes, 0);
-            return new Guid(guidBytes);
-#endif
-        }
-
         public static Task<GattDeviceService> FromIdAsync(string deviceId)
         {
             return FromIdAsyncImpl(deviceId);
         }
 
+        /// <summary>
+        /// Creates a suitable AQS Filter string for use with the CreateWatcher method, from a 16-bit Bluetooth GATT Service UUID.
+        /// </summary>
+        /// <param name="serviceShortId"></param>
+        /// <returns></returns>
         public static string GetDeviceSelectorFromShortId(ushort serviceShortId)
         {
             return GetDeviceSelectorFromShortIdImpl(serviceShortId);
         }
 
+        /// <summary>
+        /// Creates a suitable AQS Filter string for use with the CreateWatcher method, from a Bluetooth service UUID.
+        /// </summary>
+        /// <param name="serviceUuid"></param>
+        /// <returns></returns>
         public static string GetDeviceSelectorFromUuid(Guid serviceUuid)
         {
             return GetDeviceSelectorFromUuidImpl(serviceUuid);

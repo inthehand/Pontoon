@@ -91,6 +91,17 @@ namespace InTheHand.Devices.Bluetooth
             return ulong.Parse(_device.Address.Replace(":", ""), NumberStyles.HexNumber);
         }
 
+        private BluetoothAddressType GetBluetoothAddressType()
+        {
+            if(_device.Type.HasFlag(BluetoothDeviceType.Classic))
+            {
+                // dual mode devices only support public addresses
+                return BluetoothAddressType.Public;
+            }
+
+            return BluetoothAddressType.Unspecified;
+        }
+
         private BluetoothConnectionStatus GetConnectionStatus()
         {
             ProfileState state = DeviceInformation.Manager.GetConnectionState(_device, ProfileType.Gatt);

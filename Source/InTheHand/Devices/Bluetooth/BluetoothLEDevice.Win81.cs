@@ -47,6 +47,11 @@ namespace InTheHand.Devices.Bluetooth
             return 0;
         }
 
+        private BluetoothAddressType GetBluetoothAddressType()
+        {
+            return BluetoothAddressType.Unspecified;
+        }
+
         private BluetoothConnectionStatus GetConnectionStatus()
         {
             return BluetoothConnectionStatus.Disconnected;

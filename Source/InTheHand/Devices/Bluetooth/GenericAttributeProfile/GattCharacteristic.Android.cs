@@ -77,7 +77,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         /// </summary>
         /// <param name="value">A byte array object which contains the data to be written to the Bluetooth LE device.</param>
         /// <returns>The object that manages the asynchronous operation, which, upon completion, returns the status with which the operation completed.</returns>
-        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)
+        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value, GattWriteOption writeOption)
         {
             bool success = _characteristic.SetValue(value);
             if (_service.Device._bluetoothGatt.WriteCharacteristic(_characteristic))

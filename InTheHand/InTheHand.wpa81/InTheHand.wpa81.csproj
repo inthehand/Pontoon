@@ -84,11 +84,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Page Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerDialog.xaml">
-      <Link>Devices\Enumeration\DevicePickerDialog.xaml</Link>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPage.xaml">
       <Link>UI\ApplicationSettings\SettingsPage.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
@@ -188,123 +183,6 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
-      <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
-      <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs">
-      <Link>Devices\Bluetooth\BluetoothConnectionStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.cs">
-      <Link>Devices\Bluetooth\BluetoothDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.uwp.cs">
-      <Link>Devices\Bluetooth\BluetoothDevice.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothError.cs">
-      <Link>Devices\Bluetooth\BluetoothError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
-      <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.uwp.cs">
-      <Link>Devices\Bluetooth\BluetoothLEDevice.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
-      <Link>Devices\Bluetooth\BluetoothMajorClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMinorClass.cs">
-      <Link>Devices\Bluetooth\BluetoothMinorClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
-      <Link>Devices\Bluetooth\BluetoothServiceCapabilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothUuidHelper.cs">
-      <Link>Devices\Bluetooth\BluetoothUuidHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.uwp.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.uwp.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.uwp.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.uwp.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceAccessState.cs">
-      <Link>Devices\Enumeration\DeviceAccessState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
-      <Link>Devices\Enumeration\DeviceInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.uwp.cs">
-      <Link>Devices\Enumeration\DeviceInformation.uwp.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs">
-      <Link>Devices\Enumeration\DeviceInformationCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
-      <Link>Devices\Enumeration\DevicePicker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
-      <Link>Devices\Enumeration\DevicePickerAppearance.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerDialog.xaml.cs">
-      <Link>Devices\Enumeration\DevicePickerDialog.xaml.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
-      <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
-      <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceViewModel.cs">
-      <Link>Devices\Enumeration\DeviceViewModel.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs">
       <Link>Devices\Environment.cs</Link>

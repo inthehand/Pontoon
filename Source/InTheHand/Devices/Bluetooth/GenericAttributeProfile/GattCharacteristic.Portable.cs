@@ -24,7 +24,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             throw new PlatformNotSupportedException();
         }
 
-        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)
+        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value, GattWriteOption writeOption)
         {
             throw new PlatformNotSupportedException();
         }

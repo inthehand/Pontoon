@@ -144,12 +144,18 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.Portable.cs">
       <Link>Devices\Bluetooth\BluetoothAdapter.Portable.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAddressType.cs">
+      <Link>Devices\Bluetooth\BluetoothAddressType.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
       <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
       <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
     </Compile>
+    <None Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCompanyId.cs">
+      <Link>Devices\Bluetooth\BluetoothCompanyId.cs</Link>
+    </None>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs">
       <Link>Devices\Bluetooth\BluetoothConnectionStatus.cs</Link>
     </Compile>
@@ -222,6 +228,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
     </Compile>
@@ -267,9 +276,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
       <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
     </Compile>
-    <None Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
       <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
-    </None>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs">
       <Link>Devices\Enumeration\DeviceUnpairingResult.cs</Link>
     </Compile>

@@ -83,6 +83,15 @@ namespace InTheHand.Devices.Bluetooth
             return _device.BluetoothAddress;
         }
 
+        private BluetoothAddressType GetBluetoothAddressType()
+        {
+#if WINDOWS_UWP
+            return (BluetoothAddressType)_device.BluetoothAddressType;
+#else
+            return BluetoothAddressType.Unspecified;
+#endif
+        }
+
         private BluetoothConnectionStatus GetConnectionStatus()
         {
             return (BluetoothConnectionStatus)((int)_device.ConnectionStatus);

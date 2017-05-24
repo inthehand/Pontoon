@@ -60,9 +60,9 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return await _characteristic.ReadValueAsync((Windows.Devices.Bluetooth.BluetoothCacheMode)((int)cacheMode)).AsTask();
         }
 
-        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)
+        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value, GattWriteOption writeOption)
         {
-            return await _characteristic.WriteValueAsync(value.AsBuffer()).AsTask() == Windows.Devices.Bluetooth.GenericAttributeProfile.GattCommunicationStatus.Success ? GattCommunicationStatus.Success : GattCommunicationStatus.Unreachable;
+            return await _characteristic.WriteValueAsync(value.AsBuffer(), (Windows.Devices.Bluetooth.GenericAttributeProfile.GattWriteOption)writeOption).AsTask() == Windows.Devices.Bluetooth.GenericAttributeProfile.GattCommunicationStatus.Success ? GattCommunicationStatus.Success : GattCommunicationStatus.Unreachable;
         }
         
         private GattCharacteristicProperties GetCharacteristicProperties()

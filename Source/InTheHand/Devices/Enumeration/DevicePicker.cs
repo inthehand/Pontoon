@@ -59,13 +59,13 @@ namespace InTheHand.Devices.Enumeration
         // Light dismiss happens when the user clicks somewhere other than the picker UI and the picker UI disappears. 
         // On Windows Phone this indicates the Back button was pressed.
         // </summary>
-        internal event TypedEventHandler<DevicePicker, object> DevicePickerDismissed;
+        //internal event TypedEventHandler<DevicePicker, object> DevicePickerDismissed;
 
         // raises the DevicePickerDismissed event
-        internal void OnDevicePickerDismissed()
-        {
-            DevicePickerDismissed?.Invoke(this, null);
-        }
+        //internal void OnDevicePickerDismissed()
+        //{
+        //    DevicePickerDismissed?.Invoke(this, null);
+        //}
         
         // <summary>
         // Indicates that the user selected a device in the picker.

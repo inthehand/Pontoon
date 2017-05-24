@@ -61,6 +61,7 @@ namespace InTheHand.Devices.Bluetooth
         /// <summary>
         /// Gets a boolean indicating if the adapter supports the Bluetooth Classic transport type.
         /// </summary>
+        /// <remarks>Always returns false for iOS, macOS and tvOS.</remarks>
         public bool IsClassicSupported
         {
             get
@@ -72,6 +73,7 @@ namespace InTheHand.Devices.Bluetooth
         /// <summary>
         /// Gets a boolean indicating if the adapater supports Low Energy Bluetooth Transport type.
         /// </summary>
+        /// <remarks>Always returns false for Windows Desktop.</remarks>
         public bool IsLowEnergySupported
         {
             get
@@ -84,6 +86,7 @@ namespace InTheHand.Devices.Bluetooth
         /// Gets the Name of the adapter.
         /// </summary>
         /// <value>The name of the adapter.</value>
+        /// <remarks>On most platforms this is not separately editable from the machine name.</remarks>
         public string Name
         {
             get

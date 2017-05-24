@@ -81,11 +81,12 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             }
         }
 
-        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value)
+        private async Task<GattCommunicationStatus> DoWriteValueAsync(byte[] value, GattWriteOption writeOption)
         {
             try
             {
                 _characteristic.Value = NSData.FromArray(value);
+                _characteristic.Service.Peripheral.WriteValue(NSData.FromArray(value), _characteristic, writeOption == GattWriteOption.WriteWithResponse ? CBCharacteristicWriteType.WithResponse : CBCharacteristicWriteType.WithoutResponse);
                 return GattCommunicationStatus.Success;
             }
             catch

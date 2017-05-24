@@ -18,7 +18,7 @@ namespace InTheHand.Devices.Bluetooth
 {
     partial class BluetoothLEDevice
     {
-        private CBPeripheral _peripheral;
+        internal CBPeripheral _peripheral;
         
 
         private BluetoothLEDevice(CBPeripheral peripheral)
@@ -98,6 +98,11 @@ namespace InTheHand.Devices.Bluetooth
         private ulong GetBluetoothAddress()
         {
             return ulong.MaxValue;
+        }
+
+        private BluetoothAddressType GetBluetoothAddressType()
+        {
+            return BluetoothAddressType.Unspecified;
         }
 
         private BluetoothConnectionStatus GetConnectionStatus()

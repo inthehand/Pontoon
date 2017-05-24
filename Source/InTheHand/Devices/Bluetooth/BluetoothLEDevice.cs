@@ -119,6 +119,17 @@ namespace InTheHand.Devices.Bluetooth
         }
 
         /// <summary>
+        /// Gets the address type for the Bluetooth LE device.
+        /// </summary>
+        public BluetoothAddressType BluetoothAddressType
+        {
+            get
+            {
+                return GetBluetoothAddressType();
+            }
+        }
+
+        /// <summary>
         /// Gets the connection status of the device.
         /// </summary>
         public BluetoothConnectionStatus ConnectionStatus
