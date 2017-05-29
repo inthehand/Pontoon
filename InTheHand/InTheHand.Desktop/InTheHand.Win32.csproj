@@ -52,17 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\BluetoothAddress.cs">
-      <Link>Devices\Bluetooth\BluetoothAddress.cs</Link>
-    </Compile>
     <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\BluetoothEndPoint.cs">
-      <Link>Devices\Bluetooth\BluetoothEndPoint.cs</Link>
-    </Compile>
-    <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\Sockets\AddressFamily.cs">
-      <Link>Devices\Bluetooth\AddressFamily.cs</Link>
-    </Compile>
-    <Compile Include="..\..\InTheHand.Devices.Bluetooth\Net\Sockets\BluetoothProtocolType.cs">
-      <Link>Devices\Bluetooth\BluetoothProtocolType.cs</Link>
+      <Link>Devices\Bluetooth\Rfcomm\BluetoothEndPoint.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
@@ -192,6 +183,15 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResultStatus.cs">
       <Link>Devices\Enumeration\DeviceUnpairingResultStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceWatcher.cs">
+      <Link>Devices\Enumeration\DeviceWatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceWatcher.Win32.cs">
+      <Link>Devices\Enumeration\DeviceWatcher.Win32.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceWatcherStatus.cs">
+      <Link>Devices\Enumeration\DeviceWatcherStatus.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>

@@ -39,22 +39,44 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return characteristic._characteristic;
         }
 
-        private void GetAllDescriptors(List<GattDescriptor> descriptors)
+        private Task<GattDescriptorsResult> GetDescriptorsAsyncImpl(BluetoothCacheMode cacheMode)
         {
-            foreach(BluetoothGattDescriptor descriptor in _characteristic.Descriptors)
+            List<GattDescriptor> descriptors = new List<GattDescriptor>();
+
+            try
             {
-                descriptors.Add(new GattDescriptor(this, descriptor));
-            }
-        }
-        
-        private void GetDescriptors(Guid descriptorUuid, List<GattDescriptor> descriptors)
-        {
-            foreach (BluetoothGattDescriptor descriptor in _characteristic.Descriptors)
-            {
-                if (descriptor.Uuid.ToGuid() == descriptorUuid)
+                foreach (BluetoothGattDescriptor descriptor in _characteristic.Descriptors)
                 {
                     descriptors.Add(new GattDescriptor(this, descriptor));
                 }
+
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Success, descriptors.AsReadOnly()));
+            }
+            catch
+            {
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Unreachable, null));
+            }
+        }
+
+        private Task<GattDescriptorsResult> GetDescriptorsForUuidAsyncImpl(Guid descriptorUuid, BluetoothCacheMode cacheMode)
+        {
+            List<GattDescriptor> descriptors = new List<GattDescriptor>();
+           
+            try
+            {
+                foreach (BluetoothGattDescriptor descriptor in _characteristic.Descriptors)
+                {
+                    if (descriptor.Uuid.ToGuid() == descriptorUuid)
+                    {
+                        descriptors.Add(new GattDescriptor(this, descriptor));
+                    }
+                }
+
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Success, descriptors.AsReadOnly()));
+            }
+            catch
+            {
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Unreachable, null));
             }
         }
 

@@ -30,36 +30,23 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     /// </remarks>
     public sealed partial class GattCharacteristic
     {
-        /*public Task<GattDescriptorsResult> GetDescriptorsForUuidAsync(Guid descriptorUuid)
+        public Task<GattDescriptorsResult> GetDescriptorsAsync()
         {
-
-        }*/
-
-        /// <summary>
-        /// Gets the collection of all descriptors belonging to this GattCharacteristic instance.
-        /// </summary>
-        /// <returns></returns>
-        public IReadOnlyList<GattDescriptor> GetAllDescriptors()
+            return GetDescriptorsAsync(BluetoothCacheMode.Cached);
+        }
+        public Task<GattDescriptorsResult> GetDescriptorsAsync(BluetoothCacheMode cacheMode)
         {
-            List<GattDescriptor> descriptors = new List<GattDescriptor>();
-
-            GetAllDescriptors(descriptors);
-
-            return descriptors.AsReadOnly();
+            return GetDescriptorsAsyncImpl(cacheMode);
         }
 
-        /// <summary>
-        /// Returns a vector of descriptors, that are identified by the specified UUID, and belong to this GattCharacteristic instance.
-        /// </summary>
-        /// <param name="descriptorUuid">The UUID for the descriptors to be retrieved.</param>
-        /// <returns>A vector of descriptors whose UUIDs match descriptorUuid.</returns>
-        public IReadOnlyList<GattDescriptor> GetDescriptors(Guid descriptorUuid)
+        public Task<GattDescriptorsResult> GetDescriptorsForUuidAsync(Guid descriptorUuid)
         {
-            List<GattDescriptor> descriptors = new List<GattDescriptor>();
+            return GetDescriptorsForUuidAsync(descriptorUuid, BluetoothCacheMode.Cached);
+        }
 
-            GetDescriptors(descriptorUuid, descriptors);
-
-            return descriptors.AsReadOnly();
+        public Task<GattDescriptorsResult> GetDescriptorsForUuidAsync(Guid descriptorUuid, BluetoothCacheMode cacheMode)
+        {
+            return GetDescriptorsForUuidAsyncImpl(descriptorUuid, cacheMode);
         }
 
         /// <summary>

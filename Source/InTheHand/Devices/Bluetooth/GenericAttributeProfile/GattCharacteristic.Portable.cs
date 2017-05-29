@@ -13,11 +13,15 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     partial class GattCharacteristic
     {
-        private void GetAllDescriptors(List<GattDescriptor> descriptors)
-        { }
+        private Task<GattDescriptorsResult> GetDescriptorsAsyncImpl(BluetoothCacheMode cacheMode)
+        {
+            return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Unreachable, null));
+        }
 
-        private void GetDescriptors(Guid descriptorUuid, List<GattDescriptor> descriptors)
-        { }
+        private Task<GattDescriptorsResult> GetDescriptorsForUuidAsyncImpl(Guid descriptorUuid, BluetoothCacheMode cacheMode)
+        {
+            return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Unreachable, null));
+        }
 
         private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {

@@ -13,6 +13,7 @@ using InTheHand.Devices.Bluetooth;
 using System.Diagnostics;
 using InTheHand.Foundation;
 using InTheHand.UI.Popups;
+using System.Collections.Generic;
 
 namespace InTheHand.Devices.Enumeration
 {
@@ -24,13 +25,18 @@ namespace InTheHand.Devices.Enumeration
         {
             NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS sdp = new NativeMethods.BLUETOOTH_SELECT_DEVICE_PARAMS();
             sdp.dwSize = Marshal.SizeOf(sdp);
-            sdp.hwndParent = InTheHand.UI.Core.CoreWindow.GetForCurrentThread().Handle;
+            sdp.hwndParent = Process.GetCurrentProcess().MainWindowHandle;
             sdp.numDevices = 1;
             if(!string.IsNullOrEmpty(Appearance.Title))
             {
                 sdp.info = Appearance.Title;
             }
-            //sdp.fShowAuthenticated = true;
+
+            //defaults
+            sdp.fShowAuthenticated = true;
+            sdp.fShowUnknown = false;
+
+            List<int> codMasks = new List<int>();
 
             if(Filter.SupportedDeviceSelectors.Count > 0)
             {
@@ -43,10 +49,7 @@ namespace InTheHand.Devices.Enumeration
                             int codMask = 0;
                             if (int.TryParse(parts[1], NumberStyles.HexNumber, null, out codMask))
                             {
-                                // only support one COD mask
-                                sdp.numOfClasses = 1;
-                                sdp.prgClassOfDevices = Marshal.AllocHGlobal(8);
-                                Marshal.WriteInt32(sdp.prgClassOfDevices, codMask);
+                                codMasks.Add(codMask);      
                                 break;
                             }
                             break;
@@ -70,6 +73,17 @@ namespace InTheHand.Devices.Enumeration
 
             sdp.hwndParent = NativeMethods.GetForegroundWindow();
 
+            if(codMasks.Count > 0)
+            {
+                // marshal the CODs to native memory
+                sdp.numOfClasses = codMasks.Count;
+                sdp.prgClassOfDevices = Marshal.AllocHGlobal(8 * codMasks.Count);
+                for (int i = 0; i < codMasks.Count; i++)
+                {
+                    Marshal.WriteInt32(IntPtr.Add(sdp.prgClassOfDevices, 8*i), codMasks[i]);
+                }
+            }
+
             /*if (Filter.SupportedDeviceSelectors.Count > 0)
             {
                 _callback = new NativeMethods.PFN_DEVICE_CALLBACK(FilterDevices);
@@ -84,6 +98,7 @@ namespace InTheHand.Devices.Enumeration
             {
                 Marshal.FreeHGlobal(sdp.prgClassOfDevices);
                 sdp.prgClassOfDevices = IntPtr.Zero;
+                sdp.numOfClasses = 0;
             }
 
             if (success)
@@ -109,6 +124,7 @@ namespace InTheHand.Devices.Enumeration
                         return null;
                     }
                 }
+
                 return new DeviceInformation(info);
             }
 
@@ -183,7 +199,7 @@ namespace InTheHand.Devices.Enumeration
             internal struct BLUETOOTH_SELECT_DEVICE_PARAMS
             {
                 internal int dwSize;
-                internal uint numOfClasses;
+                internal int numOfClasses;
                 internal IntPtr prgClassOfDevices;
                 [MarshalAs(UnmanagedType.LPWStr)]
                 internal string info;

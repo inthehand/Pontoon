@@ -5,14 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 {
     /// <summary>
-    /// The result of descriptor operations like <see cref="GattCharacteristic.GetDescriptorsAsync"/>.
+    /// The result of descriptor operations like <see cref="GattCharacteristic.GetDescriptorsAsync()"/>.
     /// </summary>
     /// <remarks>
     /// <para/><list type="table">
@@ -32,16 +30,35 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         /// <summary>
         /// Gets a vector of the GATT descriptors.
         /// </summary>
-        public IReadOnlyList<GattDescriptor> Descriptors { get; }
+        public IReadOnlyList<GattDescriptor> Descriptors
+        {
+            get
+            {
+                return GetDescriptors();
+            }
+        }
 
+        /*
         /// <summary>
         /// Gets the GATT protocol error.
         /// </summary>
-        public byte? ProtocolError { get; }
+        public byte? ProtocolError
+        {
+            get
+            {
+                return GetProtocolError();
+            }
+        }*/
 
         /// <summary>
         /// Gets the status of the operation.
         /// </summary>
-        public GattCommunicationStatus Status { get; }
+        public GattCommunicationStatus Status
+        {
+            get
+            {
+                return GetStatus();
+            }
+        }
     }
 }

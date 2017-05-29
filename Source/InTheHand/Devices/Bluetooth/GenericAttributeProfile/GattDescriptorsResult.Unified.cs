@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="GattDescriptorsResult.uwp.cs" company="In The Hand Ltd">
+// <copyright file="GattDescriptorsResult.Unified.cs" company="In The Hand Ltd">
 //   Copyright (c) 2017 In The Hand Ltd, All rights reserved.
 //   This source code is licensed under the MIT License - see License.txt
 // </copyright>
@@ -12,9 +12,11 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
     partial class GattDescriptorsResult
     {
         private IReadOnlyList<GattDescriptor> _descriptors;
+        private GattCommunicationStatus _status;
 
-        internal GattDescriptorsResult(IReadOnlyList<GattDescriptor> descriptors)
+        internal GattDescriptorsResult(GattCommunicationStatus status, IReadOnlyList<GattDescriptor> descriptors)
         {
+            _status = status;
             _descriptors = descriptors;
         }
         
@@ -25,7 +27,7 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
         
         private GattCommunicationStatus GetStatus()
         {
-            return _descriptors == null ? GattCommunicationStatus.Unreachable : GattCommunicationStatus.Success;
+            return _status;
         }
     }
 }

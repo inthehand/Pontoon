@@ -13,9 +13,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
     /// Represents an RFCOMM service ID.
     /// </summary>
     public sealed class RfcommServiceId
-    {
-        private static readonly Guid BluetoothBase = new Guid(0x00000000, 0x0000, 0x1000, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB);
-       
+    {       
         /// <summary>
         /// Creates a RfcommServiceId object corresponding to the service id for the standardized Serial Port (SPP) service (with short id 0x1101).
         /// </summary>
@@ -293,8 +291,26 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
             _uuid = uuid;
         }
 #endif
-        
-       
+
+        /// <summary>
+        /// Implicit conversion from RfcommServiceId to Guid.
+        /// </summary>
+        /// <param name="id"></param>
+        public static implicit operator Guid(RfcommServiceId id)
+        {
+            return id.Uuid;
+        }
+
+        /// <summary>
+        /// Implicit conversion from Guid to RfcommServiceId
+        /// </summary>
+        /// <param name="uuid"></param>
+        public static implicit operator RfcommServiceId(Guid uuid)
+        {
+            return RfcommServiceId.FromUuid(uuid);
+        }
+
+
         /// <summary>
         /// Retrieves the 128-bit service id.
         /// </summary>

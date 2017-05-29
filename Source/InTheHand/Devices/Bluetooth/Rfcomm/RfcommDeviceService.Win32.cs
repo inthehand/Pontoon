@@ -5,16 +5,12 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Reflection;
-using System.Globalization;
-
-
-using System.Net.Sockets;
 using InTheHand.Net;
-using InTheHand.Net.Sockets;
+using System;
+using System.Globalization;
+using System.IO;
+using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace InTheHand.Devices.Bluetooth.Rfcomm
 {
@@ -64,9 +60,13 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         {
             return Task.Run<Stream>(() =>
             {
-                var socket = new Socket(AddressFamily32.Bluetooth, SocketType.Stream, BluetoothProtocolType.RFComm);
-                socket.Connect(new BluetoothEndPoint(_device.BluetoothAddress, _service.Uuid));
+                var socket = BluetoothSockets.CreateRfcommSocket();
+                socket.Connect(new BluetoothEndPoint(this));
                 return new NetworkStream(socket);
+
+                //var socket = new Socket(AddressFamily32.Bluetooth, SocketType.Stream, BluetoothProtocolType.RFComm);
+                //socket.Connect(new BluetoothEndPoint(_device.BluetoothAddress, _service.Uuid));
+                //return new NetworkStream(socket);
             });
         }
     }

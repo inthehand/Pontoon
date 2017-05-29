@@ -62,7 +62,7 @@ namespace InTheHand.Devices.Bluetooth
         /// <summary>
         /// Returns a <see cref="BluetoothDevice"/> object for the given DeviceInformation.
         /// </summary>
-        /// <param name="deviceInformation">The DeviceInformation value that identifies the BluetoothDevice instance.</param>
+        /// <param name="deviceInformation">The <see cref="DeviceInformation"/> value that identifies the BluetoothDevice instance.</param>
         /// <returns>After the asynchronous operation completes, returns the BluetoothDevice object identified by the given DeviceInformation.</returns>
         public static Task<BluetoothDevice> FromDeviceInformationAsync(DeviceInformation deviceInformation)
         {

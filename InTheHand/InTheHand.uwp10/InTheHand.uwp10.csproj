@@ -281,6 +281,12 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.uwp.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.uwp.cs">
+      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs">
       <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs</Link>
     </Compile>

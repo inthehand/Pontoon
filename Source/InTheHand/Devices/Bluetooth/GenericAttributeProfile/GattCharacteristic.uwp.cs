@@ -47,14 +47,45 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
 #endif
         }
 
-        private void GetDescriptors(Guid descriptorUuid, List<GattDescriptor> descriptors)
+        private Task<GattDescriptorsResult> GetDescriptorsAsyncImpl(BluetoothCacheMode cacheMode)
         {
-            foreach (GattDescriptor d in _characteristic.GetDescriptors(descriptorUuid))
+            IReadOnlyList<GattDescriptor> descriptors = null;
+            // Update for Creators Update
+            var result = _characteristic.GetAllDescriptors();
+            if (result != null)
             {
-                descriptors.Add(d);
+                List<GattDescriptor> found = new List<GattDescriptor>();
+                foreach (Windows.Devices.Bluetooth.GenericAttributeProfile.GattDescriptor d in result)
+                {
+                    found.Add(d);
+                }
+
+                descriptors = found.AsReadOnly();
             }
+
+            return Task.FromResult(new GattDescriptorsResult(descriptors));
         }
-        
+
+        private Task<GattDescriptorsResult> GetDescriptorsForUuidAsyncImpl(Guid descriptorUuid, BluetoothCacheMode cacheMode)
+        {
+            IReadOnlyList<GattDescriptor> descriptors = null;
+            // Update for Creators Update
+            var result = _characteristic.GetDescriptors(descriptorUuid);
+            if (result != null)
+            {
+                List<GattDescriptor> found = new List<GattDescriptor>();
+                foreach(Windows.Devices.Bluetooth.GenericAttributeProfile.GattDescriptor d in result)
+                {
+                    found.Add(d);
+                }
+
+                descriptors = found.AsReadOnly();
+            }
+
+            return Task.FromResult(new GattDescriptorsResult(descriptors));
+        }
+
+
         private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
             return await _characteristic.ReadValueAsync((Windows.Devices.Bluetooth.BluetoothCacheMode)((int)cacheMode)).AsTask();

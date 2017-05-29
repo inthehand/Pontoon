@@ -45,30 +45,57 @@ namespace InTheHand.Devices.Bluetooth.GenericAttributeProfile
             return characteristic._characteristic;
         }
 
-
-        private void GetAllDescriptors(List<GattDescriptor> descriptors)
+        private Task<GattDescriptorsResult> GetDescriptorsAsyncImpl(BluetoothCacheMode cacheMode)
         {
-            _service.Device.Peripheral.DiscoverDescriptors(_characteristic);
+            List<GattDescriptor> descriptors = new List<GattDescriptor>();
 
-            foreach (CBDescriptor d in _characteristic.Descriptors)
+            try
             {
-                descriptors.Add(d);
-            }
-        }
-
-        private void GetDescriptors(Guid descriptorUuid, List<GattDescriptor> descriptors)
-        {
-            _service.Device.Peripheral.DiscoverDescriptors(_characteristic);
-
-            foreach (CBDescriptor descriptor in _characteristic.Descriptors)
-            {
-                if (descriptor.UUID.ToGuid() == descriptorUuid)
+                if(cacheMode == BluetoothCacheMode.Uncached)
                 {
-                    descriptors.Add(descriptor);
+                    _service.Device.Peripheral.DiscoverDescriptors(_characteristic);
                 }
+
+                foreach (CBDescriptor d in _characteristic.Descriptors)
+                {
+                    descriptors.Add(d);
+                }
+
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Success, descriptors.AsReadOnly()));
+            }
+            catch
+            {
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Unreachable, null));
             }
         }
-        
+
+        private Task<GattDescriptorsResult> GetDescriptorsForUuidAsyncImpl(Guid descriptorUuid, BluetoothCacheMode cacheMode)
+        {
+            List<GattDescriptor> descriptors = new List<GattDescriptor>();
+
+            try
+            {
+                if (cacheMode == BluetoothCacheMode.Uncached)
+                {
+                    _service.Device.Peripheral.DiscoverDescriptors(_characteristic);
+                }
+
+                foreach (CBDescriptor descriptor in _characteristic.Descriptors)
+                {
+                    if (descriptor.UUID.ToGuid() == descriptorUuid)
+                    {
+                        descriptors.Add(descriptor);
+                    }
+                }
+
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Success, descriptors.AsReadOnly()));
+            }
+            catch
+            {
+                return Task.FromResult(new GattDescriptorsResult(GattCommunicationStatus.Unreachable, null));
+            }
+        }
+                
         private async Task<GattReadResult> DoReadValueAsync(BluetoothCacheMode cacheMode)
         {
             try
