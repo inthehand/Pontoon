@@ -4,10 +4,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-#if __IOS__ || __TVOS__
-using UIKit;
-#endif
-
 namespace InTheHand.Graphics.Display
 {
     /// <summary>
@@ -58,13 +54,6 @@ namespace InTheHand.Graphics.Display
 
 #if __ANDROID__
         private Android.Util.DisplayMetrics _metrics;
-#elif __IOS__ || __TVOS__
-        private UIScreen _screen;
-        
-        public static implicit operator UIScreen(DisplayInformation d)
-        {
-            return d._screen;
-        }
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
         private Windows.Graphics.Display.DisplayInformation _information;
 
@@ -79,16 +68,14 @@ namespace InTheHand.Graphics.Display
         }
 #endif
 
+#if !__IOS__ && !__TVOS__
         private DisplayInformation()
         {
 #if __ANDROID__
             _metrics = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.Resources.DisplayMetrics;
-
-#elif __IOS__ || __TVOS__
-            _screen = UIApplication.SharedApplication.KeyWindow.Screen;
 #endif
         }
-
+#endif
 
         /// <summary>
         /// Gets the current orientation of a rectangular monitor.
@@ -113,10 +100,7 @@ namespace InTheHand.Graphics.Display
 #if __ANDROID__
                 return _metrics.WidthPixels > _metrics.HeightPixels ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
 
-#elif __IOS__ || __TVOS__
-                return _screen.Bounds.Width > _screen.Bounds.Height ? DisplayOrientations.Landscape : DisplayOrientations.Portrait;
-
-#elif __MAC__
+#elif __IOS__ || __TVOS__ || __MAC__
                 return GetCurrentOrientation();
 
 #elif TIZEN
@@ -182,7 +166,7 @@ namespace InTheHand.Graphics.Display
                     rawDpiX = _metrics.Xdpi;
 
 #elif __IOS__ || __TVOS__
-                    rawDpiX = (float?)_screen.NativeScale;
+                    GetRawDpi();
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
                     return _information.RawDpiX;
@@ -282,7 +266,7 @@ namespace InTheHand.Graphics.Display
                     _rawPixelsPerViewPixel = _metrics.Density;
 
 #elif __IOS__ || __TVOS__
-                    _rawPixelsPerViewPixel = (float?)_screen.Scale;
+                    GetRawPixelsPerViewPixel();
 
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
                     return _information.RawPixelsPerViewPixel;

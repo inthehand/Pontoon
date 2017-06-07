@@ -20,6 +20,9 @@ namespace InTheHand.UI.Notifications
         internal BadgeNotification(uint value)
         {
             _content = new UNMutableNotificationContent();
+#if !__TVOS__
+            _content.Title = "Badge";
+#endif
             _content.Badge = value;
         }
     }

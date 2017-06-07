@@ -7,7 +7,7 @@
 namespace InTheHand.UI.Notifications
 {
     /// <summary>
-    /// Creates BadgeUpdater objects that you use to manipulate a tile's badge overlay.
+    /// Creates <see cref="BadgeUpdater"/> objects that you use to manipulate a tile's badge overlay.
     /// </summary>
     /// <remarks>
     /// <para/><list type="table">
@@ -27,7 +27,7 @@ namespace InTheHand.UI.Notifications
         private static BadgeUpdater _updater = null;
 
         /// <summary>
-        /// Creates and initializes a new instance of the BadgeUpdater, which lets you change the appearance or content of the badge on the calling app's tile.
+        /// Creates and initializes a new instance of the <see cref="BadgeUpdater"/>, which lets you change the appearance or content of the badge on the calling app's tile.
         /// </summary>
         /// <returns>The object you will use to send changes to the app tile's badge.</returns>
         public static BadgeUpdater CreateBadgeUpdaterForApplication()

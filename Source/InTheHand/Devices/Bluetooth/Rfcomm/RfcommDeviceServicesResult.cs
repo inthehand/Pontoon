@@ -44,5 +44,10 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
                 return _services;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", nameof(RfcommDeviceServicesResult), Error);
+        }
     }
 }

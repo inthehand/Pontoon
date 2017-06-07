@@ -7,6 +7,7 @@
 using Foundation;
 using System;
 using UserNotifications;
+using ObjCRuntime;
 
 namespace InTheHand.UI.Notifications
 {
@@ -17,6 +18,10 @@ namespace InTheHand.UI.Notifications
         static BadgeUpdater()
         {
             UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Badge, RequestAuthorizationComplete);
+            if(UNUserNotificationCenter.Current.Delegate == null)
+            {
+                UNUserNotificationCenter.Current.Delegate = new NotificationDelegate();
+            }
         }
 
         private static void RequestAuthorizationComplete(bool success, NSError error)
@@ -28,7 +33,12 @@ namespace InTheHand.UI.Notifications
         {
             if (s_granted)
             {
-                UNUserNotificationCenter.Current.AddNotificationRequest(UNNotificationRequest.FromIdentifier(Guid.NewGuid().ToString(), new BadgeNotification(0)._content, null), null);
+                var content = new UNMutableNotificationContent();
+#if !__TVOS__
+                content.Title = "Badge";
+#endif
+                content.Badge = -1;
+                UNUserNotificationCenter.Current.AddNotificationRequest(UNNotificationRequest.FromIdentifier(Guid.NewGuid().ToString(), content, null), null);
             }
         }
         
@@ -36,9 +46,24 @@ namespace InTheHand.UI.Notifications
         {
             if (s_granted)
             {
+
                 var request = UNNotificationRequest.FromIdentifier(Guid.NewGuid().ToString(), notification._content, null);
-                UNUserNotificationCenter.Current.AddNotificationRequest(request, null);
+                UNUserNotificationCenter.Current.AddNotificationRequest(request, AddCompleted);
             }
+        }
+
+        private void AddCompleted(NSError error)
+        {
+
+        }
+    }
+
+    internal sealed class NotificationDelegate : UNUserNotificationCenterDelegate   
+    {
+        // Allows the app to display notifications when added when app is in the foreground
+        public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        {
+            completionHandler.Invoke(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Badge | UNNotificationPresentationOptions.Sound);
         }
     }
 }

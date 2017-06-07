@@ -17,6 +17,11 @@ namespace InTheHand.UI.Notifications
         static ToastNotifier()
         {
             UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound, RequestAuthorizationComplete);
+
+            if (UNUserNotificationCenter.Current.Delegate == null)
+            {
+                UNUserNotificationCenter.Current.Delegate = new NotificationDelegate();
+            }
         }
 
         private static void RequestAuthorizationComplete(bool success, NSError error)

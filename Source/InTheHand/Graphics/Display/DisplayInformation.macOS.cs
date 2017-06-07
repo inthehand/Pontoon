@@ -8,7 +8,7 @@ using AppKit;
 
 namespace InTheHand.Graphics.Display
 {
-    public sealed partial class DisplayInformation
+    partial class DisplayInformation
     {
         private NSScreen _screen;
         
