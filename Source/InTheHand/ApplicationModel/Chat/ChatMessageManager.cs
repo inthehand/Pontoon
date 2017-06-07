@@ -34,7 +34,7 @@ namespace InTheHand.ApplicationModel.Chat
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
-    public static class ChatMessageManager
+    public static partial class ChatMessageManager
     {
 #if WINDOWS_APP || WIN32
         private static Type _type10;
@@ -72,36 +72,8 @@ namespace InTheHand.ApplicationModel.Chat
                 //Platform.Android.ContextManager.Context.StartActivity(smsIntent);
             });
 #elif __IOS__
-            return Task.Run(() =>
-            {
-                try
-                {
-                    string[] recipients = new string[message.Recipients.Count];
-                    message.Recipients.CopyTo(recipients, 0);
-
-                    UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
-                    {
-                        MFMessageComposeViewController mcontroller = new MFMessageComposeViewController();
-                        mcontroller.Finished += mcontroller_Finished;
-                        
-                        mcontroller.Recipients = recipients;
-                        mcontroller.Body = message.Body;
-
-                        UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
-                        while (currentController.PresentedViewController != null)
-                            currentController = currentController.PresentedViewController;
-
-                        currentController.PresentViewController(mcontroller, true, null);
-                    });
-
-                }
-                catch(Exception ex)
-                {
-                    global::System.Diagnostics.Debug.WriteLine(ex);
-                    // probably an iPod/iPad
-                    throw new PlatformNotSupportedException();
-                }
-            });
+            return ShowComposeSmsMessageAsyncImpl(message);
+            
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
             Windows.ApplicationModel.Chat.ChatMessage m = new Windows.ApplicationModel.Chat.ChatMessage();
             foreach (string r in message.Recipients)
@@ -172,21 +144,14 @@ namespace InTheHand.ApplicationModel.Chat
             throw new PlatformNotSupportedException();
 #endif
         }
-
-#if __IOS__
-        static void mcontroller_Finished(object sender, MFMessageComposeResultEventArgs e)
-        {
-            e.Controller.DismissViewController(true, null);
-        }
-#endif
+        
         /// <summary>
         /// Launches the device's SMS settings app.
         /// </summary>
         public static void ShowSmsSettings()
         {
 #if __ANDROID__
-            Intent settingsIntent = new Intent(Android.Provider.Settings.ActionDataRoamingSettings);
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(settingsIntent);
+            ShowSmsSettingsImpl();
 
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
             Windows.ApplicationModel.Chat.ChatMessageManager.ShowSmsSettings();

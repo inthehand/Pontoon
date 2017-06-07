@@ -63,6 +63,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
       <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.iOS.cs">
+      <Link>ApplicationModel\Chat\ChatMessageManager.iOS.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DataTransfer\Clipboard.cs">
       <Link>ApplicationModel\DataTransfer\Clipboard.cs</Link>
     </Compile>

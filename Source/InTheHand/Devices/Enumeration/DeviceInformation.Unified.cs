@@ -92,6 +92,7 @@ namespace InTheHand.Devices.Enumeration
                 //retrievedHandle.WaitOne();
                 if (discover)
                 {
+                    BluetoothAdapter.Default.DiscoveredDevice += Default_DiscoveredDevice;
                     if (service != Guid.Empty)
                     {
                         BluetoothAdapter.Default.Manager.ScanForPeripherals(new CBUUID[] { CBUUID.FromBytes(service.ToByteArray()) });
@@ -101,6 +102,7 @@ namespace InTheHand.Devices.Enumeration
                         BluetoothAdapter.Default.Manager.ScanForPeripherals(new CBUUID[] { });
                     }
                     await Task.Delay(5000);
+                    BluetoothAdapter.Default.DiscoveredDevice -= Default_DiscoveredDevice;
                     BluetoothAdapter.Default.Manager.StopScan();
                 }
                 else
@@ -114,6 +116,11 @@ namespace InTheHand.Devices.Enumeration
 
                 return _devices.AsReadOnly();
             });
+        }
+
+        private static void Default_DiscoveredDevice(object sender, DeviceInformation e)
+        {
+            _devices.Add(e);
         }
 
         private string GetId()

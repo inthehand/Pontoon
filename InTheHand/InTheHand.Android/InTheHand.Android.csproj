@@ -69,6 +69,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
       <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.Android.cs">
+      <Link>ApplicationModel\Chat\ChatMessageManager.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
       <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
     </Compile>

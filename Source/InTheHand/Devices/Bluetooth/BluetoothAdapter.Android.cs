@@ -18,7 +18,12 @@ namespace InTheHand.Devices.Bluetooth
         {
             return Task.Run<BluetoothAdapter>(() =>
             {
-                return new BluetoothAdapter(Android.Bluetooth.BluetoothAdapter.DefaultAdapter);
+                if (s_default == null)
+                {
+                    s_default = new BluetoothAdapter(Android.Bluetooth.BluetoothAdapter.DefaultAdapter);
+                }
+
+                return s_default;
             });
         }
 

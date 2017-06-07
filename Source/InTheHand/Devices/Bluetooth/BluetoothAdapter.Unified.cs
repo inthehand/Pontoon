@@ -23,7 +23,7 @@ namespace InTheHand.Devices.Bluetooth
         {
             return Task.Run<BluetoothAdapter>(() =>
             {
-                if (s_default != null)
+                if (s_default == null)
                 {
                     s_default = new BluetoothAdapter();
                 }
