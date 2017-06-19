@@ -49,24 +49,22 @@ namespace InTheHand.ApplicationModel.Calls
         }
 #endif
 
-#if !WIN32 && !__MAC__
+        /*
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
+        /// <remarks>
+        /// <list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>Android</term><description>Android 4.4 and later</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// </remarks>
         public static Task<PhoneCallStore> RequestStoreAsync()
         {
 #if __ANDROID__
             return Task.FromResult<PhoneCallStore>(new PhoneCallStore());
-#elif __IOS__
-            return Task.Run<PhoneCallStore>(()=>
-            {
-                if (UIKit.UIDevice.CurrentDevice.Model == "iPhone")
-                {
-                    return new PhoneCallStore();
-                }
-                return null;
-            });
+
 #elif WINDOWS_UWP
             return Task.Run<PhoneCallStore>(async () => {
                 if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.ApplicationModel.Calls.PhoneCallStore"))
@@ -76,8 +74,9 @@ namespace InTheHand.ApplicationModel.Calls
 
                 return null;
             });
+
 #elif WINDOWS_PHONE_APP
-                        /*if (_type10 != null)
+                        if (_type10 != null)
                         {
                             Type storeType = Type.GetType("Windows.ApplicationModel.Calls.PhoneCallStore, Windows, ContentType=WindowsRuntime");
                             object act = _type10.GetRuntimeProperty("IsCallActive").GetValue(null);
@@ -94,12 +93,13 @@ namespace InTheHand.ApplicationModel.Calls
 
                             //object nativeStore = nativeStoreTask.GetType().GetRuntimeMethod("GetResults",new Type[0]).Invoke(nativeStoreTask, new object[0]);
                             //return new PhoneCallStore(await (Windows.Foundation.IAsyncOperation<object>)nativeStoreTask);
-                        }*/
-#endif
+                        }
+#else
             return Task.FromResult<PhoneCallStore>(null);
+#endif         
         }
-#endif
-        /*internal static void CompletionHandler(IAsyncInfo operation, AsyncStatus status)
+
+        internal static void CompletionHandler(IAsyncInfo operation, AsyncStatus status)
         {
             global::System.Diagnostics.Debug.WriteLine(operation.ErrorCode);
             
@@ -132,7 +132,7 @@ namespace InTheHand.ApplicationModel.Calls
             }
             else
             {
-                global::Foundation.NSUrl url = new global::Foundation.NSUrl("telprompt:" + CleanPhoneNumber(phoneNumber));        
+                global::Foundation.NSUrl url = new global::Foundation.NSUrl("tel:" + CleanPhoneNumber(phoneNumber));        
                 UIKit.UIApplication.SharedApplication.OpenUrl(url);
             } 
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP

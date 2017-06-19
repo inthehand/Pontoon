@@ -1,15 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PhoneCallStore.cs" company="In The Hand Ltd">
-//   Copyright (c) 2014-2016 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2014-2017 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides methods for launching the built-in phone call UI.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-//#if WINDOWS_UWP
-//using System.Runtime.CompilerServices;
-//[assembly: TypeForwardedTo(typeof(Windows.ApplicationModel.Calls.PhoneCallStore))]
-//#else
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -32,10 +28,11 @@ namespace InTheHand.ApplicationModel.Calls
     /// </summary>
     public sealed class PhoneCallStore
     {
-#if __IOS__
+#if __UNIFIED__ || __ANDROID__
         internal PhoneCallStore()
         {
         }
+
 #elif WINDOWS_UWP
         private Windows.ApplicationModel.Calls.PhoneCallStore _store;
 
@@ -53,6 +50,7 @@ namespace InTheHand.ApplicationModel.Calls
         {
             return new PhoneCallStore(s);
         }
+
 #elif WINDOWS_APP || WINDOWS_PHONE_APP
         private object _store;
         private Type _type;
@@ -63,6 +61,7 @@ namespace InTheHand.ApplicationModel.Calls
             _type = _store.GetType();
         }
 #endif
+
         /// <summary>
         /// Gets the line ID for the current default phone line.
         /// </summary>
@@ -79,4 +78,3 @@ namespace InTheHand.ApplicationModel.Calls
         }
     }
 }
-//#endif

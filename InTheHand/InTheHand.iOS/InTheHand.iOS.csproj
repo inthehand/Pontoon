@@ -48,12 +48,6 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallStore.cs">
-      <Link>ApplicationModel\Calls\PhoneCallStore.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
-      <Link>ApplicationModel\Calls\PhoneLine.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
       <Link>ApplicationModel\Capability.cs</Link>
     </Compile>

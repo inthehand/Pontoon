@@ -127,7 +127,21 @@ namespace InTheHand
                 return NSDate.DistantFuture;
             }
 
-            return NSDate.FromTimeIntervalSinceReferenceDate(value.Subtract(NSDateReferenceDate).TotalSeconds);
+            return NSDate.FromTimeIntervalSinceReferenceDate(value.UtcDateTime.Subtract(NSDateReferenceDate.UtcDateTime).TotalSeconds);
+        }
+
+        public static NSDate ToNSDate(this DateTime value)
+        {
+            if (value == DateTime.MinValue)
+            {
+                return NSDate.DistantPast;
+            }
+            else if (value == DateTime.MaxValue)
+            {
+                return NSDate.DistantFuture;
+            }
+
+            return NSDate.FromTimeIntervalSinceReferenceDate(value.ToUniversalTime().Subtract(NSDateReferenceDate.UtcDateTime).TotalSeconds);
         }
 #endif
     }

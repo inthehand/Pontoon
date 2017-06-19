@@ -160,17 +160,18 @@ namespace InTheHand.Storage
         {
             get
             {
-                ICollection<string> genericKeys = new Collection<string>();
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings.Keys;
 
-#elif __ANDROID__ || WINDOWS_PHONE
+#elif __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE
                 return GetKeys();
 
 #elif TIZEN
-                genericKeys = new List<string>(Preference.Keys);
+                return new List<string>(Preference.Keys);
+
+#else
+                return new Collection<string>();
 #endif
-                return genericKeys;
             }
         }
 
@@ -242,17 +243,15 @@ namespace InTheHand.Storage
         {
             get
             {
-                Collection<object> genericValues = new Collection<object>();
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings.Values;
 
-#elif __ANDROID__ || WINDOWS_PHONE
+#elif __ANDROID__ || __UNIFIED__ || WINDOWS_PHONE
                 return GetValues();
 
 #else
-                //throw new PlatformNotSupportedException();
+                return new Collection<object>();
 #endif
-                return genericValues;
             }
         }
 
@@ -449,7 +448,7 @@ namespace InTheHand.Storage
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return ((IEnumerable<KeyValuePair<string,object>>)_settings).GetEnumerator();
-#elif WINDOWS_PHONE
+#elif __UNIFIED__ || WINDOWS_PHONE
             return DoGetEnumerator();
 #else
             throw new NotSupportedException();
@@ -465,7 +464,7 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return ((IEnumerable)_settings).GetEnumerator();
 
-#elif WINDOWS_PHONE
+#elif __UNIFIED__ || WINDOWS_PHONE
             return DoGetEnumerator();
 
 #else

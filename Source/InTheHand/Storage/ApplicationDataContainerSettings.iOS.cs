@@ -9,7 +9,10 @@ using Foundation;
 using InTheHand.Foundation.Collections;
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 
 namespace InTheHand.Storage
@@ -231,8 +234,94 @@ namespace InTheHand.Storage
             return false;
         }
 
+        private ICollection<string> GetKeys()
+        {
+            ICollection<string> genericKeys = new Collection<string>();
+            if (IsRoaming)
+            {
+                foreach (NSObject item in _store.ToDictionary().Keys)
+                {
+                    genericKeys.Add(item.ToString());
+                }
+            }
+            else
+            {
+                foreach (NSObject item in _defaults.ToDictionary().Keys)
+                {
+                    genericKeys.Add(item.ToString());
+                }
+            }
+
+            return genericKeys;
+        }
+
+        private ICollection<object> GetValues()
+        {
+            ICollection<object> vals = new Collection<object>();
+
+            foreach (KeyValuePair<string, object> item in this)
+            {
+                vals.Add(item.Value);
+            }
+
+            return vals;
+        }
+
+        private IEnumerator<KeyValuePair<string, object>> DoGetEnumerator()
+        {
+            if (IsRoaming)
+            {
+                return new ApplicationDataContainerEnumerator(_store.ToDictionary());
+            }
+            else
+            {
+                return new ApplicationDataContainerEnumerator(_defaults.ToDictionary());
+            }
+        }
+
     }
-    
+
+    internal sealed class ApplicationDataContainerEnumerator : IEnumerator<KeyValuePair<string, object>>
+    {
+        private NSDictionary _dictionary;
+        private IEnumerator<KeyValuePair<NSObject,NSObject>> _enumerator;
+
+        internal ApplicationDataContainerEnumerator(NSDictionary dictionary)
+        {
+            _dictionary = dictionary;
+            _enumerator = _dictionary.GetEnumerator();
+        }
+
+        public KeyValuePair<string, object> Current
+        {
+            get
+            {
+                var current = _enumerator.Current;
+                return new KeyValuePair<string, object>(current.Key.ToString(), IOSTypeConverter.ConvertToObject(current.Value));
+            }
+        }
+
+        object IEnumerator.Current
+        {
+            get { return this.Current; }
+        }
+
+        public bool MoveNext()
+        {
+            return _enumerator.MoveNext();
+        }
+
+        public void Reset()
+        {
+            _enumerator.Reset();
+        }
+
+        public void Dispose()
+        {
+            _enumerator.Reset();
+        }
+    }
+
     internal static class IOSTypeConverter
     {
         public static object ConvertToObject(NSObject obj)
@@ -243,25 +332,30 @@ namespace InTheHand.Storage
             {
                 if(obj is NSString)
                 {
-                    return obj.ToString();
-                }
+                    string s = obj.ToString();
 
-                if(obj is NSDate)
+                    //allows us to persist datetimes with offsets in a roundtrippable format (NSDate doesn't do timezones)
+                    DateTimeOffset dt;
+                    if(DateTimeOffset.TryParse(s, out dt))
+                    {
+                        return dt;
+                    }
+
+                    return s;
+                }
+                else if(obj is NSDate)
                 {
                     return DateTimeOffsetHelper.FromNSDate((NSDate)obj);
                 }
-
-                if(obj is NSUuid)
+                else if(obj is NSUuid)
                 {
                     return new Guid(((NSUuid)obj).GetBytes());
                 }
-
-                if(obj is NSDecimalNumber)
+                else if(obj is NSDecimalNumber)
                 {
                     return decimal.Parse(obj.ToString(), CultureInfo.InvariantCulture);
                 }
-
-                if(obj is NSNumber)
+                else if(obj is NSNumber)
                 {
                     var x = (NSNumber)obj;
                     switch(x.ObjCType)
@@ -294,14 +388,27 @@ namespace InTheHand.Storage
                             return x.ToString();
                     }
                 }
-
-                if (obj.GetType() == typeof(NSString))
-                {
-                    val = ((NSString)obj).ToString();
-                }
                 else if (obj.GetType() == typeof(NSDate))
                 {
                     val = DateTimeOffsetHelper.FromNSDate((NSDate)obj);
+                }
+                else if(obj is NSArray)
+                {
+                    NSArray array = obj as NSArray;
+                    object[] oarray = new object[array.Count];
+                    for(int i = 0; i < (int)array.Count; i++)
+                    {
+                        oarray[i] = ConvertToObject(array.GetItem<NSObject>((nuint)i));
+                    }
+                    val = oarray;
+                }
+                else if(obj is NSNull)
+                {
+                    val = null;
+                }
+                else
+                {
+                    val = obj;
                 }
             }
 
@@ -364,9 +471,13 @@ namespace InTheHand.Storage
                 {
                     return new NSUuid(((Guid)obj).ToByteArray());
                 }
+                else if(obj is DateTime)
+                {
+                    return ((DateTime)obj).ToNSDate();
+                }
                 else if(obj is DateTimeOffset)
                 {
-                    return ((DateTimeOffset)obj).ToNSDate();
+                    return new NSString(((DateTimeOffset)obj).ToString("O"));
                 }
             }
 
