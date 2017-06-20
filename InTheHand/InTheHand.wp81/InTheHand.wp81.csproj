@@ -116,6 +116,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.WindowsPhone.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.WindowsPhone.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageExtensions.cs">
       <Link>ApplicationModel\PackageExtensions.cs</Link>
     </Compile>

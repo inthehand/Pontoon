@@ -52,6 +52,12 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.Tizen.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.Tizen.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\DesignMode.cs">
       <Link>ApplicationModel\DesignMode.cs</Link>
     </Compile>

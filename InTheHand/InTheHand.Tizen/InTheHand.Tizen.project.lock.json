@@ -1127,6 +1127,18 @@
           "lib/netstandard1.3/Tizen.System.Storage.dll": {}
         }
       },
+      "Tizen.Telephony/1.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Tizen": "1.0.3"
+        },
+        "compile": {
+          "lib/netstandard1.3/Tizen.Telephony.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Tizen.Telephony.dll": {}
+        }
+      },
       "Tizen.Tracer/1.0.4": {
         "type": "package",
         "dependencies": {
@@ -4173,6 +4185,16 @@
         "lib/netstandard1.3/Tizen.System.Storage.dll"
       ]
     },
+    "Tizen.Telephony/1.0.8": {
+      "sha512": "jU8XCn6KA7hZLwBxO63KvnFtZ+MTgZi2eCIoi+wJwsj/3nuiES5Pf2cCTlpAYodWOoRPPQeXzzseko6Nzj39Gw==",
+      "type": "package",
+      "path": "Tizen.Telephony/1.0.8",
+      "files": [
+        "Tizen.Telephony.1.0.8.nupkg.sha512",
+        "Tizen.Telephony.nuspec",
+        "lib/netstandard1.3/Tizen.Telephony.dll"
+      ]
+    },
     "Tizen.Tracer/1.0.4": {
       "sha512": "diVlRcXbyJkRaoru8twgrQgJRgU5rG17zGdmyQWDW8yszUT2ELXQg2xYBY5RDnvbJR2qWuMZ26sAlplRN7GD8A==",
       "type": "package",
@@ -4220,7 +4242,8 @@
       "Tizen.Applications >= 1.3.2",
       "Tizen.Library >= 1.0.0-pre3",
       "Tizen.Location >= 1.0.7",
-      "Tizen.Location.Geofence >= 1.0.2"
+      "Tizen.Location.Geofence >= 1.0.2",
+      "Tizen.Telephony >= 1.0.8"
     ],
     ".NETStandard,Version=v1.3": []
   },

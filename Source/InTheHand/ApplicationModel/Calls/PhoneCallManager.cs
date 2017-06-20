@@ -8,18 +8,10 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using InTheHand.UI.Popups;
 using InTheHand.System;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-
-#if __ANDROID__
-using Android.App;
-using Android.Content;
-#elif WINDOWS_PHONE
-using Microsoft.Phone.Tasks;
-#endif
 
 namespace InTheHand.ApplicationModel.Calls
 {
@@ -32,13 +24,14 @@ namespace InTheHand.ApplicationModel.Calls
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 4.0</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
     /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
     /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
-    public static class PhoneCallManager
+    public static partial class PhoneCallManager
     {
 #if WINDOWS_APP
         private static Type _type10;
@@ -118,23 +111,9 @@ namespace InTheHand.ApplicationModel.Calls
     /// <param name="displayName">A display name.</param>
     public static void ShowPhoneCallUI(string phoneNumber, string displayName)
         {
-#if __ANDROID__
-            string action = Intent.ActionDial; //promptUser ? Intent.ActionDial : Intent.ActionCall;
-            Intent callIntent = new Intent(action, Android.Net.Uri.FromParts("tel", CleanPhoneNumber(phoneNumber), null));
-            callIntent.AddFlags(ActivityFlags.ClearWhenTaskReset);
-            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(callIntent);
-            //Platform.Android.ContextManager.Context.StartActivity(callIntent);
-#elif __IOS__
-            if (UIKit.UIDevice.CurrentDevice.Model != "iPhone")
-            {
-                MessageDialog dialog = new MessageDialog("Dial " + phoneNumber, "Phone");
-                dialog.ShowAsync();
-            }
-            else
-            {
-                global::Foundation.NSUrl url = new global::Foundation.NSUrl("tel:" + CleanPhoneNumber(phoneNumber));        
-                UIKit.UIApplication.SharedApplication.OpenUrl(url);
-            } 
+#if __ANDROID__ || __IOS__ || TIZEN || WINDOWS_PHONE
+            DoShowPhoneCallUI(phoneNumber, displayName, false);
+
 #elif WINDOWS_UWP || WINDOWS_PHONE_APP
 #if WINDOWS_UWP
             if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.ApplicationModel.Calls.PhoneCallManager"))
@@ -149,20 +128,15 @@ namespace InTheHand.ApplicationModel.Calls
             }
 #endif
 #elif WINDOWS_APP || WIN32 || __MAC__
-            MessageDialog prompt = new MessageDialog(string.Format("Dial {0} at {1}?", displayName, phoneNumber), "Phone");
-            prompt.Commands.Add(new UICommand("Call", async (c) =>
+            InTheHand.UI.Popups.MessageDialog prompt = new InTheHand.UI.Popups.MessageDialog(string.Format("Dial {0} at {1}?", displayName, phoneNumber), "Phone");
+            prompt.Commands.Add(new InTheHand.UI.Popups.UICommand("Call", async (c) =>
                 {
                         // OS may prompt the user for an app e.g. Skype, Lync etc
                         await Launcher.LaunchUriAsync(new Uri("tel:" + CleanPhoneNumber(phoneNumber)));
                 }));
-            prompt.Commands.Add(new UICommand("Cancel", null));
+            prompt.Commands.Add(new InTheHand.UI.Popups.UICommand("Cancel", null));
             prompt.ShowAsync();
-
-#elif WINDOWS_PHONE
-            PhoneCallTask pct = new PhoneCallTask();
-            pct.PhoneNumber = phoneNumber;
-            pct.DisplayName = displayName;
-            pct.Show();
+            
 #else
             throw new PlatformNotSupportedException();
 #endif

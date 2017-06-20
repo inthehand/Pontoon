@@ -119,6 +119,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.WindowsPhone.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.WindowsPhone.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Capability.cs">
       <Link>ApplicationModel\Capability.cs</Link>
     </Compile>
