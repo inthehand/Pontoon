@@ -54,6 +54,8 @@ namespace InTheHand.Storage
             {
                 _observer = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
                 {
+                    NSUserDefaults defaults = n.Object as NSUserDefaults;
+                    
                     // indicate a reset change (because we can't determine the specific key)
                     _mapChanged?.Invoke(this, new ApplicationDataMapChangedEventArgs(null, CollectionChange.Reset));
                 });

@@ -80,6 +80,11 @@ namespace InTheHand.Devices.Bluetooth
             return "btle";
         }
 
+        private static string GetDeviceSelectorFromConnectionStatusImpl(BluetoothConnectionStatus connectionStatus)
+        {
+            return "connected:" + (connectionStatus == BluetoothConnectionStatus.Connected ? "true" : "false");
+        }
+
         private void NameChangedAdd()
         {
             _peripheral.UpdatedName += _peripheral_UpdatedName;

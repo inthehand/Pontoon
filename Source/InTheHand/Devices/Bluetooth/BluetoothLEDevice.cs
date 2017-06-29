@@ -37,8 +37,8 @@ namespace InTheHand.Devices.Bluetooth
         /// <summary>
         /// Returns a BluetoothLEDevice object for the given BluetoothAddress.
         /// </summary>
-        /// <param name="bluetoothAddress"></param>
-        /// <returns></returns>
+        /// <param name="bluetoothAddress">The address of the Bluetooth LE device.</param>
+        /// <returns>After the asynchronous operation completes, returns the BluetoothLEDevice object with the given BluetoothAddress.</returns>
         public static Task<BluetoothLEDevice> FromBluetoothAddressAsync(ulong bluetoothAddress)
         {
             return FromBluetoothAddressAsyncImpl(bluetoothAddress);
@@ -72,6 +72,17 @@ namespace InTheHand.Devices.Bluetooth
         public static string GetDeviceSelector()
         {
             return GetDeviceSelectorImpl();
+        }
+
+        /// <summary>
+        /// Creates a filter string that contains a query for Bluetooth LE devices with the indicated BluetoothConnectionStatus.
+        /// The string is passed into the CreateWatcher method to return a collection of DeviceInformation objects with the indicated Bluetooth connection status.
+        /// </summary>
+        /// <param name="connectionStatus">The connection status used for constructing the AQS string.</param>
+        /// <returns></returns>
+        public static string GetDeviceSelectorFromConnectionStatus(BluetoothConnectionStatus connectionStatus)
+        {
+            return GetDeviceSelectorFromConnectionStatusImpl(connectionStatus);
         }
 
         private event TypedEventHandler<BluetoothLEDevice, object> _nameChanged;

@@ -39,6 +39,10 @@ namespace InTheHand.Devices.Bluetooth
             return string.Empty;
         }
 
+        private static string GetDeviceSelectorFromConnectionStatusImpl(BluetoothConnectionStatus connectionStatus)
+        {
+            return string.Empty;
+        }
 
         private ulong GetBluetoothAddress()
         {

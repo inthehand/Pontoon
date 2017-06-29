@@ -60,7 +60,12 @@ namespace InTheHand.Devices.Bluetooth
         {
             return Windows.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelector();
         }
-        
+
+        private static string GetDeviceSelectorFromConnectionStatusImpl(BluetoothConnectionStatus connectionStatus)
+        {
+            return Windows.Devices.Bluetooth.BluetoothLEDevice.GetDeviceSelectorFromConnectionStatus((Windows.Devices.Bluetooth.BluetoothConnectionStatus)connectionStatus);
+        }
+
         private void NameChangedAdd()
         {
 #if !WINDOWS_APP

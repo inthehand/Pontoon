@@ -8,11 +8,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 #if __ANDROID__
     using Android.App;
     using Android.Content;
 #elif __IOS__
     using UIKit;
+#elif WINDOWS_UWP 
+using Windows.System;
 #elif WINDOWS_APP
     using Windows.UI.Core;
     using Windows.UI.Xaml;
@@ -37,7 +40,15 @@ namespace InTheHand.UI.ViewManagement
     {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
         private Windows.UI.ViewManagement.StatusBar _statusBar;
+        private InTheHand.UI.ViewManagement.StatusBarProgressIndicator _progressIndicator;
 
+        //desktop
+        internal StatusBar()
+        {
+
+        }
+
+        //mobile
         internal StatusBar(Windows.UI.ViewManagement.StatusBar statusBar)
         {
             _statusBar = statusBar;
@@ -65,9 +76,19 @@ namespace InTheHand.UI.ViewManagement
         public static StatusBar GetForCurrentView()
         {
 #if WINDOWS_UWP
-            if(Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
             {
                 return new StatusBar(Windows.UI.ViewManagement.StatusBar.GetForCurrentView());
+            }
+            else
+            {
+                var t = Launcher.QueryUriSupportAsync(new Uri("taskbarprogress:///"), LaunchQuerySupportType.Uri).AsTask();
+                t.Wait();
+                var r = t.Result;
+                if(r == LaunchQuerySupportStatus.Available)
+                {
+                    return new StatusBar();
+                }
             }
 
             return null;
@@ -92,7 +113,19 @@ namespace InTheHand.UI.ViewManagement
             get
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
-                return new StatusBarProgressIndicator(_statusBar.ProgressIndicator);
+                if (_statusBar != null)
+                {
+                    return new StatusBarProgressIndicator(_statusBar.ProgressIndicator);
+                }
+                else
+                {
+                    if (_progressIndicator == null)
+                    {
+                        _progressIndicator = new StatusBarProgressIndicator();
+                    }
+
+                    return _progressIndicator;
+                }
 #elif WINDOWS_PHONE
                 return new StatusBarProgressIndicator(Microsoft.Phone.Shell.SystemTray.ProgressIndicator);
 #elif WIN32
@@ -101,6 +134,44 @@ namespace InTheHand.UI.ViewManagement
                 return new StatusBarProgressIndicator();
 #endif
             }
+        }
+
+        /// <summary>
+        /// Shows the status bar.
+        /// </summary>
+        /// <returns></returns>
+        public Task ShowAsync()
+        {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+            if (_statusBar != null)
+            {
+                return _statusBar.ShowAsync().AsTask();
+            }
+
+#elif WINDOWS_PHONE
+            return Task.Run(() => { Microsoft.Phone.Shell.SystemTray.IsVisible = true; });
+
+#endif
+            return Task.Run(() => { });
+        }
+
+        /// <summary>
+        /// Hides the status bar.
+        /// </summary>
+        /// <returns></returns>
+        public Task HideAsync()
+        {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+            if (_statusBar != null)
+            {
+                return _statusBar.HideAsync().AsTask();
+            }
+
+#elif WINDOWS_PHONE
+            return Task.Run(() => { Microsoft.Phone.Shell.SystemTray.IsVisible = false; });
+
+#endif
+            return Task.Run(() => { });
         }
     }
 }

@@ -62,7 +62,12 @@ namespace InTheHand.Devices.Bluetooth
 
         private static string GetDeviceSelectorImpl()
         {
-            return string.Empty;
+            return "btle";
+        }
+
+        private static string GetDeviceSelectorFromConnectionStatusImpl(BluetoothConnectionStatus connectionStatus)
+        {
+            return "connected:" + (connectionStatus == BluetoothConnectionStatus.Connected ? "true" : "false");
         }
 
         internal Android.Bluetooth.BluetoothDevice _device;

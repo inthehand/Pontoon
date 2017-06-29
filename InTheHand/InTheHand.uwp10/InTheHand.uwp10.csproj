@@ -753,6 +753,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs">
       <Link>UI\ViewManagement\StatusBarProgressIndicator.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.uwp.cs">
+      <Link>UI\ViewManagement\StatusBarProgressIndicator.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\UIColorType.cs">
       <Link>UI\ViewManagement\UIColorType.cs</Link>
     </Compile>

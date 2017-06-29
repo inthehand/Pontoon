@@ -78,6 +78,8 @@ namespace InTheHand.Devices.Enumeration
                         case "bluetoothService":
                             service = Guid.Parse(filterParts[1]);
                             break;
+
+
                     }
                 }
                 //CBPeripheral[] peripherals = _manager.RetrieveConnectedPeripherals(CBUUID.FromBytes(InTheHand.Devices.Bluetooth.GenericAttributeProfile.GattServiceUuids.GenericAttribute.ToByteArray()));

@@ -39,20 +39,7 @@ namespace InTheHand.UI.ViewManagement
         private bool _isVisible = false;
         private double? _progressValue = null;
         
-#if WINDOWS_UWP || WINDOWS_PHONE_APP
-        private Windows.UI.ViewManagement.StatusBarProgressIndicator _indicator;
-
-        internal StatusBarProgressIndicator(Windows.UI.ViewManagement.StatusBarProgressIndicator indicator)
-        {
-            _indicator = indicator;
-        }
-
-        public static implicit operator Windows.UI.ViewManagement.StatusBarProgressIndicator(StatusBarProgressIndicator pi)
-        {
-            return pi._indicator;
-        }
-
-#elif WINDOWS_PHONE
+#if WINDOWS_PHONE
         private Microsoft.Phone.Shell.ProgressIndicator _progressIndicator;
 
         internal StatusBarProgressIndicator(Microsoft.Phone.Shell.ProgressIndicator progressIndicator)
@@ -71,6 +58,10 @@ namespace InTheHand.UI.ViewManagement
         /// <returns></returns>
         public Task HideAsync()
         {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+            return HideAsyncImpl();
+
+#else
             return Task.Run(()=>{
 #if __ANDROID__
                 Activity a = Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity;
@@ -81,15 +72,16 @@ namespace InTheHand.UI.ViewManagement
                 }         
 #elif __IOS__
                 UIApplication.SharedApplication.NetworkActivityIndicatorVisible = false;
-#elif WINDOWS_UWP || WINDOWS_PHONE_APP
-                return _indicator.HideAsync().AsTask();
+
 #elif WINDOWS_PHONE
                 _progressIndicator.IsVisible = false;
+
 #elif WIN32
                 _isVisible = false;
                 _taskbarList.SetProgressState(_handle, TaskbarStates.NoProgress);
 #endif
             });
+#endif
         }
 
         /// <summary>
@@ -98,6 +90,10 @@ namespace InTheHand.UI.ViewManagement
         /// <returns></returns>
         public Task ShowAsync()
         {
+#if WINDOWS_UWP || WINDOWS_PHONE_APP
+            return ShowAsyncImpl();
+
+#else
             return Task.Run(() =>
             {
 #if __ANDROID__
@@ -131,6 +127,7 @@ namespace InTheHand.UI.ViewManagement
                 }
 #endif
             });
+#endif
         }
 
         /// <summary>
@@ -148,7 +145,8 @@ namespace InTheHand.UI.ViewManagement
             get
             { 
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
-                return _indicator.ProgressValue;
+                return GetProgressValue();
+
 #elif WINDOWS_PHONE
                 if(_progressIndicator.IsIndeterminate)
                 {
@@ -167,7 +165,8 @@ namespace InTheHand.UI.ViewManagement
                 _progressValue = value;
 
 #elif WINDOWS_UWP
-                _indicator.ProgressValue = value;
+                SetProgressValue(value);
+
 #elif WINDOWS_PHONE
                 if (value.HasValue)
                 {
@@ -200,11 +199,13 @@ namespace InTheHand.UI.ViewManagement
         public string Text
         {
             get
-            {        
+            {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
-                return _indicator.Text;
+                return GetText();
+
 #elif WINDOWS_PHONE
                 return _progressIndicator.Text;
+
 #else
                 return string.Empty;
 #endif
@@ -213,9 +214,11 @@ namespace InTheHand.UI.ViewManagement
             set
             {
 #if WINDOWS_UWP || WINDOWS_PHONE_APP
-                _indicator.Text = value;
+                SetText(value);
+
 #elif WINDOWS_PHONE
                 _progressIndicator.Text = value;
+
 #endif
             }
         }
