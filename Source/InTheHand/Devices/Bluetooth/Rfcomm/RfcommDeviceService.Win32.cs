@@ -5,7 +5,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using InTheHand.Net;
 using System;
 using System.Globalization;
 using System.IO;
@@ -63,10 +62,6 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
                 var socket = BluetoothSockets.CreateRfcommSocket();
                 socket.Connect(new BluetoothEndPoint(this));
                 return new NetworkStream(socket);
-
-                //var socket = new Socket(AddressFamily32.Bluetooth, SocketType.Stream, BluetoothProtocolType.RFComm);
-                //socket.Connect(new BluetoothEndPoint(_device.BluetoothAddress, _service.Uuid));
-                //return new NetworkStream(socket);
             });
         }
     }
