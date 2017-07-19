@@ -67,11 +67,19 @@ namespace InTheHand.Devices.Sensors
             _pedometer = pedometer;
         }
 
+        /// <summary>
+        /// Converts a Pontoon Pedometer to a Windows Pedometer.
+        /// </summary>
+        /// <param name="p"></param>
         public static implicit operator Windows.Devices.Sensors.Pedometer(Pedometer p)
         {
             return p._pedometer;
         }
 
+        /// <summary>
+        /// Converts a Windows Pedometer to a Pontoon Pedometer.
+        /// </summary>
+        /// <param name="p"></param>
         public static implicit operator Pedometer(Windows.Devices.Sensors.Pedometer p)
         {
             return new Pedometer(p);

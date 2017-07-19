@@ -25,31 +25,56 @@ namespace InTheHand.Devices.Geolocation
     public struct BasicGeoposition
     {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
+        /// <summary>
+        /// Converts a Pontoon BasicGeoposition to a Windows BasicGeoposition.
+        /// </summary>
+        /// <param name="bg"></param>
         public static implicit operator Windows.Devices.Geolocation.BasicGeoposition(BasicGeoposition bg)
         {
             return new Windows.Devices.Geolocation.BasicGeoposition { Altitude = bg.Altitude, Latitude = bg.Latitude, Longitude = bg.Longitude };
         }
 
+        /// <summary>
+        /// Converts a Windows BasicGeoposition to a Pontoon BasicGeoposition.
+        /// </summary>
+        /// <param name="bg"></param>
         public static implicit operator BasicGeoposition(Windows.Devices.Geolocation.BasicGeoposition bg)
         {
             return new BasicGeoposition { Altitude = bg.Altitude, Latitude = bg.Latitude, Longitude = bg.Longitude };
         }
+
 #elif __UNIFIED__
+        /// <summary>
+        /// Converts a Pontoon BasicGeoposition to a CoreLocation CLLocationCoordinate2D.
+        /// </summary>
+        /// <param name="bg"></param>
         public static implicit operator CoreLocation.CLLocationCoordinate2D(BasicGeoposition bg)
         {
             return new CoreLocation.CLLocationCoordinate2D { Latitude = bg.Latitude, Longitude = bg.Longitude };
         }
 
+        /// <summary>
+        /// Converts a CoreLocation CLLocationCoordinate2D to a Pontoon BasicGeoposition.
+        /// </summary>
+        /// <param name="c"></param>
         public static implicit operator BasicGeoposition(CoreLocation.CLLocationCoordinate2D c)
         {
             return new BasicGeoposition { Latitude = c.Latitude, Longitude = c.Longitude };
         }
 #elif TIZEN
+        /// <summary>
+        /// Converts a Pontoon BasicGeoposition to a Tizen Coordinate.
+        /// </summary>
+        /// <param name="bg"></param>
         public static implicit operator Tizen.Location.Coordinate(BasicGeoposition bg)
         {
             return new Tizen.Location.Coordinate { Latitude = bg.Latitude, Longitude = bg.Longitude };
         }
 
+        /// <summary>
+        /// Converts a Tizen Coordinate to a Pontoon BasicGeoposition.
+        /// </summary>
+        /// <param name="c"></param>
         public static implicit operator BasicGeoposition(Tizen.Location.Coordinate c)
         {
             return new BasicGeoposition { Latitude = c.Latitude, Longitude = c.Longitude };

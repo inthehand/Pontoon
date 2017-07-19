@@ -56,8 +56,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(() => { File.AppendAllLines(absolutePath, lines,UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.AppendLinesAsync(absolutePath, lines, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {
@@ -99,8 +101,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(() => { File.AppendAllText(absolutePath, contents, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.AppendTextAsync(absolutePath, contents, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {
@@ -137,8 +141,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<IList<string>>(() => { return File.ReadAllLines(absolutePath, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.ReadLinesAsync(absolutePath, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run<IList<string>>(() =>
             {
@@ -177,8 +183,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<string>(() => { return File.ReadAllText(absolutePath, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.ReadTextAsync(absolutePath, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             Stream s = File.OpenRead(absolutePath);
             using (StreamReader sr = new StreamReader(s, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)))
@@ -210,8 +218,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(() => { File.WriteAllLines(absolutePath, lines, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.WriteLinesAsync(absolutePath, lines, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {
@@ -251,8 +261,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run(() => { File.WriteAllText(absolutePath, contents, UnicodeEncodingHelper.EncodingFromUnicodeEncoding(encoding)); });
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.PathIO.WriteTextAsync(absolutePath, contents, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {

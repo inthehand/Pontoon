@@ -55,11 +55,19 @@ namespace InTheHand.Networking.Connectivity
             _item = item;
         }
 
+        /// <summary>
+        /// Converts a Pontoon ConnectionProfile to a Tizen ConnectionItem.
+        /// </summary>
+        /// <param name="profile"></param>
         public static implicit operator Tizen.Network.Connection.ConnectionItem(ConnectionProfile profile)
         {
             return profile._item;
         }
 
+        /// <summary>
+        /// Converts a Tizen <see cref="Tizen.Network.Connection.ConnectionItem"/> to a Pontoon <see cref="ConnectionProfile"/>.
+        /// </summary>
+        /// <param name="item"></param>
         public static implicit operator ConnectionProfile(Tizen.Network.Connection.ConnectionItem item)
         {
             return new Connectivity.ConnectionProfile(item);
@@ -73,6 +81,10 @@ namespace InTheHand.Networking.Connectivity
             _profile = profile;
         }
 
+        /// <summary>
+        /// Converts a Pontoon ConnectionProfile to a Windows ConnectionProfile.
+        /// </summary>
+        /// <param name="p"></param>
         public static implicit operator Windows.Networking.Connectivity.ConnectionProfile(ConnectionProfile p)
         {
             return p._profile;

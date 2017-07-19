@@ -51,11 +51,19 @@ namespace InTheHand.ApplicationModel
             _packageId = packageId;
         }
 
+        /// <summary>
+        /// Converts a Windows PackageId to a Pontoon PackageId.
+        /// </summary>
+        /// <param name="id"></param>
         public static implicit operator Windows.ApplicationModel.PackageId(PackageId id)
         {
             return id._packageId;
         }
 
+        /// <summary>
+        /// Converts a Pontoon PackageId to a Windows PackageId.
+        /// </summary>
+        /// <param name="id"></param>
         public static implicit operator PackageId(Windows.ApplicationModel.PackageId id)
         {
             return new PackageId(id);
@@ -72,6 +80,10 @@ namespace InTheHand.ApplicationModel
 #elif TIZEN
         Tizen.Applications.ApplicationInfo _info;
 
+        /// <summary>
+        /// Converts a Pontoon PackageId to a Tizen ApplicationInfo.
+        /// </summary>
+        /// <param name="id"></param>
         public static implicit operator Tizen.Applications.ApplicationInfo(PackageId id)
         {
             return id._info;

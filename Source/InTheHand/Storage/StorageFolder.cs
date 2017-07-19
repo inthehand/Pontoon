@@ -429,6 +429,51 @@ namespace InTheHand.Storage
 #endif
         }
 
+        public Task<IStorageItem> GetItemAsync(string name)
+        {
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
+            return Task.Run<IStorageItem>(async () =>
+            {
+                var item = await _folder.GetItemAsync(name);
+                if(item!= null)
+                {
+                    if(item.IsOfType(Windows.Storage.StorageItemTypes.File))
+                    {
+                        var sfi = item as Windows.Storage.StorageFile;
+                        return (StorageFile)sfi;
+                    }
+                    else if(item.IsOfType(Windows.Storage.StorageItemTypes.Folder))
+                    {
+                        var sfo = item as Windows.Storage.StorageFolder;
+                        return (StorageFolder)sfo;
+                    }
+                }
+
+                return null;
+            });
+
+#elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
+            return Task.Run<IStorageItem>(() =>
+            {
+                foreach (string foldername in global::System.IO.Directory.GetDirectories(Path))
+                {
+                    if (foldername == name)
+                        return new StorageFolder(global::System.IO.Path.Combine(Path, foldername));
+                }
+
+                foreach (string filename in global::System.IO.Directory.GetFiles(Path))
+                {
+                    if(filename == name)
+                        return new StorageFile(global::System.IO.Path.Combine(Path, filename));
+                }
+
+                return null;
+            });
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        }
+
         /// <summary>
         /// Gets the items in the current folder.
         /// </summary>
@@ -464,7 +509,7 @@ namespace InTheHand.Storage
 
                 foreach (string filename in global::System.IO.Directory.GetFiles(Path))
                 {
-                    items.Add(new StorageFolder(global::System.IO.Path.Combine(Path, filename)));
+                    items.Add(new StorageFile(global::System.IO.Path.Combine(Path, filename)));
                 }
 
                 return items.AsReadOnly();
@@ -477,7 +522,7 @@ namespace InTheHand.Storage
         /// <summary>
         /// Gets the parent folder of the current folder.
         /// </summary>
-        /// <returns>When this method completes, it returns the parent folder as a StorageFolder.</returns>
+        /// <returns>When this method completes, it returns the parent folder as a <see cref="StorageFolder"/>.</returns>
         public Task<StorageFolder> GetParentAsync()
         {
 #if WINDOWS_UWP || WINDOWS_APP
@@ -486,12 +531,14 @@ namespace InTheHand.Storage
                 var f = await _folder.GetParentAsync();
                 return f == null ? null : new StorageFolder(f);
             });
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return Task.Run<StorageFolder>(() =>
             {
                 var parent = global::System.IO.Directory.GetParent(Path);
                 return parent == null ? null : new StorageFolder(parent.FullName);
             });
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Task.Run<StorageFolder>(async () =>
             {
