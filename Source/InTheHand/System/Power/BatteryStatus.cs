@@ -9,6 +9,7 @@ namespace InTheHand.System.Power
     /// <summary>
     /// Indicates the status of the battery.
     /// </summary>
+    /// <seealso cref="PowerManager"/>
     public enum BatteryStatus
     {
         /// <summary>

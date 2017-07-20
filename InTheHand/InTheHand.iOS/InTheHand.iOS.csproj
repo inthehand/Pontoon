@@ -510,6 +510,9 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.iOS.cs">
+      <Link>System\Power\PowerManager.iOS.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerSupplyStatus.cs">
       <Link>System\Power\PowerSupplyStatus.cs</Link>
     </Compile>

@@ -76,6 +76,6 @@ namespace InTheHand.System.Display
 #endif
             }
 #endif
-            }
         }
+    }
 }

@@ -529,6 +529,9 @@
     <Compile Include="..\..\Source\InTheHand\System\Power\EnergySaverStatus.cs">
       <Link>System\Power\EnergySaverStatus.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.Android.cs">
+      <Link>System\Power\PowerManager.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
       <Link>System\Power\PowerManager.cs</Link>
     </Compile>
