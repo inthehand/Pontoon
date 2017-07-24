@@ -301,6 +301,9 @@
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
       <Link>System\Power\PowerManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.Tizen.cs">
+      <Link>System\Power\PowerManager.Tizen.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerSupplyStatus.cs">
       <Link>System\Power\PowerSupplyStatus.cs</Link>
     </Compile>

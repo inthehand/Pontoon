@@ -32,27 +32,13 @@ namespace InTheHand.System.Power
         private static Windows.Phone.Devices.Power.Battery _battery = Windows.Phone.Devices.Power.Battery.GetDefault();
 #endif
 
+#if WINDOWS_APP
         static PowerManager()
         {
-#if __IOS__
-            _device = UIKit.UIDevice.CurrentDevice;
-            if (_device.Model == "iPhone Simulator")
-            {
-                _isSimulator = true;
-            }
-            else
-            {
-                _device.BatteryMonitoringEnabled = true;
-            }
-#elif __ANDROID__
-            _batteryManager = (Android.OS.BatteryManager)Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.GetSystemService(Android.Content.Context.BatteryService);
-            _powerManager = (Android.OS.PowerManager)Android.App.Application.Context.GetSystemService(Android.Content.Context.PowerService);
-#elif WINDOWS_APP
             //check for 10
            _type10 = Type.GetType("Windows.System.Power.PowerManager, Windows, ContentType=WindowsRuntime");
-#endif
         }
-
+#endif
         /// <summary>
         /// Gets the device's battery status.
         /// </summary>
@@ -61,13 +47,9 @@ namespace InTheHand.System.Power
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || TIZEN || WIN32 || WINDOWS_UWP
                 return GetBatteryStatus();
 
-#elif TIZEN
-                return Tizen.System.Battery.IsCharging ? BatteryStatus.Charging : BatteryStatus.Discharging;
-#elif WINDOWS_UWP
-            return (BatteryStatus)((int)Windows.System.Power.PowerManager.BatteryStatus);
 #elif WINDOWS_APP
                 if(_type10 != null)
                 {
@@ -88,24 +70,7 @@ namespace InTheHand.System.Power
                     default:
                         return BatteryStatus.Discharging;
                 }
-#elif WIN32
-                GetStatus();
-                switch(_status.BatteryFlag)
-                {
-                    case NativeMethods.BATTERY_FLAG.CHARGING:
-                        return BatteryStatus.Charging;
 
-                    case NativeMethods.BATTERY_FLAG.NO_BATTERY:
-                        return BatteryStatus.NotPresent;
-
-                    default:
-                        if(_status.ACLineStatus == NativeMethods.AC_LINE.OFFLINE)
-                        {
-                            return BatteryStatus.Discharging;
-                        }
-
-                        return BatteryStatus.Idle;
-                }
 #else
                 return BatteryStatus.Idle;
 #endif
@@ -119,10 +84,9 @@ namespace InTheHand.System.Power
         {
             get
             {
-#if __IOS__ || __ANDROID__
+#if __IOS__ || __ANDROID__ || WIN32 || WINDOWS_UWP
                 return GetEnergySaverStatus();
-#elif WINDOWS_UWP
-                return (EnergySaverStatus)((int)Windows.System.Power.PowerManager.EnergySaverStatus);
+                
 #elif WINDOWS_APP
                 if (_type10 != null)
                 {
@@ -132,6 +96,7 @@ namespace InTheHand.System.Power
                         return (EnergySaverStatus)((int)val);
                     }
                 }
+
 #elif WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 bool saverEnabled = Windows.Phone.System.Power.PowerManager.PowerSavingModeEnabled;
                 if (saverEnabled)
@@ -139,9 +104,7 @@ namespace InTheHand.System.Power
                     bool saverOn = Windows.Phone.System.Power.PowerManager.PowerSavingMode == Windows.Phone.System.Power.PowerSavingMode.On;
                     return saverOn ? EnergySaverStatus.On : EnergySaverStatus.Off;
                 }  
-#elif WIN32
-                GetStatus();
-                return _status.SystemStatusFlag != 0 ? EnergySaverStatus.On : EnergySaverStatus.Off;          
+                
 #endif
                 return EnergySaverStatus.Disabled;
             }
@@ -154,13 +117,9 @@ namespace InTheHand.System.Power
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || TIZEN || WIN32 || WINDOWS_UWP
                 return GetPowerSupplyStatus();
 
-#elif TIZEN
-                return Tizen.System.Battery.IsCharging ? PowerSupplyStatus.Adequate : PowerSupplyStatus.NotPresent;
-#elif WINDOWS_UWP
-                return (PowerSupplyStatus)((int)Windows.System.Power.PowerManager.PowerSupplyStatus);
 #elif WINDOWS_APP
                 if (_type10 != null)
                 {
@@ -170,6 +129,7 @@ namespace InTheHand.System.Power
                         return (PowerSupplyStatus)((int)val);
                     }
                 }
+
 #elif WINDOWS_PHONE
                 if (Microsoft.Phone.Info.DeviceStatus.PowerSource == Microsoft.Phone.Info.PowerSource.External)
                     return PowerSupplyStatus.Adequate;
@@ -188,15 +148,9 @@ namespace InTheHand.System.Power
         {
             get
             {
-#if __ANDROID__ || __IOS__
+#if __ANDROID__ || __IOS__ || TIZEN || WIN32 || WINDOWS_UWP
                 return GetRemainingChargePercent();
-
-#elif TIZEN
-                return Tizen.System.Battery.Percent;
-
-#elif WINDOWS_UWP
-                return Windows.System.Power.PowerManager.RemainingChargePercent;
-
+                                
 #elif WINDOWS_APP
                 if (_type10 != null)
                 {
@@ -206,11 +160,10 @@ namespace InTheHand.System.Power
                 {
                     return 0;
                 }
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _battery.RemainingChargePercent;
-#elif WIN32
-                GetStatus();
-                return _status.BatteryLifePercent == 255 ? 0 : _status.BatteryLifePercent;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -224,7 +177,15 @@ namespace InTheHand.System.Power
         /// <summary>
         /// Occurs when <see cref="RemainingChargePercent"/>changes.
         /// </summary>
-        /// <remarks>Not supported on Windows 8.1</remarks>
+        /// <remarks>
+        /// <para/><list type="table">
+        /// <listheader><term>Platform</term><description>Version supported</description></listheader>
+        /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+        /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
+        /// <item><term>Windows UWP</term><description>Windows 10</description></item>
+        /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+        /// </remarks>
         public static event EventHandler<object> RemainingChargePercentChanged
 #if WINDOWS_APP
             ;
@@ -234,12 +195,9 @@ namespace InTheHand.System.Power
             {
                 if (_remainingChargePercentChanged == null)
                 {
-#if __IOS__
+#if __IOS__ || WINDOWS_UWP || TIZEN
                     RemainingChargePercentChangedAdd();
-#elif TIZEN
-                    Tizen.System.Battery.PercentChanged += Battery_PercentChanged;
-#elif WINDOWS_UWP
-                    Windows.System.Power.PowerManager.RemainingChargePercentChanged += PowerManager_RemainingChargePercentChanged;
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged += _battery_RemainingChargePercentChanged;
 #endif
@@ -252,34 +210,19 @@ namespace InTheHand.System.Power
 
                 if (_remainingChargePercentChanged == null)
                 {
-#if TIZEN
-                    Tizen.System.Battery.PercentChanged -= Battery_PercentChanged;
-#elif WINDOWS_UWP
-                    Windows.System.Power.PowerManager.RemainingChargePercentChanged -= PowerManager_RemainingChargePercentChanged;
+#if TIZEN || WINDOWS_UWP
+                    RemainingChargePercentChangedRemove();
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _battery.RemainingChargePercentChanged -= _battery_RemainingChargePercentChanged;
 #endif
                 }
             }
         }
-
-
-
-#if WINDOWS_UWP
-        private static void PowerManager_RemainingChargePercentChanged(object sender, object e)
-        {
-            _remainingChargePercentChanged?.Invoke(null, null);
-        }
-#endif
-#endif
-
-#if TIZEN
-        private static void Battery_PercentChanged(object sender, Tizen.System.BatteryPercentChangedEventArgs e)
-        {
-            _remainingChargePercentChanged?.Invoke(null, null);
-        }
         
-#elif WINDOWS_PHONE_APP || WINDOWS_PHONE
+#endif
+
+#if WINDOWS_PHONE_APP || WINDOWS_PHONE
         private static void _battery_RemainingChargePercentChanged(object sender, object e)
         {
             if (_remainingChargePercentChanged != null)
@@ -304,14 +247,13 @@ namespace InTheHand.System.Power
                 {
                     return (TimeSpan)_type10.GetRuntimeProperty("RemainingDischargeTime").GetValue(null);
                 }
+
 #elif WINDOWS_PHONE
                 return _battery.RemainingDischargeTime;
+
 #elif WIN32
-                GetStatus();
-                if(_status.BatteryLifeTime != -1)
-                {
-                    return TimeSpan.FromSeconds(_status.BatteryLifeTime);
-                }             
+                return GetRemainingDischargeTime();  
+                
 #endif
 
                 return TimeSpan.Zero;

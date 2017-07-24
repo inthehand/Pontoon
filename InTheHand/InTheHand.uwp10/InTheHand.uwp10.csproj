@@ -668,6 +668,9 @@
     <Compile Include="..\..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.uwp.cs">
+      <Link>System\Power\PowerManager.uwp.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerSupplyStatus.cs">
       <Link>System\Power\PowerSupplyStatus.cs</Link>
     </Compile>

@@ -13,6 +13,65 @@ namespace InTheHand.System.Power
     {
         private static NativeMethods.SYSTEM_POWER_STATUS _status;
 
+        private static BatteryStatus GetBatteryStatus()
+        {
+            GetStatus();
+            switch (_status.BatteryFlag)
+            {
+                case NativeMethods.BATTERY_FLAG.CHARGING:
+                    return BatteryStatus.Charging;
+
+                case NativeMethods.BATTERY_FLAG.NO_BATTERY:
+                    return BatteryStatus.NotPresent;
+
+                default:
+                    if (_status.ACLineStatus == NativeMethods.AC_LINE.OFFLINE)
+                    {
+                        return BatteryStatus.Discharging;
+                    }
+
+                    return BatteryStatus.Idle;
+            }
+        }
+
+        private static EnergySaverStatus GetEnergySaverStatus()
+        {
+            GetStatus();
+            return _status.SystemStatusFlag != 0 ? EnergySaverStatus.On : EnergySaverStatus.Off;
+        }
+
+        private static PowerSupplyStatus GetPowerSupplyStatus()
+        {
+            switch(_status.ACLineStatus)
+            {
+                case NativeMethods.AC_LINE.ONLINE:
+                    return PowerSupplyStatus.Adequate;
+
+                case NativeMethods.AC_LINE.BACKUP_POWER:
+                    return PowerSupplyStatus.Inadequate;
+
+                default:
+                    return PowerSupplyStatus.NotPresent;
+            }
+        }
+
+        private static int GetRemainingChargePercent()
+        {
+            GetStatus();
+            return _status.BatteryLifePercent == 255 ? 0 : _status.BatteryLifePercent;
+        }
+
+        private static TimeSpan GetRemainingDischargeTime()
+        {
+            GetStatus();
+            if (_status.BatteryLifeTime != -1)
+            {
+                return TimeSpan.FromSeconds(_status.BatteryLifeTime);
+            }
+
+            return TimeSpan.Zero;
+        }
+
         private static void GetStatus()
         {
             NativeMethods.GetSystemPowerStatus(out _status);

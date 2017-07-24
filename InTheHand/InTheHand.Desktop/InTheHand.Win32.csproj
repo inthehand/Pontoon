@@ -244,6 +244,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs">
       <Link>Storage\IStorageFolder2.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.Win32.cs">
+      <Link>Storage\KnownFolders.Win32.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
       <Link>Storage\Pickers\FileOpenPicker.cs</Link>
     </Compile>

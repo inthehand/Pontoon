@@ -15,6 +15,19 @@ namespace InTheHand.System.Power
         private static UIKit.UIDevice _device;
         private static bool _isSimulator;
 
+        static PowerManager()
+        {
+            _device = UIDevice.CurrentDevice;
+            if (_device.Model == "iPhone Simulator")
+            {
+                _isSimulator = true;
+            }
+            else
+            {
+                _device.BatteryMonitoringEnabled = true;
+            }
+        }
+
         private static BatteryStatus GetBatteryStatus()
         {
             switch (_device.BatteryState)

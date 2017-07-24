@@ -27,7 +27,7 @@ namespace InTheHand.Storage
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
-    public static class KnownFolders
+    public static partial class KnownFolders
     {
         /// <summary>
         /// Gets the Camera Roll folder.
@@ -40,7 +40,8 @@ namespace InTheHand.Storage
         /// <item><term>Windows UWP</term><description>Windows 10</description></item>
         /// <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
         /// <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
-        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item></list>
+        /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+        /// <item><term>Windows (Desktop Apps)</term><description>Windows 8.1 or later</description></item></list>
         /// </remarks>
         public static StorageFolder CameraRoll
         {
@@ -56,6 +57,9 @@ namespace InTheHand.Storage
                 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return Windows.Storage.KnownFolders.CameraRoll;
+
+#elif WIN32
+                return GetCameraRoll();
 
 #else
                 return null;

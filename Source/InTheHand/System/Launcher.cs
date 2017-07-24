@@ -46,12 +46,12 @@ namespace InTheHand.System
         /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
         public static Task<bool> LaunchFileAsync(IStorageFile file)
         {
-#if __ANDROID__ || __IOS__ || __MAC__
+#if __ANDROID__ || __IOS__ || __MAC__ || WIN32
             return LaunchFileAsyncImpl(file);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchFileAsync((Windows.Storage.StorageFile)((StorageFile)file)).AsTask();
-#elif WIN32
-            return Task.FromResult<bool>(Launch(file.Path, null));
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -70,12 +70,12 @@ namespace InTheHand.System
         /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
         public static Task<bool> LaunchFolderAsync(IStorageFolder folder)
         {
-#if __MAC__
+#if __MAC__ || WIN32
             return LaunchFolderAsyncImpl(folder);
+
 #elif WINDOWS_UWP
             return Windows.System.Launcher.LaunchFolderAsync((Windows.Storage.StorageFolder)((StorageFolder)folder)).AsTask();
-#elif WIN32
-            return Task.FromResult<bool>(Launch("explorer.exe", folder.Path));
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -101,13 +101,12 @@ namespace InTheHand.System
         /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list></remarks>
         internal static Task<bool> LaunchUriAsync(Uri uri, LauncherOptions options)
         {
-#if __ANDROID__ || __UNIFIED__
+#if __ANDROID__ || __UNIFIED__ || WIN32
             return LaunchUriAsyncImpl(uri, options);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Windows.System.Launcher.LaunchUriAsync(uri).AsTask();
-#elif WIN32
-            return Task.FromResult<bool>(Launch(uri.ToString(), null));
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -154,30 +153,16 @@ namespace InTheHand.System
         /// </remarks>
         public static Task<LaunchQuerySupportStatus> QueryUriSupportAsync(Uri uri, LaunchQuerySupportType launchQuerySupportType)
         {
-#if __ANDROID__ || __IOS__ || __TVOS__
+#if __ANDROID__ || __IOS__ || __TVOS__ || WIN32
             return QueryUriSupportAsyncImpl(uri, launchQuerySupportType);
+
 #elif WINDOWS_UWP
             return Task.Run<LaunchQuerySupportStatus>(async () =>
             {
                 var s = await Windows.System.Launcher.QueryUriSupportAsync(uri, (Windows.System.LaunchQuerySupportType)((int)launchQuerySupportType)).AsTask();
                 return (LaunchQuerySupportStatus)((int)s);
             });
-#elif WIN32
-            return Task.Run<LaunchQuerySupportStatus>(() =>
-            {
-                using (Microsoft.Win32.RegistryKey rk = Microsoft.Win32.Registry.ClassesRoot.OpenSubKey(uri.Scheme))
-                {
-                    if (rk != null)
-                    {
-                        if (rk.GetValue("URL Protocol") != null)
-                        {
-                            return LaunchQuerySupportStatus.Available;
-                        }
-                    }
-                }
 
-                return LaunchQuerySupportStatus.NotSupported;
-            });
 #else
             return Task.FromResult<LaunchQuerySupportStatus>(LaunchQuerySupportStatus.Unknown);
 #endif

@@ -14,12 +14,6 @@ namespace InTheHand.System.Power
         private static BatteryManager _batteryManager;
         private static Android.OS.PowerManager _powerManager;
 
-        static PowerManager()
-        {
-            _batteryManager = (Android.OS.BatteryManager)Android.App.Application.Context.GetSystemService(Context.BatteryService);
-            _powerManager = (Android.OS.PowerManager)Android.App.Application.Context.GetSystemService(Context.PowerService);
-        }
-
         private static BatteryStatus GetBatteryStatus()
         {
             return _batteryManager.IsCharging ? BatteryStatus.Charging : BatteryStatus.Discharging;
