@@ -5,6 +5,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using System.Reflection;
 
 namespace InTheHand.System.Power
 {
