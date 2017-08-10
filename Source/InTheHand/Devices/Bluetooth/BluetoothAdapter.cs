@@ -57,6 +57,14 @@ namespace InTheHand.Devices.Bluetooth
                 return GetBluetoothAddress();
             }
         }
+
+        public BluetoothClassOfDevice ClassOfDevice
+        {
+            get
+            {
+                return GetClassOfDevice();
+            }
+        }
         
         /// <summary>
         /// Gets a boolean indicating if the adapter supports the Bluetooth Classic transport type.

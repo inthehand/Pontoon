@@ -93,6 +93,11 @@ namespace InTheHand.Devices.Bluetooth
         {
             return 0;
         }
+        
+        private BluetoothClassOfDevice GetClassOfDevice()
+        {
+            return new BluetoothClassOfDevice(0);
+        }
 
         private bool GetIsClassicSupported()
         {
@@ -108,6 +113,9 @@ namespace InTheHand.Devices.Bluetooth
         {
 #if __IOS__
             return UIKit.UIDevice.CurrentDevice.Name;
+
+#elif __MAC__
+            return global::System.Environment.MachineName;
 #else
             return string.Empty;
 #endif

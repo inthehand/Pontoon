@@ -12,10 +12,10 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
     /// <summary>
     /// Represents an RFCOMM service ID.
     /// </summary>
-    public sealed class RfcommServiceId
+    public sealed partial class RfcommServiceId
     {       
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Serial Port (SPP) service (with short id 0x1101).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Serial Port (SPP) service (with short id 0x1101).
         /// </summary>
         public static RfcommServiceId SerialPort
         {
@@ -26,7 +26,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Dial-up Networking (DUN) service (with short id 0x1103).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Dial-up Networking (DUN) service (with short id 0x1103).
         /// </summary>
         public static RfcommServiceId DialupNetworking
         {
@@ -37,7 +37,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Synchronization service (with short id 0x1104).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Synchronization service (with short id 0x1104).
         /// </summary>
         public static RfcommServiceId IrMCSync
         {
@@ -48,7 +48,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized OBEX Object Push service (with short id 0x1105).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized OBEX Object Push service (with short id 0x1105).
         /// </summary>
         public static RfcommServiceId ObexObjectPush
         {
@@ -59,7 +59,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized OBEX File Transfer service (with short id 0x1106).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized OBEX File Transfer service (with short id 0x1106).
         /// </summary>
         public static RfcommServiceId ObexFileTransfer
         {
@@ -70,7 +70,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Headset Profile (HSP) (with short id 0x1108).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Headset Profile (HSP) (with short id 0x1108).
         /// </summary>
         public static RfcommServiceId Headset
         {
@@ -81,7 +81,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Audio/Video Remote Control Profile (AVRCP) (with short id 0x110E).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Audio/Video Remote Control Profile (AVRCP) (with short id 0x110E).
         /// </summary>
         public static RfcommServiceId AVRemoteControl
         {
@@ -92,7 +92,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Imaging service (with short id 0x111A).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Basic Imaging service (with short id 0x111A).
         /// </summary>
         public static RfcommServiceId BasicImaging
         {
@@ -103,7 +103,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Hands-free Profile (HFP) (with short id 0x111E).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Hands-free Profile (HFP) (with short id 0x111E).
         /// </summary>
         public static RfcommServiceId Handsfree
         {
@@ -114,7 +114,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Printing service (with short id 0x1118).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Basic Printing service (with short id 0x1118).
         /// </summary>
         public static RfcommServiceId DirectPrinting
         {
@@ -125,7 +125,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Basic Printing service (with short id 0x1119).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Basic Printing service (with short id 0x1119).
         /// </summary>
         public static RfcommServiceId ReferencePrinting
         {
@@ -136,7 +136,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the printing status service for the Basic Printing Profile (BPP) (with short id 0x1123).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the printing status service for the Basic Printing Profile (BPP) (with short id 0x1123).
         /// </summary>
         public static RfcommServiceId PrintingStatus
         {
@@ -147,7 +147,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Hardcopy Cable Replacement Profile (HCRP) for printing (with short id 0x1126).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Hardcopy Cable Replacement Profile (HCRP) for printing (with short id 0x1126).
         /// </summary>
         public static RfcommServiceId HcrPrint
         {
@@ -158,7 +158,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Hardcopy Cable Replacement Profile (HCRP) for scanning (with short id 0x1127).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Hardcopy Cable Replacement Profile (HCRP) for scanning (with short id 0x1127).
         /// </summary>
         public static RfcommServiceId HcrScan
         {
@@ -169,7 +169,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized SIM Access Profile (SAP) (with short id 0x112D).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized SIM Access Profile (SAP) (with short id 0x112D).
         /// </summary>
         public static RfcommServiceId SimAccess
         {
@@ -180,7 +180,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Phone Book Access (PCE) service (with short id 0x112E).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Phone Book Access (PCE) service (with short id 0x112E).
         /// </summary>
         public static RfcommServiceId PhoneBookAccessPce
         {
@@ -191,7 +191,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Phone Book Access (PSE) service (with short id 0x112F).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Phone Book Access (PSE) service (with short id 0x112F).
         /// </summary>
         public static RfcommServiceId PhoneBookAccessPse
         {
@@ -202,7 +202,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Generic File Transfer service (with short id 0x1202).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Generic File Transfer service (with short id 0x1202).
         /// </summary>
         public static RfcommServiceId GenericFileTransfer
         {
@@ -213,7 +213,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Health Device Source service for Health Device Profile (HDP) (with short id 0x1401).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Health Device Source service for Health Device Profile (HDP) (with short id 0x1401).
         /// </summary>
         public static RfcommServiceId HealthDeviceSource
         {
@@ -224,7 +224,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object corresponding to the service id for the standardized Health Device Sink service for Health Device Profile (HDP) (with short id 0x1402).
+        /// Creates a <see cref="RfcommServiceId"/> object corresponding to the service id for the standardized Health Device Sink service for Health Device Profile (HDP) (with short id 0x1402).
         /// </summary>
         public static RfcommServiceId HealthDeviceSink
         {
@@ -233,64 +233,27 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
                 return FromShortId(0x1402);
             }
         }
-        
+
         /// <summary>
-        /// Creates a RfcommServiceId object from a 32-bit service id.
+        /// Creates a <see cref="RfcommServiceId"/> object from a 32-bit service id.
         /// </summary>
         /// <param name="shortId">The 32-bit service id.</param>
-        /// <returns>The RfcommServiceId object.</returns>
+        /// <returns>The <see cref="RfcommServiceId"/> object.</returns>
         public static RfcommServiceId FromShortId(uint shortId)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId.FromShortId(shortId);
-
-#else
-            Guid g = BluetoothUuidHelper.FromShortId(shortId);
-            return new RfcommServiceId(g);  
-#endif 
+            return FromShortIdImpl(shortId);
         }
 
         /// <summary>
-        /// Creates a RfcommServiceId object from a 128-bit service id.
+        /// Creates a <see cref="RfcommServiceId"/> object from a 128-bit service id.
         /// </summary>
         /// <param name="uuid">The 128-bit service id.</param>
-        /// <returns>The RfcommServiceId object.</returns>
+        /// <returns>The <see cref="RfcommServiceId"/> object.</returns>
         public static RfcommServiceId FromUuid(Guid uuid)
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId.FromUuid(uuid);
-
-#else
-            return new RfcommServiceId(uuid);
-#endif
+            return FromUuidImpl(uuid);
         }
-
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-        private Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId _id;
-
-        private RfcommServiceId(Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId id)
-        {
-            _id = id;
-        }
-
-        public static implicit operator Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId(RfcommServiceId id)
-        {
-            return id._id;
-        }
-
-        public static implicit operator RfcommServiceId(Windows.Devices.Bluetooth.Rfcomm.RfcommServiceId id)
-        {
-            return new RfcommServiceId(id);
-        }
-
-#else 
-        private Guid _uuid;
-
-        private RfcommServiceId(Guid uuid)
-        {
-            _uuid = uuid;
-        }
-#endif
+        
 
         /// <summary>
         /// Implicit conversion from RfcommServiceId to Guid.
@@ -318,11 +281,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         {
             get
             {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _id.Uuid;
-#else
-                return _uuid;
-#endif
+                return GetUuid();
             }
         }
 
@@ -332,13 +291,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// <returns>Returns the 32-bit service id if the RfcommServiceId represents a standardized service.</returns>
         public uint AsShortId()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return _id.AsShortId();
-
-#else
-            var shortId = BluetoothUuidHelper.TryGetShortId(_uuid);
-            return shortId.HasValue ? shortId.Value: 0;
-#endif
+            return AsShortIdImpl();
         }
 
         /// <summary>
@@ -347,12 +300,7 @@ namespace InTheHand.Devices.Bluetooth.Rfcomm
         /// <returns>Returns the string representation of the 128-bit service id.</returns>
         public string AsString()
         {
-#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-            return _id.AsString();
-
-#else
-            return _uuid.ToString();
-#endif
+            return AsStringImpl();
         }
 
         public override int GetHashCode()

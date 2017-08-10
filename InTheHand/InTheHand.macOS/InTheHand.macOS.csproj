@@ -120,6 +120,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
       <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
+      <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs">
       <Link>Devices\Bluetooth\BluetoothConnectionStatus.cs</Link>
     </Compile>
@@ -128,6 +131,15 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Unified.cs">
       <Link>Devices\Bluetooth\BluetoothLEDevice.Unified.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
+      <Link>Devices\Bluetooth\BluetoothMajorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMinorClass.cs">
+      <Link>Devices\Bluetooth\BluetoothMinorClass.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
+      <Link>Devices\Bluetooth\BluetoothServiceCapabilities.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothUuidHelper.cs">
       <Link>Devices\Bluetooth\BluetoothUuidHelper.cs</Link>

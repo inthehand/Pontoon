@@ -34,6 +34,12 @@ namespace InTheHand.Devices.Bluetooth
             return 0;
         }
 
+        private BluetoothClassOfDevice GetClassOfDevice()
+        {
+            
+            return BluetoothClassOfDevice.FromRawValue(0);
+        }
+
         private bool GetIsClassicSupported()
         {
             return true;

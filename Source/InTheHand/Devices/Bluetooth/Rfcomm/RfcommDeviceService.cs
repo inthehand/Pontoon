@@ -11,9 +11,6 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Globalization;
 
-#if __ANDROID__
-using InTheHand.Networking.Sockets;
-#endif
 
 namespace InTheHand.Devices.Bluetooth.Rfcomm
 {

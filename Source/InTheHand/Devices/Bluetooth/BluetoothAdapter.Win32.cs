@@ -62,8 +62,8 @@ namespace InTheHand.Devices.Bluetooth
             filter.dbch_eventguid = NativeMethods.GUID_BLUETOOTH_L2CAP_EVENT;
 
             _notifyHandle = NativeMethods.RegisterDeviceNotification(Process.GetCurrentProcess().MainWindowHandle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
-            filter.dbch_eventguid = NativeMethods.GUID_BLUETOOTH_HCI_EVENT;
-            int notifyHandle = NativeMethods.RegisterDeviceNotification(Process.GetCurrentProcess().MainWindowHandle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
+            //filter.dbch_eventguid = NativeMethods.GUID_BLUETOOTH_HCI_EVENT;
+            //int notifyHandle = NativeMethods.RegisterDeviceNotification(Process.GetCurrentProcess().MainWindowHandle, ref filter, NativeMethods.DEVICE_NOTIFY.WINDOWS_HANDLE);
             NativeMethods.PostMessage(Process.GetCurrentProcess().MainWindowHandle, 0x401, IntPtr.Zero, IntPtr.Zero);
 
         }
@@ -78,7 +78,7 @@ namespace InTheHand.Devices.Bluetooth
                         NativeMethods.DEV_BROADCAST_HANDLE dbh = Marshal.PtrToStructure<NativeMethods.DEV_BROADCAST_HANDLE>(lParam);
                         if (dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_HCI_EVENT)
                         {
-                            //BTH_HCI_EVENT_INFO
+                            // BTH_HCI_EVENT_INFO
                             IntPtr bthhci = IntPtr.Add(lParam, 40);
                             NativeMethods.BTH_HCI_EVENT_INFO ei = Marshal.PtrToStructure<NativeMethods.BTH_HCI_EVENT_INFO>(bthhci);
                             Debug.WriteLine(ei.bthAddress + (ei.connected > 0 ? " connected" : " disconnected"));
@@ -86,7 +86,7 @@ namespace InTheHand.Devices.Bluetooth
                         }
                         else if (dbh.dbch_eventguid == NativeMethods.GUID_BLUETOOTH_L2CAP_EVENT)
                         {
-                            //BTH_L2CAP_EVENT_INFO
+                            // BTH_L2CAP_EVENT_INFO
                             IntPtr bthl2cap = IntPtr.Add(lParam, 40);
                             NativeMethods.BTH_L2CAP_EVENT_INFO ei = Marshal.PtrToStructure<NativeMethods.BTH_L2CAP_EVENT_INFO>(bthl2cap);
                             Debug.WriteLine(ei.bthAddress + (ei.connected > 0 ? " connected" : " disconnected"));

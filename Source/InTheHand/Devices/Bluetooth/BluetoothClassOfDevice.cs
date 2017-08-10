@@ -128,11 +128,20 @@ namespace InTheHand.Devices.Bluetooth
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return RawValue.GetHashCode();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             var other = obj as BluetoothClassOfDevice;
@@ -179,9 +188,10 @@ namespace InTheHand.Devices.Bluetooth
                     }
                 }
             }
-#endif
+
             // if it doesn't match a known major/minor class return the raw value
             return RawValue.ToString("X8");
+#endif
         }
     }
 }

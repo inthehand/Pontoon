@@ -243,6 +243,9 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
       <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.Portable.cs">
+      <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.Portable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceAccessState.cs">
       <Link>Devices\Enumeration\DeviceAccessState.cs</Link>
     </Compile>
