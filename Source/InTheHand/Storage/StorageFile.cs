@@ -9,6 +9,9 @@ using System.IO;
 
 using System.Threading.Tasks;
 using InTheHand.Storage.FileProperties;
+#if __ANDROID__
+using Android.Webkit;
+#endif
 
 namespace InTheHand.Storage
 {
@@ -200,6 +203,20 @@ namespace InTheHand.Storage
             return Task.FromResult<BasicProperties>(new BasicProperties(this));
 #else
             throw new PlatformNotSupportedException();
+#endif
+        }
+
+        public Task<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
+        {
+#if __ANDROID__
+            if (mode == ThumbnailMode.VideosView)
+            {
+                return StorageItemThumbnail.CreateVideoAsync(this);
+            }
+
+            return Task.FromResult<StorageItemThumbnail>(null);
+#else
+            return null;
 #endif
         }
 
@@ -435,9 +452,22 @@ namespace InTheHand.Storage
                 {
                     mime = MobileCoreServices.UTType.GetPreferredTag(utref, MobileCoreServices.UTType.TagClassMIMEType);
                 }
+
                 return mime;
+
+#elif __ANDROID__
+                if(Path.StartsWith("content:"))
+                {
+                    return Android.App.Application.Context.ContentResolver.GetType(Android.Net.Uri.Parse(Path));
+                }
+                else
+                {
+                    return MimeTypeMap.Singleton.GetMimeTypeFromExtension(FileType.ToLower());
+                }
+
 #elif TIZEN
                 return Tizen.Content.MimeType.MimeUtil.GetMimeType(FileType);
+
 #else
                 return string.Empty;
 #endif
@@ -453,8 +483,10 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _file.FileType;
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return global::System.IO.Path.GetExtension(Path);
+
 #else
                 return string.Empty;
 #endif
@@ -470,8 +502,10 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _file.Name;
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return global::System.IO.Path.GetFileName(Path);
+
 #else
                 return string.Empty;
 #endif

@@ -13,20 +13,22 @@ namespace InTheHand.Devices.Bluetooth
     {
         private static Task<BluetoothAdapter> GetDefaultAsyncImpl()
         {
-            return Task.Run<BluetoothAdapter>(() =>
+            return Task.Run<BluetoothAdapter>(async() =>
             {
                 if (s_default == null)
                 {
-                    s_default = new BluetoothAdapter();
+                    s_default = new BluetoothAdapter(await Windows.Devices.Bluetooth.BluetoothAdapter.GetDefaultAsync());
                 }
 
                 return s_default;
             });
         }
-        
 
-        internal BluetoothAdapter()
+        private Windows.Devices.Bluetooth.BluetoothAdapter _adapter;
+
+        internal BluetoothAdapter(Windows.Devices.Bluetooth.BluetoothAdapter adapter)
         {
+            _adapter = adapter;
         }
 
         private ulong GetBluetoothAddress()

@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETStandard,Version=v1.3": {
       "ElmSharp/1.1.0-beta-018": {
@@ -4289,7 +4289,17 @@
       "projectName": "InTheHand.Tizen",
       "projectPath": "C:\\Users\\peter\\Source\\Repos\\Pontoon\\InTheHand\\InTheHand.Tizen\\InTheHand.Tizen.csproj",
       "projectJsonPath": "C:\\Users\\peter\\Source\\Repos\\Pontoon\\InTheHand\\InTheHand.Tizen\\InTheHand.Tizen.project.json",
-      "projectStyle": "ProjectJson"
+      "packagesPath": "C:\\Users\\peter\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\peter\\Source\\Repos\\Pontoon\\InTheHand\\InTheHand.Tizen\\obj\\",
+      "projectStyle": "ProjectJson",
+      "configFilePaths": [
+        "C:\\Users\\peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      }
     },
     "dependencies": {
       "NETStandard.Library": "1.6.1",
@@ -4297,7 +4307,7 @@
       "Tizen.Library": "1.0.0-pre3",
       "Tizen.Location": "1.0.8",
       "Tizen.Location.Geofence": "1.0.4",
-      "Tizen.Telephony": "[1.0.12, )"
+      "Tizen.Telephony": "1.0.12"
     },
     "frameworks": {
       "netstandard1.3": {}

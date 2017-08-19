@@ -102,6 +102,9 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
       <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
+      <Link>Collections\Generic\ListExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs">
       <Link>Data\Html\HtmlUtilities.cs</Link>
     </Compile>
@@ -365,6 +368,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
       <Link>Storage\FileProperties\BasicProperties.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs">
+      <Link>Storage\FileProperties\ThumbnailMode.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>

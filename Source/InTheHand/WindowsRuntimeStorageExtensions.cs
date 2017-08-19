@@ -28,7 +28,14 @@ namespace System.IO
             {
                 throw new ArgumentNullException("windowsRuntimeFile");
             }
-            
+
+#if __ANDROID__
+            if(windowsRuntimeFile.Path.StartsWith("content:"))
+            {
+                return Task.FromResult<Stream>(Android.App.Application.Context.ContentResolver.OpenOutputStream(Android.Net.Uri.Parse(windowsRuntimeFile.Path)));
+            }
+#endif
+
             return Task.FromResult<Stream>(global::System.IO.File.OpenRead(windowsRuntimeFile.Path));
 #else
             throw new PlatformNotSupportedException();
@@ -67,6 +74,13 @@ namespace System.IO
             {
                 throw new ArgumentNullException("windowsRuntimeFile");
             }
+
+#if __ANDROID__
+            if (windowsRuntimeFile.Path.StartsWith("content:"))
+            {
+                return Task.FromResult<Stream>(Android.App.Application.Context.ContentResolver.OpenInputStream(Android.Net.Uri.Parse(windowsRuntimeFile.Path)));
+            }
+#endif
 
             return Task.FromResult<Stream>(global::System.IO.File.OpenWrite(windowsRuntimeFile.Path));
 #else

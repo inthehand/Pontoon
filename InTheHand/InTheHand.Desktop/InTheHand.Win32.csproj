@@ -241,6 +241,12 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributesHelper.cs">
       <Link>Storage\FileAttributesHelper.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs">
+      <Link>Storage\FileProperties\ThumbnailMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs">
       <Link>Storage\IStorageFolder.cs</Link>
     </Compile>

@@ -15,6 +15,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Collections\**" />
+    <Compile Remove="Devices\Bluetooth\**" />
+    <Compile Remove="Devices\Enumeration\**" />
+    <Compile Remove="Devices\Radio\**" />
+    <EmbeddedResource Remove="Collections\**" />
+    <EmbeddedResource Remove="Devices\Bluetooth\**" />
+    <EmbeddedResource Remove="Devices\Enumeration\**" />
+    <EmbeddedResource Remove="Devices\Radio\**" />
+    <None Remove="Collections\**" />
+    <None Remove="Devices\Bluetooth\**" />
+    <None Remove="Devices\Enumeration\**" />
+    <None Remove="Devices\Radio\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs" Link="ApplicationData\Calls\PhoneCallManager.cs" />
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs" Link="ApplicationData\Chat\ChatMessage.cs" />
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs" Link="ApplicationData\Chat\ChatMessageManager.cs" />
@@ -42,61 +57,6 @@
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs" Link="Collections\Generic\ListExtensions.cs" />
     <Compile Include="..\..\Source\InTheHand\Data\Html\HtmlUtilities.cs" Link="Data\Html\HtmlUtilities.cs" />
     <Compile Include="..\..\Source\InTheHand\DateTimeOffsetExtensions.cs" Link="DateTimeOffsetExtensions.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs" Link="Devices\Bluetooth\BluetoothAdapter.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.Portable.cs" Link="Devices\Bluetooth\BluetoothAdapter.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAddressType.cs" Link="Devices\Bluetooth\BluetoothAddressType.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs" Link="Devices\Bluetooth\BluetoothCacheMode.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs" Link="Devices\Bluetooth\BluetoothClassOfDevice.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCompanyId.cs" Link="Devices\Bluetooth\BluetoothCompanyId.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs" Link="Devices\Bluetooth\BluetoothConnectionStatus.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.cs" Link="Devices\Bluetooth\BluetoothDevice.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.Portable.cs" Link="Devices\Bluetooth\BluetoothDevice.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothError.cs" Link="Devices\Bluetooth\BluetoothError.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs" Link="Devices\Bluetooth\BluetoothLEDevice.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Portable.cs" Link="Devices\Bluetooth\BluetoothLEDevice.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs" Link="Devices\Bluetooth\BluetoothMajorClass.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMinorClass.cs" Link="Devices\Bluetooth\BluetoothMinorClass.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs" Link="Devices\Bluetooth\BluetoothServiceCapabilities.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothUuidHelper.cs" Link="Devices\Bluetooth\BluetoothUuidHelper.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.Portable.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.Portable.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.Portable.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.Portable.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattPresentationFormatTypes.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattPresentationFormatTypes.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.Bytes.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattReadResult.Bytes.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs" Link="Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs" Link="Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.Portable.cs" Link="Devices\Bluetooth\Rfcomm\RfcommDeviceService.Portable.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs" Link="Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs" Link="Devices\Bluetooth\Rfcomm\RfcommServiceId.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceAccessState.cs" Link="Devices\Enumeration\DeviceAccessState.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs" Link="Devices\Enumeration\DeviceInformation.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.Portable..cs" Link="Devices\Enumeration\DeviceInformation.Portable..cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs" Link="Devices\Enumeration\DeviceInformationCollection.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCustomPairing.cs" Link="Devices\Enumeration\DeviceInformationCustomPairing.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.cs" Link="Devices\Enumeration\DeviceInformationPairing.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingKinds.cs" Link="Devices\Enumeration\DevicePairingKinds.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingRequestedEventArgs.cs" Link="Devices\Enumeration\DevicePairingRequestedEventArgs.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingResult.cs" Link="Devices\Enumeration\DevicePairingResult.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs" Link="Devices\Enumeration\DevicePicker.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs" Link="Devices\Enumeration\DevicePickerAppearance.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs" Link="Devices\Enumeration\DevicePickerFilter.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs" Link="Devices\Enumeration\DeviceSelectedEventArgs.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs" Link="Devices\Enumeration\DeviceUnpairingResult.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResultStatus.cs" Link="Devices\Enumeration\DeviceUnpairingResultStatus.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceWatcher.cs" Link="Devices\Enumeration\DeviceWatcher.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceWatcherStatus.cs" Link="Devices\Enumeration\DeviceWatcherStatus.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Environment.cs" Link="Devices\Environment.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeoposition.cs" Link="Devices\Geolocation\BasicGeoposition.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\BasicGeopositionExtensions.cs" Link="Devices\Geolocation\BasicGeopositionExtensions.cs" />
@@ -117,10 +77,6 @@
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionSource.cs" Link="Devices\Geolocation\PositionSource.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\PositionStatus.cs" Link="Devices\Geolocation\PositionStatus.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs" Link="Devices\Geolocation\StatusChangedEventArgs.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.cs" Link="Devices\Radio\Radio.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioAccessState.cs" Link="Devices\Radio\RadioAccessState.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioKind.cs" Link="Devices\Radio\RadioKind.cs" />
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioState.cs" Link="Devices\Radio\RadioState.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\Accelerometer.cs" Link="Devices\Sensors\Accelerometer.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReading.cs" Link="Devices\Sensors\AccelerometerReading.cs" />
     <Compile Include="..\..\Source\InTheHand\Devices\Sensors\AccelerometerReadingChangedEventArgs.cs" Link="Devices\Sensors\AccelerometerReadingChangedEventArgs.cs" />
@@ -136,6 +92,7 @@
     <Compile Include="..\..\Source\InTheHand\Foundation\Metadata\ApiInformation.cs" Link="Foundation\Metadata\ApiInformation.cs" />
     <Compile Include="..\..\Source\InTheHand\Foundation\Point.cs" Link="Foundation\Point.cs" />
     <Compile Include="..\..\Source\InTheHand\Foundation\Rect.cs" Link="Foundation\Rect.cs" />
+    <Compile Include="..\..\Source\InTheHand\Foundation\TypedEventHandler.cs" Link="Foundation\TypedEventHandler.cs" />
     <Compile Include="..\..\Source\InTheHand\Globalization\ApplicationLanguages.cs" Link="Globalization\ApplicationLanguages.cs" />
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayInformation.cs" Link="Graphics\Display\DisplayInformation.cs" />
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs" Link="Graphics\Display\DisplayOrientations.cs" />
@@ -164,6 +121,8 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileAttributes.cs" Link="Storage\FileAttributes.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs" Link="Storage\FileIO.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs" Link="Storage\FileProperties\BasicProperties.cs" />
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs" Link="Storage\FileProperties\StorageItemThumbnail.cs" />
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs" Link="Storage\FileProperties\ThumbnailMode.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs" Link="Storage\IStorageFile.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs" Link="Storage\IStorageFolder.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs" Link="Storage\IStorageFolder2.cs" />
@@ -197,6 +156,7 @@
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPane.cs" Link="UI\ApplicationSettings\SettingsPane.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequest.cs" Link="UI\ApplicationSettings\SettingsPaneCommandsRequest.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs" Link="UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs" />
+    <Compile Include="..\..\Source\InTheHand\UI\Color.cs" Link="UI\Color.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeGlyph.cs" Link="UI\Notifications\BadgeGlyph.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs" Link="UI\Notifications\BadgeNotification.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotificationCreator.cs" Link="UI\Notifications\BadgeNotificationCreator.cs" />
@@ -207,6 +167,11 @@
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationCreator.cs" Link="UI\Notifications\ToastNotificationCreator.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotificationManager.cs" Link="UI\Notifications\ToastNotificationManager.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.cs" Link="UI\Notifications\ToastNotifier.cs" />
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs" Link="UI\Popups\IUICommand.cs" />
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs" Link="UI\Popups\MessageDialog.cs" />
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs" Link="UI\Popups\Placement.cs" />
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\PopupMenu.cs" Link="UI\Popups\PopupMenu.cs" />
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs" Link="UI\Popups\UICommand.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBar.cs" Link="UI\ViewManagement\StatusBar.cs" />
     <Compile Include="..\..\Source\InTheHand\UI\ViewManagement\StatusBarProgressIndicator.cs" Link="UI\ViewManagement\StatusBarProgressIndicator.cs" />
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs" Link="WindowsRuntimeStorageExtensions.cs" />
@@ -219,13 +184,8 @@
     <Folder Include="ApplicationData\Email\" />
     <Folder Include="ApplicationData\Store\" />
     <Folder Include="ApplicationData\Resources\" />
-    <Folder Include="Collections\Generic\" />
     <Folder Include="Data\Html\" />
-    <Folder Include="Devices\Bluetooth\GenericAttributeProfile\" />
-    <Folder Include="Devices\Bluetooth\Rfcomm\" />
-    <Folder Include="Devices\Enumeration\" />
     <Folder Include="Devices\Geolocation\Geofencing\" />
-    <Folder Include="Devices\Radio\" />
     <Folder Include="Devices\Sensors\" />
     <Folder Include="Foundation\Collections\" />
     <Folder Include="Foundation\Metadata\" />

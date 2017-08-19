@@ -20,6 +20,7 @@ namespace InTheHand
     /// <item><term>Android</term><description>Android 4.4 and later</description></item>
     /// <item><term>iOS</term><description>iOS 9.0 and later</description></item>
     /// <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+    /// <item><term>Tizen</term><description>Tizen 3.0</description></item>
     /// <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
     /// <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
     /// <item><term>Windows UWP</term><description>Windows 10</description></item>
@@ -30,6 +31,9 @@ namespace InTheHand
     /// </remarks>
     public static class DateTimeOffsetHelper
     {
+
+        // Unix Conversions in .NET Standard 1.3
+
         private static DateTimeOffset dt = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
         /// <summary>

@@ -183,182 +183,8 @@
     <None Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
       <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
     </None>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.Android.cs">
-      <Link>Devices\Bluetooth\BluetoothAdapter.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAdapter.cs">
-      <Link>Devices\Bluetooth\BluetoothAdapter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothAddressType.cs">
-      <Link>Devices\Bluetooth\BluetoothAddressType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothCacheMode.cs">
-      <Link>Devices\Bluetooth\BluetoothCacheMode.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothClassOfDevice.cs">
-      <Link>Devices\Bluetooth\BluetoothClassOfDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothConnectionStatus.cs">
-      <Link>Devices\Bluetooth\BluetoothConnectionStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.Android.cs">
-      <Link>Devices\Bluetooth\BluetoothDevice.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothDevice.cs">
-      <Link>Devices\Bluetooth\BluetoothDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothError.cs">
-      <Link>Devices\Bluetooth\BluetoothError.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.Android.cs">
-      <Link>Devices\Bluetooth\BluetoothLEDevice.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
-      <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMajorClass.cs">
-      <Link>Devices\Bluetooth\BluetoothMajorClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothMinorClass.cs">
-      <Link>Devices\Bluetooth\BluetoothMinorClass.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothServiceCapabilities.cs">
-      <Link>Devices\Bluetooth\BluetoothServiceCapabilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothUuidHelper.cs">
-      <Link>Devices\Bluetooth\BluetoothUuidHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.Android.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.Android.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.Android.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptorsResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptorUuids.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.Android.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.Bytes.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.Bytes.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattWriteOption.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.Android.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommDeviceServicesResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\Rfcomm\RfcommServiceId.Portable.cs">
-      <Link>Devices\Bluetooth\Rfcomm\RfcommServiceId.Portable.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceAccessState.cs">
-      <Link>Devices\Enumeration\DeviceAccessState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.Android.cs">
-      <Link>Devices\Enumeration\DeviceInformation.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
-      <Link>Devices\Enumeration\DeviceInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCustomPairing.cs">
-      <Link>Devices\Enumeration\DeviceInformationCustomPairing.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.Android.cs">
-      <Link>Devices\Enumeration\DeviceInformationPairing.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationPairing.cs">
-      <Link>Devices\Enumeration\DeviceInformationPairing.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingKinds.cs">
-      <Link>Devices\Enumeration\DevicePairingKinds.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingRequestedEventArgs.cs">
-      <Link>Devices\Enumeration\DevicePairingRequestedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePairingResult.cs">
-      <Link>Devices\Enumeration\DevicePairingResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.Android.cs">
-      <Link>Devices\Enumeration\DevicePicker.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePicker.cs">
-      <Link>Devices\Enumeration\DevicePicker.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerAppearance.cs">
-      <Link>Devices\Enumeration\DevicePickerAppearance.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DevicePickerFilter.cs">
-      <Link>Devices\Enumeration\DevicePickerFilter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceSelectedEventArgs.cs">
-      <Link>Devices\Enumeration\DeviceSelectedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResult.cs">
-      <Link>Devices\Enumeration\DeviceUnpairingResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceUnpairingResultStatus.cs">
-      <Link>Devices\Enumeration\DeviceUnpairingResultStatus.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.Android.cs">
-      <Link>Devices\Radios\Radio.Android.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\Radio.cs">
-      <Link>Devices\Radios\Radio.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioAccessState.cs">
-      <Link>Devices\Radios\RadioAccessState.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioKind.cs">
-      <Link>Devices\Radios\RadioKind.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Radios\RadioState.cs">
-      <Link>Devices\Radios\RadioState.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Environment.cs">
       <Link>Environment.cs</Link>
@@ -456,6 +282,15 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
       <Link>Storage\FileProperties\BasicProperties.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.Android.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.Android.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs">
+      <Link>Storage\FileProperties\ThumbnailMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>
     </Compile>
@@ -476,6 +311,12 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
       <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.Android.cs">
+      <Link>Storage\Pickers\FileOpenPicker.Android.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
+      <Link>Storage\Pickers\FileOpenPicker.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
       <Link>Storage\StorageDeleteOption.cs</Link>
