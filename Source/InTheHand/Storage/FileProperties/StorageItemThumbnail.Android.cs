@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using Android.Graphics;
 using Android.Media;
 using Java.Nio;
 using System;
@@ -14,21 +15,41 @@ namespace InTheHand.Storage.FileProperties
 {
     partial class StorageItemThumbnail
     {
-        private MemoryStream _stream;
+        private global::System.IO.Stream _stream;
 
         private static ThumbnailUtils s_utils = new ThumbnailUtils();
-        internal static async Task<StorageItemThumbnail> CreateVideoAsync(StorageFile file)
+        internal static async Task<StorageItemThumbnail> CreateVideoThumbnailAsync(StorageFile file)
         {
             var bmp = await ThumbnailUtils.CreateVideoThumbnailAsync(file.Path, Android.Provider.ThumbnailKind.MiniKind);
-            var rawBuffer = new byte[bmp.ByteCount];
-            var buffer = ByteBuffer.Wrap(rawBuffer);
-            await bmp.CopyPixelsToBufferAsync(buffer);
-            return new StorageItemThumbnail(rawBuffer);
+            MemoryStream stream = new MemoryStream();
+            await bmp.CompressAsync(Bitmap.CompressFormat.Jpeg, 90, stream);
+            stream.Seek(0, SeekOrigin.Begin);
+            return new StorageItemThumbnail(stream);
         }
 
-        internal StorageItemThumbnail(byte[] data)
+        internal static async Task<StorageItemThumbnail> CreatePhotoThumbnailAsync(StorageFile file)
         {
-            _stream = new MemoryStream(data);
+            var bmp = await ThumbnailUtils.ExtractThumbnailAsync(await BitmapFactory.DecodeFileAsync(file.Path), 240, 240, ThumnailExtractOptions.None);
+            MemoryStream stream = new MemoryStream();
+            await bmp.CompressAsync(Bitmap.CompressFormat.Jpeg, 90, stream);
+            stream.Seek(0, SeekOrigin.Begin);
+            return new StorageItemThumbnail(stream);
+        }
+
+        internal StorageItemThumbnail(global::System.IO.Stream stream)
+        {
+            _stream = stream;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if(_stream != null)
+            {
+                _stream.Dispose();
+                _stream = null;
+            }
+
+            base.Dispose(disposing);
         }
 
         private long GetLength()

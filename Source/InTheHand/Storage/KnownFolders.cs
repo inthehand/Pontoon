@@ -48,9 +48,7 @@ namespace InTheHand.Storage
             get
             {
 #if __ANDROID__
-                var t = StorageFolder.GetFolderFromPathAsync(Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim).AbsolutePath);
-                t.Wait();
-                return t.Result;
+                return GetCameraRoll();
 
 #elif TIZEN
                 return GetStorageFolderForDirectoryType(Tizen.System.DirectoryType.Camera);
@@ -162,19 +160,6 @@ namespace InTheHand.Storage
             var t = StorageFolder.GetFolderFromPathAsync(path);
             t.Wait();
             return t.Result;
-        }
-#elif TIZEN
-        private static StorageFolder GetStorageFolderForDirectoryType(Tizen.System.DirectoryType type)
-        {
-            foreach (Tizen.System.Storage s in Tizen.System.StorageManager.Storages)
-            {
-                if (s.State == Tizen.System.StorageState.Mounted)
-                {
-                    return new StorageFolder(s.GetAbsolutePath(type));
-                }
-            }
-
-            return null;
         }
 #endif
     }

@@ -297,14 +297,11 @@
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs">
       <Link>Storage\IStorageFolder.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs">
-      <Link>Storage\IStorageFolder2.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem.cs">
       <Link>Storage\IStorageItem.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem2.cs">
-      <Link>Storage\IStorageItem2.cs</Link>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.Android.cs">
+      <Link>Storage\KnownFolders.Android.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
       <Link>Storage\KnownFolders.cs</Link>

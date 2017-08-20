@@ -60,5 +60,18 @@ namespace InTheHand.Storage
         /// Gets the full file-system path of the item, if the item has a path.
         /// </summary>
         string Path { get; }
+
+        /// <summary>
+        /// Gets the parent folder of the current storage item.
+        /// </summary>
+        /// <returns></returns>
+        Task<StorageFolder> GetParentAsync();
+
+        /// <summary>
+        /// Indicates whether the current item is the same as the specified item.
+        /// </summary>
+        /// <param name="item">The <see cref="IStorageItem"/> object that represents a storage item to compare against.</param>
+        /// <returns>Returns true if the current storage item is the same as the specified storage item; otherwise false.</returns>
+        bool IsEqual(IStorageItem item);
     }
 }

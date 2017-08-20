@@ -55,6 +55,7 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return PathIO.AppendLinesAsync(file.Path, lines, encoding);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.FileIO.AppendLinesAsync((Windows.Storage.StorageFile)((StorageFile)file), lines, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
 #elif WINDOWS_PHONE

@@ -306,6 +306,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs">
       <Link>Storage\FileProperties\StorageItemThumbnail.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.Unified.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.Unified.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs">
       <Link>Storage\FileProperties\ThumbnailMode.cs</Link>
     </Compile>

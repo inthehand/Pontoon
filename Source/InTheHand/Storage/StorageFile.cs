@@ -34,7 +34,7 @@ namespace InTheHand.Storage
     /// <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
     /// <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
     /// </remarks>
-    public sealed class StorageFile : IStorageFile, IStorageItem, IStorageItem2
+    public sealed class StorageFile : IStorageFile, IStorageItem
     {
         /// <summary>
         /// Gets a StorageFile object to represent the file at the specified path.
@@ -208,15 +208,24 @@ namespace InTheHand.Storage
 
         public Task<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
         {
-#if __ANDROID__
-            if (mode == ThumbnailMode.VideosView)
+#if WINDOWS_UWP
+            return Task.Run<StorageItemThumbnail>(async () =>
             {
-                return StorageItemThumbnail.CreateVideoAsync(this);
+                return await _file.GetThumbnailAsync((Windows.Storage.FileProperties.ThumbnailMode)mode);
+            });
+
+#else
+            if (ContentType.StartsWith("video"))
+            {
+                return StorageItemThumbnail.CreateVideoThumbnailAsync(this);
+            }
+
+            else if(ContentType.StartsWith("image"))
+            {
+                return StorageItemThumbnail.CreatePhotoThumbnailAsync(this);
             }
 
             return Task.FromResult<StorageItemThumbnail>(null);
-#else
-            return null;
 #endif
         }
 
@@ -462,7 +471,7 @@ namespace InTheHand.Storage
                 }
                 else
                 {
-                    return MimeTypeMap.Singleton.GetMimeTypeFromExtension(FileType.ToLower());
+                    return MimeTypeMap.Singleton.GetMimeTypeFromExtension(FileType.Substring(1).ToLower());
                 }
 
 #elif TIZEN

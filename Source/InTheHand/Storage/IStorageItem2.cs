@@ -4,6 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 
 namespace InTheHand.Storage
@@ -11,6 +12,7 @@ namespace InTheHand.Storage
     /// <summary>
     /// Manipulates storage items (files and folders) and their contents, and provides information about them.
     /// </summary>
+    [Obsolete("Use IStorageItem", true)]
     public interface IStorageItem2 : IStorageItem
     {
         /// <summary>

@@ -250,6 +250,9 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs">
       <Link>Storage\FileProperties\StorageItemThumbnail.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.Portable.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.Portable.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs">
       <Link>Storage\FileProperties\ThumbnailMode.cs</Link>
     </Compile>
@@ -270,6 +273,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
       <Link>Storage\KnownFolders.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.Tizen.cs">
+      <Link>Storage\KnownFolders.Tizen.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\NameCollisionOption.cs">
       <Link>Storage\NameCollisionOption.cs</Link>

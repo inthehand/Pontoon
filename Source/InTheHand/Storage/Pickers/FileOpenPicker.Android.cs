@@ -39,7 +39,11 @@ namespace InTheHand.Storage.Pickers
                 base.OnActivityResult(requestCode, resultCode, data);
 
                 // TODO: get true path from content: uri
-                _path = data.Data.ToString();
+                if (resultCode == Result.Ok)
+                {
+                    _path = data.Data.ToString();
+                }
+
                 _handle.Set();
 
                 Finish();

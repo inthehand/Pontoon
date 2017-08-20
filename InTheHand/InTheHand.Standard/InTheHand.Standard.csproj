@@ -122,6 +122,7 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileIO.cs" Link="Storage\FileIO.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs" Link="Storage\FileProperties\BasicProperties.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs" Link="Storage\FileProperties\StorageItemThumbnail.cs" />
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.Portable.cs" Link="Storage\FileProperties\StorageItemThumbnail.Portable.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs" Link="Storage\FileProperties\ThumbnailMode.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs" Link="Storage\IStorageFile.cs" />
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs" Link="Storage\IStorageFolder.cs" />
