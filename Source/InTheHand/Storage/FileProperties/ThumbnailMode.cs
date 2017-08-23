@@ -4,18 +4,26 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-using System;
-using System.IO;
-
 namespace InTheHand.Storage.FileProperties
 {
+    /// <summary>
+    /// Describes the purpose of the thumbnail to determine how to adjust the thumbnail image to retrieve.
+    /// </summary>
     public enum ThumbnailMode
     {
-        PicturesView = 0,
-        VideosView = 1,
-        MusicView = 2,
-        DocumentsView = 3,
+        /// <summary>
+        /// To display previews of picture or video files.
+        /// </summary>
+        MediaView = 0,
+
+        /// <summary>
+        /// To display previews of files (or other items) in a list.
+        /// </summary>
         ListView = 4,
+
+        /// <summary>
+        /// To display a preview of any single item (like a file, folder, or file group).
+        /// </summary>
         SingleItem = 5,
     }
 }

@@ -20,14 +20,11 @@ namespace InTheHand.UI.ViewManagement
         /// </summary>
         Foreground = 1,
 
-        //AccentDark3 | accentDark3
-        //2
+        //AccentDark3 = 2,
         //The darkest accent color.
-        //AccentDark2 | accentDark2
-        //3
+        //AccentDark2 = 3,
         //The darker accent color.
-        //AccentDark1 | accentDark1
-        //4
+        //AccentDark1 = 4,
         //The dark accent color.
 
         /// <summary>
@@ -35,14 +32,11 @@ namespace InTheHand.UI.ViewManagement
         /// </summary>
         Accent = 5,
 
-        //AccentLight1 | accentLight1
-        //6
+        //AccentLight1 = 6,
         //The light accent color.
-        //AccentLight2 | accentLight2
-        //7
+        //AccentLight2 = 7,
         //The lighter accent color.
-        //AccentLight3 | accentLight3
-        //8
+        //AccentLight3 = 8,
         //The lightest accent color.
     }
 }
