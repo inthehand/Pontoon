@@ -208,7 +208,7 @@ namespace InTheHand.Storage
 
         public Task<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
         {
-#if WINDOWS_UWP
+#if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
             return Task.Run<StorageItemThumbnail>(async () =>
             {
                 return await _file.GetThumbnailAsync((Windows.Storage.FileProperties.ThumbnailMode)mode);

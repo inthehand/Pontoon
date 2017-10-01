@@ -266,7 +266,8 @@ namespace InTheHand.Devices.Geolocation
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _locator.MovementThreshold;
 #elif __UNIFIED__
-                return _manager.DistanceFilter;
+                return _movementThreshold;
+
 #elif TIZEN
                 return _locator.Distance;
 #else
@@ -285,6 +286,7 @@ namespace InTheHand.Devices.Geolocation
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 _locator.MovementThreshold = value;
 #elif __UNIFIED__
+                _movementThreshold = value;
                 _manager.DistanceFilter = value;
 #elif TIZEN
                 if(0 > value || value > 120)

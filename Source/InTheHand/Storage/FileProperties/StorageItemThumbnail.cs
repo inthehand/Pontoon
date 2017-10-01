@@ -19,7 +19,17 @@ namespace InTheHand.Storage.FileProperties
 
         public override long Length => GetLength();
 
-        public override long Position { get => GetPosition(); set => SetPosition(value); }
+        public override long Position
+        {
+            get
+            {
+                return GetPosition();
+            }
+            set
+            {
+                SetPosition(value);
+            }
+        }
 
         public override void Flush()
         {
