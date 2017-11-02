@@ -28,7 +28,7 @@ namespace InTheHand.Storage.FileProperties
         
         internal static async Task<StorageItemThumbnail> CreateVideoThumbnailAsync(StorageFile file)
         {
-            AVAsset asset = AVUrlAsset.FromUrl(NSUrl.FromString(file.Path));
+            AVAsset asset = AVUrlAsset.FromUrl(NSUrl.FromFilename(file.Path));
             AVAssetImageGenerator generator = AVAssetImageGenerator.FromAsset(asset);
             NSError error;
             CMTime actualTime;
