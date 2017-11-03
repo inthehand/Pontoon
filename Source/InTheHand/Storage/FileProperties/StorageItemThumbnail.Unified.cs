@@ -30,6 +30,7 @@ namespace InTheHand.Storage.FileProperties
         {
             AVAsset asset = AVUrlAsset.FromUrl(NSUrl.FromFilename(file.Path));
             AVAssetImageGenerator generator = AVAssetImageGenerator.FromAsset(asset);
+            generator.AppliesPreferredTrackTransform = true;
             NSError error;
             CMTime actualTime;
             CMTime time = CMTime.FromSeconds(asset.Duration.Seconds / 2, asset.Duration.TimeScale);
