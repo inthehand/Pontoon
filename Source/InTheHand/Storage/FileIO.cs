@@ -58,6 +58,7 @@ namespace InTheHand.Storage
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.FileIO.AppendLinesAsync((Windows.Storage.StorageFile)((StorageFile)file), lines, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
             {
@@ -99,8 +100,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return PathIO.AppendTextAsync(file.Path, contents, encoding);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.FileIO.AppendTextAsync((Windows.Storage.StorageFile)((StorageFile)file), contents, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
             {
@@ -137,8 +140,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return PathIO.ReadLinesAsync(file.Path, encoding);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.FileIO.ReadLinesAsync((Windows.Storage.StorageFile)((StorageFile)file), (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run<IList<string>>(async () =>
             {
@@ -177,8 +182,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return PathIO.ReadTextAsync(file.Path, encoding);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.FileIO.ReadTextAsync((Windows.Storage.StorageFile)((StorageFile)file), (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run<string>(async () =>
             {
@@ -213,8 +220,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return PathIO.WriteLinesAsync(file.Path, lines, encoding);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.FileIO.WriteLinesAsync((Windows.Storage.StorageFile)((StorageFile)file), lines, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
             {
@@ -254,8 +263,10 @@ namespace InTheHand.Storage
         {
 #if __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
             return PathIO.WriteTextAsync(file.Path, contents, encoding);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             return Windows.Storage.FileIO.WriteTextAsync((Windows.Storage.StorageFile)((StorageFile)file), contents, (Windows.Storage.Streams.UnicodeEncoding)((int)encoding)).AsTask();
+
 #elif WINDOWS_PHONE
             return Task.Run(async () =>
             {
