@@ -31,7 +31,7 @@ namespace InTheHand
     /// <seealso cref="global::System.Environment"/>
     public static class Environment
     {
-        private static OperatingSystem _operatingSystem;
+        private static OperatingSystem _operatingSystem = null;
         /// <summary>
         /// Gets an OperatingSystem object that contains the current platform identifier and version number.
         /// </summary>

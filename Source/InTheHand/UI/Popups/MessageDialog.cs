@@ -16,6 +16,8 @@ using Android.Content.Res;
 using UIKit;
 #elif __MAC__
 using AppKit;
+#elif __WATCHOS__
+using WatchKit;
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -205,7 +207,6 @@ namespace InTheHand.UI.Popups
                 _handle.WaitOne();
                 return _selectedCommand;
             });
-
 #elif WINDOWS_PHONE
             List<string> buttons = new List<string>();
             foreach(IUICommand uic in Commands)

@@ -183,7 +183,7 @@ namespace InTheHand.Storage
                 return f == null ? null : new StorageFolder(f);
             });
 #else
-            return CreateFolderAsync(desiredName);
+            return CreateFolderAsync(desiredName, CreationCollisionOption.FailIfExists);
 #endif
         }
 
@@ -616,6 +616,7 @@ namespace InTheHand.Storage
 
                 return null;
             });
+
 #elif WINDOWS_PHONE
             return Task.Run<IStorageItem>(async () =>
             {
@@ -695,8 +696,10 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return (FileAttributes)((int)_folder.Attributes);
+
 #elif __ANDROID__ || __UNIFIED__  || WIN32 || TIZEN
                 return FileAttributesHelper.FromIOFileAttributes(global::System.IO.File.GetAttributes(Path));
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -712,11 +715,13 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _folder.DateCreated;
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 var utc = global::System.IO.Directory.GetCreationTimeUtc(Path);
                 var local = global::System.IO.Directory.GetCreationTime(Path);
                 var offset = local - utc;
                 return new DateTimeOffset(local, offset);
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -732,8 +737,10 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _folder.Name;
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return global::System.IO.Path.GetDirectoryName(Path);
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -749,8 +756,10 @@ namespace InTheHand.Storage
             {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                 return _folder.Path;
+
 #elif __ANDROID__ || __UNIFIED__ || WIN32 || TIZEN
                 return _path;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
