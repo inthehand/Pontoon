@@ -206,6 +206,11 @@ namespace InTheHand.Storage
 #endif
         }
 
+        /// <summary>
+        /// Retrieves an adjusted thumbnail image for the file, determined by the purpose of the thumbnail.
+        /// </summary>
+        /// <param name="mode">The enum value that describes the purpose of the thumbnail and determines how the thumbnail image is adjusted.</param>
+        /// <returns>When this method completes successfully, it returns a <see cref="StorageItemThumbnail"/> that represents the thumbnail image or null if there is no thumbnail image associated with the file.</returns>
         public Task<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE

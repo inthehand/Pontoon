@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
 // <copyright file="BadgeUpdater.iOS.cs" company="In The Hand Ltd">
-//     Copyright © 2017 In The Hand Ltd. All rights reserved.
+//     Copyright © 2017-18 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -34,10 +34,8 @@ namespace InTheHand.UI.Notifications
             if (s_granted)
             {
                 var content = new UNMutableNotificationContent();
-#if !__TVOS__
-                content.Title = "Badge";
-#endif
                 content.Badge = -1;
+
                 UNUserNotificationCenter.Current.AddNotificationRequest(UNNotificationRequest.FromIdentifier(Guid.NewGuid().ToString(), content, null), null);
             }
         }

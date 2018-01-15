@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="BadgeNotification.iOS.cs" company="In The Hand Ltd">
-//     Copyright © 2014-17 In The Hand Ltd. All rights reserved.
+//     Copyright © 2014-18 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -20,9 +20,6 @@ namespace InTheHand.UI.Notifications
         internal BadgeNotification(uint value)
         {
             _content = new UNMutableNotificationContent();
-#if !__TVOS__
-            _content.Title = "Badge";
-#endif
             _content.Badge = value;
         }
     }

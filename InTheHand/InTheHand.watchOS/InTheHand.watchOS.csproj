@@ -234,6 +234,18 @@
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\ToastNotifier.iOS.cs">
       <Link>UI\Notifications\ToastNotifier.iOS.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\IUICommand.cs">
+      <Link>UI\Popups\IUICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
+      <Link>UI\Popups\MessageDialog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\UIAlertDelegate.cs">
+      <Link>UI\Popups\UIAlertDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
+      <Link>UI\Popups\UICommand.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>
     </Compile>

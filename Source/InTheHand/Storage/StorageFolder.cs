@@ -429,6 +429,11 @@ namespace InTheHand.Storage
 #endif
         }
 
+        /// <summary>
+        /// Gets the file or folder with the specified name from the current folder.
+        /// </summary>
+        /// <param name="name">The name (or path relative to the current folder) of the file or folder to get.</param>
+        /// <returns></returns>
         public Task<IStorageItem> GetItemAsync(string name)
         {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
