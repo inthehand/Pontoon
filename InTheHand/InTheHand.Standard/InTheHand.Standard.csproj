@@ -55,8 +55,6 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Email\EmailRecipient.cs" Link="ApplicationData\Email\EmailRecipient.cs" />
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Package.cs" Link="ApplicationData\Package.cs" />
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs" Link="ApplicationData\PackageId.cs" />
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs" Link="ApplicationData\PackageVersion.cs" />
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs" Link="ApplicationData\PackageVersionExtensions.cs" />
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Resources\ResourceLoader.cs" Link="ApplicationData\Resources\ResourceLoader.cs" />
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Store\CurrentApp.cs" Link="ApplicationData\Store\CurrentApp.cs" />
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs" Link="Collections\Generic\ListExtensions.cs" />

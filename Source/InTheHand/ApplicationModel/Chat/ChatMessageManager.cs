@@ -71,6 +71,7 @@ namespace InTheHand.ApplicationModel.Chat
                 Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.StartActivity(smsIntent);
                 //Platform.Android.ContextManager.Context.StartActivity(smsIntent);
             });
+
 #elif __IOS__
             return ShowComposeSmsMessageAsyncImpl(message);
             
@@ -83,6 +84,7 @@ namespace InTheHand.ApplicationModel.Chat
             m.Body = message.Body;
 
             return Windows.ApplicationModel.Chat.ChatMessageManager.ShowComposeSmsMessageAsync(m).AsTask();
+
 #elif WINDOWS_APP || WIN32 || __MAC__
             return Task.Run(async () =>
             {
@@ -118,6 +120,7 @@ namespace InTheHand.ApplicationModel.Chat
 
                 await InTheHand.System.Launcher.LaunchUriAsync(new Uri(sb.ToString()));
             });
+
 #elif WINDOWS_PHONE
             return Task.Run(() =>
             {
@@ -140,6 +143,7 @@ namespace InTheHand.ApplicationModel.Chat
                 composeTask.To = recipients.ToString();
                 composeTask.Show();
             });
+
 #else
             throw new PlatformNotSupportedException();
 #endif

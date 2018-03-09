@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PackageId.cs" company="In The Hand Ltd">
-//   Copyright (c) 2013-17 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2013-18 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides package identification info, such as name, version, and publisher.
@@ -153,14 +153,19 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return _packageInfo.PackageName;
+
 #elif __UNIFIED__
-                return NSBundle.MainBundle.InfoDictionary["CFBundleExecutable"].ToString();
+                return NSBundle.MainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 return _packageId.Name;
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.DisplayName;
+
 #elif WIN32
                 return AssemblyManifest.Current.Title;
+
 #elif TIZEN
                 return _info.Label;
 #else
@@ -179,12 +184,19 @@ namespace InTheHand.ApplicationModel
             {
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return AppxManifest.Current.PhoneProductId.ToString();
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.ProductID;
+
 #elif WIN32
                 return AssemblyManifest.Current.Guid.ToString();
+
+#elif __UNIFIED__
+                return NSBundle.MainBundle.InfoDictionary["CFBundleIdentifier"].ToString();
+
 #elif TIZEN
                 return _info.ApplicationId;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -215,25 +227,30 @@ namespace InTheHand.ApplicationModel
         /// Gets the package version info.
         /// </summary>
         /// <value>The package version information.</value>
-        public PackageVersion Version
+        public Version Version
         {
 
             get
             {
 #if __ANDROID__
-                return global::System.Version.Parse(_packageInfo.VersionName).ToPackageVersion();
+                return Version.Parse(_packageInfo.VersionName);
+
 #elif __UNIFIED__
                 string rawVersion = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
                 // TODO: use Regex to replace alpha char with period
                 string cleanVersion = rawVersion.Replace('a', '.').Replace('b','.').Replace('d','.').Replace("fc", ".");
 
-                return global::System.Version.Parse(cleanVersion).ToPackageVersion();
+                return Version.Parse(cleanVersion);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _packageId.Version;
+                return _packageId.Version.ToVersion();
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.Version;
+
 #elif WIN32
-                return AssemblyManifest.Current.AssemblyVersion.ToPackageVersion();
+                return AssemblyManifest.Current.AssemblyVersion;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif

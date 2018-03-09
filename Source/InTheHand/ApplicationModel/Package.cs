@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Package.cs" company="In The Hand Ltd">
-//   Copyright (c) 2013-17 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2013-18 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides information about an app package.
@@ -69,8 +69,10 @@ namespace InTheHand.ApplicationModel
 
 #if __ANDROID__
         PackageInfo _packageInfo;
+
 #elif __UNIFIED__
         NSBundle _mainBundle;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
         Windows.ApplicationModel.Package _package;
 
@@ -83,6 +85,7 @@ namespace InTheHand.ApplicationModel
         {
             return new Package();
         }
+
 #elif TIZEN
         Tizen.Applications.ApplicationInfo _info;
 #endif
@@ -91,10 +94,13 @@ namespace InTheHand.ApplicationModel
         {
 #if __ANDROID__
             _packageInfo = Android.App.Application.Context.PackageManager.GetPackageInfo(Android.App.Application.Context.PackageName, PackageInfoFlags.MetaData);
+
 #elif __UNIFIED__
             _mainBundle = NSBundle.MainBundle;
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
             _package = Windows.ApplicationModel.Package.Current;
+
 #elif TIZEN
             _info = Tizen.Applications.Application.Current.ApplicationInfo;
 #endif
@@ -109,12 +115,16 @@ namespace InTheHand.ApplicationModel
             {
 #if WINDOWS_UWP || WINDOWS_APP
                 return _package.Description;
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return AppxManifest.Current.Description;
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.Description;
+
 #elif WIN32
                 return AssemblyManifest.Current.Description;
+
 #else
                 return string.Empty;
 #endif
@@ -134,14 +144,19 @@ namespace InTheHand.ApplicationModel
                 //return _packageInfo.PackageName;
 #elif __UNIFIED__
                 return _mainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return AppxManifest.Current.DisplayName;
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.DisplayName;
+
 #elif WIN32
                 return AssemblyManifest.Current.Product;
+
 #elif TIZEN
                 return _info.Label;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -162,6 +177,7 @@ namespace InTheHand.ApplicationModel
                 {
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE
                     _id = Windows.ApplicationModel.Package.Current.Id;
+
 #else
                     _id = new PackageId();
 #endif
@@ -180,11 +196,14 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return DateTimeOffsetHelper.FromUnixTimeMilliseconds(_packageInfo.FirstInstallTime);
+
 #elif __UNIFIED__
                 DateTime d = Directory.GetCreationTime(global::System.Environment.GetFolderPath(global::System.Environment.SpecialFolder.MyDocuments));
                 return new DateTimeOffset(d);
+
 #elif WINDOWS_UWP
                 return _package.InstalledDate;
+
 #elif WINDOWS_APP
                 PropertyInfo pi = _package.GetType().GetRuntimeProperty("InstalledDate");
                 if(pi != null)
@@ -193,11 +212,14 @@ namespace InTheHand.ApplicationModel
                     return dt;
                 }
                 return _package.InstalledLocation.DateCreated;
+
 #elif WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 // using the date the folder was created (on initial install)
                 return _package.InstalledLocation.DateCreated;
+
 #elif WIN32
                 return AssemblyManifest.Current.InstalledDate;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -248,10 +270,13 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return Android.App.Application.Context.PackageManager.GetInstallerPackageName(_packageInfo.PackageName) == null;
+
 #elif __UNIFIED__
                 return !File.Exists(_mainBundle.AppStoreReceiptUrl.Path);
+
 #elif WINDOWS_UWP || WINDOWS_APP
                 return _package.IsDevelopmentMode;
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE
                 if (!_isDevelopmentMode.HasValue)
                 {
@@ -278,6 +303,7 @@ namespace InTheHand.ApplicationModel
 #endif
                 }
                 return _isDevelopmentMode.Value;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -293,12 +319,16 @@ namespace InTheHand.ApplicationModel
             {
 #if WINDOWS_UWP || WINDOWS_APP
                 return _package.Logo;
+
 #elif WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return AppxManifest.Current.Logo;
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.Logo;
+
 #elif TIZEN
                 return new Uri("file:///" + _info.IconPath);
+
 #else
                 return null;
 #endif
@@ -315,12 +345,16 @@ namespace InTheHand.ApplicationModel
             {
 #if WINDOWS_UWP || WINDOWS_APP
                 return _package.PublisherDisplayName;
+
 #elif WINDOWS_PHONE_APP
                 return AppxManifest.Current.PublisherDisplayName;
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.PublisherDisplayName;
+
 #elif WIN32
                 return AssemblyManifest.Current.Company;
+
 #else
                 return string.Empty;
 #endif
@@ -328,4 +362,3 @@ namespace InTheHand.ApplicationModel
         }
     }
 }
-//#endif
