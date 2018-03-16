@@ -155,14 +155,19 @@ namespace InTheHand.ApplicationModel
             {
 #if __ANDROID__
                 return _packageInfo.PackageName;
+
 #elif __UNIFIED__
-                return NSBundle.MainBundle.InfoDictionary["CFBundleExecutable"].ToString();
+                return NSBundle.MainBundle.InfoDictionary["CFBundleDisplayName"].ToString();
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_81 || WINDOWS_PHONE_APP
                 return _packageId.Name;
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.DisplayName;
+
 #elif WIN32
                 return AssemblyManifest.Current.Title;
+
 #elif TIZEN
                 return _info.Label;
 #else
@@ -181,12 +186,19 @@ namespace InTheHand.ApplicationModel
             {
 #if WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return AppxManifest.Current.PhoneProductId.ToString();
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.ProductID;
+
 #elif WIN32
                 return AssemblyManifest.Current.Guid.ToString();
+
+#elif __UNIFIED__
+                return NSBundle.MainBundle.InfoDictionary["CFBundleIdentifier"].ToString();
+
 #elif TIZEN
                 return _info.ApplicationId;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif
@@ -223,14 +235,14 @@ namespace InTheHand.ApplicationModel
             get
             {
 #if __ANDROID__
-                return global::System.Version.Parse(_packageInfo.VersionName);
+                return Version.Parse(_packageInfo.VersionName);
 
 #elif __UNIFIED__
                 string rawVersion = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
                 // TODO: use Regex to replace alpha char with period
                 string cleanVersion = rawVersion.Replace('a', '.').Replace('b','.').Replace('d','.').Replace("fc", ".");
 
-                return global::System.Version.Parse(cleanVersion);
+                return Version.Parse(cleanVersion);
 
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _packageId.Version.ToVersion();

@@ -60,10 +60,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
         {
 #if __ANDROID__
             _clipboardManager.PrimaryClip = null;
+
 #elif __IOS__
             UIPasteboard.General.SetData(null, "kUTTypePlainText");
+
 #elif __MAC__
             NSPasteboard.GeneralPasteboard.ClearContents();
+
 #elif WINDOWS_PHONE_APP
             if (_on10)
             {
@@ -73,10 +76,13 @@ namespace InTheHand.ApplicationModel.DataTransfer
             {
                 global::System.Windows.Clipboard.SetText("");
             }
+
 #elif WINDOWS_PHONE
             global::System.Windows.Clipboard.SetText("");
+
 #elif WIN32
             EmptyClipboard();
+
 #else
             throw new PlatformNotSupportedException();
 #endif
@@ -115,6 +121,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
 
                 return package.GetView();
             }
+
 #elif __IOS__
             if(UIPasteboard.General.Count > 0)
             {
@@ -181,6 +188,7 @@ namespace InTheHand.ApplicationModel.DataTransfer
                     return package.GetView();
                 }
             }
+
 #elif WIN32
             string txt = GetText();
             if(!string.IsNullOrEmpty(txt))
