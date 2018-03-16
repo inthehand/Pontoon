@@ -1,10 +1,11 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PackageVersionExtensions.cs" company="In The Hand Ltd">
-//   Copyright (c) 2013-17 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2013-18 In The Hand Ltd, All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
 using System;
+using Windows.ApplicationModel;
 
 namespace InTheHand.ApplicationModel
 {

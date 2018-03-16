@@ -15,7 +15,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -122,12 +122,6 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
-      <Link>ApplicationModel\PackageVersion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
-      <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Resources\ResourceLoader.cs">
       <Link>ApplicationModel\Resources\ResourceLoader.cs</Link>

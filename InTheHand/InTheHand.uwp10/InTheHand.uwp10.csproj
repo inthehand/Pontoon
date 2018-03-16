@@ -185,12 +185,6 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
-      <Link>ApplicationModel\PackageVersion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.WinRT.cs">
-      <Link>ApplicationModel\PackageVersion.WinRT.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
       <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
     </Compile>
@@ -619,7 +613,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.4</Version>
+      <Version>6.0.8</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

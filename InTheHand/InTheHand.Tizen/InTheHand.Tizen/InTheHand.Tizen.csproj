@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Property Group for Tizen Project -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TizenCreateTpkOnBuild>false</TizenCreateTpkOnBuild>
+    <RootNamespace>InTheHand</RootNamespace>
+    <AssemblyName>InTheHand</AssemblyName>
+    <Version>10.2018.3.16</Version>
+    <AssemblyVersion>10.2018.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>portable</DebugType>
+    <DefineConstants>TRACE;DEBUG;TIZEN</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>None</DebugType>
+    <DefineConstants>TRACE;TIZEN</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Source\InTheHand\ApplicationModel\Package.cs" Link="ApplicationModel\Package.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\ApplicationModel\PackageId.cs" Link="ApplicationModel\PackageId.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\CreationCollisionOption.cs" Link="Storage\CreationCollisionOption.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\FileAttributes.cs" Link="Storage\FileAttributes.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\FileAttributesHelper.cs" Link="Storage\FileAttributesHelper.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\FileIO.cs" Link="Storage\FileIO.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs" Link="Storage\FileProperties\BasicProperties.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs" Link="Storage\FileProperties\StorageItemThumbnail.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.Portable.cs" Link="Storage\FileProperties\StorageItemThumbnail.Portable.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs" Link="Storage\FileProperties\ThumbnailMode.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\IStorageFile.cs" Link="Storage\IStorageFile.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\IStorageFolder.cs" Link="Storage\IStorageFolder.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\IStorageFolder2.cs" Link="Storage\IStorageFolder2.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\IStorageItem.cs" Link="Storage\IStorageItem.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\IStorageItem2.cs" Link="Storage\IStorageItem2.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\KnownFolders.cs" Link="Storage\KnownFolders.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\KnownFolders.Tizen.cs" Link="Storage\KnownFolders.Tizen.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\NameCollisionOption.cs" Link="Storage\NameCollisionOption.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\PathIO.cs" Link="Storage\PathIO.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\StorageDeleteOption.cs" Link="Storage\StorageDeleteOption.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\StorageFile.cs" Link="Storage\StorageFile.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\StorageFolder.cs" Link="Storage\StorageFolder.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\StorageItemTypes.cs" Link="Storage\StorageItemTypes.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\Streams\UnicodeEncoding.cs" Link="Storage\Streams\UnicodeEncoding.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\Storage\Streams\UnicodeEncodingHelper.cs" Link="Storage\Streams\UnicodeEncodingHelper.cs" />
+    <Compile Include="..\..\..\Source\InTheHand\System\ProcessorArchitecture.cs" Link="System\ProcessorArchitecture.cs" />
+  </ItemGroup>
+
+  <!-- Include Nuget Package for Tizen Project building -->
+  <ItemGroup>
+    <PackageReference Include="Tizen.NET" Version="4.0.0">
+      <ExcludeAssets>Runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="Tizen.NET.Sdk" Version="1.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ApplicationModel\" />
+    <Folder Include="Storage\FileProperties\" />
+    <Folder Include="Storage\Streams\" />
+    <Folder Include="System\" />
+  </ItemGroup>
+
+</Project>

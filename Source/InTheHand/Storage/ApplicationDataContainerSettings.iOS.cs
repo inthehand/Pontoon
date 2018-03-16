@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="ApplicationDataContainerSettings.iOS.cs" company="In The Hand Ltd">
-//     Copyright (c) 2013-17 In The Hand Ltd. All rights reserved.
+//     Copyright (c) 2013-18 In The Hand Ltd. All rights reserved.
 // </copyright>
 //-----------------------------------------------------------------------
 
@@ -55,9 +55,12 @@ namespace InTheHand.Storage
                 _observer = NSNotificationCenter.DefaultCenter.AddObserver(new NSString("NSUserDefaultsDidChangeNotification"), (n) =>
                 {
                     NSUserDefaults defaults = n.Object as NSUserDefaults;
-                    
-                    // indicate a reset change (because we can't determine the specific key)
-                    _mapChanged?.Invoke(this, new ApplicationDataMapChangedEventArgs(null, CollectionChange.Reset));
+
+                    if (defaults == _defaults)
+                    {
+                        // indicate a reset change (because we can't determine the specific key)
+                        _mapChanged?.Invoke(this, new ApplicationDataMapChangedEventArgs(null, CollectionChange.Reset));
+                    }
                 });
             }
         }
@@ -154,6 +157,7 @@ namespace InTheHand.Storage
                             _defaults.SetString(value.ToString(), key);
                         }
                         break;
+
                     case TypeCode.Int32:
                         if (IsRoaming)
                         {
@@ -164,6 +168,7 @@ namespace InTheHand.Storage
                             _defaults.SetInt((int)value, key);
                         }
                         break;
+
                     case TypeCode.Double:
                         if (IsRoaming)
                         {
@@ -174,6 +179,7 @@ namespace InTheHand.Storage
                             _defaults.SetDouble((double)value, key);
                         }
                         break;
+
                     case TypeCode.Single:
                         if (IsRoaming)
                         {
@@ -184,6 +190,7 @@ namespace InTheHand.Storage
                             _defaults.SetFloat((float)value, key);
                         }
                         break;
+
                     case TypeCode.Boolean:
                         if (IsRoaming)
                         {
@@ -211,7 +218,7 @@ namespace InTheHand.Storage
         
         private void DoClear()
         {
-#if __IOS__ || __TVOS__
+#if __IOS__ || __TVOS__ || __WATCHOS__
             if (IsRoaming)
             {
                 _store.Init();
@@ -234,6 +241,11 @@ namespace InTheHand.Storage
             }
 
             return false;
+        }
+
+        private int GetCount()
+        {
+            return (int)_store.ToDictionary().Count;
         }
 
         private ICollection<string> GetKeys()

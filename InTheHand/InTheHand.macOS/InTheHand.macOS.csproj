@@ -96,12 +96,6 @@
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageId.cs">
       <Link>ApplicationModel\PackageId.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersion.cs">
-      <Link>ApplicationModel\PackageVersion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\PackageVersionExtensions.cs">
-      <Link>ApplicationModel\PackageVersionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Collections\Generic\ListExtensions.cs">
       <Link>Collections\Generic\ListExtensions.cs</Link>
     </Compile>

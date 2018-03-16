@@ -1,6 +1,6 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="PackageId.cs" company="In The Hand Ltd">
-//   Copyright (c) 2013-17 In The Hand Ltd, All rights reserved.
+//   Copyright (c) 2013-18 In The Hand Ltd, All rights reserved.
 // </copyright>
 // <summary>
 //   Provides package identification info, such as name, version, and publisher.
@@ -17,6 +17,8 @@ using InTheHand.System;
 #if __ANDROID__
 using Android.App;
 using Android.Content.PM;
+#elif WINDOWS_UWP
+using InTheHand.ApplicationModel;
 #elif __UNIFIED__
 using Foundation;
 #endif
@@ -215,25 +217,32 @@ namespace InTheHand.ApplicationModel
         /// Gets the package version info.
         /// </summary>
         /// <value>The package version information.</value>
-        public PackageVersion Version
+        public Version Version
         {
 
             get
             {
 #if __ANDROID__
-                return global::System.Version.Parse(_packageInfo.VersionName).ToPackageVersion();
+                return global::System.Version.Parse(_packageInfo.VersionName);
+
 #elif __UNIFIED__
                 string rawVersion = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
                 // TODO: use Regex to replace alpha char with period
                 string cleanVersion = rawVersion.Replace('a', '.').Replace('b','.').Replace('d','.').Replace("fc", ".");
 
-                return global::System.Version.Parse(cleanVersion).ToPackageVersion();
+                return global::System.Version.Parse(cleanVersion);
+
 #elif WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
-                return _packageId.Version;
+                return _packageId.Version.ToVersion();
+
 #elif WINDOWS_PHONE
                 return WMAppManifest.Current.Version;
+
 #elif WIN32
-                return AssemblyManifest.Current.AssemblyVersion.ToPackageVersion();
+                return AssemblyManifest.Current.AssemblyVersion;
+
+#elif TIZEN
+                return global::System.Version.Parse(Tizen.Applications.PackageManager.GetPackage(_info.PackageId).Version);
 #else
                 throw new PlatformNotSupportedException();
 #endif

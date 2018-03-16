@@ -198,6 +198,7 @@ namespace InTheHand.ApplicationModel
                 return _package.InstalledLocation.DateCreated;
 #elif WIN32
                 return AssemblyManifest.Current.InstalledDate;
+
 #else
                 throw new PlatformNotSupportedException();
 #endif

@@ -15,7 +15,7 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,17 +57,17 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.Android.cs">
+      <Link>ApplicationModel\Calls\PhoneCallManager.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallManager.cs">
       <Link>ApplicationModel\Calls\PhoneCallManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneCallStore.cs">
-      <Link>ApplicationModel\Calls\PhoneCallStore.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Calls\PhoneLine.cs">
-      <Link>ApplicationModel\Calls\PhoneLine.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessage.cs">
       <Link>ApplicationModel\Chat\ChatMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.Android.cs">
+      <Link>ApplicationModel\Chat\ChatMessageManager.Android.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\ApplicationModel\Chat\ChatMessageManager.cs">
       <Link>ApplicationModel\Chat\ChatMessageManager.cs</Link>
@@ -183,42 +183,6 @@
     <None Include="..\..\Source\InTheHand\Devices\Geolocation\StatusChangedEventArgs.cs">
       <Link>Devices\Geolocation\StatusChangedEventArgs.cs</Link>
     </None>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\BluetoothLEDevice.cs">
-      <Link>Devices\Bluetooth\BluetoothLEDevice.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristic.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicProperties.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCharacteristicUuids.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattCommunicationStatus.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDescriptor.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattDeviceService.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattReadResult.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattServiceUuids.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs">
-      <Link>Devices\Bluetooth\GenericAttributeProfile\GattValueChangedEventArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformation.cs">
-      <Link>Devices\Enumeration\DeviceInformation.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\InTheHand\Devices\Enumeration\DeviceInformationCollection.cs">
-      <Link>Devices\Enumeration\DeviceInformationCollection.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Devices\Input\KeyboardCapabilities.cs">
       <Link>Devices\Input\KeyboardCapabilities.cs</Link>
     </Compile>
@@ -249,8 +213,14 @@
     <Compile Include="..\..\Source\InTheHand\Graphics\Display\DisplayOrientations.cs">
       <Link>Graphics\Display\DisplayOrientations.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\MathHelper.cs">
+      <Link>MathHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUI.cs">
       <Link>Media\Capture\CameraCaptureUI.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Media\Capture\CameraCaptureUIMode.cs">
+      <Link>Media\Capture\CameraCaptureUIMode.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\ConnectionProfile.cs">
       <Link>Networking\Connectivity\ConnectionProfile.cs</Link>
@@ -263,6 +233,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Networking\Connectivity\NetworkStatusChangedEventHandler.cs">
       <Link>Networking\Connectivity\NetworkStatusChangedEventHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Networking\Sockets\NetworkStream.cs">
+      <Link>Networking\Sockets\NetworkStream.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\OperatingSystem.cs">
       <Link>OperatingSystem.cs</Link>
@@ -282,8 +255,14 @@
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainer.cs">
       <Link>Storage\ApplicationDataContainer.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.Android.cs">
+      <Link>Storage\ApplicationDataContainerSettings.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataContainerSettings.cs">
       <Link>Storage\ApplicationDataContainerSettings.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataCreateDisposition.cs">
+      <Link>Storage\ApplicationDataCreateDisposition.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\ApplicationDataLocality.cs">
       <Link>Storage\ApplicationDataLocality.cs</Link>
@@ -303,26 +282,38 @@
     <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\BasicProperties.cs">
       <Link>Storage\FileProperties\BasicProperties.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.Android.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.Android.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\StorageItemThumbnail.cs">
+      <Link>Storage\FileProperties\StorageItemThumbnail.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\FileProperties\ThumbnailMode.cs">
+      <Link>Storage\FileProperties\ThumbnailMode.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFile.cs">
       <Link>Storage\IStorageFile.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder.cs">
       <Link>Storage\IStorageFolder.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Storage\IStorageFolder2.cs">
-      <Link>Storage\IStorageFolder2.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem.cs">
       <Link>Storage\IStorageItem.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\InTheHand\Storage\IStorageItem2.cs">
-      <Link>Storage\IStorageItem2.cs</Link>
+    <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.Android.cs">
+      <Link>Storage\KnownFolders.Android.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\KnownFolders.cs">
       <Link>Storage\KnownFolders.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\PathIO.cs">
       <Link>Storage\PathIO.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.Android.cs">
+      <Link>Storage\Pickers\FileOpenPicker.Android.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
+      <Link>Storage\Pickers\FileOpenPicker.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
       <Link>Storage\StorageDeleteOption.cs</Link>
@@ -348,8 +339,14 @@
     <Compile Include="..\..\Source\InTheHand\Storage\Streams\UnicodeEncodingHelper.cs">
       <Link>Storage\Streams\UnicodeEncodingHelper.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.Android.cs">
+      <Link>System\Display\DisplayRequest.Android.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Display\DisplayRequest.cs">
       <Link>System\Display\DisplayRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Launcher.Android.cs">
+      <Link>System\Launcher.Android.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Launcher.cs">
       <Link>System\Launcher.cs</Link>
@@ -372,6 +369,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\EnergySaverStatus.cs">
       <Link>System\Power\EnergySaverStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.Android.cs">
+      <Link>System\Power\PowerManager.Android.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\System\Power\PowerManager.cs">
       <Link>System\Power\PowerManager.cs</Link>
@@ -402,6 +402,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs">
       <Link>UI\ApplicationSettings\SettingsPaneCommandsRequestedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Color.cs">
+      <Link>UI\Color.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Notifications\BadgeNotification.cs">
       <Link>UI\Notifications\BadgeNotification.cs</Link>
@@ -436,6 +439,9 @@
     <Compile Include="..\..\Source\InTheHand\UI\Popups\MessageDialog.cs">
       <Link>UI\Popups\MessageDialog.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\UI\Popups\Placement.cs">
+      <Link>UI\Popups\Placement.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Popups\UICommand.cs">
       <Link>UI\Popups\UICommand.cs</Link>
     </Compile>
@@ -447,6 +453,9 @@
     </Compile>
     <Compile Include="..\..\Source\InTheHand\UI\Xaml\DispatcherTimer.cs">
       <Link>UI\Xaml\DispatcherTimer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\UUIDExtensions.cs">
+      <Link>UUIDExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\InTheHand\WindowsRuntimeStorageExtensions.cs">
       <Link>WindowsRuntimeStorageExtensions.cs</Link>

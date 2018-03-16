@@ -394,11 +394,8 @@ namespace InTheHand.Storage
 #if WINDOWS_UWP || WINDOWS_APP || WINDOWS_PHONE_APP || WINDOWS_PHONE_81
                 return _settings.Count;
 
-#elif __ANDROID__ || WINDOWS_PHONE
+#elif __ANDROID__ ||  __UNIFIED__ ||WINDOWS_PHONE
                 return GetCount();
-
-#elif __UNIFIED__
-                return -1;
 
 #elif TIZEN
                 int count = 0;
