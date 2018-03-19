@@ -44,6 +44,8 @@ using System.Resources;
 [assembly: AssemblyConfiguration("Portable")]
 #endif
 [assembly: AssemblyProduct("Pontoon")]
+[assembly: AssemblyTitle("Pontoon")]
+[assembly: AssemblyDescription("A flexible bridge to the Universal Windows Platform")]
 [assembly: AssemblyCompany("In The Hand Ltd")]
 [assembly: AssemblyCopyright("Copyright © In The Hand Ltd 2013-18. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
