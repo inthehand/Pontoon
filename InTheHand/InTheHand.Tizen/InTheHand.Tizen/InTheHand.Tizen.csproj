@@ -17,6 +17,8 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>None</DebugType>
     <DefineConstants>TRACE;TIZEN</DefineConstants>
+    <OutputPath>C:\Users\Peter\Source\Repos\Pontoon\NuGet\InTheHand\lib\tizen3\</OutputPath>
+    <DocumentationFile>C:\Users\Peter\Source\Repos\Pontoon\InTheHand\InTheHand.Tizen\InTheHand.Tizen\InTheHand.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\..\Source\InTheHand\ApplicationModel\Package.cs" Link="ApplicationModel\Package.cs" />

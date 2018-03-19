@@ -1,0 +1,1255 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>InTheHand</name>
+    </assembly>
+    <members>
+        <member name="T:InTheHand.ApplicationModel.Package">
+            <summary>
+            Provides information about a package.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.Current">
+            <summary>
+            Gets the package for the current app.
+            </summary>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.Description">
+            <summary>
+            Gets the description of the package.
+            </summary>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.DisplayName">
+            <summary>
+            Gets the display name of the package.
+            </summary>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.Id">
+            <summary>
+            Gets the package identity of the current package.
+            </summary>
+            <value>The package identity.</value>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.InstalledDate">
+            <summary>
+            Gets the date the application package was installed on the user's phone.
+            </summary>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.InstalledLocation">
+            <summary>
+            Gets the location of the installed package.
+            </summary>
+            <remarks>This folder is read-only except for Windows Desktop applications.</remarks>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.IsDevelopmentMode">
+            <summary>
+            Indicates whether the package is installed in development mode.
+            </summary>
+            <remarks>A Boolean value that indicates whether the package is installed in development mode.
+            TRUE indicates that the package is installed in development mode; otherwise FALSE.</remarks>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.Logo">
+            <summary>
+            Gets the logo of the package.
+            </summary>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.Package.PublisherDisplayName">
+            <summary>
+            Gets the publisher display name of the package.
+            </summary>
+            <remarks>Android and iOS don't provide a way to query the publisher at runtime.</remarks>
+        </member>
+        <member name="T:InTheHand.ApplicationModel.PackageId">
+            <summary>
+            Provides package identification info, such as name, version, and publisher.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="M:InTheHand.ApplicationModel.PackageId.op_Implicit(InTheHand.ApplicationModel.PackageId)~Tizen.Applications.ApplicationInfo">
+            <summary>
+            Converts a Pontoon PackageId to a Tizen ApplicationInfo.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.PackageId.Architecture">
+            <summary>
+            Gets the processor architecture for which the package was created.
+            </summary>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.PackageId.FullName">
+            <summary>
+            Gets the name of the package.
+            </summary>
+            <value>The package name.</value>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.PackageId.Name">
+            <summary>
+            Gets the name of the package.
+            </summary>
+            <value>The package name.</value>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.PackageId.ProductId">
+            <summary>
+            Gets the value of the ProductID attribute associated with this application package.
+            </summary>
+            <value>The value of the ProductID attribute associated with this application package.</value>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.PackageId.Publisher">
+            <summary>
+            Gets the publisher of the package.
+            </summary>
+            <remarks>Not supported on iOS or Android.</remarks>
+        </member>
+        <member name="P:InTheHand.ApplicationModel.PackageId.Version">
+            <summary>
+            Gets the package version info.
+            </summary>
+            <value>The package version information.</value>
+        </member>
+        <member name="T:InTheHand.Storage.CreationCollisionOption">
+            <summary>
+            Represents a file.
+            Provides information about the file and its content, and ways to manipulate them.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.CreationCollisionOption.GenerateUniqueName">
+            <summary>
+            Automatically append a number to the base of the specified name if the file or folder already exists.
+            For example, if MyFile.txt already exists, then the new file is named MyFile(2).txt.
+            If MyFolder already exists, then the new folder is named MyFolder(2).
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.CreationCollisionOption.ReplaceExisting">
+            <summary>
+            Replace the existing item if the file or folder already exists.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.CreationCollisionOption.FailIfExists">
+            <summary>
+            Raise an exception of type System.Exception if the file or folder already exists.
+            Methods that don't explicitly pass a value from the CreationCollisionOption enumeration use the FailIfExists value as the default when you try to create, rename, copy, or move a file or folder.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.CreationCollisionOption.OpenIfExists">
+            <summary>
+            Return the existing item if the file or folder already exists.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.FileAttributes">
+            <summary>
+            Describes the attributes of a file or folder.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileAttributes.Normal">
+            <summary>
+            The item is normal.
+            That is, the item doesn't have any of the other values in the enumeration.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileAttributes.ReadOnly">
+            <summary>
+            The item is read-only.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileAttributes.Directory">
+            <summary>
+            The item is a directory.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileAttributes.Archive">
+            <summary>
+            The item is archived.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileAttributes.Temporary">
+            <summary>
+            The item is a temporary file.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.FileIO">
+            <summary>
+            Provides helper methods for reading and writing files that are represented by objects of type <see cref="T:InTheHand.Storage.IStorageFile"/>.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.AppendLinesAsync(InTheHand.Storage.IStorageFile,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Appends lines of text to the specified file.
+            </summary>
+            <param name="file">The file that the lines are appended to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.AppendLinesAsync(InTheHand.Storage.IStorageFile,System.Collections.Generic.IEnumerable{System.String},InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Appends lines of text to the specified file using the specified character encoding.
+            </summary>
+            <param name="file">The file that the lines are appended to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.AppendTextAsync(InTheHand.Storage.IStorageFile,System.String)">
+            <summary>
+            Appends text to the specified file.
+            </summary>
+            <param name="file">The file that the text is appended to.</param>
+            <param name="contents">The text to append.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.AppendTextAsync(InTheHand.Storage.IStorageFile,System.String,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Appends text to the specified file using the specified character encoding.
+            </summary>
+            <param name="file">The file that the text is appended to.</param>
+            <param name="contents">The text to append.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.ReadLinesAsync(InTheHand.Storage.IStorageFile)">
+            <summary>
+            Reads the contents of the specified file and returns lines of text.
+            </summary>
+            <param name="file">The file to read.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a list (type IVector) of lines of text.
+            Each line of text in the list is represented by a String object.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.ReadLinesAsync(InTheHand.Storage.IStorageFile,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Reads the contents of the specified file using the specified character encoding and returns lines of text.
+            </summary>
+            <param name="file">The file to read.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a list (type IVector) of lines of text.
+            Each line of text in the list is represented by a String object.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.ReadTextAsync(InTheHand.Storage.IStorageFile)">
+            <summary>
+            Reads the contents of the specified file and returns text.
+            </summary>
+            <param name="file">The file to read.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.ReadTextAsync(InTheHand.Storage.IStorageFile,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Reads the contents of the specified file using the specified character encoding and returns text.
+            </summary>
+            <param name="file">The file to read.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.WriteLinesAsync(InTheHand.Storage.IStorageFile,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Writes lines of text to the specified file.
+            </summary>
+            <param name="file">The file that the lines are written to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.WriteLinesAsync(InTheHand.Storage.IStorageFile,System.Collections.Generic.IEnumerable{System.String},InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Writes lines of text to the specified file using the specified character encoding.
+            </summary>
+            <param name="file">The file that the lines are written to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.WriteTextAsync(InTheHand.Storage.IStorageFile,System.String)">
+            <summary>
+            Writes text to the specified file.
+            </summary>
+            <param name="file">The file that the text is written to.</param>
+            <param name="contents">The text to write.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.FileIO.WriteTextAsync(InTheHand.Storage.IStorageFile,System.String,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Writes text to the specified file using the specified character encoding.
+            </summary>
+            <param name="file">The file that the text is written to.</param>
+            <param name="contents">The text to write.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="T:InTheHand.Storage.FileProperties.BasicProperties">
+            <summary>
+            Provides access to the basic properties, like the size of the item or the date the item was last modified, of the item (like a file or folder).
+            </summary>
+            <seealso cref="M:InTheHand.Storage.IStorageItem.GetBasicPropertiesAsync"/>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="P:InTheHand.Storage.FileProperties.BasicProperties.DateModified">
+            <summary>
+            Gets the timestamp of the last time the file was modified.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.FileProperties.BasicProperties.Size">
+            <summary>
+            Gets the size of the file in bytes.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.FileProperties.ThumbnailMode">
+            <summary>
+            Describes the purpose of the thumbnail to determine how to adjust the thumbnail image to retrieve.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileProperties.ThumbnailMode.MediaView">
+            <summary>
+            To display previews of picture or video files.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileProperties.ThumbnailMode.ListView">
+            <summary>
+            To display previews of files (or other items) in a list.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.FileProperties.ThumbnailMode.SingleItem">
+            <summary>
+            To display a preview of any single item (like a file, folder, or file group).
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.IStorageFile">
+            <summary>
+            Represents a file.
+            Provides information about the file and its contents, and ways to manipulate them.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFile.CopyAndReplaceAsync(InTheHand.Storage.IStorageFile)">
+            <summary>
+            Replaces the specified file with a copy of the current file.
+            </summary>
+            <param name="fileToReplace">The file to replace.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFile.CopyAsync(InTheHand.Storage.IStorageFolder)">
+            <summary>
+            Creates a copy of the file in the specified folder.
+            </summary>
+            <param name="destinationFolder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFile.CopyAsync(InTheHand.Storage.IStorageFolder,System.String)">
+            <summary>
+            Creates a copy of the file in the specified folder, using the desired name.
+            </summary>
+            <param name="destinationFolder"></param>
+            <param name="desiredNewName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFile.MoveAndReplaceAsync(InTheHand.Storage.IStorageFile)">
+            <summary>
+            Moves the current file to the location of the specified file and replaces the specified file in that location.
+            </summary>
+            <param name="fileToReplace"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFile.MoveAsync(InTheHand.Storage.IStorageFolder)">
+            <summary>
+            Moves the current file to the specified folder.
+            </summary>
+            <param name="destinationFolder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFile.MoveAsync(InTheHand.Storage.IStorageFolder,System.String)">
+            <summary>
+            Moves the current file to the specified folder and renames the file according to the desired name.
+            </summary>
+            <param name="destinationFolder"></param>
+            <param name="desiredNewName"></param>
+            <returns></returns>
+        </member>
+        <member name="P:InTheHand.Storage.IStorageFile.ContentType">
+            <summary>
+            Gets the MIME type of the contents of the file.
+            </summary>
+            <value>The MIME type of the file contents.
+            For example, a music file might have the "audio/mpeg" MIME type.</value>
+        </member>
+        <member name="P:InTheHand.Storage.IStorageFile.FileType">
+            <summary>
+            Gets the type (file name extension) of the file.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.IStorageFolder">
+            <summary>
+            Manipulates folders and their contents, and provides information about them.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.CreateFileAsync(System.String)">
+            <summary>
+            Creates a new file in the current folder.
+            </summary>
+            <param name="desiredName">The desired name of the file to create.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.CreateFileAsync(System.String,InTheHand.Storage.CreationCollisionOption)">
+            <summary>
+            Creates a new file in the current folder, and specifies what to do if a file with the same name already exists in the current folder.
+            </summary>
+            <param name="desiredName">The desired name of the file to create.</param>
+            <param name="options">The enum value that determines what to do if the desiredName is the same as the name of an existing file in the current folder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.CreateFolderAsync(System.String)">
+            <summary>
+            Creates a new folder in the current folder.
+            </summary>
+            <param name="desiredName">The desired name of the folder to create.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.CreateFolderAsync(System.String,InTheHand.Storage.CreationCollisionOption)">
+            <summary>
+            Creates a new folder in the current folder, and specifies what to do if a folder with the same name already exists in the current folder.
+            </summary>
+            <param name="desiredName">The desired name of the folder to create.</param>
+            <param name="options">The enum value that determines what to do if the desiredName is the same as the name of an existing folder in the current folder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.GetFileAsync(System.String)">
+            <summary>
+            Gets the specified file from the current folder.
+            </summary>
+            <param name="filename">The name (or path relative to the current folder) of the file to retrieve.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.GetFilesAsync">
+            <summary>
+            Gets the files from the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.GetFolderAsync(System.String)">
+            <summary>
+            Gets the specified folder from the current folder.
+            </summary>
+            <param name="name">The name of the child folder to retrieve.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.GetFoldersAsync">
+            <summary>
+            Gets the folders in the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.GetItemAsync(System.String)">
+            <summary>
+            Gets the specified item from the <see cref="T:InTheHand.Storage.IStorageFolder"/>.
+            </summary>
+            <param name="name">The name of the item to retrieve.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.GetItemsAsync">
+            <summary>
+            Gets the items from the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder.TryGetItemAsync(System.String)">
+            <summary>
+            Try to get a single file or sub-folder from the current folder by using the name of the item.
+            </summary>
+            <param name="name">The name (or path relative to the current folder) of the file or sub-folder to try to retrieve.</param>
+            <returns>When this method completes successfully, it returns the file or folder (type <see cref="T:InTheHand.Storage.IStorageItem"/>).</returns>
+        </member>
+        <member name="T:InTheHand.Storage.IStorageFolder2">
+            <summary>
+            Manipulates folders and their contents, and provides information about them.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageFolder2.TryGetItemAsync(System.String)">
+            <summary>
+            Try to get a single file or sub-folder from the current folder by using the name of the item.
+            </summary>
+            <param name="name">The name (or path relative to the current folder) of the file or sub-folder to try to retrieve.</param>
+            <returns>When this method completes successfully, it returns the file or folder (type <see cref="T:InTheHand.Storage.IStorageItem"/>).</returns>
+        </member>
+        <member name="T:InTheHand.Storage.IStorageItem">
+            <summary>
+            Manipulates storage items (files and folders) and their contents, and provides information about them.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem.DeleteAsync">
+            <summary>
+            Deletes the current item. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem.DeleteAsync(InTheHand.Storage.StorageDeleteOption)">
+            <summary>
+            Deletes the current item, optionally deleting it permanently. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem.GetBasicPropertiesAsync">
+            <summary>
+            Gets the basic properties of the current item (like a file or folder).
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem.IsOfType(InTheHand.Storage.StorageItemTypes)">
+            <summary>
+            Determines whether the current IStorageItem matches the specified StorageItemTypes value.
+            </summary>
+            <param name="type">The value to match against.</param>
+            <returns></returns>
+            <seealso cref="T:InTheHand.Storage.StorageItemTypes"/>
+        </member>
+        <member name="P:InTheHand.Storage.IStorageItem.Attributes">
+            <summary>
+            Gets the attributes of a storage item.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.IStorageItem.DateCreated">
+            <summary>
+            Gets the date and time when the current item was created. 
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.IStorageItem.Name">
+            <summary>
+            Gets the name of the item including the file name extension if there is one.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.IStorageItem.Path">
+            <summary>
+            Gets the full file-system path of the item, if the item has a path.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem.GetParentAsync">
+            <summary>
+            Gets the parent folder of the current storage item.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem.IsEqual(InTheHand.Storage.IStorageItem)">
+            <summary>
+            Indicates whether the current item is the same as the specified item.
+            </summary>
+            <param name="item">The <see cref="T:InTheHand.Storage.IStorageItem"/> object that represents a storage item to compare against.</param>
+            <returns>Returns true if the current storage item is the same as the specified storage item; otherwise false.</returns>
+        </member>
+        <member name="T:InTheHand.Storage.IStorageItem2">
+            <summary>
+            Manipulates storage items (files and folders) and their contents, and provides information about them.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem2.GetParentAsync">
+            <summary>
+            Gets the parent folder of the current storage item.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.IStorageItem2.IsEqual(InTheHand.Storage.IStorageItem)">
+            <summary>
+            Indicates whether the current item is the same as the specified item.
+            </summary>
+            <param name="item">The <see cref="T:InTheHand.Storage.IStorageItem"/> object that represents a storage item to compare against.</param>
+            <returns>Returns true if the current storage item is the same as the specified storage item; otherwise false.</returns>
+        </member>
+        <member name="T:InTheHand.Storage.KnownFolders">
+            <summary>
+            Provides access to common locations that contain user content.
+            This includes content from a user's local libraries (such as Documents, Pictures, Music, and Videos).
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="P:InTheHand.Storage.KnownFolders.CameraRoll">
+            <summary>
+            Gets the Camera Roll folder.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 8.1 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="P:InTheHand.Storage.KnownFolders.DocumentsLibrary">
+            <summary>
+            Gets the Documents library.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.KnownFolders.MusicLibrary">
+            <summary>
+            Gets the Music library.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.KnownFolders.PicturesLibrary">
+            <summary>
+            Gets the Pictures library.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.KnownFolders.VideosLibrary">
+            <summary>
+            Gets the Videos library.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.NameCollisionOption">
+            <summary>
+            Specifies what to do if a file or folder with the specified name already exists in the current folder when you copy, move, or rename a file or folder.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.NameCollisionOption.GenerateUniqueName">
+            <summary>
+            Automatically append a number to the base of the specified name if the file or folder already exists.
+            For example, if MyFile.txt already exists, then the new file is named MyFile(2).txt.
+            If MyFolder already exists, then the new folder is named MyFolder(2).
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.NameCollisionOption.ReplaceExisting">
+            <summary>
+            Replace the existing item if the file or folder already exists.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.NameCollisionOption.FailIfExists">
+            <summary>
+            Raise an exception of type System.Exception if the file or folder already exists.
+            Methods that don't explicitly pass a value from the NameCollisionOption enumeration use the FailIfExists value as the default when you try to create, rename, copy, or move a file or folder.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.PathIO">
+            <summary>
+            Provides helper methods for reading and writing a file using the absolute path or URI of the file.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.AppendLinesAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Appends lines of text to the file at the specified path or URI.
+            </summary>
+            <param name="absolutePath">The path or URI of the file that the lines are appended to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.AppendLinesAsync(System.String,System.Collections.Generic.IEnumerable{System.String},InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Appends lines of text to the file at the specified path or URI using the specified character encoding.
+            </summary>
+            <param name="absolutePath">The path or URI of the file that the lines are appended to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.AppendTextAsync(System.String,System.String)">
+            <summary>
+            Appends text to the file at the specified path or URI.
+            </summary>
+            <param name="absolutePath">The path of the file that the text is appended to.</param>
+            <param name="contents">The text to append.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.AppendTextAsync(System.String,System.String,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Appends text to the file at the specified path or URI using the specified character encoding.
+            </summary>
+            <param name="absolutePath">The path of the file that the text is appended to.</param>
+            <param name="contents">The text to append.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.ReadLinesAsync(System.String)">
+            <summary>
+            Reads the contents of the file at the specified path or URI and returns lines of text.
+            </summary>
+            <param name="absolutePath">The path of the file to read.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a list (type IVector) of lines of text.
+            Each line of text in the list is represented by a String object.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.ReadLinesAsync(System.String,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Reads the contents of the file at the specified path or URI using the specified character encoding and returns lines of text.
+            </summary>
+            <param name="absolutePath">The path of the file to read.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a list (type IVector) of lines of text.
+            Each line of text in the list is represented by a String object.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.ReadTextAsync(System.String)">
+            <summary>
+            Reads the contents of the file at the specified path or URI and returns text.
+            </summary>
+            <param name="absolutePath">The path of the file to read.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.ReadTextAsync(System.String,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Reads the contents of the file at the specified path or URI using the specified character encoding and returns text.
+            </summary>
+            <param name="absolutePath">The path of the file to read.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>When this method completes successfully, it returns the contents of the file as a text string.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.WriteLinesAsync(System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Writes lines of text to the file at the specified path or URI.
+            </summary>
+            <param name="absolutePath">The path of the file that the lines are written to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.WriteLinesAsync(System.String,System.Collections.Generic.IEnumerable{System.String},InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Writes lines of text to the file at the specified path or URI using the specified character encoding.
+            </summary>
+            <param name="absolutePath">The path of the file that the lines are written to.</param>
+            <param name="lines">The list of text strings to append as lines.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.WriteTextAsync(System.String,System.String)">
+            <summary>
+            Writes text to the file at the specified path or URI.
+            </summary>
+            <param name="absolutePath">The path of the file that the text is written to.</param>
+            <param name="contents">The text to write.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.PathIO.WriteTextAsync(System.String,System.String,InTheHand.Storage.Streams.UnicodeEncoding)">
+            <summary>
+            Writes text to the file at the specified path or URI using the specified character encoding.
+            </summary>
+            <param name="absolutePath">The path of the file that the text is written to.</param>
+            <param name="contents">The text to write.</param>
+            <param name="encoding">The character encoding of the file.</param>
+            <returns>No object or value is returned when this method completes.</returns>
+        </member>
+        <member name="T:InTheHand.Storage.StorageDeleteOption">
+            <summary>
+            Specifies whether a deleted item is moved to the Recycle Bin or permanently deleted.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.StorageDeleteOption.Default">
+            <summary>
+            Specifies the default behavior.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.StorageDeleteOption.PermanentDelete">
+            <summary>
+            Permanently deletes the item.
+            The item is not moved to the Recycle Bin.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.StorageFile">
+            <summary>
+            Represents a file.
+            Provides information about the file and its content, and ways to manipulate them.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.GetFileFromPathAsync(System.String)">
+            <summary>
+            Gets a StorageFile object to represent the file at the specified path.
+            </summary>
+            <param name="path">The path of the file to get a StorageFile to represent.
+            If your path uses slashes, make sure you use backslashes(\).
+            Forward slashes(/) are not accepted by this method.</param>
+            <returns>When this method completes, it returns the file as a StorageFile.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.CopyAndReplaceAsync(InTheHand.Storage.IStorageFile)">
+            <summary>
+            Replaces the specified file with a copy of the current file.
+            </summary>
+            <param name="fileToReplace"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.CopyAsync(InTheHand.Storage.IStorageFolder)">
+            <summary>
+            Creates a copy of the file in the specified folder.
+            </summary>
+            <param name="destinationFolder">The destination folder where the copy of the file is created.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.CopyAsync(InTheHand.Storage.IStorageFolder,System.String)">
+            <summary>
+            Creates a copy of the file in the specified folder and renames the copy.
+            </summary>
+            <param name="destinationFolder">The destination folder where the copy of the file is created.</param>
+            <param name="desiredNewName">The new name for the copy of the file created in the destinationFolder.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.DeleteAsync">
+            <summary>
+            Deletes the current file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.DeleteAsync(InTheHand.Storage.StorageDeleteOption)">
+            <summary>
+            Deletes the current file, optionally deleting the item permanently.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.GetBasicPropertiesAsync">
+            <summary>
+            Gets the basic properties of the current file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.GetThumbnailAsync(InTheHand.Storage.FileProperties.ThumbnailMode)">
+            <summary>
+            Retrieves an adjusted thumbnail image for the file, determined by the purpose of the thumbnail.
+            </summary>
+            <param name="mode">The enum value that describes the purpose of the thumbnail and determines how the thumbnail image is adjusted.</param>
+            <returns>When this method completes successfully, it returns a <see cref="T:InTheHand.Storage.FileProperties.StorageItemThumbnail"/> that represents the thumbnail image or null if there is no thumbnail image associated with the file.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.GetParentAsync">
+            <summary>
+            Gets the parent folder of the current file.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.MoveAsync(InTheHand.Storage.IStorageFolder)">
+            <summary>
+            Moves the current file to the specified folder and renames the file according to the desired name.
+            </summary>
+            <param name="destinationFolder">The destination folder where the file is moved.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.MoveAsync(InTheHand.Storage.IStorageFolder,System.String)">
+            <summary>
+            Moves the current file to the specified folder and renames the file according to the desired name.
+            </summary>
+            <param name="destinationFolder">The destination folder where the file is moved.</param>
+            <param name="desiredNewName">The desired name of the file after it is moved.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.MoveAndReplaceAsync(InTheHand.Storage.IStorageFile)">
+            <summary>
+            Moves the current file to the location of the specified file and replaces the specified file in that location.
+            </summary>
+            <param name="fileToReplace">The file to replace.</param>
+            <returns>No object or value is returned by this method.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.RenameAsync(System.String)">
+            <summary>
+            Renames the current file.
+            </summary>
+            <param name="desiredName">The desired, new name of the current item.</param>
+            <returns>No object or value is returned by this method when it completes.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.RenameAsync(System.String,InTheHand.Storage.NameCollisionOption)">
+            <summary>
+            Renames the current file.
+            This method also specifies what to do if an existing item in the current file's location has the same name.
+            </summary>
+            <param name="desiredName">The desired, new name of the current file.
+            <para>If there is an existing item in the current file's location that already has the specified desiredName, the specified <see cref="T:InTheHand.Storage.NameCollisionOption"/>  determines how the system responds to the conflict.</para></param>
+            <param name="option">The enum value that determines how the system responds if the desiredName is the same as the name of an existing item in the current file's location.</param>
+            <returns>No object or value is returned by this method when it completes.</returns>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFile.Attributes">
+            <summary>
+            Gets the attributes of a file.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFile.DateCreated">
+            <summary>
+            Gets the date and time when the current file was created. 
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFile.ContentType">
+            <summary>
+            Gets the MIME type of the contents of the file.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFile.FileType">
+            <summary>
+            Gets the type (file name extension) of the file.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFile.Name">
+            <summary>
+            Gets the name of the file including the file name extension.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFile.Path">
+            <summary>
+            Gets the full file-system path of the current file, if the file has a path.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.IsEqual(InTheHand.Storage.IStorageItem)">
+            <summary>
+            Indicates whether the current file is equal to the specified file.
+            </summary>
+            <param name="item">The <see cref="T:InTheHand.Storage.IStorageItem"/>  object that represents a file to compare against.</param>
+            <returns>Returns true if the current file is equal to the specified file; otherwise false.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFile.IsOfType(InTheHand.Storage.StorageItemTypes)">
+            <summary>
+            Determines whether the current <see cref="T:InTheHand.Storage.StorageFile"/> matches the specified <see cref="T:InTheHand.Storage.StorageItemTypes"/> value.
+            </summary>
+            <param name="type">The value to match against.</param>
+            <returns>True if the <see cref="T:InTheHand.Storage.StorageFile"/> matches the specified value; otherwise false.</returns>
+            <seealso cref="T:InTheHand.Storage.StorageItemTypes"/>
+        </member>
+        <member name="T:InTheHand.Storage.StorageFolder">
+            <summary>
+            Manages folders and their contents and provides information about them.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetFolderFromPathAsync(System.String)">
+            <summary>
+            Gets a StorageFile object to represent the file at the specified path.
+            </summary>
+            <param name="path">The path of the file to get a StorageFile to represent.
+            If your path uses slashes, make sure you use backslashes(\).
+            Forward slashes(/) are not accepted by this method.</param>
+            <returns>When this method completes, it returns the file as a StorageFile.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.CreateFileAsync(System.String)">
+            <summary>
+            Creates a new file with the specified name in the current folder.
+            </summary>
+            <param name="desiredName">The name of the new file to create in the current folder.</param>
+            <returns>When this method completes, it returns a StorageFile that represents the new file.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.CreateFileAsync(System.String,InTheHand.Storage.CreationCollisionOption)">
+            <summary>
+            Creates a new file with the specified name in the current folder.
+            </summary>
+            <param name="desiredName">The name of the new file to create in the current folder.</param>
+            <param name="options">One of the enumeration values that determines how to handle the collision if a file with the specified desiredName already exists in the current folder.</param>
+            <returns>When this method completes, it returns a StorageFile that represents the new file.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.CreateFolderAsync(System.String)">
+            <summary>
+            Creates a new subfolder with the specified name in the current folder.
+            </summary>
+            <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
+            <returns>When this method completes, it returns a StorageFolder that represents the new subfolder.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.CreateFolderAsync(System.String,InTheHand.Storage.CreationCollisionOption)">
+            <summary>
+            Creates a new subfolder with the specified name in the current folder.
+            This method also specifies what to do if a subfolder with the same name already exists in the current folder. 
+            </summary>
+            <param name="desiredName">The name of the new subfolder to create in the current folder.</param>
+            <param name="options">One of the enumeration values that determines how to handle the collision if a subfolder with the specified desiredName already exists in the current folder.</param>
+            <returns>When this method completes, it returns a StorageFolder that represents the new subfolder.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.DeleteAsync">
+            <summary>
+            Deletes the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.DeleteAsync(InTheHand.Storage.StorageDeleteOption)">
+            <summary>
+            Deletes the current folder.
+            This method also specifies whether to delete the folder permanently.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetBasicPropertiesAsync">
+            <summary>
+            Gets the basic properties of the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetFileAsync(System.String)">
+            <summary>
+            Gets the file with the specified name from the current folder. 
+            </summary>
+            <param name="filename"></param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetFilesAsync">
+            <summary>
+            Gets the files in the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetFolderAsync(System.String)">
+            <summary>
+            Gets the specified folder from the current folder. 
+            </summary>
+            <param name="name">The name of the child folder to retrieve.</param>
+            <returns>When this method completes successfully, it returns a StorageFolder that represents the child folder.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetFoldersAsync">
+            <summary>
+            Gets the folders in the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetItemAsync(System.String)">
+            <summary>
+            Gets the file or folder with the specified name from the current folder.
+            </summary>
+            <param name="name">The name (or path relative to the current folder) of the file or folder to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetItemsAsync">
+            <summary>
+            Gets the items in the current folder.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.GetParentAsync">
+            <summary>
+            Gets the parent folder of the current folder.
+            </summary>
+            <returns>When this method completes, it returns the parent folder as a <see cref="T:InTheHand.Storage.StorageFolder"/>.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.TryGetItemAsync(System.String)">
+            <summary>
+            Tries to get the file or folder with the specified name from the current folder.
+            Returns null instead of raising a FileNotFoundException if the specified file or folder is not found.
+            </summary>
+            <param name="name">The name (or path relative to the current folder) of the file or folder to get.</param>
+            <returns>When this method completes successfully, it returns an IStorageItem that represents the specified file or folder.
+            If the specified file or folder is not found, this method returns null instead of raising an exception.</returns>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFolder.Attributes">
+            <summary>
+            Gets the attributes of the current folder.
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFolder.DateCreated">
+            <summary>
+            Gets the date and time that the current folder was created. 
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFolder.Name">
+            <summary>
+            Gets the name of the current folder. 
+            </summary>
+        </member>
+        <member name="P:InTheHand.Storage.StorageFolder.Path">
+            <summary>
+            Gets the full path of the current folder in the file system, if the path is available.
+            </summary>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.IsEqual(InTheHand.Storage.IStorageItem)">
+            <summary>
+            Indicates whether the current folder is equal to the specified folder.
+            </summary>
+            <param name="item">The <see cref="T:InTheHand.Storage.IStorageItem"/> object that represents the folder to compare against.</param>
+            <returns>Returns true if the current folder is equal to the specified folder; otherwise false.</returns>
+        </member>
+        <member name="M:InTheHand.Storage.StorageFolder.IsOfType(InTheHand.Storage.StorageItemTypes)">
+            <summary>
+            Indicates whether the current <see cref="T:InTheHand.Storage.StorageFolder"/> matches the specified <see cref="T:InTheHand.Storage.StorageItemTypes"/> value.
+            </summary>
+            <param name="type">The enum value that determines the object type to match against.</param>
+            <returns>True if the <see cref="T:InTheHand.Storage.StorageFolder"/> matches the specified <see cref="T:InTheHand.Storage.StorageItemTypes"/> value; otherwise false.</returns>
+            <seealso cref="T:InTheHand.Storage.StorageItemTypes"/>
+        </member>
+        <member name="T:InTheHand.Storage.StorageItemTypes">
+            <summary>
+            Describes whether an item that implements the <see cref="T:InTheHand.Storage.IStorageItem"/> interface is a file or a folder.
+            </summary>
+            <seealso cref="M:InTheHand.Storage.IStorageItem.IsOfType(InTheHand.Storage.StorageItemTypes)"/>
+        </member>
+        <member name="F:InTheHand.Storage.StorageItemTypes.None">
+            <summary>
+            A storage item that is neither a file nor a folder.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.StorageItemTypes.File">
+            <summary>
+            A file that is represented as a <see cref="T:InTheHand.Storage.StorageFile"/> instance.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.StorageItemTypes.Folder">
+            <summary>
+            A folder that is represented as a <see cref="T:InTheHand.Storage.StorageFolder"/> instance.
+            </summary>
+        </member>
+        <member name="T:InTheHand.Storage.Streams.UnicodeEncoding">
+            <summary>
+            Specifies the type of character encoding for a stream.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.Streams.UnicodeEncoding.Utf8">
+            <summary>
+            The encoding is UTF-8.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.Streams.UnicodeEncoding.Utf16LE">
+            <summary>
+            The encoding is UTF-16, with the least significant byte first in the two eight-bit bytes.
+            </summary>
+        </member>
+        <member name="F:InTheHand.Storage.Streams.UnicodeEncoding.Utf16BE">
+            <summary>
+            The encoding is UTF-16, with the most significant byte first in the two eight-bit bytes.
+            </summary>
+        </member>
+        <member name="T:InTheHand.System.ProcessorArchitecture">
+            <summary>
+            Specifies the processor architecture supported by an app.
+            </summary>
+            <remarks>
+            <para/><list type="table">
+            <listheader><term>Platform</term><description>Version supported</description></listheader>
+            <item><term>Android</term><description>Android 4.4 and later</description></item>
+            <item><term>iOS</term><description>iOS 9.0 and later</description></item>
+            <item><term>macOS</term><description>OS X 10.7 and later</description></item>
+            <item><term>tvOS</term><description>tvOS 9.0 and later</description></item>
+            <item><term>watchOS</term><description>watchOS 2.0 and later</description></item>
+            <item><term>Tizen</term><description>Tizen 3.0</description></item>
+            <item><term>Windows UWP</term><description>Windows 10</description></item>
+            <item><term>Windows Store</term><description>Windows 8.1 or later</description></item>
+            <item><term>Windows Phone Store</term><description>Windows Phone 8.1 or later</description></item>
+            <item><term>Windows Phone Silverlight</term><description>Windows Phone 8.0 or later</description></item>
+            <item><term>Windows (Desktop Apps)</term><description>Windows 7 or later</description></item></list>
+            </remarks>
+        </member>
+        <member name="F:InTheHand.System.ProcessorArchitecture.X86">
+            <summary>
+            The x86 processor architecture.
+            </summary>
+        </member>
+        <member name="F:InTheHand.System.ProcessorArchitecture.Arm">
+            <summary>
+            The ARM processor architecture.
+            </summary>
+        </member>
+        <member name="F:InTheHand.System.ProcessorArchitecture.X64">
+            <summary>
+            The x64 processor architecture.
+            </summary>
+        </member>
+        <member name="F:InTheHand.System.ProcessorArchitecture.Neutral">
+            <summary>
+            A neutral processor architecture.
+            </summary>
+        </member>
+        <member name="F:InTheHand.System.ProcessorArchitecture.Unknown">
+            <summary>
+            An unknown processor architecture.
+            </summary>
+        </member>
+    </members>
+</doc>
