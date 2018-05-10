@@ -158,6 +158,17 @@ namespace InTheHand.Storage
                         }
                         break;
 
+                    case TypeCode.Int64:
+                        if (IsRoaming)
+                        {
+                            _store.SetLong(key, (long)value);
+                        }
+                        else
+                        {
+                            _defaults.SetInt((nint)value, key);
+                        }
+                        break;
+
                     case TypeCode.Int32:
                         if (IsRoaming)
                         {
