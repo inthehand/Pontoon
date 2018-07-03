@@ -20,7 +20,13 @@ namespace InTheHand.Storage
 
         private static readonly Guid CameraRollGuid = new Guid("{AB5FB87B-7CE2-4F83-915D-550846C9537B}");
 
-        private static StorageFolder GetKnownFolderFromGuid(Guid id)
+        internal static StorageFolder GetKnownFolderFromGuid(Guid id)
+        {
+            string path = GetKnownFolderPathFromGuid(id);
+            return path == null ? null : new StorageFolder(path);
+        }
+
+            internal static string GetKnownFolderPathFromGuid(Guid id)
         {
             IntPtr pathPtr;
             // to match UWP create the file if not present
@@ -29,7 +35,7 @@ namespace InTheHand.Storage
             {
                 string path = Marshal.PtrToStringUni(pathPtr);
                 Marshal.FreeCoTaskMem(pathPtr);
-                return new StorageFolder(path);
+                return path;
             }
 
             return null;

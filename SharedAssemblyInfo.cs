@@ -60,6 +60,6 @@ using System.Resources;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("10.2018.0.0")]
-[assembly: AssemblyFileVersion("10.2018.3.16")]
+[assembly: AssemblyFileVersion("10.2018.6.27")]
 [assembly: ComVisible(false)]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

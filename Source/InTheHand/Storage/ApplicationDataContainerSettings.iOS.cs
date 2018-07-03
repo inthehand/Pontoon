@@ -256,7 +256,14 @@ namespace InTheHand.Storage
 
         private int GetCount()
         {
-            return (int)_store.ToDictionary().Count;
+            if (IsRoaming)
+            {
+                return (int)_store.ToDictionary().Count;
+            }
+            else
+            {
+                return (int)_defaults.ToDictionary().Count;
+            }
         }
 
         private ICollection<string> GetKeys()
