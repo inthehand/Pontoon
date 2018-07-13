@@ -92,6 +92,10 @@ namespace InTheHand.Storage
             else
             {
                 _defaults.RemoveObject(key);
+                if(_locality == ApplicationDataLocality.SharedLocal)
+                {
+                    _defaults.Synchronize();
+                }
             }
 
             return true;
@@ -224,6 +228,11 @@ namespace InTheHand.Storage
                         }
                         break;
                 }
+            }
+
+            if (_locality == ApplicationDataLocality.SharedLocal)
+            {
+                _defaults.Synchronize();
             }
         }
         

@@ -7,23 +7,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{46aa22f5-64f6-42dc-a0d0-66a042ff6f24}</ProjectGuid>
-    <SHFBSchemaVersion>2015.6.5.0</SHFBSchemaVersion>
+    <SHFBSchemaVersion>2017.9.26.0</SHFBSchemaVersion>
     <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual Studio adds them anyway -->
     <AssemblyName>Documentation</AssemblyName>
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Portable Library 5.0 (NuGet)</FrameworkVersion>
+    <FrameworkVersion>Cross-platform (.NET Core/.NET Standard)</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>InTheHand</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.dll" />
-      <DocumentationSource sourceFile="..\NuGet\InTheHand\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.xml" />
-      <DocumentationSource sourceFile="..\..\InTheHand.Forms\InTheHand.Forms\NuGet\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.Forms.dll" />
-      <DocumentationSource sourceFile="..\..\InTheHand.Forms\InTheHand.Forms\NuGet\lib\portable-net45+netcore45+wpa81+wp8\InTheHand.Forms.xml" />
-      <DocumentationSource sourceFile="..\..\32feet\InTheHand.Net.Personal\bin\Release\InTheHand.Net.Personal.dll" />
-      <DocumentationSource sourceFile="..\..\32feet\InTheHand.Net.Personal\bin\Release\InTheHand.Net.Personal.xml" />
+      <DocumentationSource sourceFile="..\NuGet\InTheHand\lib\netstandard1.0\InTheHand.dll" />
+      <DocumentationSource sourceFile="..\NuGet\InTheHand\lib\netstandard1.0\InTheHand.xml" />
     </DocumentationSources>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
@@ -156,10 +152,7 @@
             <version label="tvOS" version="9" helpFileProject="Pontoon.tvOS.shfbproj" />
             <version label="watchOS" version="2" helpFileProject="Pontoon.watchOS.shfbproj" />
             <version label="Windows Desktop" version="7" helpFileProject="Pontoon.Win32.shfbproj" />
-            <version label="Windows Phone (Silverlight)" version="8.1" helpFileProject="Pontoon.wp81.shfbproj" />
-            <version label="Windows Phone 8.0" version="8.0" helpFileProject="Pontoon.wp80.shfbproj" />
             <version label="Windows Phone Store" version="8.1" helpFileProject="Pontoon.wpa81.shfbproj" />
-            <version label="Windows Store" version="8.1" helpFileProject="Pontoon.win81.shfbproj" />
           </versions>
         </configuration>
       </PlugInConfig>

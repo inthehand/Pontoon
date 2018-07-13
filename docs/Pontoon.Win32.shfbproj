@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{46aa22f5-64f6-42dc-a0d0-66a042ff6f24}</ProjectGuid>
-    <SHFBSchemaVersion>2015.6.5.0</SHFBSchemaVersion>
+    <SHFBSchemaVersion>2017.9.26.0</SHFBSchemaVersion>
     <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual Studio adds them anyway -->
     <AssemblyName>Documentation</AssemblyName>
     <RootNamespace>Documentation</RootNamespace>
@@ -18,9 +18,7 @@
     <HtmlHelpName>InTheHand</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\..\32feet\InTheHand.Net.Personal\bin\Release\InTheHand.Net.Personal.dll" />
-<DocumentationSource sourceFile="..\..\32feet\InTheHand.Net.Personal\bin\Release\InTheHand.Net.Personal.xml" />
-<DocumentationSource sourceFile="..\NuGet\InTheHand\lib\net452\InTheHand.dll" />
+      <DocumentationSource sourceFile="..\NuGet\InTheHand\lib\net452\InTheHand.dll" />
 <DocumentationSource sourceFile="..\NuGet\InTheHand\lib\net452\InTheHand.xml" /></DocumentationSources>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
