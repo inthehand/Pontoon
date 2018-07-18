@@ -220,11 +220,11 @@ namespace InTheHand.Storage
                     default:
                         if (IsRoaming)
                         {
-                            _store.SetValueForKey(IOSTypeConverter.ConvertToNSObject(value), new NSString(key));
+                            _store[new NSString(key)] = IOSTypeConverter.ConvertToNSObject(value);
                         }
                         else
                         {
-                            _defaults.SetValueForKey(IOSTypeConverter.ConvertToNSObject(value), new NSString(key));
+                            _defaults[key] = IOSTypeConverter.ConvertToNSObject(value);
                         }
                         break;
                 }
