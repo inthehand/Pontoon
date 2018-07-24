@@ -62,6 +62,19 @@ namespace InTheHand.UI
         {
             return new Color { A = a, B = b, G = g, R = r };
         }
+
+#if !__IOS__ && !__MAC__ && !WINDOWS_UWP && !__TVOS__ && !(PCL && !NETSTANDARD2_0)
+        public static implicit operator global::System.Drawing.Color(Color c)
+        {
+            return global::System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
+        }
+
+        public static implicit operator Color(global::System.Drawing.Color c)
+        {
+            return FromArgb(c.A, c.R, c.G, c.B);
+        }
+#endif
+
 #if __ANDROID__
         public static implicit operator Android.Graphics.Color(Color c)
         {
