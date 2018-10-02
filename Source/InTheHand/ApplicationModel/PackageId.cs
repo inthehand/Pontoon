@@ -238,7 +238,20 @@ namespace InTheHand.ApplicationModel
                 return Version.Parse(_packageInfo.VersionName);
 
 #elif __UNIFIED__
-                string rawVersion = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
+                string rawVersion = string.Empty;
+                string versionString = NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"].ToString();
+                string bundleVersion = NSBundle.MainBundle.InfoDictionary["CFBundleVersion"].ToString();
+                if (!string.IsNullOrEmpty(versionString) && !bundleVersion.Contains("."))
+                {
+                    // version string (3-parts) and numerical bundle version
+                    rawVersion = versionString + "." + bundleVersion;
+                }
+                else
+                {
+                    // bundleVersion contains full dotted version
+                    rawVersion = bundleVersion;
+                }
+
                 // TODO: use Regex to replace alpha char with period
                 string cleanVersion = rawVersion.Replace('a', '.').Replace('b','.').Replace('d','.').Replace("fc", ".");
 
