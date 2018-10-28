@@ -305,6 +305,12 @@
     <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FileOpenPicker.cs">
       <Link>Storage\Pickers\FileOpenPicker.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FolderPicker.Android.cs">
+      <Link>Storage\Pickers\FolderPicker.Android.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\InTheHand\Storage\Pickers\FolderPicker.cs">
+      <Link>Storage\Pickers\FolderPicker.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\InTheHand\Storage\StorageDeleteOption.cs">
       <Link>Storage\StorageDeleteOption.cs</Link>
     </Compile>
